@@ -1,8 +1,6 @@
 package com.weclusive.barrierfree.controller;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -16,11 +14,9 @@ import com.weclusive.barrierfree.dao.FollowRepository;
 import com.weclusive.barrierfree.dao.PostImpairmentRepository;
 import com.weclusive.barrierfree.dao.PostRepository;
 import com.weclusive.barrierfree.dao.ScrapRepository;
-import com.weclusive.barrierfree.dto.PostImpairment;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 import lombok.AllArgsConstructor;
 
 @RestController
