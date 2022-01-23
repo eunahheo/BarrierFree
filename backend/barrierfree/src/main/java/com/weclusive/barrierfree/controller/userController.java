@@ -18,7 +18,7 @@ import io.swagger.annotations.ApiResponses;
 
 @RestController
 @RequestMapping("/api")
-public class mainController {
+public class userController {
 
 	@Autowired
 	private UserService userService;
