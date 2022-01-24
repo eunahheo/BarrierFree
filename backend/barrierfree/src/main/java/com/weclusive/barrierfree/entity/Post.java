@@ -23,39 +23,56 @@ public class Post {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	
 	@Column(name="post_seq")
-	long postSeq;
+	private long postSeq;
+	
 	@Column(name="user_seq")
-	int userSeq;
+	private int userSeq;
+	
 	@Column(name="post_title")
-	String postTitle;
+	private String postTitle;
+	
 	@Column(name="post_content")
-	String postContent;
+	private String postContent;
+	
 	@Column(name="post_scrap")
-	int postScrap;
+	private int postScrap;
+	
 	@Column(name="post_photo")
-	String postPhoto;
+	private String postPhoto;
+	
 //	@Column(name="post_photo_alt")
 //	String postPhotoAlt;  // 사진 정보에 대한 설명
+	
 	@Column(name="post_location")
-	String postLocation;
+	private String postLocation;
+	
 	@Column(name="post_address")
-	String postAddress;
+	private String postAddress;
+	
 	@Column(name="post_lat")
-	String postLat;
+	private String postLat;
+	
 	@Column(name="post_lng")
-	String postLng;
+	private String postLng;
+	
 	@Column(name="post_point")
-	int postPoint;
+	private int postPoint;
+	
 	@Column(name="content_id")
-	String contentId;
+	private String contentId;
+	
 	@Column(name="del_yn")
-	char delYn;
+	private char delYn;
+	
 	@Column(name="reg_dt")
-	String regDt;
+	private String regDt;
+	
 	@Column(name="reg_id")
-	String regId;
+	private String regId;
+	
 	@Column(name="mod_dt")
-	String modDt;
+	private String modDt;
+	
 	@Column(name="mod_id")
-	String modId;
+	private String modId;
 }

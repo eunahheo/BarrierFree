@@ -22,23 +22,31 @@ public class Scrap {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	
 	@Column(name="scrap_seq")
-	long scrapSeq;
+	private long scrapSeq;
+	
 	@Column(name="user_seq")
-	int userSeq;
+	private int userSeq;
+	
 	@Column(name="scrap_type")
-	String scrapType;
+	private String scrapType;
+	
 	@Column(name="scrap_data")
-	long scrapData;
+	private long scrapData;
+	
 	@Column(name="del_yn")
-	char delYn;
+	private char delYn;
+	
 	@Column(name="reg_dt")
-	String regDt;
+	private String regDt;
+	
 	@Column(name="reg_id")
-	String regId;
+	private String regId;
+	
 	@Column(name="mod_dt")
-	String modDt;
+	private String modDt;
+	
 	@Column(name="mod_id")
-	String modId;
+	private String modId;
 	
 	@Builder
 	public Scrap(int userSeq, String scrapType, Long scrapData, String regDt, String regId, String modDt, String modId) {

@@ -18,30 +18,13 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class PostImpairment {
+public class Token {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	
-	@Column(name="pi_seq")
-	private long piSeq;
+	@Column(name="user_seq")
+	private int userSeq;
 	
-	@Column(name="post_seq")
-	private long postSeq;
-	
-	private String code;
-	
-	@Column(name="del_yn")
-	private char delYn;
-	
-	@Column(name="reg_dt")
-	private String regDt;
-	
-	@Column(name="reg_id")
-	private String regId;
-	
-	@Column(name="mod_dt")
-	private String modDt;
-	
-	@Column(name="mod_id")
-	private String modId;
+	@Column(name="token_ref_tk")
+	private String tokenRefTK;
 }

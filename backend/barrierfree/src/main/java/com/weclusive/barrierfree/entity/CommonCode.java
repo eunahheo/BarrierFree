@@ -10,24 +10,31 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
-@Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Follow {
+@Getter
+@Setter
+@ToString
+public class CommonCode {
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	
-	@Column(name="follow_seq")
-	private long followSeq;
+	@Column(name="code_seq")
+	private int codeSeq;
 	
-	@Column(name="user_seq")
-	private int userSeq;
+	@Column(name="code_group")
+	private String codeGroup;
 	
-	@Column(name="following_seq")
-	private int followingSeq;
+	private String code;
+	
+	@Column(name="value")
+	private String value;
+	
+	@Column(name="code_order")
+	private int codeOrder;
 	
 	@Column(name="del_yn")
 	private char delYn;

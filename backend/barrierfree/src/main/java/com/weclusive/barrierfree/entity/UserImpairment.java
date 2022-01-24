@@ -10,37 +10,38 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
-@Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Follow {
+@Getter
+@Setter
+@ToString
+public class UserImpairment {
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	
-	@Column(name="follow_seq")
-	private long followSeq;
+	@Column(name="ui_seq")
+	long uiSeq;
 	
 	@Column(name="user_seq")
-	private int userSeq;
+	int userSeq;
 	
-	@Column(name="following_seq")
-	private int followingSeq;
+	String code;
 	
 	@Column(name="del_yn")
-	private char delYn;
+	char delYn;
 	
 	@Column(name="reg_dt")
-	private String regDt;
+	String regDt;
 	
 	@Column(name="reg_id")
-	private String regId;
+	String regId;
 	
 	@Column(name="mod_dt")
-	private String modDt;
+	String modDt;
 	
 	@Column(name="mod_id")
-	private String modId;
+	String modId;
 }
