@@ -22,8 +22,8 @@ public class Post {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	
-	@Column(name="post_no")
-	long postNo;
+	@Column(name="post_seq")
+	long postSeq;
 	@Column(name="user_seq")
 	int userSeq;
 	@Column(name="post_title")

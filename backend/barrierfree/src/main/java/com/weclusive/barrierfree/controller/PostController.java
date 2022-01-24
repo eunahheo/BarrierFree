@@ -35,7 +35,7 @@ public class PostController {
 		List<Map<String, Object>> result = new LinkedList<>();
 		postRepository.findAll().forEach(post -> {
 			Map<String, Object> obj = new HashMap<>();
-			obj.put("post_no", post.getPostNo());
+			obj.put("post_seq", post.getPostSeq());
 			obj.put("user_seq", post.getUserSeq());
 			obj.put("post_title", post.getPostTitle());
 			obj.put("post_content", post.getPostContent());
@@ -53,13 +53,13 @@ public class PostController {
 			obj.put("reg_id", post.getRegId());
 			obj.put("mod_dt", post.getModDt());
 			obj.put("mod_id", post.getModId());
-//			List<PostImpairment> list = postImpairmentRepository.findByPostNo(post.getPost_no());
-			List<String> list = postImpairmentRepository.findImpairment(post.getPostNo());
+//			List<PostImpairment> list = postImpairmentRepository.findByPostSeq(post.getPost_seq());
+			List<String> list = postImpairmentRepository.findImpairment(post.getPostSeq());
 			obj.put("impairment", list);
 			
 			char scrap_yn = 'n';		
 			// 현재 사용자의 seq를 가져오는 api 필요
-			if(scrapRepository.countByDelYnAndScrapTypeAndUserSeqAndScrapData('n',"0", user_seq, post.getPostNo())>0)
+			if(scrapRepository.countByDelYnAndScrapTypeAndUserSeqAndScrapData('n',"0", user_seq, post.getPostSeq())>0)
 				scrap_yn = 'y';
 			obj.put("scrap_yn", scrap_yn);
 			result.add(obj);
@@ -73,7 +73,7 @@ public class PostController {
 		List<Map<String, Object>> result = new LinkedList<>();
 		postRepository.findTop100ByDelYnOrderByRegDtDesc('n').forEach(post -> {
 			Map<String, Object> obj = new HashMap<>();
-			obj.put("post_no", post.getPostNo());
+			obj.put("post_seq", post.getPostSeq());
 			obj.put("user_seq", post.getUserSeq());
 			obj.put("post_title", post.getPostTitle());
 			obj.put("post_content", post.getPostContent());
@@ -81,12 +81,12 @@ public class PostController {
 			obj.put("post_photo", post.getPostPhoto());
 //			obj.put("post_photo_alt", post.getPostPhotoAlt());
 			obj.put("post_location", post.getPostLocation());
-			List<String> list = postImpairmentRepository.findImpairment(post.getPostNo());
+			List<String> list = postImpairmentRepository.findImpairment(post.getPostSeq());
 			obj.put("impairment", list);
 			
 			char scrap_yn = 'n';
 			// 현재 사용자의 seq를 가져오는 api 필요
-			if(scrapRepository.countByDelYnAndScrapTypeAndUserSeqAndScrapData('n',"0", user_seq, post.getPostNo())>0)
+			if(scrapRepository.countByDelYnAndScrapTypeAndUserSeqAndScrapData('n',"0", user_seq, post.getPostSeq())>0)
 				scrap_yn = 'y';
 
 			obj.put("scrap_yn", scrap_yn);
@@ -101,7 +101,7 @@ public class PostController {
 		List<Map<String, Object>> result = new LinkedList<>();
 		postRepository.findTop100ByDelYnOrderByPostScrapDesc('n').forEach(post -> {
 			Map<String, Object> obj = new HashMap<>();
-			obj.put("post_no", post.getPostNo());
+			obj.put("post_seq", post.getPostSeq());
 			obj.put("user_seq", post.getUserSeq());
 			obj.put("post_title", post.getPostTitle());
 			obj.put("post_content", post.getPostContent());
@@ -109,12 +109,12 @@ public class PostController {
 			obj.put("post_photo", post.getPostPhoto());
 //			obj.put("post_photo_alt", post.getPostPhotoAlt());
 			obj.put("post_location", post.getPostLocation());
-			List<String> list = postImpairmentRepository.findImpairment(post.getPostNo());
+			List<String> list = postImpairmentRepository.findImpairment(post.getPostSeq());
 			obj.put("impairment", list);
 			
 			char scrap_yn = 'n';
 			// 현재 사용자의 seq를 가져오는 api 필요
-			if(scrapRepository.countByDelYnAndScrapTypeAndUserSeqAndScrapData('n',"0", user_seq, post.getPostNo())>0)
+			if(scrapRepository.countByDelYnAndScrapTypeAndUserSeqAndScrapData('n',"0", user_seq, post.getPostSeq())>0)
 				scrap_yn = 'y';
 
 			obj.put("scrap_yn", scrap_yn);
@@ -131,7 +131,7 @@ public class PostController {
 		String endTime = LocalDateTime.now().toString().replace("T", " ").substring(0,19);
 		postRepository.findTop100ByDelYnAndRegDtBetweenOrderByPostScrapDesc('n',startTime, endTime).forEach(post -> {
 			Map<String, Object> obj = new HashMap<>();
-			obj.put("post_no", post.getPostNo());
+			obj.put("post_seq", post.getPostSeq());
 			obj.put("user_seq", post.getUserSeq());
 			obj.put("post_title", post.getPostTitle());
 			obj.put("post_content", post.getPostContent());
@@ -139,12 +139,12 @@ public class PostController {
 			obj.put("post_photo", post.getPostPhoto());
 //			obj.put("post_photo_alt", post.getPostPhotoAlt());
 			obj.put("post_location", post.getPostLocation());
-			List<String> list = postImpairmentRepository.findImpairment(post.getPostNo());
+			List<String> list = postImpairmentRepository.findImpairment(post.getPostSeq());
 			obj.put("impairment", list);
 			
 			char scrap_yn = 'n';
 			// 현재 사용자의 seq를 가져오는 api 필요
-			if(scrapRepository.countByDelYnAndScrapTypeAndUserSeqAndScrapData('n',"0", user_seq, post.getPostNo())>0)
+			if(scrapRepository.countByDelYnAndScrapTypeAndUserSeqAndScrapData('n',"0", user_seq, post.getPostSeq())>0)
 				scrap_yn = 'y';
 
 			obj.put("scrap_yn", scrap_yn);
@@ -160,7 +160,7 @@ public class PostController {
 		// 현재 사용자의 seq를 불러오는 API 필요
 		postRepository.findFollowPost(1).forEach(post -> {
 			Map<String, Object> obj = new HashMap<>();
-			obj.put("post_no", post.getPostNo());
+			obj.put("post_seq", post.getPostSeq());
 			obj.put("user_seq", post.getUserSeq());
 			obj.put("post_title", post.getPostTitle());
 			obj.put("post_content", post.getPostContent());
@@ -168,12 +168,12 @@ public class PostController {
 			obj.put("post_photo", post.getPostPhoto());
 //			obj.put("post_photo_alt", post.getPostPhotoAlt());
 			obj.put("post_location", post.getPostLocation());
-			List<String> list = postImpairmentRepository.findImpairment(post.getPostNo());
+			List<String> list = postImpairmentRepository.findImpairment(post.getPostSeq());
 			obj.put("impairment", list);
 			
 			char scrap_yn = 'n';
 			// 현재 사용자의 seq를 가져오는 api 필요
-			if(scrapRepository.countByDelYnAndScrapTypeAndUserSeqAndScrapData('n',"0", user_seq, post.getPostNo())>0)
+			if(scrapRepository.countByDelYnAndScrapTypeAndUserSeqAndScrapData('n',"0", user_seq, post.getPostSeq())>0)
 				scrap_yn = 'y';
 
 			obj.put("scrap_yn", scrap_yn);

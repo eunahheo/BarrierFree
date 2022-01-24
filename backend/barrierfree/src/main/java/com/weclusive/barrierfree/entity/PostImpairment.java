@@ -24,8 +24,8 @@ public class PostImpairment {
 	
 	@Column(name="pi_seq")
 	long piSeq;
-	@Column(name="post_no")
-	long postNo;
+	@Column(name="post_seq")
+	long postSeq;
 	String code;
 	@Column(name="del_yn")
 	char delYn;
