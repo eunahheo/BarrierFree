@@ -7,6 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -75,4 +76,23 @@ public class Post {
 	
 	@Column(name="mod_id")
 	private String modId;
+
+	@Builder
+	public Post(String postTitle, String postContent, String postLocation, String postAddress,
+			String postLat, String postLng, int postPoint, String contentId, String modDt, String modId) {
+		super();
+		this.postTitle = postTitle;
+		this.postContent = postContent;
+		this.postLocation = postLocation;
+		this.postAddress = postAddress;
+		this.postLat = postLat;
+		this.postLng = postLng;
+		this.postPoint = postPoint;
+		this.contentId = contentId;
+		this.modDt = modDt;
+		this.modId = modId;
+	}
+
+	
+	
 }
