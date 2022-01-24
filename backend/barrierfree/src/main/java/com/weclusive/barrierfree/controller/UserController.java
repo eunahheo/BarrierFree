@@ -33,7 +33,7 @@ import io.swagger.annotations.ApiResponses;
 @CrossOrigin("*")
 @RequestMapping("/user")
 @Api("사용자 컨트롤러 API")
-public class userController {
+public class UserController {
 
 	private static final String SUCCESS = "success";
 	private static final String FAIL = "fail";

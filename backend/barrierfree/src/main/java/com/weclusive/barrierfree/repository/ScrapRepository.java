@@ -1,8 +1,8 @@
-package com.weclusive.barrierfree.dao;
+package com.weclusive.barrierfree.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.weclusive.barrierfree.dto.Scrap;
+import com.weclusive.barrierfree.entity.Scrap;
 
 public interface ScrapRepository extends JpaRepository<Scrap, Long> {
 	

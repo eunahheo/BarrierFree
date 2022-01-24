@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.weclusive.barrierfree.dao.ScrapRepository;
-import com.weclusive.barrierfree.dto.Scrap;
+import com.weclusive.barrierfree.entity.Scrap;
+import com.weclusive.barrierfree.repository.ScrapRepository;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

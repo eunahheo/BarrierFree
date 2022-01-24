@@ -1,11 +1,11 @@
-package com.weclusive.barrierfree.dao;
+package com.weclusive.barrierfree.repository;
 
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import com.weclusive.barrierfree.dto.Post;
+import com.weclusive.barrierfree.entity.Post;
 
 public interface PostRepository extends JpaRepository<Post, Long> {
 	

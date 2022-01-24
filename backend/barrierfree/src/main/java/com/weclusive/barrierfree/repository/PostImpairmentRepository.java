@@ -1,11 +1,11 @@
-package com.weclusive.barrierfree.dao;
+package com.weclusive.barrierfree.repository;
 
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import com.weclusive.barrierfree.dto.PostImpairment;
+import com.weclusive.barrierfree.entity.PostImpairment;
 
 public interface PostImpairmentRepository extends JpaRepository<PostImpairment, Long> {
 	

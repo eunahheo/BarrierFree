@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.weclusive.barrierfree.dao.FollowRepository;
-import com.weclusive.barrierfree.dao.PostImpairmentRepository;
-import com.weclusive.barrierfree.dao.PostRepository;
-import com.weclusive.barrierfree.dao.ScrapRepository;
+import com.weclusive.barrierfree.repository.FollowRepository;
+import com.weclusive.barrierfree.repository.PostImpairmentRepository;
+import com.weclusive.barrierfree.repository.PostRepository;
+import com.weclusive.barrierfree.repository.ScrapRepository;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

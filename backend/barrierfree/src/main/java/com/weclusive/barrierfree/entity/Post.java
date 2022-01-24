@@ -1,4 +1,4 @@
-package com.weclusive.barrierfree.dto;
+package com.weclusive.barrierfree.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

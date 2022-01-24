@@ -1,11 +1,11 @@
-package com.weclusive.barrierfree.dao;
+package com.weclusive.barrierfree.repository;
 
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import com.weclusive.barrierfree.dto.Follow;
+import com.weclusive.barrierfree.entity.Follow;
 
 public interface FollowRepository extends JpaRepository<Follow, Long> {
 	

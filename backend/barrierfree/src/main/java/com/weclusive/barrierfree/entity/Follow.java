@@ -1,4 +1,4 @@
-package com.weclusive.barrierfree.dto;
+package com.weclusive.barrierfree.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,24 +10,22 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 @Entity
-@NoArgsConstructor
-@AllArgsConstructor
 @Getter
 @Setter
-@ToString
-public class PostImpairment {
+@NoArgsConstructor
+@AllArgsConstructor
+public class Follow {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	
-	@Column(name="pi_seq")
-	long piSeq;
-	@Column(name="post_no")
-	long postNo;
-	String code;
-	@Column(name="del_yn")
+	@Column(name="follow_seq")
+	long followSeq;
+	@Column(name="user_seq")
+	int userSeq;
+	@Column(name="following_seq")
+	int followingSeq;
 	char delYn;
 	@Column(name="reg_dt")
 	String regDt;
