@@ -68,3 +68,8 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+<!-- 정현정[서울_5반_A504]팀원 님이 모두에게:    오전 11:16
+npm install @mui/material @emotion/react @emotion/styled
+정현정[서울_5반_A504]팀원 님이 모두에게:    오전 11:16
+npm install @mui/material @mui/styled-engine-sc styled-components -->
