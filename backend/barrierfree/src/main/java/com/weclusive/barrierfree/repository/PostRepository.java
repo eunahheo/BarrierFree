@@ -29,10 +29,6 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 	@Query(value="SELECT p FROM Post p WHERE p.delYn = 'n' AND postSeq = ?1")
 	public Optional<Post> findByPostSeq(long postSeq);
 	
-//	public Optional<Post> findByPostSeq(Long postSeq);
 	
-	// 게시물 삭제하기(delyn = y)
-//	public Optional<Post> deletePost(Long postSeq);
-//	public Optional<Post> findByPostSeq(Long postSeq);
 	
 }

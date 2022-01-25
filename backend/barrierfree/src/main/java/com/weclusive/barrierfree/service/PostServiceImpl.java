@@ -11,16 +11,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.weclusive.barrierfree.entity.Post;
-import com.weclusive.barrierfree.entity.Scrap;
 import com.weclusive.barrierfree.entity.User;
-import com.weclusive.barrierfree.entity.Post.PostBuilder;
 import com.weclusive.barrierfree.repository.PostImpairmentRepository;
 import com.weclusive.barrierfree.repository.PostRepository;
 import com.weclusive.barrierfree.repository.ScrapRepository;
 import com.weclusive.barrierfree.repository.UserRepository;
+import com.weclusive.barrierfree.util.StringUtils;
+
 
 @Service
 public class PostServiceImpl implements PostService {
+
 
 	@Autowired
 	PostRepository postRepository;
@@ -100,6 +101,7 @@ public class PostServiceImpl implements PostService {
 		return result;
 	}
 
+	// 스크랩 많은 순
 	@Override
 	public List<Map<String, Object>> readPostScrap(int userSeq) {
 		List<Map<String, Object>> result = new LinkedList<>();
@@ -128,11 +130,12 @@ public class PostServiceImpl implements PostService {
 		return result;
 	}
 
+	// 이번주 스크랩 순
 	@Override
 	public List<Map<String, Object>> readPostWeek(int userSeq) {
 		List<Map<String, Object>> result = new LinkedList<>();
 		String startTime = LocalDateTime.now().minusDays(7).toString().replace("T", " ").substring(0, 19);
-		String endTime = LocalDateTime.now().toString().replace("T", " ").substring(0, 19);
+		String endTime = curTime();
 		postRepository.findTop100ByDelYnAndRegDtBetweenOrderByPostScrapDesc('n', startTime, endTime).forEach(post -> {
 			Map<String, Object> obj = new HashMap<>();
 			obj.put("postSeq", post.getPostSeq());
@@ -158,6 +161,7 @@ public class PostServiceImpl implements PostService {
 		return result;
 	}
 
+	// 팔로워 게시글
 	@Override
 	public List<Map<String, Object>> readPostFollowing(int userSeq) {
 		List<Map<String, Object>> result = new LinkedList<>();
@@ -207,12 +211,51 @@ public class PostServiceImpl implements PostService {
 
 	// 게시글 삭제하기 (del_yn을 y로 변경)
 	@Override
-	public void deleteByPostSeq(long postSeq) {
+	public int deleteByPostSeq(long postSeq) {
 		Optional<Post> deletePost = postRepository.findByPostSeq(postSeq);
 		deletePost.get().setDelYn('y');
 		save(deletePost.get());
+		return 1;
 	}
 	
+	
+	// 게시글 수정하기
+	// 변경 안되는 값 : photo, scrap, reg_dt, reg_id, post_seq, user_seq 
+	@Override
+	public int updateByPostSeq(long postSeq, Post post, int userSeq) {
+		Optional<Post> curPost = postRepository.findById(postSeq);
+		String regTime = curTime();
+
+		String userId = returnUserId(userSeq);
+		
+		Post updatePost = curPost.get();
+		if(StringUtils.isNotBlank(post.getPostTitle())) updatePost.setPostTitle(post.getPostTitle());
+		if(StringUtils.isNotBlank(post.getPostContent())) updatePost.setPostContent(post.getPostContent());
+		if(StringUtils.isNotBlank(post.getPostLocation())) updatePost.setPostLocation(post.getPostLocation());
+		if(StringUtils.isNotBlank(post.getPostAddress())) updatePost.setPostAddress(post.getPostAddress());
+		if(StringUtils.isNotBlank(post.getPostLat())) updatePost.setPostLat(post.getPostLat());
+		if(StringUtils.isNotBlank(post.getPostLng())) updatePost.setPostLng(post.getPostLng());
+		if(StringUtils.isNotBlank(post.getContentId())) updatePost.setContentId(post.getContentId());
+		updatePost.setPostPoint(post.getPostPoint());
+		updatePost.setModDt(regTime);
+		updatePost.setModId(userId);
+		
+		postRepository.save(updatePost);
+		
+		return 1;
+	}
+	
+	// userSeq -> userId
+	public String returnUserId(int userSeq) {
+		Optional<User> list = userRepository.findById(userSeq);
+		String userId = list.get().getUserId();
+		return userId;
+	}
+	
+	// 현재 시간 구하기
+	public String curTime() {
+		return LocalDateTime.now().toString().replace("T", " ").substring(0,19);
+	}
 
 	
 }

@@ -1,30 +1,22 @@
 package com.weclusive.barrierfree.controller;
 
-import java.time.LocalDateTime;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.weclusive.barrierfree.entity.Post;
-import com.weclusive.barrierfree.repository.FollowRepository;
-import com.weclusive.barrierfree.repository.PostImpairmentRepository;
-import com.weclusive.barrierfree.repository.PostRepository;
-import com.weclusive.barrierfree.repository.ScrapRepository;
 import com.weclusive.barrierfree.service.PostService;
-import com.weclusive.barrierfree.service.UserService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -35,6 +27,9 @@ import lombok.AllArgsConstructor;
 @RequestMapping("/post")
 @Api("메인화면 게시글")
 public class PostController {
+	
+	private static final String SUCCESS = "success";
+	private static final String FAIL = "fail";
 	
 	@Autowired
 	private PostService postService;
@@ -83,8 +78,25 @@ public class PostController {
 	
 	@ApiOperation(value = "게시글 삭제하기", response = List.class)
 	@PutMapping(value = "/delete/{postSeq}")
-	public void deletePost(@RequestParam long postSeq) throws Exception {
-		postService.deleteByPostSeq(postSeq);
+	public ResponseEntity<String> deletePost(@RequestParam long postSeq) throws Exception {
+		int res = postService.deleteByPostSeq(postSeq);
+		
+		if(res == 1)
+			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+		else
+			return new ResponseEntity<String>(FAIL, HttpStatus.OK);
+	}
+	
+	@ApiOperation(value = "게시글 수정하기", response = List.class)
+	@PatchMapping(value = "/update/{postSeq}") // 일부 데이터 수정하기
+	public ResponseEntity<String> updatePost(@PathVariable("postSeq") long postSeq, Post post )throws Exception {
+		int res = postService.updateByPostSeq(postSeq, post, post.getUserSeq());
+		
+		if(res == 1)
+	        return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+		else
+	        return new ResponseEntity<String>(FAIL, HttpStatus.OK);
+
 	}
 	
 
