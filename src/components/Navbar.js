@@ -163,11 +163,27 @@ const Navbar = () => {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
+              <Link to="/user">
+                <MenuItem onClick={handleCloseUserMenu}>
+                  <Typography textAlign="center">내 계정 보기</Typography>
                 </MenuItem>
-              ))}
+              </Link>
+              <Link to="/userpost">
+                <MenuItem onClick={handleCloseUserMenu}>
+                  <Typography textAlign="center">내 스크랩 보기</Typography>
+                </MenuItem>
+              </Link>
+              <Link to="/userpage">
+                <MenuItem onClick={handleCloseUserMenu}>
+                  <Typography textAlign="center">프로필 수정</Typography>
+                </MenuItem>
+              </Link>
+              {/* 로그인일때 로그인되어잇지 않을 때 분기 */}
+              <Link to="/">
+                <MenuItem onClick={handleCloseUserMenu}>
+                  <Typography textAlign="center">로그아웃</Typography>
+                </MenuItem>
+              </Link>
             </Menu>
           </Box>
         </Toolbar>
