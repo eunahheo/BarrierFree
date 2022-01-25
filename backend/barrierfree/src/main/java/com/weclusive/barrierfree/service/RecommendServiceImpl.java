@@ -81,6 +81,45 @@ public class RecommendServiceImpl implements RecommendService {
 		return result;
 	}
 	
-	
+	@Override
+	public JSONObject loadImpairment(String contentid) {
+		StringBuilder sb = new StringBuilder();
+		JSONObject result = new JSONObject();
+		try {
+			String urlstr = "http://api.visitkorea.or.kr/openapi/service/rest/KorWithService/detailWithTour"
+					+ "?ServiceKey=90E0OY5f9CUd%2BGSJfMuFpPnny5XZ9Ks6RYqd0gV0LqOFeSC9A4B6VVnxmxDSUdtWx7auKWg2ALhbInFELnK8yQ%3D%3D"
+					+ "&contentId=" + contentid + "&MobileOS=ETC&MobileApp=AppTest&_type=json";
+			
+			URL url = new URL(urlstr);
+			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+			connection.setRequestMethod("GET");
+			
+			BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream(), "UTF-8"));
+			
+			String returnLine;
+			while((returnLine = br.readLine()) != null) {
+				sb.append(returnLine + "\n");
+			}
+			connection.disconnect();
+			
+			JSONParser parser = new JSONParser();
+			JSONObject jsonObject = (JSONObject) parser.parse(sb.toString());
+			
+			JSONObject parse_response = (JSONObject) jsonObject.get("response"); //response key값에 맞는 Value인 JSON객체를 가져옵니다. 
+			// response 로 부터 body 찾아오기 
+			JSONObject parse_body = (JSONObject) parse_response.get("body"); 
+			// body 로 부터 items 받아오기 
+			JSONObject parse_items = (JSONObject) parse_body.get("items");
+			// body 로 부터 items 받아오기 
+			JSONObject parse_item = (JSONObject) parse_items.get("item");
+			
+			System.out.println(parse_item);
+			result = parse_item;
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
 
 }

@@ -33,5 +33,9 @@ public class RecommendController {
 		return result;
 	}
 	
-	
+	@GetMapping("/impairment")
+	public JSONObject getImpairment(String contentid) {
+		JSONObject result = recommendService.loadImpairment(contentid);
+		return result;
+	}
 }
