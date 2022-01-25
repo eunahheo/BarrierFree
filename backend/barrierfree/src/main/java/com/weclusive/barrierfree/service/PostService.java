@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import com.weclusive.barrierfree.entity.Post;
+import com.weclusive.barrierfree.entity.PostImpairment;
 
 public interface PostService {
 	public List<Map<String, Object>> readAllPost(int userSeq);
@@ -16,4 +17,7 @@ public interface PostService {
 	public Post save(Post post);
 	public int deleteByPostSeq(long postSeq);
 	public int updateByPostSeq(long postSeq, Post post, int userSeq);
+	
+	public int updatePostImpairmentByPostSeq(long postSeq, PostImpairment pi);
+
 }

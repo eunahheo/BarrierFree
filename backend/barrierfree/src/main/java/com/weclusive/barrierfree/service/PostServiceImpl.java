@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.weclusive.barrierfree.entity.Post;
+import com.weclusive.barrierfree.entity.PostImpairment;
 import com.weclusive.barrierfree.entity.User;
 import com.weclusive.barrierfree.repository.PostImpairmentRepository;
 import com.weclusive.barrierfree.repository.PostRepository;
@@ -18,10 +19,8 @@ import com.weclusive.barrierfree.repository.ScrapRepository;
 import com.weclusive.barrierfree.repository.UserRepository;
 import com.weclusive.barrierfree.util.StringUtils;
 
-
 @Service
 public class PostServiceImpl implements PostService {
-
 
 	@Autowired
 	PostRepository postRepository;
@@ -217,45 +216,110 @@ public class PostServiceImpl implements PostService {
 		save(deletePost.get());
 		return 1;
 	}
-	
-	
+
 	// 게시글 수정하기
-	// 변경 안되는 값 : photo, scrap, reg_dt, reg_id, post_seq, user_seq 
+	// 변경 안되는 값 : photo, scrap, reg_dt, reg_id, post_seq, user_seq
 	@Override
 	public int updateByPostSeq(long postSeq, Post post, int userSeq) {
 		Optional<Post> curPost = postRepository.findById(postSeq);
 		String regTime = curTime();
 
 		String userId = returnUserId(userSeq);
-		
+
 		Post updatePost = curPost.get();
-		if(StringUtils.isNotBlank(post.getPostTitle())) updatePost.setPostTitle(post.getPostTitle());
-		if(StringUtils.isNotBlank(post.getPostContent())) updatePost.setPostContent(post.getPostContent());
-		if(StringUtils.isNotBlank(post.getPostLocation())) updatePost.setPostLocation(post.getPostLocation());
-		if(StringUtils.isNotBlank(post.getPostAddress())) updatePost.setPostAddress(post.getPostAddress());
-		if(StringUtils.isNotBlank(post.getPostLat())) updatePost.setPostLat(post.getPostLat());
-		if(StringUtils.isNotBlank(post.getPostLng())) updatePost.setPostLng(post.getPostLng());
-		if(StringUtils.isNotBlank(post.getContentId())) updatePost.setContentId(post.getContentId());
+		if (StringUtils.isNotBlank(post.getPostTitle()))
+			updatePost.setPostTitle(post.getPostTitle());
+		if (StringUtils.isNotBlank(post.getPostContent()))
+			updatePost.setPostContent(post.getPostContent());
+		if (StringUtils.isNotBlank(post.getPostLocation()))
+			updatePost.setPostLocation(post.getPostLocation());
+		if (StringUtils.isNotBlank(post.getPostAddress()))
+			updatePost.setPostAddress(post.getPostAddress());
+		if (StringUtils.isNotBlank(post.getPostLat()))
+			updatePost.setPostLat(post.getPostLat());
+		if (StringUtils.isNotBlank(post.getPostLng()))
+			updatePost.setPostLng(post.getPostLng());
+		if (StringUtils.isNotBlank(post.getContentId()))
+			updatePost.setContentId(post.getContentId());
 		updatePost.setPostPoint(post.getPostPoint());
 		updatePost.setModDt(regTime);
 		updatePost.setModId(userId);
-		
+
 		postRepository.save(updatePost);
-		
+
 		return 1;
 	}
-	
+
+	@Override
+	public int updatePostImpairmentByPostSeq(long postSeq, PostImpairment pi) {
+		int result = 0;
+		List<String> curPi = postImpairmentRepository.findImpairment(postSeq);
+
+		// 원래 장애 정보가 하나도 없거나 del_yn='n'인 테이블에 추가할 때
+		if (postImpairmentRepository.findPostImpairment(postSeq, pi.getCode()) == 0) {
+				System.out.println("no2");
+				PostImpairment ppp = pi;
+				ppp.setDelYn('n');
+				ppp.setRegDt(curTime());
+				ppp.setRegId(returnUserIdFromPostSeq(postSeq));
+				ppp.setModDt(curTime());
+				ppp.setModId(returnUserIdFromPostSeq(postSeq));
+				save(ppp);
+				result = 1;
+			}
+		
+		for (int i = 0; i < curPi.size(); i++) {
+			String impairment = curPi.get(i);
+			
+			// 원래 목록에 없음 -> 추가하기
+			if (postImpairmentRepository.findPostImpairment(postSeq, impairment) == 0) {
+				PostImpairment ppp = pi;
+				ppp.setDelYn('n');
+				ppp.setRegDt(curTime());
+				ppp.setRegId(returnUserIdFromPostSeq(postSeq));
+				ppp.setModDt(curTime());
+				ppp.setModId(returnUserIdFromPostSeq(postSeq));
+				save(ppp);
+				result = 1;
+
+			}
+			// 원래 목록에 있음 -> 삭제하기
+			else {
+				// 목록에서 del_yn = y로
+				Optional<PostImpairment> deletePostImpairment = postImpairmentRepository.findOneByPostSeq(postSeq);
+				deletePostImpairment.get().setDelYn('y');
+				postImpairmentRepository.save(deletePostImpairment.get());
+				result = 2;
+
+			}
+		}
+
+		return result;
+	}
+
+	// 게시글 장애정보 저장하기
+	public PostImpairment save(PostImpairment postImpairment) {
+		postImpairmentRepository.save(postImpairment);
+		return postImpairment;
+	}
+
 	// userSeq -> userId
 	public String returnUserId(int userSeq) {
 		Optional<User> list = userRepository.findById(userSeq);
 		String userId = list.get().getUserId();
 		return userId;
 	}
+
+	// postSeq -> userId
+	public String returnUserIdFromPostSeq(long postSeq) {
+		Optional<Post> list = postRepository.findById(postSeq);
+		int userSeq = list.get().getUserSeq();
+		return returnUserId(userSeq);
+	}
 	
 	// 현재 시간 구하기
 	public String curTime() {
-		return LocalDateTime.now().toString().replace("T", " ").substring(0,19);
+		return LocalDateTime.now().toString().replace("T", " ").substring(0, 19);
 	}
 
-	
 }

@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import com.weclusive.barrierfree.entity.Post;
+import com.weclusive.barrierfree.entity.User;
 
 public interface PostRepository extends JpaRepository<Post, Long> {
 	
@@ -29,6 +30,6 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 	@Query(value="SELECT p FROM Post p WHERE p.delYn = 'n' AND postSeq = ?1")
 	public Optional<Post> findByPostSeq(long postSeq);
 	
-	
+
 	
 }

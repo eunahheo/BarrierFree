@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.weclusive.barrierfree.entity.Post;
+import com.weclusive.barrierfree.entity.PostImpairment;
 import com.weclusive.barrierfree.service.PostService;
 
 import io.swagger.annotations.Api;
@@ -89,7 +90,7 @@ public class PostController {
 	
 	@ApiOperation(value = "게시글 수정하기", response = List.class)
 	@PatchMapping(value = "/update/{postSeq}") // 일부 데이터 수정하기
-	public ResponseEntity<String> updatePost(@PathVariable("postSeq") long postSeq, Post post )throws Exception {
+	public ResponseEntity<String> updatePost(@PathVariable("postSeq") long postSeq, Post post) throws Exception {
 		int res = postService.updateByPostSeq(postSeq, post, post.getUserSeq());
 		
 		if(res == 1)
@@ -97,6 +98,21 @@ public class PostController {
 		else
 	        return new ResponseEntity<String>(FAIL, HttpStatus.OK);
 
+	}
+
+	@ApiOperation(value = "게시글 장애 정보 수정하기", response = List.class)
+	@PatchMapping(value = "/updateImpairment/{postSeq}")
+	public ResponseEntity<String> updatePostImpairment(@PathVariable("postSeq") long postSeq, PostImpairment pi) throws Exception {
+		System.out.println("dd");
+		int res = postService.updatePostImpairmentByPostSeq(postSeq, pi);
+		
+		if(res == 1)
+			return new ResponseEntity<String>("장애 정보 추가 " + SUCCESS, HttpStatus.OK);
+		else if(res == 2)
+			return new ResponseEntity<String>("장애 정보 삭제 " + SUCCESS, HttpStatus.OK);
+		else
+			return new ResponseEntity<String>(FAIL, HttpStatus.OK);
+		
 	}
 	
 
