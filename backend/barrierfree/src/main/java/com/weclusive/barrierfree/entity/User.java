@@ -1,10 +1,16 @@
 package com.weclusive.barrierfree.entity;
 
+import java.util.Collection;
+import java.util.stream.Collectors;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import lombok.AccessLevel;
 import lombok.Builder;

@@ -4,22 +4,32 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.sun.mail.util.MailConnectException;
 import com.weclusive.barrierfree.entity.Email;
+import com.weclusive.barrierfree.entity.Scrap;
+import com.weclusive.barrierfree.entity.Token;
 import com.weclusive.barrierfree.entity.User;
+import com.weclusive.barrierfree.repository.TokenRepository;
 import com.weclusive.barrierfree.repository.UserRepository;
+import com.weclusive.barrierfree.util.JwtTokenProvider;
 import com.weclusive.barrierfree.util.MailContentBuilder;
 
 @Service
 public class UserServiceImpl implements UserService {
- 
 
 	@Autowired
 	private UserRepository userRepository;
+
+	@Autowired
+	private TokenRepository tokenRepository;
 
 	@Autowired
 	private PasswordEncoder passwordEncoder;
@@ -29,6 +39,9 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private MailContentBuilder mailContentBuilder;
+
+	@Autowired
+	private JwtTokenProvider jwtTokenProvider;
 
 //	@Override
 //	public List<User> allUsers() {
@@ -51,6 +64,7 @@ public class UserServiceImpl implements UserService {
 
 	}
 
+	// 사용자 certKey를 를 포함한 링크를 이메일로 보낸다.
 	@Override
 	public void sendEmailwithUserKey(String email, String id) {
 //		String token = generateVerificationToken(user);
@@ -68,16 +82,52 @@ public class UserServiceImpl implements UserService {
 		}
 	}
 
+	// 사용자 닉네임으로 찾기
 	@Override
 	public User email_cert_check(String userNickname) {
 		User user = userRepository.findByUserNickname(userNickname);
 		return user;
 	}
 
+	// 이메일 인증이 되면, 사용자 유효 여부를 'n' -> 'y' 업데이트 하기
 	@Override
 	public void email_certified_update(User user) {
 		user.setEnabledYn("y");
 		userRepository.save(user);
+	}
+
+	// 사용자 로그인 시 비밀번호가 암호화 한 비밀번호와
+	// 일치하면 true 리턴
+	// 불일치하면 false 리턴
+	@Override
+	public boolean encodePassword(User loginUser) {
+		User user = userRepository.findByUserId(loginUser.getUserId());
+
+		if (!passwordEncoder.matches(loginUser.getUserPwd(), user.getUserPwd()))
+			return false;
+
+		return true;
+	}
+
+	// refresh token 생성 후 DB에 저장
+	@Override
+	public void createRefreshToken(User user) {
+		String ref_token = jwtTokenProvider.createRefreshToken();
+		tokenRepository.save(Token.builder().userSeq(user.getUserSeq()).tokenRefTK(ref_token).build());
+	}
+
+	// AccessToken 생성
+	@Override
+	public String createAccessToken(User user) {
+		return jwtTokenProvider.createToken(user.getUserId());
+
+	}
+
+	// refreshToken 재발급
+	@Transactional
+	public User refreshToken(String token, String refreshToken) {
+		// 아직 만료되지 않은 토큰으로는 refresh 할 수 없음
+		return null;
 	}
 
 	// 현재 시간
@@ -108,5 +158,33 @@ public class UserServiceImpl implements UserService {
 		return user;
 
 	}
+	
+	/**
+     * 토큰 재발행
+     * @param requestDto
+     * @return
+     */
+//    @Transactional
+//    public Token reIssue(Token requestDto) {
+//        if (!jwtTokenProvider.validateTokenExpiration(requestDto.getRefreshToken()))
+//            throw new InvalidRefreshTokenException();
+//
+//        User member = findMemberByToken(requestDto);
+//
+//        if (!member.getRefreshToken().equals(requestDto.getRefreshToken()))
+//            throw new InvalidRefreshTokenException();
+//
+//        String accessToken = jwtTokenProvider.createToken(member.getEmail());
+//        String refreshToken = jwtTokenProvider.createRefreshToken();
+//        member.updateRefreshToken(refreshToken);
+//        return new TokenResponseDto(accessToken, refreshToken);
+//    }
+//
+//    public User findMemberByToken(Token requestDto) {
+//        Authentication auth = jwtTokenProvider.getAuthentication(requestDto.getAccessToken());
+//        User userDetails = (User) auth.getPrincipal();
+//        String userId = userDetails.getUserId();
+//        return userRepository.findByUserId(userId).orElseThrow(MemberNotFoundException::new);
+//    }
 
 }

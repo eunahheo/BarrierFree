@@ -20,4 +20,11 @@ public interface UserService {
 
 	public void email_certified_update(User user);
 
+	public boolean encodePassword(User loginUser);
+
+
+	void createRefreshToken(User user);
+
+	String createAccessToken(User user);
+
 }
