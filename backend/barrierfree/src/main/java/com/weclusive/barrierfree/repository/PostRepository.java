@@ -26,7 +26,8 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 	public List<Post> findFollowPost(int userSeq);
 	
 	// 게시물 하나 전체 내용 가져오기
-	public Optional<Post> findByPostSeq(Long postSeq);
+	@Query(value="SELECT p FROM Post p WHERE p.delYn = 'n' AND postSeq = ?1")
+	public Optional<Post> findByPostSeq(long postSeq);
 	
 //	public Optional<Post> findByPostSeq(Long postSeq);
 	

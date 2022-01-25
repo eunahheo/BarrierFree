@@ -38,9 +38,7 @@ public class PostController {
 	
 	@Autowired
 	private PostService postService;
-	
-	FollowRepository followRepository;
-	
+		
 	@GetMapping("/all")
 	@ApiOperation(value="게시글 전체목록 조회", notes="모든 게시물의 모든 정보를 반환한다.", response=List.class)
 	public List<Map<String, Object>> listPost(int userSeq) {
@@ -76,7 +74,7 @@ public class PostController {
 		return result;
 	}
 	
-	@GetMapping("/detail")
+	@GetMapping("/detail/{postSeq}")
 	@ApiOperation(value="게시글 상세 보기", notes="게시글 정보, 장애 정보를 반환한다.", response=List.class)
 	public List<Map<String, Object>> detailPost(long postSeq) {
 		List<Map<String, Object>> result = postService.readPostDetail(postSeq);
@@ -84,7 +82,7 @@ public class PostController {
 	}
 	
 	@ApiOperation(value = "게시글 삭제하기", response = List.class)
-	@PutMapping(value = "/delete")
+	@PutMapping(value = "/delete/{postSeq}")
 	public void deletePost(@RequestParam long postSeq) throws Exception {
 		postService.deleteByPostSeq(postSeq);
 	}
