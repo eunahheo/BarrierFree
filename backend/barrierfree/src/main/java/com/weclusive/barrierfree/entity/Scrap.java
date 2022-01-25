@@ -28,7 +28,7 @@ public class Scrap {
 	private int userSeq;
 	
 	@Column(name="scrap_type")
-	private String scrapType;
+	private char scrapType;
 	
 	@Column(name="scrap_data")
 	private long scrapData;
@@ -49,7 +49,7 @@ public class Scrap {
 	private String modId;
 	
 	@Builder
-	public Scrap(int userSeq, String scrapType, Long scrapData, String regDt, String regId, String modDt, String modId) {
+	public Scrap(int userSeq, char scrapType, Long scrapData, String regDt, String regId, String modDt, String modId) {
 		this.userSeq = userSeq;
 		this.scrapType = scrapType;
 		this.scrapData = scrapData;
