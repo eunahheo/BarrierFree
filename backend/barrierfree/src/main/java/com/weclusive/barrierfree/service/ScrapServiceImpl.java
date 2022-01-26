@@ -17,9 +17,10 @@ public class ScrapServiceImpl implements ScrapService {
 	ScrapRepository scrapRepository;
 	
 	@Override
-	public Map<String, Integer> insertScrap(int user_seq, char scrap_type, long scrap_data) {
+	public Map<String, Integer> insertScrap(int user_seq, char scrap_type, long scrap_data) throws Exception{
 		Map<String, Integer> result = new HashMap<>();
 		String regTime = LocalDateTime.now().toString().replace("T", " ").substring(0,19);
+		try {
 		scrapRepository.save(Scrap.builder()
 				.userSeq(user_seq)
 				.scrapType(scrap_type)
@@ -29,19 +30,38 @@ public class ScrapServiceImpl implements ScrapService {
 				.modDt(regTime)
 				.modId("임시").build());
 		result.put("result",1);
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			throw new Exception();
+		}
 		
 		return result;
 	}
 
 	@Override
-	public int getScraptime(char scrap_type, long scrap_data) {
-		int result = scrapRepository.countByDelYnAndScrapTypeAndScrapData('n', scrap_type, scrap_data);
+	public int getScraptime(char scrap_type, long scrap_data) throws Exception {
+		int result = 0;
+		try {
+			result = scrapRepository.countByDelYnAndScrapTypeAndScrapData('n', scrap_type, scrap_data);
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			throw new Exception();
+		}
 		return result;
 	}
 	
 	@Override
-	public int getScrapYn(int userSeq, long scrapData) {
-		int result = scrapRepository.countByDelYnAndUserSeqAndScrapData('n', userSeq, scrapData);
+	public int getScrapYn(int userSeq, char scrapType, long scrapData) throws Exception {
+		int result = 0;
+		try {
+			result = scrapRepository.countByDelYnAndScrapTypeAndUserSeqAndScrapData('n', scrapType, userSeq, scrapData);
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			throw new Exception();
+		}
 		return result;
 	}
 

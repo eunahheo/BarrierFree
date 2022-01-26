@@ -1,21 +1,19 @@
 package com.weclusive.barrierfree.controller;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-
 import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.weclusive.barrierfree.service.RecommendService;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.AllArgsConstructor;
 
 @RestController
@@ -28,14 +26,28 @@ public class RecommendController {
 	private RecommendService recommendService;
 	
 	@GetMapping("/detail")
-	public JSONObject detailView(String contentid) {
-		JSONObject result = recommendService.loadDetailView(contentid);
-		return result;
+	@ApiOperation(value="상세정보 조회", notes="컨텐츠id를 통해 상세정보를 조회한다.")
+	public ResponseEntity<Object> detailView(@RequestParam @ApiParam(value="관광공사 API에 존재하는 컨텐츠id")String contentid) {
+		JSONObject result;
+		try {
+			result = recommendService.loadDetailView(contentid);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<>("컨텐츠id를 확인해주세요.", HttpStatus.BAD_REQUEST);
+		}
+		return new ResponseEntity<>(result,HttpStatus.OK);
 	}
 	
 	@GetMapping("/impairment")
-	public JSONObject getImpairment(String contentid) {
-		JSONObject result = recommendService.loadImpairment(contentid);
-		return result;
+	@ApiOperation(value="무장애정보 조회", notes="컨텐츠id를 통해 무장애정보를 조회한다.")
+	public ResponseEntity<Object> getImpairment(@RequestParam @ApiParam(value="관광공사 API에 존재하는 컨텐츠id")String contentid) {
+		JSONObject result;
+		try {
+			result = recommendService.loadImpairment(contentid);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<>("컨텐츠id를 확인해주세요.", HttpStatus.BAD_REQUEST);
+		}
+		return new ResponseEntity<>(result,HttpStatus.OK);
 	}
 }

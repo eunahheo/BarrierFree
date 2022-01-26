@@ -28,13 +28,13 @@ public class Scrap {
 	private int userSeq;
 	
 	@Column(name="scrap_type")
-	private char scrapType;
+	private char scrapType; 
 	
 	@Column(name="scrap_data")
 	private long scrapData;
 	
 	@Column(name="del_yn")
-	private char delYn;
+	private char delYn = 'n';
 	
 	@Column(name="reg_dt")
 	private String regDt;

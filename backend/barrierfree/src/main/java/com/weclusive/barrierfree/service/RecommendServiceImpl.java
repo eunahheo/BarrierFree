@@ -4,8 +4,6 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.List;
-import java.util.Map;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -26,7 +24,7 @@ public class RecommendServiceImpl implements RecommendService {
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public JSONObject loadDetailView(String contentid) {
+	public JSONObject loadDetailView(String contentid) throws Exception{
 		StringBuilder sb = new StringBuilder();
 		JSONObject result = new JSONObject();
 		try {
@@ -49,8 +47,11 @@ public class RecommendServiceImpl implements RecommendService {
 			
 			JSONParser parser = new JSONParser();
 			JSONObject jsonObject = (JSONObject) parser.parse(sb.toString());
+			System.out.println(jsonObject);
+			
 			
 			JSONObject parse_response = (JSONObject) jsonObject.get("response"); //response key값에 맞는 Value인 JSON객체를 가져옵니다. 
+			// 잘못된 컨텐츠id면 리턴
 			// response 로 부터 body 찾아오기 
 			JSONObject parse_body = (JSONObject) parse_response.get("body"); 
 			// body 로 부터 items 받아오기 
@@ -77,12 +78,13 @@ public class RecommendServiceImpl implements RecommendService {
 		}
 		catch(Exception e) {
 			e.printStackTrace();
+			throw new Exception();
 		}
 		return result;
 	}
 	
 	@Override
-	public JSONObject loadImpairment(String contentid) {
+	public JSONObject loadImpairment(String contentid) throws Exception {
 		StringBuilder sb = new StringBuilder();
 		JSONObject result = new JSONObject();
 		try {
@@ -118,6 +120,7 @@ public class RecommendServiceImpl implements RecommendService {
 		}
 		catch(Exception e) {
 			e.printStackTrace();
+			throw new Exception();
 		}
 		return result;
 	}
