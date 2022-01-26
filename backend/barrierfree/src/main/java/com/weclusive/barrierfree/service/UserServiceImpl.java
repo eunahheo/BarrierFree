@@ -229,7 +229,7 @@ public class UserServiceImpl implements UserService {
 			JsonParser parser = new JsonParser();
 			JsonElement element = parser.parse(result);
 
-			int id = element.getAsJsonObject().get("id").getAsInt();
+//			int id = element.getAsJsonObject().get("id").getAsInt();
 			boolean hasEmail = element.getAsJsonObject().get("kakao_account").getAsJsonObject().get("has_email")
 					.getAsBoolean();
 			String email = "";
@@ -277,12 +277,14 @@ public class UserServiceImpl implements UserService {
 
 	}
 
+	// 이메일로 회원 찾기 - kakao
 	@Override
 	public User findByUserEmail(String userEmail) {
 		User user = userRepository.findByUserEmail(userEmail);
 		return user;
 	}
 
+	// 회원가입 시 장애정보 등록
 	@Override
 	public void registImpairment(String userId, Impairment impairment) {
 		User user = userRepository.findByUserId(userId);

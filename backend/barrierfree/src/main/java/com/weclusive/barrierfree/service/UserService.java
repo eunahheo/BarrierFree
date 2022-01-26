@@ -5,32 +5,36 @@ import com.weclusive.barrierfree.entity.*;
 
 public interface UserService {
 
-	public void registUser(User user);
+	// 회원 가입
+	public void registUser(User user) throws Exception;
 
-	public User findByUserId(String userId);
+	public void registImpairment(String userId, Impairment impairment);
 
-	public User findByUserNickname(String userNickname);
-
-	public void sendEmailwithUserKey(String email, String id);
+	public void sendEmailwithUserKey(String email, String id) throws Exception;
 
 	public User email_cert_check(String userNickname);
 
 	public void email_certified_update(User user);
 
-	public boolean encodePassword(User loginUser);
+	public boolean encodePassword(User loginUser) throws Exception;
 
-	void createRefreshToken(User user);
+	// User
+	public User findByUserId(String userId);
 
-	String createAccessToken(User user);
-
-	String getKakaoAccessToken(String code);
-
-	String getKakaoEmail(String token) throws Exception;
-
-	void registKakaoUser(User user, String userEmail);
+	public User findByUserNickname(String userNickname);
 
 	public User findByUserEmail(String userEmail);
 
-	public void registImpairment(String userId, Impairment impairment);
+	public void createRefreshToken(User user);
+
+	// Token
+	public String createAccessToken(User user);
+
+	// Kakao
+	public String getKakaoAccessToken(String code);
+
+	public String getKakaoEmail(String token) throws Exception;
+
+	public void registKakaoUser(User user, String userEmail);
 
 }
