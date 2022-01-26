@@ -1,14 +1,10 @@
 package com.weclusive.barrierfree.service;
 
-import java.util.List;
-
 import com.weclusive.barrierfree.entity.*;
 
 public interface UserService {
 
 	public void registUser(User user);
-
-//	public List<User> allUsers();
 
 	public User findByUserId(String userId);
 
@@ -22,9 +18,16 @@ public interface UserService {
 
 	public boolean encodePassword(User loginUser);
 
-
 	void createRefreshToken(User user);
 
 	String createAccessToken(User user);
+
+	String getKakaoAccessToken(String code);
+
+	String getKakaoEmail(String token) throws Exception;
+
+	void registKakaoUser(User user, String userEmail);
+
+	public User findByUserEmail(String userEmail);
 
 }

@@ -1,18 +1,13 @@
 package com.weclusive.barrierfree.entity;
 
-import java.util.Collection;
-import java.util.stream.Collectors;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,10 +15,11 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Entity(name = "user")
-@NoArgsConstructor(access = AccessLevel.PROTECTED) // 파라미터가 없는 기본 생성자를 생성한다.
+@NoArgsConstructor(access = AccessLevel.PROTECTED) // 파라미터가 없는 기본 생성자를 생성한다. 접근 권한을 설정하여 어느 곳에서나 객체를 생성할 수 있는 상황을 막는다.
 @Getter
 @Setter
 @ToString
+@AllArgsConstructor
 public class User {
 
 	@Id
@@ -48,10 +44,10 @@ public class User {
 	private String userPhoto;
 
 	@Column(name = "user_role")
-	private String userRole = "0";
+	private char userRole = '0';
 
 	@Column(name = "del_yn")
-	private String delYn = "n"; // 'y', 'n'
+	private char delYn = 'n'; // 'y', 'n'
 
 	@Column(name = "reg_dt")
 	private String regDt;
@@ -66,26 +62,28 @@ public class User {
 	private String modId;
 
 	@Column(name = "enabled_yn")
-	private String enabledYn;
+	private char enabledYn;
 
 	@Column(name = "cert_key")
 	private String certKey;
 
 	@Builder
-	public User(String user_id, String user_nickname, String user_pwd, String user_email, String user_photo,
-			String user_role, String del_yn, String reg_dt, String reg_id, String mod_dt, String mod_id) {
+	public User(String userId, String userNickname, String userPwd, String userEmail, String userPhoto, char userRole,
+			char delYn, String regDt, String regId, String modDt, String modId, char enabledYn, String certKey) {
 		super();
-		this.userId = user_id;
-		this.userNickname = user_nickname;
-		this.userPwd = user_pwd;
-		this.userEmail = user_email;
-		this.userPhoto = user_photo;
-		this.userRole = user_role;
-		this.delYn = del_yn;
-		this.regDt = reg_dt;
-		this.regId = reg_id;
-		this.modDt = mod_dt;
-		this.modId = mod_id;
+		this.userId = userId;
+		this.userNickname = userNickname;
+		this.userPwd = userPwd;
+		this.userEmail = userEmail;
+		this.userPhoto = userPhoto;
+		this.userRole = userRole;
+		this.delYn = delYn;
+		this.regDt = regDt;
+		this.regId = regId;
+		this.modDt = modDt;
+		this.modId = modId;
+		this.enabledYn = enabledYn;
+		this.certKey = certKey;
 	}
 
 }
