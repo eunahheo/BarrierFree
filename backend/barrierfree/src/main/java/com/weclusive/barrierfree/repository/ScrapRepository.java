@@ -7,7 +7,7 @@ import com.weclusive.barrierfree.entity.Scrap;
 public interface ScrapRepository extends JpaRepository<Scrap, Long> {
 	
 	// 사용자가 스크랩한 게시물인지 확인(스크랩 했으면1, 아니면 0)
-	public int countByDelYnAndScrapTypeAndUserSeqAndScrapData(char delYn, String scrapType, int userSeq, long scrapData);
+	public int countByDelYnAndScrapTypeAndUserSeqAndScrapData(char delYn, char scrapType, int userSeq, long scrapData);
 	
 	// 현재 사용자가 해당 게시글을 스크랩 했는지 안했는지 확인 (스크랩 했으면1, 아니면 0)
 	public int countByDelYnAndUserSeqAndScrapData(char delYn, int userSeq, long scrapData);
