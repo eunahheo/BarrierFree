@@ -10,6 +10,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.weclusive.barrierfree.dto.Impairment;
 import com.weclusive.barrierfree.entity.Post;
 import com.weclusive.barrierfree.entity.PostImpairment;
 import com.weclusive.barrierfree.entity.User;
@@ -250,59 +251,134 @@ public class PostServiceImpl implements PostService {
 		return 1;
 	}
 
+	// 게시글 장애 정보 수정하기
 	@Override
-	public int updatePostImpairmentByPostSeq(long postSeq, PostImpairment pi) {
-		int result = 0;
-		String inputPi = pi.getCode();
-		List<String> curPi = postImpairmentRepository.findImpairment(postSeq);
-		
-		System.out.println(curPi.toString());
+	public int updatePostImpairmentByPostSeq(long postSeq, Impairment impairment) {
 
-		// 원래 장애 정보가 하나도 없거나 del_yn='n'인 테이블에 추가할 때
-		if (postImpairmentRepository.findPostImpairment(postSeq, inputPi) == 0) {
-				PostImpairment ppp = pi;
-				ppp.setDelYn('n');
-				ppp.setRegDt(curTime());
-				ppp.setRegId(returnUserIdFromPostSeq(postSeq));
-				ppp.setModDt(curTime());
-				ppp.setModId(returnUserIdFromPostSeq(postSeq));
-				save(ppp);
-				result = 1;
-			}
-		
-		for (int i = 0; i < curPi.size(); i++) {
-			String impairment = curPi.get(i);
-			System.out.println(i + ", " + impairment);
-			// 원래 목록에 없음 -> 추가하기
-			if (postImpairmentRepository.findPostImpairment(postSeq, impairment) == 0) {
-				PostImpairment ppp = pi;
-				ppp.setDelYn('n');
-				ppp.setRegDt(curTime());
-				ppp.setRegId(returnUserIdFromPostSeq(postSeq));
-				ppp.setModDt(curTime());
-				ppp.setModId(returnUserIdFromPostSeq(postSeq));
-				save(ppp);
-				System.out.println("save");
-				result = 1;
+		// 입력한 게시글 번호의 모든 장애 정보 반환(del_yn = n)
+		List<PostImpairment> curImpairment = postImpairmentRepository.findOneByPostSeq(postSeq);
 
-			}
-			// 원래 목록에 있음 -> 삭제하기
-			else {
-				// 목록에서 del_yn = y로
-				System.out.println("delete");
-				List<PostImpairment> deletePostImpairment = postImpairmentRepository.findOneByPostSeq(postSeq);
-				deletePostImpairment.forEach(d ->{
-					if(d.getCode().equals(inputPi)) {
-						d.setDelYn('y');
-						save(d);
-					}
-				});
-				
-				result = 2;
+		// 입력된 장애 정보 저장하는 배열
+		// -1) 선택 X, 1) 선택
+		// physical, visibility, deaf, infant, senior
+		int check[] = new int[] { -1, -1, -1, -1, -1 };
+
+		for (int i = 0; i < curImpairment.size(); i++) { // 원래 게시글의 장애 정보 수 만큼 반복
+			String im = curImpairment.get(i).getCode(); // 게시글의 장애 코드 ex) physical
+
+			// 선택된 상태면 check를 1로
+			switch (im) {
+			case "physical":
+				check[0] = 1;
+				break;
+			case "visibility":
+				check[1] = 1;
+				break;
+			case "deaf":
+				check[2] = 1;
+				break;
+			case "infant":
+				check[3] = 1;
+				break;
+			case "senior":
+				check[4] = 1;
+				break;
 			}
 		}
 
-		return result;
+		// check : 원래 선택 여부(-1) -> impairment : 새로 선택 여부(1)
+		// 취소 -> 선택 : post_code table에 추가하기
+		if (check[0] == -1 && impairment.getPhysical() == 1) {
+			saveImpairment(postSeq, 0);
+		} else if (check[1] == -1 && impairment.getVisibility() == 1) {
+			saveImpairment(postSeq, 1);
+		} else if (check[2] == -1 && impairment.getDeaf() == 1) {
+			saveImpairment(postSeq, 2);
+		} else if (check[3] == -1 && impairment.getInfant() == 1) {
+			saveImpairment(postSeq, 3);
+		} else if (check[4] == -1 && impairment.getSenior() == 1) {
+			saveImpairment(postSeq, 4);
+		}
+
+		// check : 원래 선택 여부(1) -> impairment : 새로 선택 여부(0)
+		// 선택 -> 취소 : post_code에서 삭제하기 del_yn = y
+		else if (check[0] == 1 && impairment.getPhysical() == 0) {
+			updateImpairment(postSeq, 0);
+		} else if (check[1] == 1 && impairment.getVisibility() == 0) {
+			updateImpairment(postSeq, 1);
+		} else if (check[2] == 1 && impairment.getDeaf() == 0) {
+			updateImpairment(postSeq, 2);
+		} else if (check[3] == 1 && impairment.getInfant() == 0) {
+			updateImpairment(postSeq, 3);
+		} else if(check[4] == 1 && impairment.getSenior() == 0) {
+			updateImpairment(postSeq, 4);
+		} else {
+			return 0;
+		}
+
+		return 1;
+	}
+
+	// 게시글 저장하기
+	public void saveImpairment(long postSeq, int im) {
+		String type = "";
+		switch (im) {
+		case 0:
+			type = "physical";
+			break;
+		case 1:
+			type = "visibility";
+			break;
+		case 2:
+			type = "deaf";
+			break;
+		case 3:
+			type = "infant";
+			break;
+		case 4:
+			type = "senior";
+			break;
+		}
+
+		PostImpairment pi = new PostImpairment();
+
+		pi.setPostSeq(postSeq);
+		pi.setCode(type);
+		pi.setDelYn('n');
+		pi.setRegDt(curTime());
+		pi.setRegId(returnUserIdFromPostSeq(postSeq));
+		pi.setModDt(curTime());
+		pi.setModId(returnUserIdFromPostSeq(postSeq));
+		postImpairmentRepository.save(pi);
+	}
+
+	// 게시글 장애 정보 수정하기
+	public void updateImpairment(long postSeq, int im) {
+		String type = "";
+		switch (im) {
+		case 0:
+			type = "physical";
+			break;
+		case 1:
+			type = "visibility";
+			break;
+		case 2:
+			type = "deaf";
+			break;
+		case 3:
+			type = "infant";
+			break;
+		case 4:
+			type = "senior";
+			break;
+		}
+
+		Optional<PostImpairment> pi = postImpairmentRepository.findOneByPostSeqCode(postSeq, type);
+		pi.get().setDelYn('y');
+		pi.get().setModDt(curTime());
+		pi.get().setModId(returnUserIdFromPostSeq(postSeq));
+		System.out.println(pi.get());
+		save(pi.get());
 	}
 
 	// 게시글 장애정보 저장하기
@@ -324,7 +400,7 @@ public class PostServiceImpl implements PostService {
 		int userSeq = list.get().getUserSeq();
 		return returnUserId(userSeq);
 	}
-	
+
 	// 현재 시간 구하기
 	public String curTime() {
 		return LocalDateTime.now().toString().replace("T", " ").substring(0, 19);
