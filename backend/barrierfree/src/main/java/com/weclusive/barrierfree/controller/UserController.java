@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.weclusive.barrierfree.dto.Impairment;
 import com.weclusive.barrierfree.entity.Token;
 import com.weclusive.barrierfree.entity.User;
 import com.weclusive.barrierfree.repository.TokenRepository;
@@ -53,21 +54,41 @@ public class UserController {
 		// User userId, userEmail, userPwd, userNickname, 불편사항
 		// loginUser : userId, userEmail, userPwd, userNickname
 		// kakaoLoginUser : us
-		userService.registUser(user); // 회원등록
-		userService.sendEmailwithUserKey(user.getUserEmail(), user.getUserId()); // 이메일 인증
+
+		try {
+			userService.registUser(user); // 회원등록
+			userService.sendEmailwithUserKey(user.getUserEmail(), user.getUserId()); // 이메일 인증
+
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+
+		return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+	}
+
+	@PostMapping("/join/impairment")
+	public ResponseEntity<String> registUserImpairment(@RequestParam String userNickname,
+			@RequestBody Impairment impairment) {
+		User user = userService.findByUserNickname(userNickname);
+		try {
+			userService.registImpairment(user.getUserId(), impairment);
+
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
 
 		return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 	}
 
 	@PostMapping("/join/kakao")
-	public ResponseEntity<String> kakaoJoin(@RequestParam String token, @RequestBody User user) {
+	public ResponseEntity<String> kakaoJoin(@RequestParam String token, @RequestBody User user,
+			@RequestBody Impairment impairment) {
 		// userId, userNickname, 불편사항
 //		String token = userService.getKakaoAccessToken(code);
 		System.out.println(token);
 
 		try {
 			String userEmail = userService.getKakaoEmail(token);
-			System.out.println(userEmail);
 			userService.registKakaoUser(user, userEmail);
 		} catch (Exception e) {
 			e.printStackTrace();

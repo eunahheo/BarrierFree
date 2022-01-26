@@ -1,5 +1,6 @@
 package com.weclusive.barrierfree.service;
 
+import com.weclusive.barrierfree.dto.Impairment;
 import com.weclusive.barrierfree.entity.*;
 
 public interface UserService {
@@ -29,5 +30,7 @@ public interface UserService {
 	void registKakaoUser(User user, String userEmail);
 
 	public User findByUserEmail(String userEmail);
+
+	public void registImpairment(String userId, Impairment impairment);
 
 }

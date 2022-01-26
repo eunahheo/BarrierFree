@@ -20,10 +20,13 @@ import org.springframework.stereotype.Service;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
+import com.weclusive.barrierfree.dto.Impairment;
 import com.weclusive.barrierfree.entity.Email;
 import com.weclusive.barrierfree.entity.Token;
 import com.weclusive.barrierfree.entity.User;
+import com.weclusive.barrierfree.entity.UserImpairment;
 import com.weclusive.barrierfree.repository.TokenRepository;
+import com.weclusive.barrierfree.repository.UserImairmentRepository;
 import com.weclusive.barrierfree.repository.UserRepository;
 import com.weclusive.barrierfree.util.JwtTokenProvider;
 import com.weclusive.barrierfree.util.MailContentBuilder;
@@ -33,6 +36,9 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private UserRepository userRepository;
+
+	@Autowired
+	private UserImairmentRepository userImpairmentRepository;
 
 	@Autowired
 	private TokenRepository tokenRepository;
@@ -53,14 +59,8 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void registUser(User user) {
 		String now = now(); // 현재 시각
-		userRepository.save(
-				User.builder()
-				.userPwd(passwordEncoder.encode(user.getUserPwd())) // 비밀번호 암호화
-				.regDt(now)
-				.regId(user.getUserId())
-				.modDt(now())
-				.modId(user.getUserId())
-				.enabledYn('n')
+		userRepository.save(User.builder().userId(user.getUserId()).userNickname(user.getUserNickname()).userEmail(user.getUserEmail()).userPwd(passwordEncoder.encode(user.getUserPwd())) // 비밀번호 암호화
+				.regDt(now).regId(user.getUserId()).modDt(now()).modId(user.getUserId()).enabledYn('n').delYn('n')
 				.certKey(mailService.generate_key()) // 사용자 메일 인증 키
 				.build());
 	}
@@ -69,20 +69,10 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void registKakaoUser(User user, String userEmail) {
 		String now = now(); // 현재 시각
-		userRepository.save(
-				User.builder()
-				.userId(user.getUserId())
-				.userEmail(userEmail)
-				.userNickname(user.getUserNickname())
-				.userPwd(passwordEncoder.encode(user.getUserPwd())) // 비밀번호 암호화
-				.regDt(now)
-				.regId(user.getUserId())
-				.modDt(now())
-				.modId(user.getUserId())
-				.userRole('0')
-				.delYn('n')
-				.certKey(null)
-				.enabledYn('y') // 카카오 회원의 경우 이메일 인증 패스
+		userRepository.save(User.builder().userId(user.getUserId()).userEmail(userEmail)
+				.userNickname(user.getUserNickname()).userPwd(passwordEncoder.encode(user.getUserPwd())) // 비밀번호 암호화
+				.regDt(now).regId(user.getUserId()).modDt(now()).modId(user.getUserId()).userRole('0').delYn('n')
+				.certKey(null).enabledYn('y') // 카카오 회원의 경우 이메일 인증 패스
 				.build());
 	}
 
@@ -148,7 +138,7 @@ public class UserServiceImpl implements UserService {
 		return null;
 	}
 
-	// 카카오 코드로 access token 받기 
+	// 카카오 코드로 access token 받기
 	@Override
 	public String getKakaoAccessToken(String code) {
 		String access_Token = "";
@@ -246,8 +236,8 @@ public class UserServiceImpl implements UserService {
 			if (hasEmail) {
 				email = element.getAsJsonObject().get("kakao_account").getAsJsonObject().get("email").getAsString();
 			}
-			System.out.println("id : " + id);
-			System.out.println("email : " + email);
+//			System.out.println("id : " + id);
+//			System.out.printlsn("email : " + email);
 
 			br.close();
 
@@ -291,5 +281,32 @@ public class UserServiceImpl implements UserService {
 	public User findByUserEmail(String userEmail) {
 		User user = userRepository.findByUserEmail(userEmail);
 		return user;
+	}
+
+	@Override
+	public void registImpairment(String userId, Impairment impairment) {
+		User user = userRepository.findByUserId(userId);
+		String now = now();
+		if (impairment.getPhysical() == 1) { // 지체장애
+			saveImpairment(user.getUserSeq(), userId, "physical", now);
+		}
+		if (impairment.getVisibility() == 1) { // 시각장애
+			saveImpairment(user.getUserSeq(), userId, "visibility", now);
+		}
+		if (impairment.getDeaf() == 1) { // 청각장애
+			saveImpairment(user.getUserSeq(), userId, "deaf", now);
+		}
+		if (impairment.getInfant() == 1) { // 영유아가족
+			saveImpairment(user.getUserSeq(), userId, "infant", now);
+		}
+		if (impairment.getSenior() == 1) { // 고령자ㄴ
+			saveImpairment(user.getUserSeq(), userId, "senior", now);
+		}
+
+	}
+
+	public void saveImpairment(int userSeq, String userId, String code, String now) {
+		userImpairmentRepository.save(UserImpairment.builder().userSeq(userSeq).code(code).delYn('n').regDt(now)
+				.regId(userId).modDt(now).modId(userId).build());
 	}
 }
