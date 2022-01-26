@@ -39,8 +39,8 @@ public class PostServiceImpl implements PostService {
 		List<Map<String, Object>> result = new LinkedList<>();
 		postRepository.findAll().forEach(post -> {
 			Map<String, Object> obj = new HashMap<>();
-			obj.put("postSeq", post.getPostSeq());
-			obj.put("userSeq", post.getUserSeq());
+			obj.put("post_seq", post.getPostSeq());
+			obj.put("user_seq", post.getUserSeq());
 			obj.put("post_title", post.getPostTitle());
 			obj.put("post_content", post.getPostContent());
 			obj.put("post_scrap", post.getPostScrap());
@@ -63,7 +63,7 @@ public class PostServiceImpl implements PostService {
 
 			char scrap_yn = 'n';
 			// 현재 사용자의 seq를 가져오는 api 필요
-			if (scrapRepository.countByDelYnAndScrapTypeAndUserSeqAndScrapData('n', "0", userSeq,
+			if (scrapRepository.countByDelYnAndScrapTypeAndUserSeqAndScrapData('n', '0', userSeq,
 					post.getPostSeq()) > 0)
 				scrap_yn = 'y';
 			obj.put("scrap_yn", scrap_yn);
@@ -77,8 +77,8 @@ public class PostServiceImpl implements PostService {
 		List<Map<String, Object>> result = new LinkedList<>();
 		postRepository.findTop100ByDelYnOrderByRegDtDesc('n').forEach(post -> {
 			Map<String, Object> obj = new HashMap<>();
-			obj.put("postSeq", post.getPostSeq());
-			obj.put("userSeq", post.getUserSeq());
+			obj.put("post_seq", post.getPostSeq());
+			obj.put("user_seq", post.getUserSeq());
 			obj.put("post_title", post.getPostTitle());
 			obj.put("post_content", post.getPostContent());
 			obj.put("post_scrap", post.getPostScrap());
@@ -90,7 +90,7 @@ public class PostServiceImpl implements PostService {
 
 			char scrap_yn = 'n';
 			// 현재 사용자의 seq를 가져오는 api 필요
-			if (scrapRepository.countByDelYnAndScrapTypeAndUserSeqAndScrapData('n', "0", userSeq,
+			if (scrapRepository.countByDelYnAndScrapTypeAndUserSeqAndScrapData('n', '0', userSeq,
 					post.getPostSeq()) > 0)
 				scrap_yn = 'y';
 
@@ -106,8 +106,8 @@ public class PostServiceImpl implements PostService {
 		List<Map<String, Object>> result = new LinkedList<>();
 		postRepository.findTop100ByDelYnOrderByPostScrapDesc('n').forEach(post -> {
 			Map<String, Object> obj = new HashMap<>();
-			obj.put("postSeq", post.getPostSeq());
-			obj.put("userSeq", post.getUserSeq());
+			obj.put("post_seq", post.getPostSeq());
+			obj.put("user_seq", post.getUserSeq());
 			obj.put("post_title", post.getPostTitle());
 			obj.put("post_content", post.getPostContent());
 			obj.put("post_scrap", post.getPostScrap());
@@ -119,7 +119,7 @@ public class PostServiceImpl implements PostService {
 
 			char scrap_yn = 'n';
 			// 현재 사용자의 seq를 가져오는 api 필요
-			if (scrapRepository.countByDelYnAndScrapTypeAndUserSeqAndScrapData('n', "0", userSeq,
+			if (scrapRepository.countByDelYnAndScrapTypeAndUserSeqAndScrapData('n', '0', userSeq,
 					post.getPostSeq()) > 0)
 				scrap_yn = 'y';
 
@@ -137,8 +137,8 @@ public class PostServiceImpl implements PostService {
 		String endTime = curTime();
 		postRepository.findTop100ByDelYnAndRegDtBetweenOrderByPostScrapDesc('n', startTime, endTime).forEach(post -> {
 			Map<String, Object> obj = new HashMap<>();
-			obj.put("postSeq", post.getPostSeq());
-			obj.put("userSeq", post.getUserSeq());
+			obj.put("post_seq", post.getPostSeq());
+			obj.put("user_seq", post.getUserSeq());
 			obj.put("post_title", post.getPostTitle());
 			obj.put("post_content", post.getPostContent());
 			obj.put("post_scrap", post.getPostScrap());
@@ -150,7 +150,7 @@ public class PostServiceImpl implements PostService {
 
 			char scrap_yn = 'n';
 			// 현재 사용자의 seq를 가져오는 api 필요
-			if (scrapRepository.countByDelYnAndScrapTypeAndUserSeqAndScrapData('n', "0", userSeq,
+			if (scrapRepository.countByDelYnAndScrapTypeAndUserSeqAndScrapData('n', '0', userSeq,
 					post.getPostSeq()) > 0)
 				scrap_yn = 'y';
 
@@ -167,8 +167,8 @@ public class PostServiceImpl implements PostService {
 		// 현재 사용자의 seq를 불러오는 API 필요
 		postRepository.findFollowPost(1).forEach(post -> {
 			Map<String, Object> obj = new HashMap<>();
-			obj.put("postSeq", post.getPostSeq());
-			obj.put("userSeq", post.getUserSeq());
+			obj.put("post_seq", post.getPostSeq());
+			obj.put("user_seq", post.getUserSeq());
 			obj.put("post_title", post.getPostTitle());
 			obj.put("post_content", post.getPostContent());
 			obj.put("post_scrap", post.getPostScrap());
@@ -180,7 +180,7 @@ public class PostServiceImpl implements PostService {
 
 			char scrap_yn = 'n';
 			// 현재 사용자의 seq를 가져오는 api 필요
-			if (scrapRepository.countByDelYnAndScrapTypeAndUserSeqAndScrapData('n', "0", userSeq,
+			if (scrapRepository.countByDelYnAndScrapTypeAndUserSeqAndScrapData('n', '0', userSeq,
 					post.getPostSeq()) > 0)
 				scrap_yn = 'y';
 
@@ -253,11 +253,13 @@ public class PostServiceImpl implements PostService {
 	@Override
 	public int updatePostImpairmentByPostSeq(long postSeq, PostImpairment pi) {
 		int result = 0;
+		String inputPi = pi.getCode();
 		List<String> curPi = postImpairmentRepository.findImpairment(postSeq);
+		
+		System.out.println(curPi.toString());
 
 		// 원래 장애 정보가 하나도 없거나 del_yn='n'인 테이블에 추가할 때
-		if (postImpairmentRepository.findPostImpairment(postSeq, pi.getCode()) == 0) {
-				System.out.println("no2");
+		if (postImpairmentRepository.findPostImpairment(postSeq, inputPi) == 0) {
 				PostImpairment ppp = pi;
 				ppp.setDelYn('n');
 				ppp.setRegDt(curTime());
@@ -270,7 +272,7 @@ public class PostServiceImpl implements PostService {
 		
 		for (int i = 0; i < curPi.size(); i++) {
 			String impairment = curPi.get(i);
-			
+			System.out.println(i + ", " + impairment);
 			// 원래 목록에 없음 -> 추가하기
 			if (postImpairmentRepository.findPostImpairment(postSeq, impairment) == 0) {
 				PostImpairment ppp = pi;
@@ -280,17 +282,23 @@ public class PostServiceImpl implements PostService {
 				ppp.setModDt(curTime());
 				ppp.setModId(returnUserIdFromPostSeq(postSeq));
 				save(ppp);
+				System.out.println("save");
 				result = 1;
 
 			}
 			// 원래 목록에 있음 -> 삭제하기
 			else {
 				// 목록에서 del_yn = y로
-				Optional<PostImpairment> deletePostImpairment = postImpairmentRepository.findOneByPostSeq(postSeq);
-				deletePostImpairment.get().setDelYn('y');
-				postImpairmentRepository.save(deletePostImpairment.get());
+				System.out.println("delete");
+				List<PostImpairment> deletePostImpairment = postImpairmentRepository.findOneByPostSeq(postSeq);
+				deletePostImpairment.forEach(d ->{
+					if(d.getCode().equals(inputPi)) {
+						d.setDelYn('y');
+						save(d);
+					}
+				});
+				
 				result = 2;
-
 			}
 		}
 
