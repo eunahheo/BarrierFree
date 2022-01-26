@@ -1,6 +1,5 @@
 package com.weclusive.barrierfree.controller;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -9,14 +8,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.weclusive.barrierfree.dto.Impairment;
 import com.weclusive.barrierfree.entity.Post;
-import com.weclusive.barrierfree.entity.PostImpairment;
 import com.weclusive.barrierfree.service.PostService;
 
 import io.swagger.annotations.Api;
@@ -99,6 +98,13 @@ public class PostController {
 	        return new ResponseEntity<String>(FAIL, HttpStatus.OK);
 
 	}
+	
+	@ApiOperation(value = "장애 정보 dto 테스트", response = List.class)
+	@PostMapping(value = "/test/postSeq")
+	public ResponseEntity<String> testPost(Impairment impairment) throws Exception {
+		return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+	}
+	
 
 //	@ApiOperation(value = "게시글 장애 정보 수정하기", response = List.class)
 //	@PatchMapping(value = "/updateImpairment")
