@@ -1,7 +1,12 @@
 import React from "react";
-
+import Review from "../components/review/Review"
 function About() {
-  return <span>About weclusive</span>;
+  return (
+    <div>
+      <Review></Review>
+      <span>About weclusive</span>;
+    </div>
+  )
 }
 
 export default About;

@@ -7,15 +7,16 @@ import Visual from "../images/Visual.png"
 import { Button, FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import axios from "axios";
 import RecommendCardList from "./RecommendCardList.js";
+import { Container, Box } from "@material-ui/core";
 
 
 const Recommend = () => {
   const [itemList, setItemList] = useState([]);
 
-  useEffect(() =>{
+  useEffect(() => {
     axios(
       {
-        url:'post/all?user_seq=1'
+        url:'post/all?userSeq=1'
       }
     ).then(function (res) {
       setItemList(res.data)
@@ -35,49 +36,51 @@ const Recommend = () => {
 
   return (
     <div>
-      <h2>내 주변 무장애 여행지</h2>
-      <hr></hr>
-      <h3>무장애 선택하기</h3>
-      <div>
-        <img src={Physical}></img>
-        <img src={Visual}></img>
-        <img src={Auditory}></img>
-        <img src={Pregnant}></img>
-        <img src={Senior}></img>
-      </div>
-      <h3>무장애 여행지역</h3>
-      <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
-        <InputLabel id="find-city">시도 검색</InputLabel>
-        <Select
-        labelId="find-city"
-        id="find-city"
-        value={city}
-        onChange={handelChangeCity}
-        label="시도">
-          <MenuItem value="서울">서울</MenuItem>
-          <MenuItem value="경기">경기</MenuItem>
-          <MenuItem value="강원">강원</MenuItem>
-        </Select>
-      </FormControl>
-      <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
-        <InputLabel id="find-town">시구군 검색</InputLabel>
-        <Select
-        labelId="find-town"
-        id="find-town"
-        value={town}
-        onChange={handelChangeTown}
-        label="시도">
-          <MenuItem value="서울">서울</MenuItem>
-          <MenuItem value="경기">경기</MenuItem>
-          <MenuItem value="강원">강원</MenuItem>
-        </Select>
-      </FormControl>
-      <div>
-        <Button variant="contained">검색</Button>
-        <Button variant="contained">초기화</Button>
-      </div>
-      <hr></hr>
-      <RecommendCardList itemList={itemList}></RecommendCardList>
+      <Container maxWidth="md">
+        <h2>내 주변 무장애 여행지</h2>
+        <Box border={1}>
+          <h3>무장애 선택하기</h3>
+          <div>
+            <img src={Physical}></img>
+            <img src={Visual}></img>
+            <img src={Auditory}></img>
+            <img src={Pregnant}></img>
+            <img src={Senior}></img>
+          </div>
+          <h3>무장애 여행지역</h3>
+          <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
+            <InputLabel id="find-city">시도 검색</InputLabel>
+            <Select
+            labelId="find-city"
+            id="find-city"
+            value={city}
+            onChange={handelChangeCity}
+            label="시도">
+              <MenuItem value="서울">서울</MenuItem>
+              <MenuItem value="경기">경기</MenuItem>
+              <MenuItem value="강원">강원</MenuItem>
+            </Select>
+          </FormControl>
+          <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
+            <InputLabel id="find-town">시구군 검색</InputLabel>
+            <Select
+            labelId="find-town"
+            id="find-town"
+            value={town}
+            onChange={handelChangeTown}
+            label="시도">
+              <MenuItem value="서울">서울</MenuItem>
+              <MenuItem value="경기">경기</MenuItem>
+              <MenuItem value="강원">강원</MenuItem>
+            </Select>
+          </FormControl>
+          <div>
+            <Button variant="contained">검색</Button>
+            <Button variant="contained">초기화</Button>
+          </div>
+        </Box>
+        <RecommendCardList itemList={itemList}></RecommendCardList>
+      </Container>
     </div>
   )
 }
