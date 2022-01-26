@@ -11,7 +11,8 @@ import com.weclusive.barrierfree.entity.User;
 
 public interface PostRepository extends JpaRepository<Post, Long> {
 	
-	public List<Post> findAll();	// 모든 게시글(삭제된 글 포함) 검색
+	// 모든 게시글(삭제된 글 포함) 검색
+	public List<Post> findAll();	
 	
 	// 최신순으로 정렬한 게시글 100개 반환
 	public List<Post> findTop100ByDelYnOrderByRegDtDesc(char delYn);	
@@ -32,7 +33,5 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 	
 	// 해당 컨텐츠id에 대한 게시글 20개 반환
 	public List<Post> findTop20ByDelYnAndContentIdOrderByPostScrapDesc(char delYn, String contentId);
-	
-
 	
 }
