@@ -12,6 +12,83 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
+import Badge from "@mui/material/Badge";
+import NotificationsIcon from "@mui/icons-material/Notifications";
+
+import Drawer from "@mui/material/Drawer";
+
+import List from "@mui/material/List";
+import Divider from "@mui/material/Divider";
+import ListItem from "@mui/material/ListItem";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+import InboxIcon from "@mui/icons-material/MoveToInbox";
+import MailIcon from "@mui/icons-material/Mail";
+
+// export default function TemporaryDrawer() {
+//   const [state, setState] = React.useState({
+//     top: false,
+//     left: false,
+//     bottom: false,
+//     right: false,
+//   });
+
+//   const toggleDrawer = (anchor, open) => (event) => {
+//     if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+//       return;
+//     }
+
+//     setState({ ...state, [anchor]: open });
+//   };
+
+//   const list = (anchor) => (
+//     <Box
+//       sx={{ width: anchor === 'top' || anchor === 'bottom' ? 'auto' : 250 }}
+//       role="presentation"
+//       onClick={toggleDrawer(anchor, false)}
+//       onKeyDown={toggleDrawer(anchor, false)}
+//     >
+//       <List>
+//         {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
+//           <ListItem button key={text}>
+//             <ListItemIcon>
+//               {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+//             </ListItemIcon>
+//             <ListItemText primary={text} />
+//           </ListItem>
+//         ))}
+//       </List>
+//       <Divider />
+//       <List>
+//         {['All mail', 'Trash', 'Spam'].map((text, index) => (
+//           <ListItem button key={text}>
+//             <ListItemIcon>
+//               {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+//             </ListItemIcon>
+//             <ListItemText primary={text} />
+//           </ListItem>
+//         ))}
+//       </List>
+//     </Box>
+//   );
+
+//   return (
+//     <div>
+//       {['left', 'right', 'top', 'bottom'].map((anchor) => (
+//         <React.Fragment key={anchor}>
+//           <Button onClick={toggleDrawer(anchor, true)}>{anchor}</Button>
+//           <Drawer
+//             anchor={anchor}
+//             open={state[anchor]}
+//             onClose={toggleDrawer(anchor, false)}
+//           >
+//             {list(anchor)}
+//           </Drawer>
+//         </React.Fragment>
+//       ))}
+//     </div>
+//   );
+// }
 
 const pages = ["소식함", "여행지 추천", "검색하기", "베프란?"];
 const settings = ["내 계정 보기", "내 스크랩 보기", "프로필 수정", "로그아웃"];
@@ -140,7 +217,17 @@ const Navbar = () => {
               </Button>
             </Link>
           </Box>
-
+          {/* 알림 모양 */}
+          <IconButton
+            size="large"
+            aria-label="show 17 new notifications"
+            color="inherit"
+          >
+            <Badge badgeContent={10} color="error">
+              <NotificationsIcon />
+            </Badge>
+          </IconButton>
+          {/* --알림모양-- */}
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
