@@ -1,6 +1,5 @@
 package com.weclusive.barrierfree.controller;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -9,14 +8,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.weclusive.barrierfree.dto.Impairment;
 import com.weclusive.barrierfree.entity.Post;
-import com.weclusive.barrierfree.entity.PostImpairment;
 import com.weclusive.barrierfree.service.PostService;
 
 import io.swagger.annotations.Api;
@@ -70,7 +69,7 @@ public class PostController {
 		return result;
 	}
 	
-	@GetMapping("/detail/{postSeq}")
+	@GetMapping("/detail/postSeq")
 	@ApiOperation(value="게시글 상세 보기", notes="게시글 정보, 장애 정보를 반환한다.", response=List.class)
 	public List<Map<String, Object>> detailPost(long postSeq) {
 		List<Map<String, Object>> result = postService.readPostDetail(postSeq);
@@ -78,7 +77,7 @@ public class PostController {
 	}
 	
 	@ApiOperation(value = "게시글 삭제하기", response = List.class)
-	@PutMapping(value = "/delete/{postSeq}")
+	@PutMapping(value = "/delete/postSeq")
 	public ResponseEntity<String> deletePost(@RequestParam long postSeq) throws Exception {
 		int res = postService.deleteByPostSeq(postSeq);
 		
@@ -89,8 +88,8 @@ public class PostController {
 	}
 	
 	@ApiOperation(value = "게시글 수정하기", response = List.class)
-	@PatchMapping(value = "/update/{postSeq}") // 일부 데이터 수정하기
-	public ResponseEntity<String> updatePost(@PathVariable("postSeq") long postSeq, Post post) throws Exception {
+	@PatchMapping(value = "/update") // 일부 데이터 수정하기
+	public ResponseEntity<String> updatePost(@RequestParam long postSeq, Post post) throws Exception {
 		int res = postService.updateByPostSeq(postSeq, post, post.getUserSeq());
 		
 		if(res == 1)
@@ -99,21 +98,28 @@ public class PostController {
 	        return new ResponseEntity<String>(FAIL, HttpStatus.OK);
 
 	}
-
-	@ApiOperation(value = "게시글 장애 정보 수정하기", response = List.class)
-	@PatchMapping(value = "/updateImpairment/{postSeq}")
-	public ResponseEntity<String> updatePostImpairment(@PathVariable("postSeq") long postSeq, PostImpairment pi) throws Exception {
-		System.out.println("dd");
-		int res = postService.updatePostImpairmentByPostSeq(postSeq, pi);
-		
-		if(res == 1)
-			return new ResponseEntity<String>("장애 정보 추가 " + SUCCESS, HttpStatus.OK);
-		else if(res == 2)
-			return new ResponseEntity<String>("장애 정보 삭제 " + SUCCESS, HttpStatus.OK);
-		else
-			return new ResponseEntity<String>(FAIL, HttpStatus.OK);
-		
+	
+	@ApiOperation(value = "장애 정보 dto 테스트", response = List.class)
+	@PostMapping(value = "/test/postSeq")
+	public ResponseEntity<String> testPost(Impairment impairment) throws Exception {
+		return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 	}
+	
+
+//	@ApiOperation(value = "게시글 장애 정보 수정하기", response = List.class)
+//	@PatchMapping(value = "/updateImpairment")
+//	public ResponseEntity<String> updatePostImpairment(@RequestParam long postSeq, PostImpairment pi) throws Exception {
+//		System.out.println("dd");
+//		int res = postService.updatePostImpairmentByPostSeq(postSeq, pi);
+//		
+//		if(res == 1)
+//			return new ResponseEntity<String>("장애 정보 추가 " + SUCCESS, HttpStatus.OK);
+//		else if(res == 2)
+//			return new ResponseEntity<String>("장애 정보 삭제 " + SUCCESS, HttpStatus.OK);
+//		else
+//			return new ResponseEntity<String>(FAIL, HttpStatus.OK);
+//		
+//	}
 	
 
 	

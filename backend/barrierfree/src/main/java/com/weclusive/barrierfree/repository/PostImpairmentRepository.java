@@ -20,18 +20,6 @@ public interface PostImpairmentRepository extends JpaRepository<PostImpairment, 
 	public int findPostImpairment(long postSeq, String code);
 	
 	@Query(value="SELECT pi FROM PostImpairment pi WHERE pi.delYn = 'n' AND postSeq = ?1")
-	public Optional<PostImpairment> findOneByPostSeq(long postSeq);
+	public List<PostImpairment> findOneByPostSeq(long postSeq);
 	
 }
-
-/*
- 
- public interface UserRepository extends JpaRepository<UserEntity, Long>, 
-      JpaSpecificationExecutor<UserEntity> {
-
-      @Query(value = "select count(v), date(v.createTimestamp) from UserEntity v group by date(v.createTimestamp)", 
-             countQuery = "select count(1) from (select count(1) from UserEntity v group by date(v.createTimestamp)) z")
-      public List<Object[]> findCountPerDay();
-}
- 
- */
