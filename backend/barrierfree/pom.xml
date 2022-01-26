@@ -91,6 +91,10 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId> 
+		</dependency>
 
 		<!-- 토큰할 때 쓸 수도 있음 -->
 		<dependency>
