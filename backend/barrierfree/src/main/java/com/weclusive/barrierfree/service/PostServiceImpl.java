@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.weclusive.barrierfree.dto.Impairment;
+import com.weclusive.barrierfree.dto.PostSave;
 import com.weclusive.barrierfree.entity.Post;
 import com.weclusive.barrierfree.entity.PostImpairment;
 import com.weclusive.barrierfree.entity.User;
@@ -196,6 +197,8 @@ public class PostServiceImpl implements PostService {
 	public List<Map<String, Object>> readPostDetail(long postSeq) {
 		List<Map<String, Object>> result = new LinkedList<>();
 		Map<String, Object> obj = new HashMap<>();
+
+		// 삭제 추가하기!!!!!!!!!!!!!!!!!
 		obj.put("post", postRepository.findByPostSeq(postSeq));
 		obj.put("impairment", postImpairmentRepository.findImpairment(postSeq));
 		result.add(obj);
@@ -310,7 +313,7 @@ public class PostServiceImpl implements PostService {
 			updateImpairment(postSeq, 2);
 		} else if (check[3] == 1 && impairment.getInfant() == 0) {
 			updateImpairment(postSeq, 3);
-		} else if(check[4] == 1 && impairment.getSenior() == 0) {
+		} else if (check[4] == 1 && impairment.getSenior() == 0) {
 			updateImpairment(postSeq, 4);
 		} else {
 			return 0;
@@ -377,8 +380,93 @@ public class PostServiceImpl implements PostService {
 		pi.get().setDelYn('y');
 		pi.get().setModDt(curTime());
 		pi.get().setModId(returnUserIdFromPostSeq(postSeq));
-		System.out.println(pi.get());
 		save(pi.get());
+	}
+
+	// 장애 정보 받아와서 게시글 장애 정보로 저장하기
+	@Override
+	public PostImpairment savePostImpairment(Impairment impairment, long postSeq) {
+		PostImpairment postImpairment = new PostImpairment();
+		postImpairment.setPostSeq(postSeq);
+		postImpairment.setDelYn('n');
+		postImpairment.setRegDt(curTime());
+		postImpairment.setRegId(returnUserIdFromPostSeq(postSeq));
+		postImpairment.setModDt(curTime());
+		postImpairment.setModId(returnUserIdFromPostSeq(postSeq));
+
+		if (impairment.getPhysical() == 1)
+			postImpairment.setCode("physical");
+
+		else if (impairment.getVisibility() == 1)
+			postImpairment.setCode("visibility");
+
+		else if (impairment.getDeaf() == 1)
+			postImpairment.setCode("deaf");
+
+		else if (impairment.getInfant() == 1)
+			postImpairment.setCode("infant");
+
+		else if (impairment.getSenior() == 1)
+			postImpairment.setCode("senior");
+
+		save(postImpairment);
+		return postImpairment;
+	}
+
+	// 게시글 + 장애정보 저장하기
+	@Override
+	public int savePost(PostSave ps) {
+
+		// 게시글 정보 저장하기
+		Post p = new Post();
+		p.setUserSeq(ps.getUserSeq());
+		p.setPostTitle(ps.getPostTitle());
+		p.setPostPhoto(ps.getPostPhoto());
+//		p.setPostPhotoAlt(p.getPostPhotoAlt());
+		p.setPostLocation(ps.getPostLocation());
+		p.setPostAddress(ps.getPostAddress());
+		p.setPostLat(ps.getPostLat());
+		p.setPostLng(ps.getPostLng());
+		p.setPostPoint(ps.getPostPoint());
+		p.setPostContent(ps.getPostContent());
+		p.setContentId(ps.getContentId());
+		p.setRegDt(curTime());
+		p.setRegId(returnUserId(ps.getUserSeq()));
+		p.setModDt(curTime());
+		p.setModId(returnUserId(ps.getUserSeq()));
+		save(p);
+
+
+		// 게시글 장애 정보 저장하기
+		long postSeq = p.getPostSeq();
+		int userSeq = ps.getUserSeq();
+		if (ps.getPhysical() == 1) {
+			postImpairmentRepository.save(PostImpairment.builder().postSeq(postSeq).code("physical").regDt(curTime())
+					.regId(returnUserId(userSeq)).modDt(curTime()).modId(returnUserId(userSeq)).build());
+
+		}
+		if (ps.getDeaf() == 1) {
+			postImpairmentRepository.save(PostImpairment.builder().postSeq(postSeq).code("deaf").regDt(curTime())
+					.regId(returnUserId(userSeq)).modDt(curTime()).modId(returnUserId(userSeq)).build());
+
+		}
+		if (ps.getInfant() == 1) {
+			postImpairmentRepository.save(PostImpairment.builder().postSeq(postSeq).code("infant").regDt(curTime())
+					.regId(returnUserId(userSeq)).modDt(curTime()).modId(returnUserId(userSeq)).build());
+
+		}
+		if (ps.getVisibility() == 1) {
+			postImpairmentRepository.save(PostImpairment.builder().postSeq(postSeq).code("visibility").regDt(curTime())
+					.regId(returnUserId(userSeq)).modDt(curTime()).modId(returnUserId(userSeq)).build());
+
+		}
+		if (ps.getSenior() == 1) {
+			postImpairmentRepository.save(PostImpairment.builder().postSeq(postSeq).code("senior").regDt(curTime())
+					.regId(returnUserId(userSeq)).modDt(curTime()).modId(returnUserId(userSeq)).build());
+
+		}
+
+		return 1;
 	}
 
 	// 게시글 장애정보 저장하기
