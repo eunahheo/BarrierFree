@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.thymeleaf.TemplateEngine;
 
 import com.weclusive.barrierfree.dto.Impairment;
 import com.weclusive.barrierfree.dto.UserFind;
@@ -165,8 +166,8 @@ public class UserController {
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
 
-	@ApiOperation(value = "회원인증", notes = "회원 정보를 담은 Token을 반환한다.", response = Map.class)
 	@GetMapping("/info/{userid}")
+	@ApiOperation(value = "회원인증", notes = "회원 정보를 담은 Token을 반환한다.")
 	public ResponseEntity<Map<String, Object>> getInfo(
 			@PathVariable("userid") @ApiParam(value = "인증할 회원의 아이디.", required = true) String userid,
 			HttpServletRequest request) {
@@ -198,6 +199,7 @@ public class UserController {
 
 	// 사용자 아이디 중복확인
 	@GetMapping("/check/id")
+	@ApiOperation(value = "아이디 중복 확인", notes = "아이디 중복 여부를 반환한다.")
 	public ResponseEntity<String> checkId(@RequestParam String userId) {
 		User user = (User) userService.findByUserId(userId);
 
@@ -209,6 +211,7 @@ public class UserController {
 
 	// 사용자 닉네임 중복확인
 	@GetMapping("/check/nickname")
+	@ApiOperation(value = "닉네임 중복 여부", notes = "닉네임 중복 여부를 반환한다.")
 	public ResponseEntity<String> checkNickname(@RequestParam String userNickname) {
 		User user = userService.findByUserNickname(userNickname);
 
@@ -219,6 +222,7 @@ public class UserController {
 	}
 
 	@GetMapping("/find/id")
+	@ApiOperation(value = "아이디 찾기", notes = "아이디 앞 네 자리만 보여준다.")
 	public ResponseEntity<String> findId(@RequestBody String userEmail) {
 		User user = userService.findByUserEmail(userEmail);
 
@@ -230,14 +234,15 @@ public class UserController {
 		}
 	}
 
-	@GetMapping("/find/password")
+	@PostMapping("/find/password")
+	@ApiOperation(value = "비밀번호 찾기", notes = "임시 비밀번호를 이메일로 보내준다.")
 	public ResponseEntity<String> findPassword(@RequestBody UserFind userFind) {
 		User user = userService.findByUserEmail(userFind.getUserEmail());
 
 		if (user != null && user.getUserId().equals(userFind.getUserId())) {
-			 // 메일 보내기 
-			
-			return new ResponseEntity<String>(StringUtils.idString(user.getUserId()), HttpStatus.OK);
+			// 메일 보내기
+			userService.sendEmailwithTemp(userFind.getUserEmail(), userFind.getUserId());
+			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 		} else {
 			return new ResponseEntity<String>("이메일 혹은 아이디를 다시 확인해주세요", HttpStatus.BAD_REQUEST);
 		}

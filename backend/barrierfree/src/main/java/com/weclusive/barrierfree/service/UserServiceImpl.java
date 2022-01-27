@@ -21,7 +21,6 @@ import org.springframework.stereotype.Service;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.weclusive.barrierfree.dto.Email;
-import com.weclusive.barrierfree.dto.Impairment;
 import com.weclusive.barrierfree.dto.UserJoin;
 import com.weclusive.barrierfree.dto.UserJoinKakao;
 import com.weclusive.barrierfree.entity.Token;
@@ -32,6 +31,7 @@ import com.weclusive.barrierfree.repository.UserImairmentRepository;
 import com.weclusive.barrierfree.repository.UserRepository;
 import com.weclusive.barrierfree.util.JwtTokenProvider;
 import com.weclusive.barrierfree.util.MailContentBuilder;
+import com.weclusive.barrierfree.util.StringUtils;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -58,25 +58,19 @@ public class UserServiceImpl implements UserService {
 	private JwtTokenProvider jwtTokenProvider;
 
 	// 회원 등록
-	@Override 
+	@Override
 	public void registUser(UserJoin userJoin) {
 		String now = now(); // 현재 시각
-		userRepository.save(
-				User.builder()
-				.userId(userJoin.getUserId())
-				.userNickname(userJoin.getUserNickname())
-				.userEmail(userJoin.getUserEmail())
-				.userPwd(passwordEncoder.encode(userJoin.getUserPwd())) // 비밀번호 암호화
-				.regDt(now).regId(userJoin.getUserId())
-				.modDt(now()).modId(userJoin.getUserId())
-				.enabledYn('n')
+		userRepository.save(User.builder().userId(userJoin.getUserId()).userNickname(userJoin.getUserNickname())
+				.userEmail(userJoin.getUserEmail()).userPwd(passwordEncoder.encode(userJoin.getUserPwd())) // 비밀번호 암호화
+				.regDt(now).regId(userJoin.getUserId()).modDt(now()).modId(userJoin.getUserId()).enabledYn('n')
 				.certKey(mailService.generate_key()) // 사용자 메일 인증 키
 				.build());
-		
+
 		User user = findByUserId(userJoin.getUserId());
 		String userId = user.getUserId();
 		int userSeq = user.getUserSeq();
-		
+
 		if (userJoin.getPhysical() == 1) { // 지체장애
 			saveImpairment(userSeq, userId, "physical", now);
 		}
@@ -98,23 +92,17 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void registKakaoUser(UserJoinKakao userJoinKakao, String userEmail) {
 		String now = now(); // 현재 시각
-		
-		userRepository.save(
-				User.builder()
-				.userId(userJoinKakao.getUserId())
-				.userEmail(userEmail)
-				.userNickname(userJoinKakao.getUserNickname())
-				.userPwd(passwordEncoder.encode(userEmail)) // 비밀번호 암호화
-				.regDt(now).regId(userJoinKakao.getUserId())
-				.modDt(now()).modId(userJoinKakao.getUserId())
-				.certKey(null)
+
+		userRepository.save(User.builder().userId(userJoinKakao.getUserId()).userEmail(userEmail)
+				.userNickname(userJoinKakao.getUserNickname()).userPwd(passwordEncoder.encode(userEmail)) // 비밀번호 암호화
+				.regDt(now).regId(userJoinKakao.getUserId()).modDt(now()).modId(userJoinKakao.getUserId()).certKey(null)
 				.enabledYn('y') // 카카오 회원의 경우 이메일 인증 패스
 				.build());
-		
+
 		User user = findByUserId(userJoinKakao.getUserId());
 		String userId = user.getUserId();
 		int userSeq = user.getUserSeq();
-		
+
 		if (userJoinKakao.getPhysical() == 1) { // 지체장애
 			saveImpairment(userSeq, userId, "physical", now);
 		}
@@ -130,7 +118,7 @@ public class UserServiceImpl implements UserService {
 		if (userJoinKakao.getSenior() == 1) { // 고령자
 			saveImpairment(userSeq, userId, "senior", now);
 		}
-		
+
 	}
 
 	// 사용자 certKey를 를 포함한 링크를 이메일로 보낸다.
@@ -353,5 +341,21 @@ public class UserServiceImpl implements UserService {
 	public void saveImpairment(int userSeq, String userId, String code, String now) {
 		userImpairmentRepository.save(UserImpairment.builder().userSeq(userSeq).code(code).delYn('n').regDt(now)
 				.regId(userId).modDt(now).modId(userId).build());
+	}
+
+	// 임시 비밀번호 발급, 이메일 전송
+	@Override
+	public void sendEmailwithTemp(String userEmail, String userId) {
+		String tempPass = StringUtils.getRamdomPassword(10);
+		String mail = mailContentBuilder.passBuild(tempPass);
+		System.out.println("호출");
+		try {
+			mailService.sendMail(new Email(userEmail, userId, "[BarrierFree] 임시 비밀번호 발급", mail));
+			User user = userRepository.findByUserId(userId);
+			user.setUserPwd(passwordEncoder.encode(tempPass));
+		} catch (MailException e) {
+			e.printStackTrace();
+		}
+
 	}
 }
