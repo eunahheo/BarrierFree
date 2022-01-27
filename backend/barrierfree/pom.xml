@@ -12,6 +12,7 @@
 	<groupId>com.weclusive</groupId>
 	<artifactId>barrierfree</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
 	<name>barrierfree</name>
 	<description>Barrierfree project for Spring Boot</description>
 	<properties>
