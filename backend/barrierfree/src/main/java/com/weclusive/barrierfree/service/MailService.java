@@ -1,6 +1,6 @@
 package com.weclusive.barrierfree.service;
 
-import com.weclusive.barrierfree.entity.Email;
+import com.weclusive.barrierfree.dto.Email;
 
 public interface MailService {
 

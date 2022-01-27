@@ -1,4 +1,4 @@
-package com.weclusive.barrierfree.entity;
+package com.weclusive.barrierfree.dto;
 
 import org.springframework.stereotype.Service;
 
