@@ -68,16 +68,13 @@ public class User {
 	private String certKey;
 
 	@Builder
-	public User(String userId, String userNickname, String userPwd, String userEmail, String userPhoto, char userRole,
-			char delYn, String regDt, String regId, String modDt, String modId, char enabledYn, String certKey) {
+	public User(String userId, String userNickname, String userPwd, String userEmail, String regDt, String regId,
+			String modDt, String modId, char enabledYn, String certKey) {
 		super();
 		this.userId = userId;
 		this.userNickname = userNickname;
 		this.userPwd = userPwd;
 		this.userEmail = userEmail;
-		this.userPhoto = userPhoto;
-		this.userRole = userRole;
-		this.delYn = delYn;
 		this.regDt = regDt;
 		this.regId = regId;
 		this.modDt = modDt;

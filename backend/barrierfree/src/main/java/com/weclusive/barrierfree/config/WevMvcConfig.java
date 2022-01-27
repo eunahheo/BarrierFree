@@ -1,4 +1,4 @@
-package com.weclusive.barrierfree.util;
+package com.weclusive.barrierfree.config;
 
 import java.util.Arrays;
 

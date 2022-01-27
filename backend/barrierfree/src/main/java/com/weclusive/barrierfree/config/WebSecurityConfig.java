@@ -1,4 +1,4 @@
-package com.weclusive.barrierfree.util;
+package com.weclusive.barrierfree.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,6 +10,8 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import com.weclusive.barrierfree.util.JwtTokenProvider;
 
 import lombok.RequiredArgsConstructor;
 

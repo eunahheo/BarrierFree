@@ -10,7 +10,7 @@ import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
-import com.weclusive.barrierfree.entity.Email;
+import com.weclusive.barrierfree.dto.Email;
 import com.weclusive.barrierfree.entity.User;
 import com.weclusive.barrierfree.repository.UserRepository;
 
