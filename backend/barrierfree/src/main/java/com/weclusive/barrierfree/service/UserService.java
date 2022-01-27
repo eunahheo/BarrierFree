@@ -26,6 +26,8 @@ public interface UserService {
 
 	public void createRefreshToken(User user);
 
+	public void sendEmailwithTemp(String userEmail, String userId);
+
 	// Token
 	public String createAccessToken(User user);
 
@@ -35,5 +37,6 @@ public interface UserService {
 	public String getKakaoEmail(String token) throws Exception;
 
 	public void registKakaoUser(UserJoinKakao user, String userEmail);
+
 
 }
