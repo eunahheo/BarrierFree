@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import Physical from "../images/Physical.png"
 import Auditory from "../images/Auditory.png"
 import Pregnant from "../images/Pregnant.png"
@@ -8,11 +8,13 @@ import { Button, FormControl, InputLabel, MenuItem, Select } from "@mui/material
 import axios from "axios";
 import RecommendCardList from "./RecommendCardList.js";
 import { Container, Box } from "@material-ui/core";
+import RecommendCategories from "./RecommendCategories";
 
 
 const Recommend = () => {
   const [itemList, setItemList] = useState([]);
-
+  const [category, setCategory] = useState('all');
+  const onSelect = useCallback(category => (setCategory(category), console.log(category)), [])
   useEffect(() => {
     axios(
       {
@@ -33,6 +35,20 @@ const Recommend = () => {
   const handelChangeTown = (event) => {
     setTown(event.target.value)
   }
+  
+  const onClickBarrier = (res) => {
+    console.log(res.target.id)
+    const barrier = res.target.id
+    axios(
+      {
+        url:'post/all?userSeq=1',
+        params:{impairment: barrier}
+      }
+    ).then(function (res) {
+      setItemList(res.data)
+      console.log(res.data)
+    })
+  }
 
   return (
     <div>
@@ -41,11 +57,11 @@ const Recommend = () => {
         <Box border={1}>
           <h3>무장애 선택하기</h3>
           <div>
-            <img src={Physical}></img>
-            <img src={Visual}></img>
-            <img src={Auditory}></img>
-            <img src={Pregnant}></img>
-            <img src={Senior}></img>
+            <img id="physical" onClick={onClickBarrier} src={Physical}></img>
+            <img id="visual" onClick={onClickBarrier} src={Visual}></img>
+            <img id="auditory" onClick={onClickBarrier} src={Auditory}></img>
+            <img id="pregnant" onClick={onClickBarrier} src={Pregnant}></img>
+            <img id="senior" onClick={onClickBarrier} src={Senior}></img>
           </div>
           <h3>무장애 여행지역</h3>
           <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
@@ -79,7 +95,8 @@ const Recommend = () => {
             <Button variant="contained">초기화</Button>
           </div>
         </Box>
-        <RecommendCardList itemList={itemList}></RecommendCardList>
+        <RecommendCategories category={category} onClick={onSelect}></RecommendCategories>
+        <RecommendCardList itemList={itemList} caategory={category}></RecommendCardList>
       </Container>
     </div>
   )

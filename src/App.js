@@ -7,7 +7,6 @@ import Navbar from "./components/Navbar";
 import UserPage from "./routes/UserPage";
 import User from "./routes/User";
 import Search from "./components/search/Search";
-import Detail from "./components/review/Review"
 import {
   BrowserRouter as Router,
   Route,
@@ -15,6 +14,7 @@ import {
   Switch,
   Link,
 } from "react-router-dom";
+import Review from "./components/review/Review";
 // import Signup from "./components/user/Signup";
 
 function App() {
@@ -30,7 +30,7 @@ function App() {
           <Route path="/user" exact={true} element={<User />}></Route>
           {/* <Route path="/signup" exact={true} element={<Signup />}></Route> */}
           <Route path="/userpage" exact={true} element={<UserPage />}></Route>
-          <Route path="/detail/:postSeq" exact={true} element={<Detail />}></Route>
+          <Route path="/post/detail/:reviewCard" exact={true} element={<Review />}></Route>
         </Routes>
       </Router>
     </div>
