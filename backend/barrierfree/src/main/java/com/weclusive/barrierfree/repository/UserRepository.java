@@ -1,6 +1,9 @@
 package com.weclusive.barrierfree.repository;
 
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.weclusive.barrierfree.entity.User;
@@ -21,4 +24,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 	User findByUserId(String userId);
 
 	User findByUserEmail(String userEmail);
+
+	// delyn = n 인 컬럼 수
+	public int countByDelYnAndUserSeq(char delYn, int userSeq);
 }

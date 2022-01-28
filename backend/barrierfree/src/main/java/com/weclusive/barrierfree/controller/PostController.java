@@ -25,6 +25,7 @@ import com.weclusive.barrierfree.entity.Post;
 import com.weclusive.barrierfree.entity.PostImpairment;
 import com.weclusive.barrierfree.service.PostService;
 import com.weclusive.barrierfree.service.PostServiceImpl;
+import com.weclusive.barrierfree.service.UserService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -42,6 +43,9 @@ public class PostController {
 
 	@Autowired
 	private PostService postService;
+
+	@Autowired
+	private UserService userService;
 
 	@GetMapping("/all")
 	@ApiOperation(value = "게시글 전체목록 조회", notes = "모든 게시물의 모든 정보를 반환한다.", response = List.class)
@@ -82,10 +86,9 @@ public class PostController {
 	@ApiOperation(value = "게시글 상세 보기", notes = "게시글 정보, 장애 정보를 반환한다.", response = List.class)
 	public ResponseEntity<Object> detailPost(@RequestParam long postSeq) {
 		List<Map<String, Object>> result = postService.readPostDetail(postSeq);
-		if(result != null) {
+		if (result != null) {
 			return new ResponseEntity<>(result, HttpStatus.OK);
-		}
-		else {
+		} else {
 			return new ResponseEntity<>(FAIL + " : 해당 게시글이 존재하지 않습니다.", HttpStatus.BAD_REQUEST);
 		}
 	}
@@ -97,11 +100,11 @@ public class PostController {
 
 		try {
 			result = postService.deleteByPostSeq(postSeq);
-		} catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity<>(FAIL + " : 해당 게시글이 존재하지 않습니다.", HttpStatus.BAD_REQUEST);
 		}
-			return new ResponseEntity<>(SUCCESS, HttpStatus.OK);
+		return new ResponseEntity<>(SUCCESS, HttpStatus.OK);
 	}
 
 	@PutMapping(value = "/update")
@@ -124,27 +127,33 @@ public class PostController {
 		if (res == 1)
 			return new ResponseEntity<String>(SUCCESS + " : 수정", HttpStatus.OK);
 		else if (res == 0)
-			return new ResponseEntity<String>(SUCCESS + " : 수정 사항 없음" , HttpStatus.OK);
+			return new ResponseEntity<String>(SUCCESS + " : 수정 사항 없음", HttpStatus.OK);
 		else
 			return new ResponseEntity<String>(FAIL, HttpStatus.BAD_REQUEST);
 	}
-	
-	@PostMapping(value="/savePost")
+
+	@PostMapping(value = "/savePost")
 	@ApiParam(value = "게시글, 장애 정보 저장하기", required = true)
 	public ResponseEntity<String> save(@RequestBody PostSave ps) {
 		int res = postService.savePost(ps);
-		if(res == 1)
+		if (res == 1)
 			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 		else
 			return new ResponseEntity<String>(FAIL, HttpStatus.BAD_REQUEST);
 	}
-	
-//	// 사용자 장애 정보 불러오기
-//	@GetMapping(value="/loadUserImpairment")
-//	@ApiOperation(value = "사용자 장애 정보 불러오기")
-//	public ResponseEntity<Object> loadUserImpairment(int UserSeq) {
-//	}
-	
 
+	// 사용자 장애 정보 불러오기
+	@GetMapping(value = "/loadUserImpairment")
+	@ApiOperation(value = "사용자 장애 정보 불러오기")
+	public ResponseEntity<Object> loadUserImpairment(int userSeq) {
+
+		Impairment ui = userService.readUserImpairment(userSeq);
+		if (ui != null) {
+			return new ResponseEntity<Object>(ui, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(FAIL, HttpStatus.BAD_REQUEST);
+		}
+
+	}
 
 }
