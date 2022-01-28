@@ -118,7 +118,7 @@ public class PostController {
 
 	@PutMapping(value = "/updateImpairment")
 	@ApiOperation(value = "게시글 장애 정보 수정하기", response = List.class)
-	public ResponseEntity<String> updatePostImpairment(Impairment impairment, @RequestParam long postSeq) {
+	public ResponseEntity<String> updatePostImpairment(@RequestBody Impairment impairment, @RequestParam long postSeq) {
 		int res = postService.updatePostImpairmentByPostSeq(postSeq, impairment);
 
 		if (res == 1)
@@ -129,13 +129,6 @@ public class PostController {
 			return new ResponseEntity<String>(FAIL, HttpStatus.BAD_REQUEST);
 	}
 	
-	
-//	// 사용자 장애 정보 불러오기
-//	@GetMapping(value="/loadUserImpairment")
-//	@ApiOperation(value = "사용자 장애 정보 불러오기")
-//	public ResponseEntity<Object> loadUserImpairment(int UserSeq) {
-//	}
-	
 	@PostMapping(value="/savePost")
 	@ApiParam(value = "게시글, 장애 정보 저장하기", required = true)
 	public ResponseEntity<String> save(@RequestBody PostSave ps) {
@@ -145,5 +138,13 @@ public class PostController {
 		else
 			return new ResponseEntity<String>(FAIL, HttpStatus.BAD_REQUEST);
 	}
+	
+//	// 사용자 장애 정보 불러오기
+//	@GetMapping(value="/loadUserImpairment")
+//	@ApiOperation(value = "사용자 장애 정보 불러오기")
+//	public ResponseEntity<Object> loadUserImpairment(int UserSeq) {
+//	}
+	
+
 
 }
