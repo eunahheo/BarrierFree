@@ -1,6 +1,9 @@
 package com.weclusive.barrierfree.util;
 
 import java.security.SecureRandom;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 public class StringUtils {
@@ -48,6 +51,20 @@ public class StringUtils {
 	        sb.append(charSet[idx]);
 		}
 		return sb.toString();
+	}
+	
+	// 현재 시간
+	public static String now() {
+		// 현재 날짜와 시간
+		LocalDate date = LocalDate.now(); // yyyy-mm-dd
+		LocalTime time = LocalTime.now(); // HH:mm:ss.sssss
+
+		// 포맷 정의하기
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+		// 포맷 적용하기
+		String now = date + " " + time.format(formatter);
+
+		return now;
 	}
 }
 

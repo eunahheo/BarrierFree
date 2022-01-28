@@ -1,4 +1,4 @@
-package com.weclusive.barrierfree.repository;
+ package com.weclusive.barrierfree.repository;
 
 import java.util.List;
 
@@ -11,4 +11,6 @@ public interface FollowRepository extends JpaRepository<Follow, Long> {
 	
 	@Query(value="SELECT followingSeq FROM Follow WHERE userSeq=?1")
 	public List<Long> findFollower(int userSeq);
+	
+	public Follow findByUserSeqAndFollowingSeqAndDelYn(int userSeq, int followingSeq, char delYn);
 }

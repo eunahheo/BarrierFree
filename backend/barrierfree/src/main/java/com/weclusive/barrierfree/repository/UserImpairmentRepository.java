@@ -7,6 +7,6 @@ import com.weclusive.barrierfree.entity.User;
 import com.weclusive.barrierfree.entity.UserImpairment;
 
 @Repository
-public interface UserImairmentRepository extends JpaRepository<UserImpairment, Integer> {
+public interface UserImpairmentRepository extends JpaRepository<UserImpairment, Integer> {
 
 }

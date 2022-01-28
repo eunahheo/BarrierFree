@@ -27,7 +27,7 @@ import com.weclusive.barrierfree.entity.Token;
 import com.weclusive.barrierfree.entity.User;
 import com.weclusive.barrierfree.entity.UserImpairment;
 import com.weclusive.barrierfree.repository.TokenRepository;
-import com.weclusive.barrierfree.repository.UserImairmentRepository;
+import com.weclusive.barrierfree.repository.UserImpairmentRepository;
 import com.weclusive.barrierfree.repository.UserRepository;
 import com.weclusive.barrierfree.util.JwtTokenProvider;
 import com.weclusive.barrierfree.util.MailContentBuilder;
@@ -40,7 +40,7 @@ public class UserServiceImpl implements UserService {
 	private UserRepository userRepository;
 
 	@Autowired
-	private UserImairmentRepository userImpairmentRepository;
+	private UserImpairmentRepository userImpairmentRepository;
 
 	@Autowired
 	private TokenRepository tokenRepository;
@@ -61,9 +61,15 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void registUser(UserJoin userJoin) {
 		String now = now(); // 현재 시각
-		userRepository.save(User.builder().userId(userJoin.getUserId()).userNickname(userJoin.getUserNickname())
-				.userEmail(userJoin.getUserEmail()).userPwd(passwordEncoder.encode(userJoin.getUserPwd())) // 비밀번호 암호화
-				.regDt(now).regId(userJoin.getUserId()).modDt(now()).modId(userJoin.getUserId()).enabledYn('n')
+		userRepository.save(
+				User.builder()
+				.userId(userJoin.getUserId())
+				.userNickname(userJoin.getUserNickname())
+				.userEmail(userJoin.getUserEmail())
+				.userPwd(passwordEncoder.encode(userJoin.getUserPwd())) // 비밀번호 암호화
+				.regDt(now).regId(userJoin.getUserId())
+				.modDt(now()).modId(userJoin.getUserId())
+				.enabledYn('n')
 				.certKey(mailService.generate_key()) // 사용자 메일 인증 키
 				.build());
 
@@ -93,9 +99,15 @@ public class UserServiceImpl implements UserService {
 	public void registKakaoUser(UserJoinKakao userJoinKakao, String userEmail) {
 		String now = now(); // 현재 시각
 
-		userRepository.save(User.builder().userId(userJoinKakao.getUserId()).userEmail(userEmail)
-				.userNickname(userJoinKakao.getUserNickname()).userPwd(passwordEncoder.encode(userEmail)) // 비밀번호 암호화
-				.regDt(now).regId(userJoinKakao.getUserId()).modDt(now()).modId(userJoinKakao.getUserId()).certKey(null)
+		userRepository.save(
+				User.builder()
+				.userId(userJoinKakao.getUserId())
+				.userEmail(userEmail)
+				.userNickname(userJoinKakao.getUserNickname())
+				.userPwd(passwordEncoder.encode(userEmail)) // 비밀번호 암호화
+				.regDt(now).regId(userJoinKakao.getUserId())
+				.modDt(now()).modId(userJoinKakao.getUserId())
+				.certKey(null)
 				.enabledYn('y') // 카카오 회원의 경우 이메일 인증 패스
 				.build());
 
@@ -353,6 +365,7 @@ public class UserServiceImpl implements UserService {
 			mailService.sendMail(new Email(userEmail, userId, "[BarrierFree] 임시 비밀번호 발급", mail));
 			User user = userRepository.findByUserId(userId);
 			user.setUserPwd(passwordEncoder.encode(tempPass));
+			userRepository.save(user);
 		} catch (MailException e) {
 			e.printStackTrace();
 		}
