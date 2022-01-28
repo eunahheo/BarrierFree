@@ -270,7 +270,7 @@ public class PostServiceImpl implements PostService {
 
 		// 입력한 게시글 번호의 모든 장애 정보 반환(del_yn = n)
 		List<PostImpairment> curImpairment = postImpairmentRepository.findOneByPostSeq(postSeq);
-
+		int res = 0;
 		// 입력된 장애 정보 저장하는 배열
 		// -1) 선택 X, 1) 선택
 		// physical, visibility, deaf, infant, senior
@@ -303,33 +303,49 @@ public class PostServiceImpl implements PostService {
 		// 취소 -> 선택 : post_code table에 추가하기
 		if (check[0] == -1 && impairment.getPhysical() == 1) {
 			saveImpairment(postSeq, 0);
-		} else if (check[1] == -1 && impairment.getVisibility() == 1) {
+			res = 1;
+		}
+		if (check[1] == -1 && impairment.getVisibility() == 1) {
 			saveImpairment(postSeq, 1);
-		} else if (check[2] == -1 && impairment.getDeaf() == 1) {
+			res = 1;
+		}
+		if (check[2] == -1 && impairment.getDeaf() == 1) {
 			saveImpairment(postSeq, 2);
-		} else if (check[3] == -1 && impairment.getInfant() == 1) {
+			res = 1;
+		}
+		if (check[3] == -1 && impairment.getInfant() == 1) {
 			saveImpairment(postSeq, 3);
-		} else if (check[4] == -1 && impairment.getSenior() == 1) {
+			res = 1;
+		}
+		if (check[4] == -1 && impairment.getSenior() == 1) {
 			saveImpairment(postSeq, 4);
+			res = 1;
 		}
 
 		// check : 원래 선택 여부(1) -> impairment : 새로 선택 여부(0)
 		// 선택 -> 취소 : post_code에서 삭제하기 del_yn = y
-		else if (check[0] == 1 && impairment.getPhysical() == 0) {
+		if (check[0] == 1 && impairment.getPhysical() == 0) {
 			updateImpairment(postSeq, 0);
-		} else if (check[1] == 1 && impairment.getVisibility() == 0) {
+			res = 1;
+		}
+		if (check[1] == 1 && impairment.getVisibility() == 0) {
 			updateImpairment(postSeq, 1);
-		} else if (check[2] == 1 && impairment.getDeaf() == 0) {
+			res = 1;
+		}
+		if (check[2] == 1 && impairment.getDeaf() == 0) {
 			updateImpairment(postSeq, 2);
-		} else if (check[3] == 1 && impairment.getInfant() == 0) {
+			res = 1;
+		}
+		if (check[3] == 1 && impairment.getInfant() == 0) {
 			updateImpairment(postSeq, 3);
-		} else if (check[4] == 1 && impairment.getSenior() == 0) {
+			res = 1;
+		}
+		if (check[4] == 1 && impairment.getSenior() == 0) {
 			updateImpairment(postSeq, 4);
-		} else {
-			return 0;
+			res = 1;
 		}
 
-		return 1;
+		return res;
 	}
 
 	// 게시글 저장하기
