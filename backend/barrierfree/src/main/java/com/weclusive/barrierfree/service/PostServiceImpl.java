@@ -198,11 +198,17 @@ public class PostServiceImpl implements PostService {
 		List<Map<String, Object>> result = new LinkedList<>();
 		Map<String, Object> obj = new HashMap<>();
 
-		// 삭제 추가하기!!!!!!!!!!!!!!!!!
-		obj.put("post", postRepository.findByPostSeq(postSeq));
-		obj.put("impairment", postImpairmentRepository.findImpairment(postSeq));
-		result.add(obj);
-		return result;
+		Optional<Post> posts = postRepository.findByPostSeq(postSeq);
+
+		// del_yn = n 일때만 장애 정보 불러와서 리턴하기
+		if (posts.isPresent()) {
+			obj.put("post", postRepository.findByPostSeq(postSeq));
+			obj.put("impairment", postImpairmentRepository.findImpairment(postSeq));
+			result.add(obj);
+			return result;
+		}
+		// 삭제된 상태면 null 리턴
+		return null;
 	}
 
 	// 게시글 저장하기
@@ -214,11 +220,15 @@ public class PostServiceImpl implements PostService {
 
 	// 게시글 삭제하기 (del_yn을 y로 변경)
 	@Override
-	public int deleteByPostSeq(long postSeq) {
+	public Optional<Post> deleteByPostSeq(long postSeq) {
 		Optional<Post> deletePost = postRepository.findByPostSeq(postSeq);
-		deletePost.get().setDelYn('y');
-		save(deletePost.get());
-		return 1;
+
+		if (deletePost != null) {
+			deletePost.get().setDelYn('y');
+			save(deletePost.get());
+			return deletePost;
+		} else
+			return null;
 	}
 
 	// 게시글 수정하기
@@ -435,7 +445,6 @@ public class PostServiceImpl implements PostService {
 		p.setModDt(curTime());
 		p.setModId(returnUserId(ps.getUserSeq()));
 		save(p);
-
 
 		// 게시글 장애 정보 저장하기
 		long postSeq = p.getPostSeq();

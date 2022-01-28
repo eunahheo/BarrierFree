@@ -2,6 +2,7 @@ package com.weclusive.barrierfree.controller;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -79,20 +80,28 @@ public class PostController {
 
 	@GetMapping("/detail")
 	@ApiOperation(value = "게시글 상세 보기", notes = "게시글 정보, 장애 정보를 반환한다.", response = List.class)
-	public List<Map<String, Object>> detailPost(@RequestParam long postSeq) {
+	public ResponseEntity<Object> detailPost(@RequestParam long postSeq) {
 		List<Map<String, Object>> result = postService.readPostDetail(postSeq);
-		return result;
+		if(result != null) {
+			return new ResponseEntity<>(result, HttpStatus.OK);
+		}
+		else {
+			return new ResponseEntity<>(FAIL + " : 해당 게시글이 존재하지 않습니다.", HttpStatus.BAD_REQUEST);
+		}
 	}
 
 	@PutMapping(value = "/delete")
 	@ApiOperation(value = "게시글 삭제하기", response = List.class)
-	public ResponseEntity<String> deletePost(@RequestParam long postSeq) throws Exception {
-		int res = postService.deleteByPostSeq(postSeq);
+	public ResponseEntity<Object> deletePost(@RequestParam long postSeq) throws Exception {
+		Optional<Post> result;
 
-		if (res == 1)
-			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
-		else
-			return new ResponseEntity<String>(FAIL, HttpStatus.BAD_REQUEST);
+		try {
+			result = postService.deleteByPostSeq(postSeq);
+		} catch(Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<>(FAIL + " : 해당 게시글이 존재하지 않습니다.", HttpStatus.BAD_REQUEST);
+		}
+			return new ResponseEntity<>(SUCCESS, HttpStatus.OK);
 	}
 
 	@PutMapping(value = "/update")
@@ -113,9 +122,9 @@ public class PostController {
 		int res = postService.updatePostImpairmentByPostSeq(postSeq, impairment);
 
 		if (res == 1)
-			return new ResponseEntity<String>("수정 " + SUCCESS, HttpStatus.OK);
+			return new ResponseEntity<String>(SUCCESS + " : 수정", HttpStatus.OK);
 		else if (res == 0)
-			return new ResponseEntity<String>("수정 사항 없음 " + SUCCESS, HttpStatus.OK);
+			return new ResponseEntity<String>(SUCCESS + " : 수정 사항 없음" , HttpStatus.OK);
 		else
 			return new ResponseEntity<String>(FAIL, HttpStatus.BAD_REQUEST);
 	}

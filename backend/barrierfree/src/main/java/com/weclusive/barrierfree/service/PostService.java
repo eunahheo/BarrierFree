@@ -17,7 +17,7 @@ public interface PostService {
 	public List<Map<String, Object>> readPostFollowing(int userSeq);
 	public List<Map<String, Object>> readPostDetail(long postSeq);
 	public Post save(Post post);
-	public int deleteByPostSeq(long postSeq);
+	public Optional<Post> deleteByPostSeq(long postSeq);
 	public int updateByPostSeq(long postSeq, Post post, int userSeq);
 
 	public int updatePostImpairmentByPostSeq(long postSeq, Impairment impairment);
