@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.weclusive.barrierfree.dto.Impairment;
 import com.weclusive.barrierfree.dto.PostSave;
+import com.weclusive.barrierfree.dto.PostUpdate;
 import com.weclusive.barrierfree.entity.Post;
 import com.weclusive.barrierfree.entity.PostImpairment;
 import com.weclusive.barrierfree.service.PostService;
@@ -96,21 +97,18 @@ public class PostController {
 	@PutMapping(value = "/delete")
 	@ApiOperation(value = "게시글 삭제하기", response = List.class)
 	public ResponseEntity<Object> deletePost(@RequestParam long postSeq) throws Exception {
-		Optional<Post> result;
+		Optional<Post> result = postService.deleteByPostSeq(postSeq);
 
-		try {
-			result = postService.deleteByPostSeq(postSeq);
-		} catch (Exception e) {
-			e.printStackTrace();
+		if(result == null)
 			return new ResponseEntity<>(FAIL + " : 해당 게시글이 존재하지 않습니다.", HttpStatus.BAD_REQUEST);
-		}
-		return new ResponseEntity<>(SUCCESS, HttpStatus.OK);
+		else
+			return new ResponseEntity<>(SUCCESS, HttpStatus.OK);
 	}
 
 	@PutMapping(value = "/update")
 	@ApiOperation(value = "게시글 수정하기", response = List.class)
-	public ResponseEntity<String> updatePost(@RequestParam long postSeq, Post post) throws Exception {
-		int res = postService.updateByPostSeq(postSeq, post, post.getUserSeq());
+	public ResponseEntity<String> updatePost(@RequestParam long postSeq, @RequestBody PostUpdate pu) throws Exception {
+		int res = postService.updateByPostSeq(postSeq, pu, pu.getUserSeq());
 
 		if (res == 1)
 			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
@@ -121,7 +119,7 @@ public class PostController {
 
 	@PutMapping(value = "/updateImpairment")
 	@ApiOperation(value = "게시글 장애 정보 수정하기", response = List.class)
-	public ResponseEntity<String> updatePostImpairment(@RequestBody Impairment impairment, @RequestParam long postSeq) {
+	public ResponseEntity<String> updatePostImpairment(@RequestParam long postSeq, @RequestBody Impairment impairment) {
 		int res = postService.updatePostImpairmentByPostSeq(postSeq, impairment);
 
 		if (res == 1)
@@ -142,9 +140,8 @@ public class PostController {
 			return new ResponseEntity<String>(FAIL, HttpStatus.BAD_REQUEST);
 	}
 
-	// 사용자 장애 정보 불러오기
 	@GetMapping(value = "/loadUserImpairment")
-	@ApiOperation(value = "사용자 장애 정보 불러오기")
+	@ApiOperation(value = "회원 장애 정보 불러오기", notes = "게시글 작성할 때 회원의 장애 정보 값을 디폴트로 설정하기 위해 사용한다.")
 	public ResponseEntity<Object> loadUserImpairment(int userSeq) {
 
 		Impairment ui = userService.readUserImpairment(userSeq);

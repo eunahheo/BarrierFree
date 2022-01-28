@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.weclusive.barrierfree.dto.Impairment;
 import com.weclusive.barrierfree.dto.PostSave;
+import com.weclusive.barrierfree.dto.PostUpdate;
 import com.weclusive.barrierfree.entity.Post;
 import com.weclusive.barrierfree.entity.PostImpairment;
 import com.weclusive.barrierfree.entity.User;
@@ -20,6 +21,7 @@ import com.weclusive.barrierfree.repository.PostRepository;
 import com.weclusive.barrierfree.repository.ScrapRepository;
 import com.weclusive.barrierfree.repository.UserRepository;
 import com.weclusive.barrierfree.util.StringUtils;
+import com.weclusive.barrierfree.util.TimeUtils;
 
 @Service
 public class PostServiceImpl implements PostService {
@@ -136,7 +138,7 @@ public class PostServiceImpl implements PostService {
 	public List<Map<String, Object>> readPostWeek(int userSeq) {
 		List<Map<String, Object>> result = new LinkedList<>();
 		String startTime = LocalDateTime.now().minusDays(7).toString().replace("T", " ").substring(0, 19);
-		String endTime = curTime();
+		String endTime = TimeUtils.curTime();
 		postRepository.findTop100ByDelYnAndRegDtBetweenOrderByPostScrapDesc('n', startTime, endTime).forEach(post -> {
 			Map<String, Object> obj = new HashMap<>();
 			obj.put("post_seq", post.getPostSeq());
@@ -232,36 +234,40 @@ public class PostServiceImpl implements PostService {
 	}
 
 	// 게시글 수정하기
-	// 변경 안되는 값 : photo, scrap, reg_dt, reg_id, post_seq, user_seq
+	// 변경 안되는 값 : photo, photo_alt, scrap, reg_dt, reg_id, post_seq, user_seq
 	@Override
-	public int updateByPostSeq(long postSeq, Post post, int userSeq) {
-		Optional<Post> curPost = postRepository.findById(postSeq);
-		String regTime = curTime();
+	public int updateByPostSeq(long postSeq, PostUpdate pu, int userSeq) {
+		Optional<Post> curPost = postRepository.findByPostSeq(postSeq);
 
-		String userId = returnUserId(userSeq);
+		if (curPost.isPresent()) {
+			String regTime = TimeUtils.curTime();
 
-		Post updatePost = curPost.get();
-		if (StringUtils.isNotBlank(post.getPostTitle()))
-			updatePost.setPostTitle(post.getPostTitle());
-		if (StringUtils.isNotBlank(post.getPostContent()))
-			updatePost.setPostContent(post.getPostContent());
-		if (StringUtils.isNotBlank(post.getPostLocation()))
-			updatePost.setPostLocation(post.getPostLocation());
-		if (StringUtils.isNotBlank(post.getPostAddress()))
-			updatePost.setPostAddress(post.getPostAddress());
-		if (StringUtils.isNotBlank(post.getPostLat()))
-			updatePost.setPostLat(post.getPostLat());
-		if (StringUtils.isNotBlank(post.getPostLng()))
-			updatePost.setPostLng(post.getPostLng());
-		if (StringUtils.isNotBlank(post.getContentId()))
-			updatePost.setContentId(post.getContentId());
-		updatePost.setPostPoint(post.getPostPoint());
-		updatePost.setModDt(regTime);
-		updatePost.setModId(userId);
+			String userId = returnUserId(userSeq);
 
-		postRepository.save(updatePost);
+			Post updatePost = curPost.get();
+			if (StringUtils.isNotBlank(pu.getPostTitle()))
+				updatePost.setPostTitle(pu.getPostTitle());
+			if (StringUtils.isNotBlank(pu.getPostContent()))
+				updatePost.setPostContent(pu.getPostContent());
+			if (StringUtils.isNotBlank(pu.getPostLocation()))
+				updatePost.setPostLocation(pu.getPostLocation());
+			if (StringUtils.isNotBlank(pu.getPostAddress()))
+				updatePost.setPostAddress(pu.getPostAddress());
+			if (StringUtils.isNotBlank(pu.getPostLat()))
+				updatePost.setPostLat(pu.getPostLat());
+			if (StringUtils.isNotBlank(pu.getPostLng()))
+				updatePost.setPostLng(pu.getPostLng());
+			if (StringUtils.isNotBlank(pu.getContentId()))
+				updatePost.setContentId(pu.getContentId());
+			updatePost.setPostPoint(pu.getPostPoint());
+			updatePost.setModDt(regTime);
+			updatePost.setModId(userId);
 
-		return 1;
+			postRepository.save(updatePost);
+
+			return 1;
+		}
+		return 0;
 	}
 
 	// 게시글 장애 정보 수정하기
@@ -374,9 +380,9 @@ public class PostServiceImpl implements PostService {
 		pi.setPostSeq(postSeq);
 		pi.setCode(type);
 		pi.setDelYn('n');
-		pi.setRegDt(curTime());
+		pi.setRegDt(TimeUtils.curTime());
 		pi.setRegId(returnUserIdFromPostSeq(postSeq));
-		pi.setModDt(curTime());
+		pi.setModDt(TimeUtils.curTime());
 		pi.setModId(returnUserIdFromPostSeq(postSeq));
 		postImpairmentRepository.save(pi);
 	}
@@ -404,7 +410,7 @@ public class PostServiceImpl implements PostService {
 
 		Optional<PostImpairment> pi = postImpairmentRepository.findOneByPostSeqCode(postSeq, type);
 		pi.get().setDelYn('y');
-		pi.get().setModDt(curTime());
+		pi.get().setModDt(TimeUtils.curTime());
 		pi.get().setModId(returnUserIdFromPostSeq(postSeq));
 		save(pi.get());
 	}
@@ -415,9 +421,9 @@ public class PostServiceImpl implements PostService {
 		PostImpairment postImpairment = new PostImpairment();
 		postImpairment.setPostSeq(postSeq);
 		postImpairment.setDelYn('n');
-		postImpairment.setRegDt(curTime());
+		postImpairment.setRegDt(TimeUtils.curTime());
 		postImpairment.setRegId(returnUserIdFromPostSeq(postSeq));
-		postImpairment.setModDt(curTime());
+		postImpairment.setModDt(TimeUtils.curTime());
 		postImpairment.setModId(returnUserIdFromPostSeq(postSeq));
 
 		if (impairment.getPhysical() == 1)
@@ -456,9 +462,9 @@ public class PostServiceImpl implements PostService {
 		p.setPostPoint(ps.getPostPoint());
 		p.setPostContent(ps.getPostContent());
 		p.setContentId(ps.getContentId());
-		p.setRegDt(curTime());
+		p.setRegDt(TimeUtils.curTime());
 		p.setRegId(returnUserId(ps.getUserSeq()));
-		p.setModDt(curTime());
+		p.setModDt(TimeUtils.curTime());
 		p.setModId(returnUserId(ps.getUserSeq()));
 		save(p);
 
@@ -466,28 +472,33 @@ public class PostServiceImpl implements PostService {
 		long postSeq = p.getPostSeq();
 		int userSeq = ps.getUserSeq();
 		if (ps.getPhysical() == 1) {
-			postImpairmentRepository.save(PostImpairment.builder().postSeq(postSeq).code("physical").regDt(curTime())
-					.regId(returnUserId(userSeq)).modDt(curTime()).modId(returnUserId(userSeq)).build());
+			postImpairmentRepository.save(PostImpairment.builder().postSeq(postSeq).code("physical")
+					.regDt(TimeUtils.curTime()).regId(returnUserId(userSeq)).modDt(TimeUtils.curTime())
+					.modId(returnUserId(userSeq)).build());
 
 		}
 		if (ps.getDeaf() == 1) {
-			postImpairmentRepository.save(PostImpairment.builder().postSeq(postSeq).code("deaf").regDt(curTime())
-					.regId(returnUserId(userSeq)).modDt(curTime()).modId(returnUserId(userSeq)).build());
+			postImpairmentRepository.save(PostImpairment.builder().postSeq(postSeq).code("deaf")
+					.regDt(TimeUtils.curTime()).regId(returnUserId(userSeq)).modDt(TimeUtils.curTime())
+					.modId(returnUserId(userSeq)).build());
 
 		}
 		if (ps.getInfant() == 1) {
-			postImpairmentRepository.save(PostImpairment.builder().postSeq(postSeq).code("infant").regDt(curTime())
-					.regId(returnUserId(userSeq)).modDt(curTime()).modId(returnUserId(userSeq)).build());
+			postImpairmentRepository.save(PostImpairment.builder().postSeq(postSeq).code("infant")
+					.regDt(TimeUtils.curTime()).regId(returnUserId(userSeq)).modDt(TimeUtils.curTime())
+					.modId(returnUserId(userSeq)).build());
 
 		}
 		if (ps.getVisibility() == 1) {
-			postImpairmentRepository.save(PostImpairment.builder().postSeq(postSeq).code("visibility").regDt(curTime())
-					.regId(returnUserId(userSeq)).modDt(curTime()).modId(returnUserId(userSeq)).build());
+			postImpairmentRepository.save(PostImpairment.builder().postSeq(postSeq).code("visibility")
+					.regDt(TimeUtils.curTime()).regId(returnUserId(userSeq)).modDt(TimeUtils.curTime())
+					.modId(returnUserId(userSeq)).build());
 
 		}
 		if (ps.getSenior() == 1) {
-			postImpairmentRepository.save(PostImpairment.builder().postSeq(postSeq).code("senior").regDt(curTime())
-					.regId(returnUserId(userSeq)).modDt(curTime()).modId(returnUserId(userSeq)).build());
+			postImpairmentRepository.save(PostImpairment.builder().postSeq(postSeq).code("senior")
+					.regDt(TimeUtils.curTime()).regId(returnUserId(userSeq)).modDt(TimeUtils.curTime())
+					.modId(returnUserId(userSeq)).build());
 
 		}
 
@@ -512,11 +523,6 @@ public class PostServiceImpl implements PostService {
 		Optional<Post> list = postRepository.findById(postSeq);
 		int userSeq = list.get().getUserSeq();
 		return returnUserId(userSeq);
-	}
-
-	// 현재 시간 구하기
-	public String curTime() {
-		return LocalDateTime.now().toString().replace("T", " ").substring(0, 19);
 	}
 
 }
