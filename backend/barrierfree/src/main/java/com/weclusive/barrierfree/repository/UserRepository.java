@@ -23,4 +23,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 	User findByUserEmail(String userEmail);
 
 	User findByUserSeq(int userSeq);
+
+	// delyn = n 인 컬럼 수
+	public int countByDelYnAndUserSeq(char delYn, int userSeq);
 }

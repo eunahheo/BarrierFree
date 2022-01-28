@@ -1,5 +1,6 @@
 package com.weclusive.barrierfree.service;
 
+import com.weclusive.barrierfree.dto.Impairment;
 import com.weclusive.barrierfree.dto.UserJoin;
 import com.weclusive.barrierfree.dto.UserJoinKakao;
 import com.weclusive.barrierfree.entity.User;
@@ -37,6 +38,9 @@ public interface UserService {
 	public String getKakaoEmail(String token) throws Exception;
 
 	public void registKakaoUser(UserJoinKakao user, String userEmail);
+
+	// 회원의 장애 정보 가져오기
+	public Impairment readUserImpairment(int userSeq);
 
 
 }

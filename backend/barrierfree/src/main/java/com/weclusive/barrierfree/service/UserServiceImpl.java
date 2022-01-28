@@ -10,6 +10,7 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 import javax.transaction.Transactional;
 
@@ -21,6 +22,7 @@ import org.springframework.stereotype.Service;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.weclusive.barrierfree.dto.Email;
+import com.weclusive.barrierfree.dto.Impairment;
 import com.weclusive.barrierfree.dto.UserJoin;
 import com.weclusive.barrierfree.dto.UserJoinKakao;
 import com.weclusive.barrierfree.entity.Token;
@@ -370,5 +372,41 @@ public class UserServiceImpl implements UserService {
 			e.printStackTrace();
 		}
 
+	}
+
+	// 회원의 장애 정보 가져오기
+	@Override
+	public Impairment readUserImpairment(int userSeq) {
+		int returnUserSeq = userRepository.countByDelYnAndUserSeq('n', userSeq);
+
+		if (returnUserSeq != 0) {
+
+			Impairment ui = new Impairment();
+			List<String> st = userImpairmentRepository.findImpairment(userSeq);
+
+			for (int i = 0; i < st.size(); i++) { // 장애 정보 수 만큼 반복
+				String im = st.get(i);
+
+				switch (im) {
+				case "physical":
+					ui.setPhysical(1);
+					break;
+				case "visibility":
+					ui.setVisibility(1);
+					break;
+				case "deaf":
+					ui.setDeaf(1);
+					break;
+				case "infant":
+					ui.setInfant(1);
+					break;
+				case "senior":
+					ui.setSenior(1);
+					break;
+				}
+			}
+			return ui;
+		}
+		return null;
 	}
 }
