@@ -1,37 +1,39 @@
 import React, { useEffect, useState } from "react";
-import Physical from "../images/Physical.png"
-import Auditory from "../images/Auditory.png"
-import Pregnant from "../images/Pregnant.png"
-import Senior from "../images/Senior.png"
-import Visual from "../images/Visual.png"
-import { Button, FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import Physical from "../images/Physical.png";
+import Auditory from "../images/Auditory.png";
+import Pregnant from "../images/Pregnant.png";
+import Senior from "../images/Senior.png";
+import Visual from "../images/Visual.png";
+import {
+  Button,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+} from "@mui/material";
 import axios from "axios";
 import RecommendCardList from "./RecommendCardList.js";
 
-
 const Recommend = () => {
   const [itemList, setItemList] = useState([]);
-
-  useEffect(() =>{
-    axios(
-      {
-        url:'post/all?user_seq=1'
-      }
-    ).then(function (res) {
-      setItemList(res.data)
+  useEffect(() => {
+    axios({
+      url: "http://localhost:3000/post/all?userSeq=1",
+    }).then(function (res) {
+      setItemList(res.data);
     });
-  }, [])
+  }, []);
 
-  const [city, setCity] = React.useState('');
-  const [town, setTown] = React.useState('');
+  const [city, setCity] = React.useState("");
+  const [town, setTown] = React.useState("");
 
   const handelChangeCity = (event) => {
-    setCity(event.target.value)
-  }
-  
+    setCity(event.target.value);
+  };
+
   const handelChangeTown = (event) => {
-    setTown(event.target.value)
-  }
+    setTown(event.target.value);
+  };
 
   return (
     <div>
@@ -49,11 +51,12 @@ const Recommend = () => {
       <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
         <InputLabel id="find-city">시도 검색</InputLabel>
         <Select
-        labelId="find-city"
-        id="find-city"
-        value={city}
-        onChange={handelChangeCity}
-        label="시도">
+          labelId="find-city"
+          id="find-city"
+          value={city}
+          onChange={handelChangeCity}
+          label="시도"
+        >
           <MenuItem value="서울">서울</MenuItem>
           <MenuItem value="경기">경기</MenuItem>
           <MenuItem value="강원">강원</MenuItem>
@@ -62,11 +65,12 @@ const Recommend = () => {
       <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
         <InputLabel id="find-town">시구군 검색</InputLabel>
         <Select
-        labelId="find-town"
-        id="find-town"
-        value={town}
-        onChange={handelChangeTown}
-        label="시도">
+          labelId="find-town"
+          id="find-town"
+          value={town}
+          onChange={handelChangeTown}
+          label="시도"
+        >
           <MenuItem value="서울">서울</MenuItem>
           <MenuItem value="경기">경기</MenuItem>
           <MenuItem value="강원">강원</MenuItem>
@@ -79,7 +83,7 @@ const Recommend = () => {
       <hr></hr>
       <RecommendCardList itemList={itemList}></RecommendCardList>
     </div>
-  )
-}
+  );
+};
 
 export default Recommend;

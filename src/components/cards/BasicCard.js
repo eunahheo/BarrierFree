@@ -1,8 +1,8 @@
 import React from "react";
 import { Card, CardMedia, CardContent, Typography } from "@mui/material";
-import RecommendBarrierIcon from "./RecommendBarrierIcon";
+import RecommendBarrierIcon from "../recommend/RecommendBarrierIcon";
 
-const RecommendCard = ({ item }) => {
+const BasicCard = ({ item }) => {
   const { post_photo, post_location, post_title } = item;
   const barriers = item.impairment;
 
@@ -27,4 +27,4 @@ const RecommendCard = ({ item }) => {
     </div>
   );
 };
-export default RecommendCard;
+export default BasicCard;
