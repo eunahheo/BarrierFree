@@ -36,7 +36,7 @@ public class Post {
 	private String postContent;
 	
 	@Column(name="post_scrap")
-	private int postScrap;
+	private int postScrap = 0;
 	
 	@Column(name="post_photo")
 	private String postPhoto;
@@ -63,7 +63,7 @@ public class Post {
 	private String contentId;
 	
 	@Column(name="del_yn")
-	private char delYn;
+	private char delYn = 'n';
 	
 	@Column(name="reg_dt")
 	private String regDt;
@@ -78,21 +78,24 @@ public class Post {
 	private String modId;
 
 	@Builder
-	public Post(String postTitle, String postContent, String postLocation, String postAddress,
-			String postLat, String postLng, int postPoint, String contentId, String modDt, String modId) {
+	public Post(int userSeq, String postTitle, String postContent, String postPhoto, String postLocation,
+			String postAddress, String postLat, String postLng, int postPoint, String contentId, String regDt,
+			String regId, String modDt, String modId) {
 		super();
+		this.userSeq = userSeq;
 		this.postTitle = postTitle;
 		this.postContent = postContent;
+		this.postPhoto = postPhoto;
 		this.postLocation = postLocation;
 		this.postAddress = postAddress;
 		this.postLat = postLat;
 		this.postLng = postLng;
 		this.postPoint = postPoint;
 		this.contentId = contentId;
+		this.regDt = regDt;
+		this.regId = regId;
 		this.modDt = modDt;
 		this.modId = modId;
 	}
 
-	
-	
 }

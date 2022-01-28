@@ -12,9 +12,9 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 public class Impairment {
-	int physical;
-	int visibility;
-	int deaf;
-	int infant;
-	int senior;
+	private int physical;
+	private int visibility;
+	private int deaf;
+	private int infant;
+	private int senior;
 }
