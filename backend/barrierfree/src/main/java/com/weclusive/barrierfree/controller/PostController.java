@@ -165,9 +165,9 @@ public class PostController {
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// 댓글
 	@GetMapping("/comment/detail")
-	@ApiOperation(value = "댓글 전체 보기", notes = "댓글 정보를 반환한다.", response = List.class)
+	@ApiOperation(value = "댓글 보기", notes = "댓글 정보를 반환한다.", response = List.class)
 	public ResponseEntity<Object> readComment(@RequestParam long postSeq) {
-		List<Comment> result = commentService.readComments(postSeq);
+		List<Map<String, Object>> result = commentService.readComments(postSeq);
 		if (result != null) {
 			return new ResponseEntity<>(result, HttpStatus.OK);
 		} else {

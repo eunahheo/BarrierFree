@@ -32,12 +32,32 @@ public class CommentServiceImpl implements CommentService {
 	UserRepository userRepository;
 
 	@Override
-	public List<Comment> readComments(long postSeq) {
-		List<Comment> comments = commentRepository.findCommentsPostSeq(postSeq);
-		if (comments.isEmpty())
-			return null;
-		else
-			return comments;
+	public List<Map<String, Object>> readComments(long postSeq) {
+		Optional<Post> posts = postRepository.findByPostSeq(postSeq);
+
+		// 게시글이 있을 경우에만
+		if(posts.isPresent()) {
+			List<Map<String, Object>> result = new LinkedList<>();
+			
+			List<Comment> comments = commentRepository.findCommentsPostSeq(postSeq);
+			
+			for (int i = 0; i < comments.size(); i++) {
+				Map<String, Object> obj = new HashMap<>();
+				
+				// 사용자 정보 - 사용자 사진, 닉네임 불러오기
+				User user = userRepository.findByUserSeq(comments.get(i).getUserSeq());
+				if(user != null) { // 사용자가 있을 경우에만
+					List<String> list = new LinkedList<String>();
+					list.add(user.getUserNickname());
+					list.add(user.getUserPhoto());
+					obj.put("userInfo", list);
+					obj.put("comment", comments.get(i));
+					result.add(obj);
+				}
+			}
+			return result;
+		}
+		return null;
 	}
 
 	// 댓글 삭제하기

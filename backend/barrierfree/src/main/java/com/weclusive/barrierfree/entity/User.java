@@ -47,7 +47,7 @@ public class User {
 	private char userRole = '0';
 
 	@Column(name = "del_yn")
-	private char delYn = 'n'; // 'y', 'n'
+	private char delYn = 'n';
 
 	@Column(name = "reg_dt")
 	private String regDt;
