@@ -174,6 +174,17 @@ public class PostController {
 			return new ResponseEntity<>(FAIL, HttpStatus.BAD_REQUEST);
 		}
 	}
+	
+	@PutMapping(value = "/comment/delete")
+	@ApiOperation(value = "댓글 삭제하기", response = List.class)
+	public ResponseEntity<Object> deleteComment(@RequestParam long cmtSeq) throws Exception {
+		Optional<Comment> result = commentService.deleteByCmtSeq(cmtSeq);
+
+		if(result == null)
+			return new ResponseEntity<>(FAIL + " : 해당 게시글이 존재하지 않습니다.", HttpStatus.BAD_REQUEST);
+		else
+			return new ResponseEntity<>(SUCCESS, HttpStatus.OK);
+	}
 
 }
 
