@@ -36,7 +36,7 @@ public class Comment {
 	private String cmtContent;
 	
 	@Column(name="del_yn")
-	private char delYn;
+	private char delYn = 'n';
 
 	@Column(name="reg_dt")
 	private String regDt;

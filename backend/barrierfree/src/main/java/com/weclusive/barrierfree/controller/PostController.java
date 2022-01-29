@@ -19,11 +19,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.weclusive.barrierfree.dto.CommentSave;
 import com.weclusive.barrierfree.dto.Impairment;
 import com.weclusive.barrierfree.dto.PostSave;
 import com.weclusive.barrierfree.dto.PostUpdate;
+import com.weclusive.barrierfree.entity.Comment;
 import com.weclusive.barrierfree.entity.Post;
 import com.weclusive.barrierfree.entity.PostImpairment;
+import com.weclusive.barrierfree.service.CommentService;
 import com.weclusive.barrierfree.service.PostService;
 import com.weclusive.barrierfree.service.PostServiceImpl;
 import com.weclusive.barrierfree.service.UserService;
@@ -47,6 +50,9 @@ public class PostController {
 
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private CommentService commentService;
 
 	@GetMapping("/all")
 	@ApiOperation(value = "게시글 전체목록 조회", notes = "모든 게시물의 모든 정보를 반환한다.", response = List.class)
@@ -83,6 +89,10 @@ public class PostController {
 		return result;
 	}
 
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// 게시글 
+
 	@GetMapping("/detail")
 	@ApiOperation(value = "게시글 상세 보기", notes = "게시글 정보, 장애 정보를 반환한다.", response = List.class)
 	public ResponseEntity<Object> detailPost(@RequestParam long postSeq) {
@@ -114,7 +124,6 @@ public class PostController {
 			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 		else
 			return new ResponseEntity<String>(FAIL, HttpStatus.BAD_REQUEST);
-
 	}
 
 	@PutMapping(value = "/updateImpairment")
@@ -153,4 +162,50 @@ public class PostController {
 
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// 댓글
+	@GetMapping("/comment/detail")
+	@ApiOperation(value = "댓글 보기", notes = "댓글 정보를 반환한다.", response = List.class)
+	public ResponseEntity<Object> readComment(@RequestParam long postSeq) {
+		List<Map<String, Object>> result = commentService.readComments(postSeq);
+		if (result != null) {
+			return new ResponseEntity<>(result, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(FAIL, HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@PutMapping(value = "/comment/delete")
+	@ApiOperation(value = "댓글 삭제하기", response = List.class)
+	public ResponseEntity<Object> deleteComment(@RequestParam long cmtSeq) throws Exception {
+		Optional<Comment> result = commentService.deleteByCmtSeq(cmtSeq);
+
+		if(result == null)
+			return new ResponseEntity<>(FAIL + " : 해당 게시글이 존재하지 않습니다.", HttpStatus.BAD_REQUEST);
+		else
+			return new ResponseEntity<>(SUCCESS, HttpStatus.OK);
+	}
+
+	@PutMapping(value = "/comment/update")
+	@ApiOperation(value = "댓글 수정하기", response = List.class)
+	public ResponseEntity<String> updatePost(@RequestParam long cmtSeq, @RequestBody String cmtContent) throws Exception {
+		int res = commentService.updateByCmtSeq(cmtSeq, cmtContent);
+
+		if (res == 1)
+			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+		else
+			return new ResponseEntity<String>(FAIL, HttpStatus.BAD_REQUEST);
+	}
+	
+	@PostMapping(value = "/comment/saveComment")
+	@ApiParam(value = "게시글, 장애 정보 저장하기", required = true)
+	public ResponseEntity<String> save(@RequestBody CommentSave cs) {
+		int res = commentService.saveComment(cs);
+		if (res == 1)
+			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+		else
+			return new ResponseEntity<String>(FAIL, HttpStatus.BAD_REQUEST);
+	}
+	
 }
+
