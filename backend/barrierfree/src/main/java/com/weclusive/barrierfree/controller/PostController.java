@@ -123,7 +123,6 @@ public class PostController {
 			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 		else
 			return new ResponseEntity<String>(FAIL, HttpStatus.BAD_REQUEST);
-
 	}
 
 	@PutMapping(value = "/updateImpairment")
@@ -186,5 +185,16 @@ public class PostController {
 			return new ResponseEntity<>(SUCCESS, HttpStatus.OK);
 	}
 
+	@PutMapping(value = "/comment/update")
+	@ApiOperation(value = "댓글 수정하기", response = List.class)
+	public ResponseEntity<String> updatePost(@RequestParam long cmtSeq, @RequestBody String cmtContent) throws Exception {
+		int res = commentService.updateByCmtSeq(cmtSeq, cmtContent);
+
+		if (res == 1)
+			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+		else
+			return new ResponseEntity<String>(FAIL, HttpStatus.BAD_REQUEST);
+	}
+	
 }
 

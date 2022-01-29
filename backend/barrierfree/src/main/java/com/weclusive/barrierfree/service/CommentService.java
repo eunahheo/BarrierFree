@@ -11,4 +11,6 @@ public interface CommentService {
 	public List<Comment> readComments(long postSeq);
 
 	public Optional<Comment> deleteByCmtSeq(long postSeq);
+
+	public int updateByCmtSeq(long cmtSeq, String cmtContent);
 }
