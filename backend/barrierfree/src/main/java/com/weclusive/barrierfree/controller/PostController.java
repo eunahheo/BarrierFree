@@ -22,8 +22,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.weclusive.barrierfree.dto.Impairment;
 import com.weclusive.barrierfree.dto.PostSave;
 import com.weclusive.barrierfree.dto.PostUpdate;
+import com.weclusive.barrierfree.entity.Comment;
 import com.weclusive.barrierfree.entity.Post;
 import com.weclusive.barrierfree.entity.PostImpairment;
+import com.weclusive.barrierfree.service.CommentService;
 import com.weclusive.barrierfree.service.PostService;
 import com.weclusive.barrierfree.service.PostServiceImpl;
 import com.weclusive.barrierfree.service.UserService;
@@ -47,6 +49,9 @@ public class PostController {
 
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private CommentService commentService;
 
 	@GetMapping("/all")
 	@ApiOperation(value = "게시글 전체목록 조회", notes = "모든 게시물의 모든 정보를 반환한다.", response = List.class)
@@ -82,6 +87,10 @@ public class PostController {
 		List<Map<String, Object>> result = postService.readPostFollowing(userSeq);
 		return result;
 	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// 게시글 
 
 	@GetMapping("/detail")
 	@ApiOperation(value = "게시글 상세 보기", notes = "게시글 정보, 장애 정보를 반환한다.", response = List.class)
@@ -153,4 +162,18 @@ public class PostController {
 
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// 댓글
+	@GetMapping("/comment/detail")
+	@ApiOperation(value = "댓글 전체 보기", notes = "댓글 정보를 반환한다.", response = List.class)
+	public ResponseEntity<Object> readComment(@RequestParam long postSeq) {
+		List<Comment> result = commentService.readComments(postSeq);
+		if (result != null) {
+			return new ResponseEntity<>(result, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(FAIL, HttpStatus.BAD_REQUEST);
+		}
+	}
+
 }
+
