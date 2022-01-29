@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.nimbusds.oauth2.sdk.util.StringUtils;
+import com.weclusive.barrierfree.dto.CommentSave;
 import com.weclusive.barrierfree.entity.Comment;
 import com.weclusive.barrierfree.entity.Post;
 import com.weclusive.barrierfree.entity.User;
@@ -23,7 +24,7 @@ public class CommentServiceImpl implements CommentService {
 
 	@Autowired
 	CommentRepository commentRepository;
-	
+
 	@Autowired
 	PostRepository postRepository;
 
@@ -33,53 +34,73 @@ public class CommentServiceImpl implements CommentService {
 	@Override
 	public List<Comment> readComments(long postSeq) {
 		List<Comment> comments = commentRepository.findCommentsPostSeq(postSeq);
-		if(comments.isEmpty())
+		if (comments.isEmpty())
 			return null;
 		else
 			return comments;
 	}
 
-
 	// 댓글 삭제하기
 	@Override
 	public Optional<Comment> deleteByCmtSeq(long cmtSeq) {
 		Optional<Comment> deleteComment = commentRepository.findByCmtSeq(cmtSeq);
-		
-		if(deleteComment != null) {
+
+		if (deleteComment != null) {
 			deleteComment.get().setDelYn('y');
 			commentRepository.save(deleteComment.get());
 			return deleteComment;
-		}
-		else
+		} else
 			return null;
 	}
-
 
 	// 댓글 수정하기
 	@Override
 	public int updateByCmtSeq(long cmtSeq, String cmtContent) {
 		Optional<Comment> curComment = commentRepository.findByCmtSeq(cmtSeq);
-		
-		if(curComment != null) {
-			if(cmtContent != null) {
-				
-			String regTime = TimeUtils.curTime();
 
-			String userId = returnUserId(curComment.get().getUserSeq());
-			
-			Comment updateComment = curComment.get();
-			updateComment.setCmtContent(cmtContent);
-			updateComment.setModDt(regTime);
-			updateComment.setModId(userId);
-			
-			commentRepository.save(updateComment);
-			return 1;
+		if (curComment != null) {
+			if (cmtContent != null) {
+
+				String regTime = TimeUtils.curTime();
+
+				String userId = returnUserId(curComment.get().getUserSeq());
+
+				Comment updateComment = curComment.get();
+				updateComment.setCmtContent(cmtContent);
+				updateComment.setModDt(regTime);
+				updateComment.setModId(userId);
+
+				commentRepository.save(updateComment);
+				return 1;
 			}
 		}
 		return 0;
 	}
 
-	
+	// 댓글 저장하기
+	@Override
+	public int saveComment(CommentSave cs) {
+		Optional<Post> post = postRepository.findByPostSeq(cs.getPostSeq());
+
+		if (post.isPresent()) {
+			String regTime = TimeUtils.curTime();
+			String userId = returnUserId(cs.getUserSeq());
+
+			Comment cmt = new Comment();
+			cmt.setUserSeq(cs.getUserSeq());
+			cmt.setPostSeq(cs.getPostSeq());
+			cmt.setCmtContent(cs.getCmtContent());
+			cmt.setRegDt(regTime);
+			cmt.setRegId(userId);
+			cmt.setModDt(regTime);
+			cmt.setModId(userId);
+			
+			commentRepository.save(cmt);
+			return 1;
+		}
+		return 0;
+	}
+
 	// userSeq -> userId
 	public String returnUserId(int userSeq) {
 		Optional<User> list = userRepository.findById(userSeq);

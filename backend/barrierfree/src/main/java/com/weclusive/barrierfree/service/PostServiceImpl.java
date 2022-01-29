@@ -499,7 +499,6 @@ public class PostServiceImpl implements PostService {
 			postImpairmentRepository.save(PostImpairment.builder().postSeq(postSeq).code("senior")
 					.regDt(TimeUtils.curTime()).regId(returnUserId(userSeq)).modDt(TimeUtils.curTime())
 					.modId(returnUserId(userSeq)).build());
-
 		}
 
 		return 1;

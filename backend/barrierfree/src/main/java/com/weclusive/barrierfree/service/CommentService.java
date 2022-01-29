@@ -3,8 +3,8 @@ package com.weclusive.barrierfree.service;
 import java.util.List;
 import java.util.Optional;
 
+import com.weclusive.barrierfree.dto.CommentSave;
 import com.weclusive.barrierfree.entity.Comment;
-import com.weclusive.barrierfree.entity.Post;
 
 public interface CommentService {
 
@@ -13,4 +13,6 @@ public interface CommentService {
 	public Optional<Comment> deleteByCmtSeq(long postSeq);
 
 	public int updateByCmtSeq(long cmtSeq, String cmtContent);
+
+	public int saveComment(CommentSave cs);
 }
