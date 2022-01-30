@@ -12,7 +12,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.weclusive.barrierfree.dto.UserFind;
 import com.weclusive.barrierfree.dto.UserJoin;
 import com.weclusive.barrierfree.dto.UserJoinKakao;
+import com.weclusive.barrierfree.dto.UserLoginDto;
 import com.weclusive.barrierfree.entity.Token;
 import com.weclusive.barrierfree.entity.User;
 import com.weclusive.barrierfree.repository.TokenRepository;
@@ -31,7 +31,6 @@ import com.weclusive.barrierfree.util.StringUtils;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 
 @RestController
 @CrossOrigin("*")
@@ -138,7 +137,7 @@ public class UserController {
 
 	@PostMapping("/login")
 	@ApiOperation(value = "로그인", notes = "사용자 로그인")
-	public ResponseEntity<Map<String, Object>> login(@RequestBody User loginUser) {
+	public ResponseEntity<Map<String, Object>> login(@RequestBody UserLoginDto loginUser) {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		HttpStatus status = null;
 		try {
@@ -159,37 +158,6 @@ public class UserController {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
-		return new ResponseEntity<Map<String, Object>>(resultMap, status);
-	}
-
-	@GetMapping("/info/{userid}")
-	@ApiOperation(value = "회원인증", notes = "회원 정보를 담은 Token을 반환한다.")
-	public ResponseEntity<Map<String, Object>> getInfo(
-			@PathVariable("userid") @ApiParam(value = "인증할 회원의 아이디.", required = true) String userid,
-			HttpServletRequest request) {
-		// logger.debug("userid : {} ", userid);
-		Map<String, Object> resultMap = new HashMap<>();
-		HttpStatus status = HttpStatus.ACCEPTED;
-		if (jwtTokenProvider.isUsable(request.getHeader("access-token"))) {
-			System.out.println("사용 가능한 토큰");
-			// logger.info("사용 가능한 토큰!!!");
-			try {
-				// 로그인 사용자 정보.
-				User loginUser = userService.findByUserId(userid);
-				System.out.println(loginUser);
-				resultMap.put("userInfo", loginUser);
-				resultMap.put("message", SUCCESS);
-				status = HttpStatus.ACCEPTED;
-			} catch (Exception e) {
-				System.out.println("정보조회 실패 : {}" + e);
-				resultMap.put("message", e.getMessage());
-				status = HttpStatus.INTERNAL_SERVER_ERROR;
-			}
-		} else {
-			System.out.println("사용 불가능 토큰!!!");
-			resultMap.put("message", FAIL); // 사용 불가능 토큰
-			status = HttpStatus.ACCEPTED;
 		}
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}

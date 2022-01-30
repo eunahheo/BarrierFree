@@ -2,7 +2,6 @@ package com.weclusive.barrierfree.util;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Date;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.xml.bind.DatatypeConverter;
@@ -13,11 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.weclusive.barrierfree.entity.User;
-import com.weclusive.barrierfree.repository.TokenRepository;
 import com.weclusive.barrierfree.service.UserService;
 
 import io.jsonwebtoken.Claims;

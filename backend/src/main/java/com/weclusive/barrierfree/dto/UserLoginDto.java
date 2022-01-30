@@ -9,14 +9,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class UserJoin {
+public class UserLoginDto {
 	private String userId;
-	private String userNickname;
 	private String userPwd;
-	private String userEmail;
-	private int physical;
-	private int visibility;
-	private int deaf;
-	private int infant;
-	private int senior;
 }

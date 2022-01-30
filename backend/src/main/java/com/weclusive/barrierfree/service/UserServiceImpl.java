@@ -16,6 +16,8 @@ import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +27,7 @@ import com.weclusive.barrierfree.dto.Email;
 import com.weclusive.barrierfree.dto.Impairment;
 import com.weclusive.barrierfree.dto.UserJoin;
 import com.weclusive.barrierfree.dto.UserJoinKakao;
+import com.weclusive.barrierfree.dto.UserLoginDto;
 import com.weclusive.barrierfree.entity.Token;
 import com.weclusive.barrierfree.entity.User;
 import com.weclusive.barrierfree.entity.UserImpairment;
@@ -32,6 +35,7 @@ import com.weclusive.barrierfree.repository.TokenRepository;
 import com.weclusive.barrierfree.repository.UserImpairmentRepository;
 import com.weclusive.barrierfree.repository.UserRepository;
 import com.weclusive.barrierfree.util.JwtTokenProvider;
+import com.weclusive.barrierfree.util.JwtUtil;
 import com.weclusive.barrierfree.util.MailContentBuilder;
 import com.weclusive.barrierfree.util.StringUtils;
 
@@ -58,6 +62,12 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private JwtTokenProvider jwtTokenProvider;
+	
+	@Autowired
+	private JwtUtil jwtUtil;
+	@Autowired
+	private AuthenticationManager authenticationManager;
+
 
 	// 회원 등록
 	@Override
@@ -167,7 +177,7 @@ public class UserServiceImpl implements UserService {
 	// 일치하면 true 리턴
 	// 불일치하면 false 리턴
 	@Override
-	public boolean encodePassword(User loginUser) {
+	public boolean encodePassword(UserLoginDto loginUser) {
 		User user = userRepository.findByUserId(loginUser.getUserId());
 
 		if (!passwordEncoder.matches(loginUser.getUserPwd(), user.getUserPwd()))
@@ -186,8 +196,13 @@ public class UserServiceImpl implements UserService {
 	// AccessToken 생성
 	@Override
 	public String createAccessToken(User user) {
-		return jwtTokenProvider.createToken(user.getUserId());
-
+		try {
+			authenticationManager.authenticate(
+			new UsernamePasswordAuthenticationToken(user.getUserId(), user.getUserPwd()));
+		} catch (Exception e) {
+			System.out.println(e.getMessage()); 
+		}
+		return jwtUtil.generateAccessToken(user.getUserId());		
 	}
 
 	// refreshToken 재발급

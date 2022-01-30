@@ -3,6 +3,7 @@ package com.weclusive.barrierfree.service;
 import com.weclusive.barrierfree.dto.Impairment;
 import com.weclusive.barrierfree.dto.UserJoin;
 import com.weclusive.barrierfree.dto.UserJoinKakao;
+import com.weclusive.barrierfree.dto.UserLoginDto;
 import com.weclusive.barrierfree.entity.User;
 
 public interface UserService {
@@ -16,7 +17,7 @@ public interface UserService {
 
 	public void email_certified_update(User user);
 
-	public boolean encodePassword(User loginUser) throws Exception;
+	public boolean encodePassword(UserLoginDto loginUser) throws Exception;
 
 	// User
 	public User findByUserId(String userId);
