@@ -22,34 +22,33 @@ import lombok.AllArgsConstructor;
 @RequestMapping("/othersFeed")
 @Api("다른 사람 피드 보기")
 public class OthersFeedController {
-	private static final String SUCCESS = "success";
+//	private static final String SUCCESS = "success";
 	private static final String FAIL = "fail";
-	
+
 	@Autowired
 	private OthersFeedService othersfeedService;
-	
+
 	@GetMapping("/main")
 	@ApiOperation(value = "피드 상단 내용 보기", notes = "프로필 사진, 닉네임, 게시글 수, 팔로잉 수, 팔로워 수를 반환한다.", response = List.class)
 	// 상대방의 userSeq 보내기
-	public ResponseEntity<Object> mainFeed(@RequestParam int userSeq) {
-		Map<String, Object> result = othersfeedService.readOthersFeed(userSeq);
+	public ResponseEntity<Object> mainFeed(@RequestParam int otherUserSeq) {
+		Map<String, Object> result = othersfeedService.readOthersFeed(otherUserSeq);
 		if (result != null) {
 			return new ResponseEntity<>(result, HttpStatus.OK);
 		} else {
-			return new ResponseEntity<>(FAIL + " : 해당 게시글이 존재하지 않습니다.", HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(FAIL, HttpStatus.BAD_REQUEST);
 		}
 	}
-	
 
 	@GetMapping("/postAll")
-	@ApiOperation(value = "피드 상단 내용 보기", notes = "프로필 사진, 닉네임, 게시글 수, 팔로잉 수, 팔로워 수를 반환한다.", response = List.class)
+	@ApiOperation(value = "상대방 게시글 보기", notes = "상대방의 게시글을 스크랩 여부를 포함하여 반환한다.", response = List.class)
 	// 상대방의 userSeq 보내기
 	public ResponseEntity<Object> postAll(@RequestParam int userSeq, @RequestParam int otherUserSeq) {
-		Map<String, Object> result = othersfeedService.readOthersPost(otherUserSeq, userSeq);
+		List<Map<String, Object>> result = othersfeedService.readOthersPost(otherUserSeq, userSeq);
 		if (result != null) {
 			return new ResponseEntity<>(result, HttpStatus.OK);
 		} else {
-			return new ResponseEntity<>(FAIL + " : 해당 게시글이 존재하지 않습니다.", HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(" : 해당 게시글이 존재하지 않습니다.", HttpStatus.BAD_REQUEST);
 		}
 	}
 }
