@@ -503,7 +503,7 @@ public class PostServiceImpl implements PostService {
 
 		return 1;
 	}
-
+	
 	// 게시글 장애정보 저장하기
 	public PostImpairment save(PostImpairment postImpairment) {
 		postImpairmentRepository.save(postImpairment);

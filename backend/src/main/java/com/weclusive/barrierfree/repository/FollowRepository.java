@@ -1,6 +1,7 @@
 package com.weclusive.barrierfree.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -23,6 +24,14 @@ public interface FollowRepository extends JpaRepository<Follow, Long> {
 	// 팔로워 수
 	@Query(value = "SELECT COUNT(f) FROM Follow f WHERE f.delYn = 'n' AND f.followingSeq = ?1")
 	public int countFollower(int userSeq);
+	
+	// 팔로잉 목록
+	@Query(value="SELECT followingSeq FROM Follow f WHERE f.delYn = 'n' AND f.userSeq = ?1")
+	public List<Integer> findFollowings(int userSeq);
+
+	// 팔로워 목록
+	@Query(value="SELECT userSeq FROM Follow f WHERE f.delYn = 'n' AND f.followingSeq = ?1")
+	public List<Integer> findFollowers(int userSeq);
 
 	// otherUserSeq가 팔로잉하는 목록
 	@Query(value = "SELECT f FROM Follow f WHERE f.delYn = 'n' AND f.userSeq = ?1")
@@ -34,3 +43,4 @@ public interface FollowRepository extends JpaRepository<Follow, Long> {
 	// otherUserSeq를 팔로잉 하는 목록 = otherUserSeq의 팔로워
 	public List<Follow> findByFollowingSeq(int otherUserSeq);
 }
+

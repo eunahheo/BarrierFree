@@ -25,5 +25,4 @@ public interface PostService {
 	public PostImpairment savePostImpairment(Impairment impairment, long postSeq);
 	public int savePost(PostSave ps);
 
-
 }
