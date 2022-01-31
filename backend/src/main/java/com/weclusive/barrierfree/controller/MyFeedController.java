@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.weclusive.barrierfree.service.FeedService;
+import com.weclusive.barrierfree.service.MyFeedService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -26,12 +26,12 @@ public class MyFeedController {
 	private static final String FAIL = "fail";
 	
 	@Autowired
-	private FeedService feedService;
+	private MyFeedService myfeedService;
 	
 	@GetMapping("/main")
 	@ApiOperation(value = "피드 상단 내용 보기", notes = "프로필 사진, 닉네임, 게시글 수, 팔로잉 수, 팔로워 수, 스크랩 게시글 수를 반환한다.", response = List.class)
 	public ResponseEntity<Object> mainFeed(@RequestParam int userSeq) {
-		List<Map<String, Object>> result = feedService.readMyFeed(userSeq);
+		List<Map<String, Object>> result = myfeedService.readMyFeed(userSeq);
 		if (result != null) {
 			return new ResponseEntity<>(result, HttpStatus.OK);
 		} else {

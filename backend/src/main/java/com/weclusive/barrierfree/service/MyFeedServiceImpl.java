@@ -16,7 +16,7 @@ import com.weclusive.barrierfree.repository.ScrapRepository;
 import com.weclusive.barrierfree.repository.UserRepository;
 
 @Service
-public class FeedServiceImpl implements FeedService {
+public class MyFeedServiceImpl implements MyFeedService {
 	
 	@Autowired
 	UserRepository userRepository;
@@ -53,27 +53,5 @@ public class FeedServiceImpl implements FeedService {
 		return null;
 		
 	}
-
-	@Override
-	public List<Map<String, Object>> readOthersFeed(int userSeq){
-		List<Map<String, Object>> result = new LinkedList<>();
-		
-		Map<String, Object> obj = new HashMap<>();
-		
-		Optional<User> user = userRepository.findAllByUserSeq(userSeq);
-		
-		if(user.isPresent()) {
-			obj.put("userNickname", user.get().getUserNickname());
-			obj.put("userPhoto", user.get().getUserPhoto());
-			obj.put("writePost", postRepository.countByUserSeq(userSeq));
-			obj.put("following", followRepository.countFollowing(userSeq));
-			obj.put("follower", followRepository.countFollower(userSeq));
-			result.add(obj);
-			return result;
-		}
-		return null;
-		
-	}
-	
 	
 }
