@@ -4,7 +4,14 @@ import java.util.List;
 import java.util.Map;
 
 public interface OthersFeedService {
-	
-	public List<Map<String, Object>> readOthersFeed(int userSeq);
+
+	public Map<String, Object> readOthersFeed(int otherUserSeq);
+
+	public List<Map<String, Object>> readOthersPost(int otherUserSeq, int userSeq);
+
+	public List<Map<String, Object>> readOthersFollowing(int otherUserSeq, int userSeq);
+
+	public List<Map<String, Object>> readOthersFollower(int otherUserSeq, int userSeq);
+
 
 }

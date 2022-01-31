@@ -10,9 +10,9 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,16 +22,17 @@ import org.springframework.web.bind.annotation.RestController;
 import com.weclusive.barrierfree.dto.UserFind;
 import com.weclusive.barrierfree.dto.UserJoin;
 import com.weclusive.barrierfree.dto.UserJoinKakao;
+import com.weclusive.barrierfree.dto.UserLoginDto;
 import com.weclusive.barrierfree.entity.Token;
 import com.weclusive.barrierfree.entity.User;
 import com.weclusive.barrierfree.repository.TokenRepository;
+import com.weclusive.barrierfree.service.CustomUserDetailsService;
 import com.weclusive.barrierfree.service.UserService;
-import com.weclusive.barrierfree.util.JwtTokenProvider;
+import com.weclusive.barrierfree.util.JwtUtil;
 import com.weclusive.barrierfree.util.StringUtils;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 
 @RestController
 @CrossOrigin("*")
@@ -46,10 +47,13 @@ public class UserController {
 	private UserService userService;
 
 	@Autowired
-	private JwtTokenProvider jwtTokenProvider;
-
+	private JwtUtil jwtUtil;
+	
 	@Autowired
 	private TokenRepository tokenRepository;
+	
+	@Autowired
+	private CustomUserDetailsService service;
 
 	@PostMapping("/join")
 	@ApiOperation(value = "회원가입", notes = "사용자가 입력한 회원정보를 등록한다.")
@@ -82,7 +86,7 @@ public class UserController {
 		return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 	}
 
-	@GetMapping("/login/kakao")
+	@PostMapping("/login/kakao")
 	@ApiOperation(value = "Kakao 로그인", notes = "카카오 로그인 Api로 로그인한다.")
 	public ResponseEntity<Map<String, Object>> kakaoLogin(@RequestParam String code) {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
@@ -108,7 +112,8 @@ public class UserController {
 		User user = (User) userService.findByUserId(kakaoUser.getUserId());
 		Token refToken = tokenRepository.findByUserSeq(user.getUserSeq());
 
-		if (refToken == null || !jwtTokenProvider.isValidRefreshToken(refToken.getTokenRefTK())) { // refreshToken이
+		UserDetails userDetails = service.loadUserByUsername(user.getUserId());
+		if (refToken == null || !jwtUtil.validateToken(refToken.getTokenRefTK(), userDetails)) { // refreshToken이
 																									// 유효하지 않다면
 			userService.createRefreshToken(user);
 		} // db에 저장하기
@@ -138,7 +143,7 @@ public class UserController {
 
 	@PostMapping("/login")
 	@ApiOperation(value = "로그인", notes = "사용자 로그인")
-	public ResponseEntity<Map<String, Object>> login(@RequestBody User loginUser) {
+	public ResponseEntity<Map<String, Object>> login(@RequestBody UserLoginDto loginUser) {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		HttpStatus status = null;
 		try {
@@ -149,7 +154,8 @@ public class UserController {
 			} else {
 				User user = (User) userService.findByUserId(loginUser.getUserId());
 				Token refToken = tokenRepository.findByUserSeq(user.getUserSeq());
-				if (refToken == null || !jwtTokenProvider.isValidRefreshToken(refToken.getTokenRefTK())) { // refreshToken이
+				UserDetails userDetails = service.loadUserByUsername(user.getUserId());
+				if (refToken == null || !jwtUtil.validateToken(refToken.getTokenRefTK(), userDetails)) { // refreshToken이
 																											// 유효하지 않다면
 					userService.createRefreshToken(user);
 				}
@@ -163,39 +169,8 @@ public class UserController {
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
 
-	@GetMapping("/info/{userid}")
-	@ApiOperation(value = "회원인증", notes = "회원 정보를 담은 Token을 반환한다.")
-	public ResponseEntity<Map<String, Object>> getInfo(
-			@PathVariable("userid") @ApiParam(value = "인증할 회원의 아이디.", required = true) String userid,
-			HttpServletRequest request) {
-		// logger.debug("userid : {} ", userid);
-		Map<String, Object> resultMap = new HashMap<>();
-		HttpStatus status = HttpStatus.ACCEPTED;
-		if (jwtTokenProvider.isUsable(request.getHeader("access-token"))) {
-			System.out.println("사용 가능한 토큰");
-			// logger.info("사용 가능한 토큰!!!");
-			try {
-				// 로그인 사용자 정보.
-				User loginUser = userService.findByUserId(userid);
-				System.out.println(loginUser);
-				resultMap.put("userInfo", loginUser);
-				resultMap.put("message", SUCCESS);
-				status = HttpStatus.ACCEPTED;
-			} catch (Exception e) {
-				System.out.println("정보조회 실패 : {}" + e);
-				resultMap.put("message", e.getMessage());
-				status = HttpStatus.INTERNAL_SERVER_ERROR;
-			}
-		} else {
-			System.out.println("사용 불가능 토큰!!!");
-			resultMap.put("message", FAIL); // 사용 불가능 토큰
-			status = HttpStatus.ACCEPTED;
-		}
-		return new ResponseEntity<Map<String, Object>>(resultMap, status);
-	}
-
 	// 사용자 아이디 중복확인
-	@GetMapping("/check/id")
+	@PostMapping("/check/id")
 	@ApiOperation(value = "아이디 중복 확인", notes = "아이디 중복 여부를 반환한다.")
 	public ResponseEntity<String> checkId(@RequestParam String userId) {
 		User user = (User) userService.findByUserId(userId);
@@ -207,7 +182,7 @@ public class UserController {
 	}
 
 	// 사용자 닉네임 중복확인
-	@GetMapping("/check/nickname")
+	@PostMapping("/check/nickname")
 	@ApiOperation(value = "닉네임 중복 여부", notes = "닉네임 중복 여부를 반환한다.")
 	public ResponseEntity<String> checkNickname(@RequestParam String userNickname) {
 		User user = userService.findByUserNickname(userNickname);
@@ -220,7 +195,7 @@ public class UserController {
 
 	@GetMapping("/find/id")
 	@ApiOperation(value = "아이디 찾기", notes = "아이디 앞 네 자리만 보여준다.")
-	public ResponseEntity<String> findId(@RequestBody String userEmail) {
+	public ResponseEntity<String> findId(@RequestParam String userEmail) {
 		User user = userService.findByUserEmail(userEmail);
 
 		if (user == null) {
