@@ -170,7 +170,7 @@ public class UserController {
 	}
 
 	// 사용자 아이디 중복확인
-	@GetMapping("/check/id")
+	@PostMapping("/check/id")
 	@ApiOperation(value = "아이디 중복 확인", notes = "아이디 중복 여부를 반환한다.")
 	public ResponseEntity<String> checkId(@RequestParam String userId) {
 		User user = (User) userService.findByUserId(userId);
@@ -182,7 +182,7 @@ public class UserController {
 	}
 
 	// 사용자 닉네임 중복확인
-	@GetMapping("/check/nickname")
+	@PostMapping("/check/nickname")
 	@ApiOperation(value = "닉네임 중복 여부", notes = "닉네임 중복 여부를 반환한다.")
 	public ResponseEntity<String> checkNickname(@RequestParam String userNickname) {
 		User user = userService.findByUserNickname(userNickname);
