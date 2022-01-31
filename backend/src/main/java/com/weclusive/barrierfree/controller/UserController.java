@@ -10,6 +10,7 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,8 +26,9 @@ import com.weclusive.barrierfree.dto.UserLoginDto;
 import com.weclusive.barrierfree.entity.Token;
 import com.weclusive.barrierfree.entity.User;
 import com.weclusive.barrierfree.repository.TokenRepository;
+import com.weclusive.barrierfree.service.CustomUserDetailsService;
 import com.weclusive.barrierfree.service.UserService;
-import com.weclusive.barrierfree.util.JwtTokenProvider;
+import com.weclusive.barrierfree.util.JwtUtil;
 import com.weclusive.barrierfree.util.StringUtils;
 
 import io.swagger.annotations.Api;
@@ -45,10 +47,13 @@ public class UserController {
 	private UserService userService;
 
 	@Autowired
-	private JwtTokenProvider jwtTokenProvider;
-
+	private JwtUtil jwtUtil;
+	
 	@Autowired
 	private TokenRepository tokenRepository;
+	
+	@Autowired
+	private CustomUserDetailsService service;
 
 	@PostMapping("/join")
 	@ApiOperation(value = "회원가입", notes = "사용자가 입력한 회원정보를 등록한다.")
@@ -81,7 +86,7 @@ public class UserController {
 		return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 	}
 
-	@GetMapping("/login/kakao")
+	@PostMapping("/login/kakao")
 	@ApiOperation(value = "Kakao 로그인", notes = "카카오 로그인 Api로 로그인한다.")
 	public ResponseEntity<Map<String, Object>> kakaoLogin(@RequestParam String code) {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
@@ -107,7 +112,8 @@ public class UserController {
 		User user = (User) userService.findByUserId(kakaoUser.getUserId());
 		Token refToken = tokenRepository.findByUserSeq(user.getUserSeq());
 
-		if (refToken == null || !jwtTokenProvider.isValidRefreshToken(refToken.getTokenRefTK())) { // refreshToken이
+		UserDetails userDetails = service.loadUserByUsername(user.getUserId());
+		if (refToken == null || !jwtUtil.validateToken(refToken.getTokenRefTK(), userDetails)) { // refreshToken이
 																									// 유효하지 않다면
 			userService.createRefreshToken(user);
 		} // db에 저장하기
@@ -148,7 +154,8 @@ public class UserController {
 			} else {
 				User user = (User) userService.findByUserId(loginUser.getUserId());
 				Token refToken = tokenRepository.findByUserSeq(user.getUserSeq());
-				if (refToken == null || !jwtTokenProvider.isValidRefreshToken(refToken.getTokenRefTK())) { // refreshToken이
+				UserDetails userDetails = service.loadUserByUsername(user.getUserId());
+				if (refToken == null || !jwtUtil.validateToken(refToken.getTokenRefTK(), userDetails)) { // refreshToken이
 																											// 유효하지 않다면
 					userService.createRefreshToken(user);
 				}

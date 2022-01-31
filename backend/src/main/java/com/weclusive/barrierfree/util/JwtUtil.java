@@ -58,23 +58,28 @@ public class JwtUtil {
 
 	// Access Token 만들기
 	private String createAccessToken(Map<String, Object> claims, String subject) {
-		return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(new Date(System.currentTimeMillis()))
+		return Jwts.builder()
+				.setClaims(claims)
+				.setSubject(subject)
+				.setIssuedAt(new Date(System.currentTimeMillis()))
 				.setExpiration(new Date(System.currentTimeMillis() + EXPIRE_MINUTES))
 				.signWith(SignatureAlgorithm.HS256, secret).compact();
 	}
 	
 	// Refresh Token 만들기
 	private String createRefreshToken(Map<String, Object> claims, String subject) {
-		return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(new Date(System.currentTimeMillis()))
+		return Jwts.builder()
+				.setClaims(claims)
+				.setSubject(subject)
+				.setIssuedAt(new Date(System.currentTimeMillis()))
 				.setExpiration(new Date(System.currentTimeMillis() + REFRESH_EXPIRE_MINUTES))
 				.signWith(SignatureAlgorithm.HS256, secret).compact();
 	}
 
 	// token 유효성 확인
-	// 아이디 확인, 유효시간 호가인
+	// 아이디 확인, 유효시간 확인
 	public Boolean validateToken(String token, UserDetails userDetails) {
 		final String userId = extractUserId(token);
 		return (userId.equals(userDetails.getUsername()) && !isTokenExpired(token));
 	}
-
 }

@@ -25,6 +25,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 	@Autowired
 	private JwtUtil jwtUtil;
+	
 	@Autowired
 	private CustomUserDetailsService service;
 
@@ -32,9 +33,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 	protected void doFilterInternal(HttpServletRequest httpServletRequest,
 			HttpServletResponse httpServletResponse,
 			FilterChain filterChain) throws ServletException, IOException {
+		
 		String authorizationHeader = httpServletRequest.getHeader("Authorization"); // 헤더
+		
 		String token = null;
 		String userId = null;
+		
 		if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
 			token = authorizationHeader.substring(7); // access-token 
 			userId = jwtUtil.extractUserId(token);  // access-token에서 userId 추출
@@ -42,6 +46,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 		
 		// userId가 있고, SecurityContextHolder.getContext().getAuthentication()이 비어 있다면 최초 인증이라는 뜻!
 		if (userId != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+			
 			UserDetails userDetails = service.loadUserByUsername(userId);
 
 			if (jwtUtil.validateToken(token, userDetails)) {

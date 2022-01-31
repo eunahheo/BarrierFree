@@ -43,5 +43,7 @@ public interface UserService {
 	// 회원의 장애 정보 가져오기
 	public Impairment readUserImpairment(int userSeq);
 
+	public User findByUserSeq(int userSeq);
+
 
 }

@@ -34,7 +34,6 @@ import com.weclusive.barrierfree.entity.UserImpairment;
 import com.weclusive.barrierfree.repository.TokenRepository;
 import com.weclusive.barrierfree.repository.UserImpairmentRepository;
 import com.weclusive.barrierfree.repository.UserRepository;
-import com.weclusive.barrierfree.util.JwtTokenProvider;
 import com.weclusive.barrierfree.util.JwtUtil;
 import com.weclusive.barrierfree.util.MailContentBuilder;
 import com.weclusive.barrierfree.util.StringUtils;
@@ -59,12 +58,10 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private MailContentBuilder mailContentBuilder;
-
-	@Autowired
-	private JwtTokenProvider jwtTokenProvider;
-	
+ 
 	@Autowired
 	private JwtUtil jwtUtil;
+	
 	@Autowired
 	private AuthenticationManager authenticationManager;
 
@@ -189,7 +186,7 @@ public class UserServiceImpl implements UserService {
 	// refresh token 생성 후 DB에 저장
 	@Override
 	public void createRefreshToken(User user) {
-		String ref_token = jwtTokenProvider.createRefreshToken();
+		String ref_token = jwtUtil.generateRefreshToken((user.getUserId()));
 		tokenRepository.save(Token.builder().userSeq(user.getUserSeq()).tokenRefTK(ref_token).build());
 	}
 
@@ -423,5 +420,11 @@ public class UserServiceImpl implements UserService {
 			return ui;
 		}
 		return null;
+	}
+
+	@Override
+	public User findByUserSeq(int userSeq) {
+		User user = userRepository.findByUserSeq(userSeq);
+		return user;
 	}
 }
