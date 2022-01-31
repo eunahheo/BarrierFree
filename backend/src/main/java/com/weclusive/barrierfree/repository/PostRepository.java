@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import com.weclusive.barrierfree.entity.Post;
 import com.weclusive.barrierfree.entity.User;
 
+@Repository
 public interface PostRepository extends JpaRepository<Post, Long> {
 	
 	// 모든 게시글(삭제된 글 포함) 검색
@@ -38,5 +39,9 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 	// 회원의 게시글 수 반환
 	@Query(value="SELECT COUNT(p) FROM Post p WHERE p.delYn = 'n' AND p.userSeq = ?1")
 	public int countByUserSeq(int userSeq);
+	
+	// 회원의 게시글 전체 반환(최신순)
+	@Query(value="SELECT p FROM Post p WHERE p.delYn = 'n' AND p.userSeq = ?1 ORDER BY p.regDt DESC")
+	public List<Post> findByAllPosts(int userSeq);
 	
 }
