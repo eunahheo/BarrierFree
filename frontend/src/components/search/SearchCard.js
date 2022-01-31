@@ -21,7 +21,7 @@ const SearchCard = ({ item }) => {
             {post_location}
           </Typography>
             {post_title}
-          <RecommendBarrierIcon barriers={barriers}></RecommendBarrierIcon>
+          {/* <RecommendBarrierIcon barriers={barriers}></RecommendBarrierIcon> */}
         </CardContent>
 
       </Card>
