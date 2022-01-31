@@ -3,31 +3,72 @@ package com.weclusive.barrierfree.util;
 import java.io.IOException;
 
 import javax.servlet.FilterChain;
-import javax.servlet.GenericFilter;
 import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.security.core.Authentication;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
+import org.springframework.stereotype.Component;
+import org.springframework.web.filter.OncePerRequestFilter;
+
+import com.weclusive.barrierfree.service.CustomUserDetailsService;
 
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class JwtAuthenticationFilter extends GenericFilter {
+@Component
+public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
-	private final JwtTokenProvider jwtTokenProvider;
+	@Autowired
+	private JwtUtil jwtUtil;
+	
+	@Autowired
+	private CustomUserDetailsService service;
 
 	@Override
-	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
-			throws IOException, ServletException {
-		String token = jwtTokenProvider.resolveToken((HttpServletRequest) request);
-
-		if (token != null && jwtTokenProvider.isUsable(token)) {
-			Authentication auth = jwtTokenProvider.getAuthentication(token);
-			SecurityContextHolder.getContext().setAuthentication(auth);
+	protected void doFilterInternal(HttpServletRequest httpServletRequest,
+			HttpServletResponse httpServletResponse,
+			FilterChain filterChain) throws ServletException, IOException {
+		
+		String authorizationHeader = httpServletRequest.getHeader("Authorization"); // 헤더
+		
+		String token = null;
+		String userId = null;
+		
+		if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+			token = authorizationHeader.substring(7); // access-token 
+			userId = jwtUtil.extractUserId(token);  // access-token에서 userId 추출
 		}
-		chain.doFilter(request, response);
+		
+		// userId가 있고, SecurityContextHolder.getContext().getAuthentication()이 비어 있다면 최초 인증이라는 뜻!
+		if (userId != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+			
+			UserDetails userDetails = service.loadUserByUsername(userId);
+
+			if (jwtUtil.validateToken(token, userDetails)) {
+				UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
+						userDetails, null, userDetails.getAuthorities());
+				usernamePasswordAuthenticationToken
+						.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpServletRequest));
+				SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
+			}
+		}
+		filterChain.doFilter(httpServletRequest, httpServletResponse);
 	}
+
+//	@Override
+//	public void doFilter(HttpServletRequest request, ServletResponse response, FilterChain chain)
+//			throws IOException, ServletException {
+//		String access_token = jwtTokenProvider.resolveToken((HttpServletRequest) request);
+//
+//		if (access_token != null && jwtTokenProvider.isUsable(access_token)) {
+//			Authentication auth = jwtTokenProvider.getAuthentication(access_token);
+//			SecurityContextHolder.getContext().setAuthentication(auth);
+//		}
+//		chain.doFilter(request, response);
+//	}
 }
