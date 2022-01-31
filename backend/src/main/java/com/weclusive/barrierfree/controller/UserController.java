@@ -195,7 +195,7 @@ public class UserController {
 
 	@GetMapping("/find/id")
 	@ApiOperation(value = "아이디 찾기", notes = "아이디 앞 네 자리만 보여준다.")
-	public ResponseEntity<String> findId(@RequestBody String userEmail) {
+	public ResponseEntity<String> findId(@RequestParam String userEmail) {
 		User user = userService.findByUserEmail(userEmail);
 
 		if (user == null) {

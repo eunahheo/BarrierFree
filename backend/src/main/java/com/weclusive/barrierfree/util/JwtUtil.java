@@ -38,7 +38,7 @@ public class JwtUtil {
 	
 	// token에서 모든 Claim 추출
 	private Claims extractAllClaims(String token) {
-		return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
+		return Jwts.parser().setSigningKey(secret.getBytes()).parseClaimsJws(token).getBody();
 	}
 
 	// token 유효시간 확인
