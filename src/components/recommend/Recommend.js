@@ -15,29 +15,70 @@ const Recommend = () => {
   const [itemList, setItemList] = useState([]);
   const [category, setCategory] = useState('all');
   const onSelect = useCallback(category => (setCategory(category), console.log(category)), [])
+
+  // 시도 설정
+  const [cityList, setCityList] = useState([]);
+  const [townList, setTownList] = useState([]);
+  const [city, setCity] = useState('');
+  const [town, setTown] = useState('');
+
   useEffect(() => {
+    const setRecommendPage = () => {
+      axios(
+        {
+          method: 'GET',
+          url:'post/all?userSeq=1'
+        }
+      ).then(function (res) {
+        setItemList(res.data)
+      });
+    }
+    
+    const setCityDropdown = () => {
+      axios(
+        {
+          method: 'GET',
+          url: 'recommend/sido'
+        }
+      ).then(function (res) {
+        console.log(res.data)
+        setCityList(res.data)
+      });
+    }
+    setRecommendPage();
+    setCityDropdown();
+  }, []);
+
+
+  const selectTown = () => {
+    const sidoCode = city
     axios(
       {
-        url:'post/all?userSeq=1'
-      }
-    ).then(function (res) {
-      setItemList(res.data)
-    });
-  }, [])
-
-  const [city, setCity] = React.useState('');
-  const [town, setTown] = React.useState('');
-
+        url: 'recommend/sigungu',
+        method: 'GET',
+        params: {sidoCode: sidoCode}
+      }).then(function (res) {
+        console.log(res)
+        setTownList(res.data)
+        console.log(townList)
+      })
+  };
+  
   const handelChangeCity = (event) => {
-    setCity(event.target.value)
+    console.log(event)
+    setCity(event.target.value);
+    console.log(city)
+    selectTown();
   }
   
   const handelChangeTown = (event) => {
+    console.log(event.target)
     setTown(event.target.value)
+    console.log(town)
   }
   
+
   const onClickBarrier = (res) => {
-    console.log(res.target.id)
     const barrier = res.target.id
     axios(
       {
@@ -46,7 +87,7 @@ const Recommend = () => {
       }
     ).then(function (res) {
       setItemList(res.data)
-      console.log(res.data)
+      // console.log(res.data)
     })
   }
 
@@ -72,9 +113,9 @@ const Recommend = () => {
             value={city}
             onChange={handelChangeCity}
             label="시도">
-              <MenuItem value="서울">서울</MenuItem>
-              <MenuItem value="경기">경기</MenuItem>
-              <MenuItem value="강원">강원</MenuItem>
+              {cityList.map(city => (
+                <MenuItem name={city.name} value={city.code} key={city.rnum}>{city.name}</MenuItem>
+              ))}
             </Select>
           </FormControl>
           <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
@@ -85,9 +126,9 @@ const Recommend = () => {
             value={town}
             onChange={handelChangeTown}
             label="시도">
-              <MenuItem value="서울">서울</MenuItem>
-              <MenuItem value="경기">경기</MenuItem>
-              <MenuItem value="강원">강원</MenuItem>
+              {townList.map(town => (
+                <MenuItem name={town.name} value={town.code} key={town.rnum}>{town.name}</MenuItem>
+              ))}
             </Select>
           </FormControl>
           <div>

@@ -7,6 +7,7 @@ import Navbar from "./components/Navbar";
 import UserPage from "./routes/UserPage";
 import User from "./routes/User";
 import Search from "./components/search/Search";
+import Login from "./components/user/Login"
 import {
   BrowserRouter as Router,
   Route,
@@ -29,6 +30,7 @@ function App() {
           <Route path="/recommend" exact={true} element={<Recommend />}></Route>
           <Route path="/user" exact={true} element={<User />}></Route>
           {/* <Route path="/signup" exact={true} element={<Signup />}></Route> */}
+          <Route path="/login" exact={true} element={<Login />}></Route>
           <Route path="/userpage" exact={true} element={<UserPage />}></Route>
           <Route path="/post/detail/:reviewCard" exact={true} element={<Review />}></Route>
         </Routes>

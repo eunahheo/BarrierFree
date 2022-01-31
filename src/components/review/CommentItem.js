@@ -1,13 +1,22 @@
 import React from 'react';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import { useParams } from "react-router";
+import './CommentItem.css';
 
-const CommentItem = () => {
+const CommentItem = ({comment}) => {
+  const CommentTime = comment.comment.regDt.substring(0, 10)
+  console.log(comment)
   return(
-    <div>
-      <AccountCircleIcon></AccountCircleIcon>
-      <h5>서울 여행자</h5>
-      <p>코로나 조심합시다. 아프지 말아요 여러분</p>
-      <p>2022-01-26</p> 
+    <div class="container">
+      <div class="user-img">
+        <AccountCircleIcon></AccountCircleIcon>
+      </div>
+      <div>
+        <span class="comment-time">{CommentTime}</span> 
+        <div>
+          <span class="comment-content">{comment.comment.regId}<br/>{comment.comment.cmtContent}</span>
+        </div>
+      </div>
     </div>
   )
 }

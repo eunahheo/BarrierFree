@@ -24,7 +24,7 @@ const RecommendCard = ({ item }) => {
         params: {postSeq: reviewCard}
       }
     ).then(function (res) {
-      console.log(res.config.params.postSeq)
+      // console.log(res.config.params.postSeq)
       navigate(`/post/detail/${reviewCard}`)
       // pageNum(res.config.params.postSeq)
       // console.log(setCard)

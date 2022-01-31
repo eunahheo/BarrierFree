@@ -1,42 +1,79 @@
 import React, { useEffect, useState } from "react";
-import CommentList from "./CommentList.js";
 import Button from '@mui/material/Button';
 import { Box, Container, Grid, Input } from "@material-ui/core";
 import Dogimg from "../common/images/강아지.jpg";
 import Rating from '@mui/material/Rating';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import InfoIcon from '@mui/icons-material/Info';
-import TextField from '@mui/material/TextField';
 import axios from "axios";
-import qs from 'qs';
 import { useParams } from "react-router";
+import CommentItem from "./CommentItem.js";
+import "./Review.css"
 // import "styles.css";
 
 const Review = () => {
   const pageNum = useParams()
   const reviewNum = Number(pageNum.reviewCard)
   
-  // console.log(reviewNum)
-  // const reviewNumber = match.params
-  // console.log(props)
+  // review 내용 불러오기 위한 const
+  
   const [reviewDetail, setReviewDetail] = useState([]);
   const [barriers, setBarriers] = useState([]);
+  const [reviewPoint, setReviewPoint] = useState([]);
+  const [comments, setComments] = useState([]);
+  const [reviewTime, setReviewTime] = useState('');
+  
+  // 댓글 작성을 위한 const
+  
+  const [newComment, setNewComment] = useState('');
+  const onCommentHandler = (event) => {
+    console.log(event)
+    setNewComment(event.target.value);
+  };
 
+  
+  // review 창이 뜨자 마자 불러와져야할 것들
   useEffect(() => {
-    // console.log(data)
-    axios({
-      method: 'GET',
-      url:'/post/detail',
-      params: {postSeq: reviewNum}
+    
+    const getPostDetail = () => {
+      axios({
+        method: 'GET',
+        url: '/post/detail',
+        params: {postSeq: reviewNum}
       }
-    ).then(res => {
-      console.log(res)
-      setReviewDetail(res.data[0].post)
-      setBarriers(res.data[0].impairment)
-      // console.log(reviewDetail)
-      // console.log(res.data[0].impairment[0])
-    })
+      ).then(res => {
+        console.log(res)
+        setReviewDetail(res.data[0].post)
+        setBarriers(res.data[0].impairment)
+        setReviewPoint(res.data[0].post.postPoint)
+        setReviewTime(res.data[0].post.regDt.substring(0,10))
+        console.log(res.data[0].impairment[0])
+      }).catch('yes')
+    };
+    
+    const getCommentList = () => {
+      axios({
+        method: 'GET',
+        url: '/post/comment/detail',
+        params: {postSeq: reviewNum}
+      }
+      ).then(res => {
+        setComments(res.data)
+      }).catch('yes')
+    };
+    
+    
+    getPostDetail();
+    getCommentList();
+    
   },[])
+  
+  
+  // const saveComment = () => {
+  //   axios.post('/post/comment/saveComment', {1, reviewNum, newComment})
+  // }
+  // onClick={saveComment}
+
 
   return (
     <div>
@@ -55,21 +92,24 @@ const Review = () => {
             <Grid item xs={8}>
               <h4>{reviewDetail.postTitle}</h4>
               
-              <Rating name="read-only" value={reviewDetail.postPoint} readOnly></Rating>
-              <p>{reviewDetail.regDt}</p>
+              <Rating name="read-only" value={reviewPoint} readOnly></Rating>
+              <p>{reviewTime}</p>
+              <p>{barriers}</p>
               <p>{reviewDetail.postContent}</p>
               <Grid container>
-                <InfoIcon></InfoIcon>
-                <h5>{reviewDetail.postLocation}</h5>
+                  <InfoIcon></InfoIcon>
+                  <span class="location-name">{reviewDetail.postLocation}</span>
               </Grid>
             </Grid>
           </Grid>
           <div>
-            <Input placeholder="댓글을 입력하세요" ></Input>
+            <Input placeholder="댓글을 입력하세요" onChange={onCommentHandler}></Input>
             <Button variant="contained">작성</Button>
           </div>
           <div>
-            <CommentList></CommentList>
+            {comments.map(comment => (
+              <CommentItem comment={comment} key={comment.cmtSeq} />
+            ))}
           </div>
         </Box>
       </Container>
