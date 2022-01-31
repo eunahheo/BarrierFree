@@ -13,6 +13,7 @@ target/
 .sts4-cache
 .project
 bin/
+
 ### IntelliJ IDEA ###
 .idea
 *.iws
