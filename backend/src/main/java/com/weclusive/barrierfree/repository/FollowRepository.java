@@ -13,4 +13,13 @@ public interface FollowRepository extends JpaRepository<Follow, Long> {
 	public List<Long> findFollower(int userSeq);
 	
 	public Follow findByUserSeqAndFollowingSeqAndDelYn(int userSeq, int followingSeq, char delYn);
+	
+	// 팔로잉 수
+	@Query(value="SELECT COUNT(f) FROM Follow f WHERE f.delYn = 'n' AND f.userSeq = ?1")
+	public int countFollowing(int userSeq);
+
+	// 팔로워 수
+	@Query(value="SELECT COUNT(f) FROM Follow f WHERE f.delYn = 'n' AND f.followingSeq = ?1")
+	public int countFollower(int userSeq);
+	
 }
