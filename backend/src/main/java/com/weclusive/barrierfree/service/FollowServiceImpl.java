@@ -45,5 +45,7 @@ public class FollowServiceImpl implements FollowService {
 		follow.setModId(user.getUserId());
 		followRepository.save(follow);
 	}
+	
+	
 
 }

@@ -54,4 +54,54 @@ public class MyFeedServiceImpl implements MyFeedService {
 		
 	}
 	
+	@Override
+	public List<Map<String, Object>> readFollowing(int userSeq) {
+		int countFollowing = followRepository.countFollowing(userSeq);
+
+		if(countFollowing != 0) {
+			List<Map<String, Object>> result = new LinkedList<>();
+			
+			List<Integer> following = followRepository.findFollowings(userSeq);
+			
+			for (int i = 0; i < following.size(); i++) {
+				Map<String, Object> obj = new HashMap<>();
+				int followingSeq = following.get(i);
+				User followingUser = userRepository.findByUserSeq(followingSeq);
+				obj.put("userSeq", followingSeq);
+				obj.put("userNickname", followingUser.getUserNickname());
+				obj.put("userPhoto", followingUser.getUserPhoto());
+				result.add(obj);
+			}
+			
+			return result;
+		}
+		return null;
+		
+	}
+	
+	@Override
+	public List<Map<String, Object>> readFollower(int userSeq) {
+		int countFollower = followRepository.countFollower(userSeq);
+		
+		if(countFollower != 0) {
+			List<Map<String, Object>> result = new LinkedList<>();
+			
+			List<Integer> follower = followRepository.findFollowers(userSeq);
+			
+			for (int i = 0; i < follower.size(); i++) {
+				Map<String, Object> obj = new HashMap<>();
+				int followerSeq = follower.get(i);
+				User followerUser = userRepository.findByUserSeq(followerSeq);
+				obj.put("userSeq", followerSeq);
+				obj.put("userNickname", followerUser.getUserNickname());
+				obj.put("userPhoto", followerUser.getUserPhoto());
+				result.add(obj);
+			}
+			
+			return result;
+		}
+		return null;
+		
+	}
+	
 }
