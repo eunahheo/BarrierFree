@@ -9,6 +9,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.weclusive.barrierfree.entity.Follow;
 import com.weclusive.barrierfree.entity.Post;
 import com.weclusive.barrierfree.entity.User;
 import com.weclusive.barrierfree.repository.FollowRepository;
@@ -95,6 +96,57 @@ public class OthersFeedServiceImpl implements OthersFeedService {
 					post.getPostSeq()) > 0)
 				scrap_yn = 'y';
 			obj.put("scrap_yn", scrap_yn);
+			result.add(obj);
+		});
+		return result;
+	}
+
+	// otherUserSeq가 팔로잉하는 목록
+	@Override
+	public List<Map<String, Object>> readOthersFollowing(int otherUserSeq, int userSeq) {
+		List<Map<String, Object>> result = new LinkedList<>();
+
+		List<Follow> followingList = followRepository.findByUserSeq(otherUserSeq);
+		followingList.forEach(following -> {
+			Map<String, Object> obj = new HashMap<>();
+			User user = userRepository.findByUserSeq(following.getFollowingSeq());
+//			obj.put("userId", user.getUserId());
+			obj.put("userPhoto", user.getUserPhoto());
+			obj.put("userNickname", user.getUserNickname());
+			obj.put("userSeq", following.getFollowingSeq());
+
+			Follow isFollowing = (Follow) followRepository.findByDelYnAndUserSeqAndFollowingSeq(userSeq,
+					following.getFollowingSeq());
+			if (isFollowing == null) {
+				obj.put("followingYn", 'n');
+			} else {
+				obj.put("followingYn", 'y');
+			}
+			result.add(obj);
+		});
+		return result;
+	}
+
+	@Override
+	public List<Map<String, Object>> readOthersFollower(int otherUserSeq, int userSeq) {
+		List<Map<String, Object>> result = new LinkedList<>();
+
+		List<Follow> followingList = followRepository.findByFollowingSeq(otherUserSeq);
+		followingList.forEach(following -> {
+			Map<String, Object> obj = new HashMap<>();
+			User user = userRepository.findByUserSeq(following.getUserSeq());
+//			obj.put("userId", user.getUserId());
+			obj.put("userPhoto", user.getUserPhoto());
+			obj.put("userNickname", user.getUserNickname());
+			obj.put("userSeq", following.getUserSeq());
+
+			Follow isFollowing = (Follow) followRepository.findByDelYnAndUserSeqAndFollowingSeq(userSeq,
+					following.getUserSeq());
+			if (isFollowing == null) {
+				obj.put("followingYn", 'n');
+			} else {
+				obj.put("followingYn", 'y');
+			}
 			result.add(obj);
 		});
 		return result;

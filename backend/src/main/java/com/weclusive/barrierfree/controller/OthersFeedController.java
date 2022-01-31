@@ -51,4 +51,28 @@ public class OthersFeedController {
 			return new ResponseEntity<>(" : 해당 게시글이 존재하지 않습니다.", HttpStatus.BAD_REQUEST);
 		}
 	}
+	
+	@GetMapping("/following")
+	@ApiOperation(value = "상대방 팔로잉 목록 보기", notes = "상대방의 팔로잉 목록과 현재 사용자가 해당 유저들을 팔로잉 했는지 여부를 포함하여 반환한다.", response = List.class)
+	// 상대방의 userSeq 보내기
+	public ResponseEntity<Object> followingList(@RequestParam int userSeq, @RequestParam int otherUserSeq) {
+		List<Map<String, Object>> result = othersfeedService.readOthersFollowing(otherUserSeq, userSeq);
+		if (result != null) {
+			return new ResponseEntity<>(result, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(" : 팔로잉 한 유저가 존재하지 않습니다.", HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@GetMapping("/follower")
+	@ApiOperation(value = "상대방 팔로워 목록 보기", notes = "상대방의 팔로워 목록과 현재 사용자가 해당 유저들을 팔로잉 했는지 여부를 포함하여 반환한다.", response = List.class)
+	// 상대방의 userSeq 보내기
+	public ResponseEntity<Object> followerList(@RequestParam int userSeq, @RequestParam int otherUserSeq) {
+		List<Map<String, Object>> result = othersfeedService.readOthersFollower(otherUserSeq, userSeq);
+		if (result != null) {
+			return new ResponseEntity<>(result, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(" : 팔로워가가 존재하지 않습니다.", HttpStatus.BAD_REQUEST);
+		}
+	}
 }
