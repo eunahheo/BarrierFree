@@ -1,6 +1,9 @@
 package com.weclusive.barrierfree.repository;
 
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.weclusive.barrierfree.entity.User;
@@ -26,4 +29,8 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
 	// delyn = n 인 컬럼 수
 	public int countByDelYnAndUserSeq(char delYn, int userSeq);
+	
+	// 회원 한명 전체 정보 가져오기
+	@Query(value="SELECT u FROM user u WHERE u.delYn='n' AND u.userSeq = ?1")
+	public Optional<User> findAllByUserSeq(int userSeq);
 }
