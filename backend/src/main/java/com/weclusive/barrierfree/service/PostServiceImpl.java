@@ -504,19 +504,6 @@ public class PostServiceImpl implements PostService {
 		return 1;
 	}
 	
-	// userSeq에 맞는 게시글 전체 조회
-	@Override
-	public List<Post> readUserPosts(int userSeq) {
-		List<Post> posts = postRepository.findByAllPosts(userSeq);
-		
-		if(!posts.isEmpty())
-			return posts;
-		else
-			return null;
-		
-	}
-	
-	
 	// 게시글 장애정보 저장하기
 	public PostImpairment save(PostImpairment postImpairment) {
 		postImpairmentRepository.save(postImpairment);

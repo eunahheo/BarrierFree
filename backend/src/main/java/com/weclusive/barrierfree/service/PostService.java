@@ -24,7 +24,5 @@ public interface PostService {
 	public int updatePostImpairmentByPostSeq(long postSeq, Impairment impairment);
 	public PostImpairment savePostImpairment(Impairment impairment, long postSeq);
 	public int savePost(PostSave ps);
-	public List<Post> readUserPosts(int userSeq);
-
 
 }
