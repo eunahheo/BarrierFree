@@ -13,5 +13,5 @@ public interface OthersFeedService {
 
 	public List<Map<String, Object>> readOthersFollower(int otherUserSeq, int userSeq);
 
-
+	public boolean isFollow(int otherUserseq, int userSeq);
 }

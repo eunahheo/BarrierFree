@@ -42,5 +42,6 @@ public interface FollowRepository extends JpaRepository<Follow, Long> {
 
 	// otherUserSeq를 팔로잉 하는 목록 = otherUserSeq의 팔로워
 	public List<Follow> findByFollowingSeq(int otherUserSeq);
+	
 }
 

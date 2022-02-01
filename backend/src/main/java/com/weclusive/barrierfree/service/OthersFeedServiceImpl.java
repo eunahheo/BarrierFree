@@ -151,4 +151,11 @@ public class OthersFeedServiceImpl implements OthersFeedService {
 		});
 		return result;
 	}
+
+	@Override
+	public boolean isFollow(int otherUserseq, int userSeq) {
+		Follow follow = followRepository.findByUserSeqAndFollowingSeqAndDelYn(userSeq, otherUserseq, 'n');
+		if(follow == null) return false;
+		else return true;
+	}
 }
