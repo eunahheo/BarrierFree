@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -48,10 +49,10 @@ public class UserController {
 
 	@Autowired
 	private JwtUtil jwtUtil;
-	
+
 	@Autowired
 	private TokenRepository tokenRepository;
-	
+
 	@Autowired
 	private CustomUserDetailsService service;
 
@@ -217,6 +218,34 @@ public class UserController {
 			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 		} else {
 			return new ResponseEntity<String>("이메일 혹은 아이디를 다시 확인해주세요", HttpStatus.BAD_REQUEST);
+		}
+	}
+
+	@GetMapping("/info")
+	@ApiOperation(value = "사용자 정보 조회", notes = "사용자 정보를 조회한다.")
+	public ResponseEntity<Map<String, Object>> getInfo(@RequestHeader("Authorization") String accessToken) {
+		Map<String, Object> result = new HashMap<>();
+		HttpStatus status = HttpStatus.OK;
+		
+		try {
+			String userId = jwtUtil.extractUserId(accessToken.substring(7));  // access-token에서 userId 추출
+		 
+			User user = userService.findByUserId(userId);
+			
+			result.put("userSeq", user.getUserSeq());
+			result.put("userId", user.getUserId());
+			result.put("userNickname", user.getUserNickname());
+			result.put("userPhoto", user.getUserPhoto());
+			result.put("userEmail", user.getUserEmail());
+			
+			result.put("message", SUCCESS);
+
+			return new ResponseEntity<Map<String, Object>>(result, status);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			status = HttpStatus.BAD_REQUEST;
+			result.put("message", FAIL);
+			return new ResponseEntity<Map<String, Object>>(result, status);
 		}
 	}
 }
