@@ -11,14 +11,10 @@ import Signup from "./components/user/Signup";
 import ReviewPage from "./components/Reviews/ReviewPage";
 import ReviewPageBf from "./components/Reviews/ReviewPageBf";
 import NotFound from "./routes/NotFound";
-import {
-  BrowserRouter as Router,
-  Route,
-  Routes,
-  Switch,
-  Link,
-} from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import Login from "./components/user/Login";
+import RegisterPage from "./pages/RegisterPage";
+import RegisterCompletedPage from "./pages/RegisterCompletedPage";
 
 function App() {
   return (
@@ -38,6 +34,11 @@ function App() {
         <Route
           path="/reviewpage/order-by-bf"
           element={<ReviewPageBf />}
+        ></Route>
+        <Route path="/registerpage" element={<RegisterPage />}></Route>
+        <Route
+          path="http://localhost:8080/user/email/certified?userNickname=:userNickname&certified=:certified"
+          element={<RegisterCompletedPage />}
         ></Route>
         <Route path="*" element={<NotFound />}></Route>
       </Routes>
