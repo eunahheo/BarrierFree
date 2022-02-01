@@ -73,7 +73,7 @@ public class UserController {
 	@ApiOperation(value = "Kakao 회원가입", notes = "사용자가 입력한 회원정보를 등록한다.")
 	public ResponseEntity<String> kakaoJoin(@RequestBody UserJoinKakao user, HttpServletRequest request) {
 		// userId, userNickname, 불편사항
-		String accessToken = request.getHeader("access-token"); // kakao 최초 로그인 시 받은 kakao access token
+		String accessToken = request.getHeader("accessToken"); // kakao 최초 로그인 시 받은 kakao access token
 		System.out.println(accessToken);
 
 		try {
@@ -100,7 +100,7 @@ public class UserController {
 
 			if (kakaoUser == null) { // 최초 로그인이면
 				resultMap.put("message", "최초 로그인");
-				resultMap.put("access-token", kakaoToken);
+				resultMap.put("accessToken", kakaoToken);
 				HttpStatus status = HttpStatus.NO_CONTENT;
 				return new ResponseEntity<Map<String, Object>>(resultMap, status);
 			}
@@ -118,7 +118,7 @@ public class UserController {
 			userService.createRefreshToken(user);
 		} // db에 저장하기
 
-		resultMap.put("access-token", userService.createAccessToken(user));
+		resultMap.put("accessToken", userService.createAccessToken(user));
 		resultMap.put("message", SUCCESS);
 		HttpStatus status = HttpStatus.ACCEPTED;
 
@@ -159,7 +159,7 @@ public class UserController {
 																											// 유효하지 않다면
 					userService.createRefreshToken(user);
 				}
-				resultMap.put("access-token", userService.createAccessToken(user));
+				resultMap.put("accessToken", userService.createAccessToken(user));
 				resultMap.put("message", SUCCESS);
 				status = HttpStatus.ACCEPTED;
 			}
