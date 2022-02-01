@@ -44,4 +44,7 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 	@Query(value="SELECT p FROM Post p WHERE p.delYn = 'n' AND p.userSeq = ?1 ORDER BY p.regDt DESC")
 	public List<Post> findByAllPosts(int userSeq);
 	
+//	@Query(value = "SELECT p FROM Post p WHERE p.delYn = 'n' AND (p.postTitle like '%?1%' OR p.postContent like '%?1%' OR p.postLocation like '%?1%')")
+	public List<Post> findByDelYnAndPostTitleContainingOrPostContentContainingOrPostLocationContaining(char delYn, String keyword, String keyword2, String keyword3);
+	
 }
