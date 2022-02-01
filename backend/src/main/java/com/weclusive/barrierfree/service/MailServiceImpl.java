@@ -49,11 +49,6 @@ public class MailServiceImpl implements MailService {
 	@Async
 	@Override
 	public void sendMail(Email email) {
-		String key = generate_key();
-		User user = userRepository.findByUserId(email.getRecipient_id());
-		user.setCertKey(key);
-		userRepository.save(user);
-
 		MimeMessagePreparator messagePreparator = mimeMessage -> {
 			MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
 			messageHelper.setFrom("admin@barrierfree.com");
