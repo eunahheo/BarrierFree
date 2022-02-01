@@ -13,4 +13,6 @@ public interface SearchService {
 	public List<Map<String, Object>> searchAccommodation(String keyword, int count);
 
 	public List<Map<String, Object>> searchEvent(String keyword, int count);
+
+	public List<Map<String, Object>> searchPost(String keyword, int userSeq, int count);
 }
