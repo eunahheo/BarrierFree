@@ -30,7 +30,8 @@ public class SeachController {
 
 	@GetMapping("/user")
 	@ApiOperation(value = "키워드로 사용자 검색", notes = "사용자 닉네임 검색 - 사용자 사진, 사용자 닉네임, 사용자 seq 반환")
-	public ResponseEntity<Object> searchUser(@RequestParam String keyword, @RequestParam int page, @RequestParam int count) {
+	public ResponseEntity<Object> searchUser(@RequestParam String keyword, @RequestParam int page,
+			@RequestParam int count) {
 		List<Map<String, Object>> users = searchService.searchUser(keyword, count);
 
 		if (users != null) {
@@ -38,10 +39,11 @@ public class SeachController {
 		}
 		return new ResponseEntity<>(FAIL, HttpStatus.BAD_REQUEST);
 	}
-	
+
 	@GetMapping("/post")
 	@ApiOperation(value = "키워드로 사용자 게시글 검색", notes = "사용자 게시글 검색 - 스크랩 여부, 제목, 내용, 게시글 번호, 지역, 장애정보, 사진, 사용자 seq 반환")
-	public ResponseEntity<Object> searchPost(@RequestParam String keyword, @RequestParam int page, @RequestParam int count, @RequestParam int userSeq) {
+	public ResponseEntity<Object> searchPost(@RequestParam String keyword, @RequestParam int page,
+			@RequestParam int count, @RequestParam int userSeq) {
 		List<Map<String, Object>> posts = searchService.searchPost(keyword, userSeq, count);
 
 		if (posts != null) {
@@ -50,4 +52,15 @@ public class SeachController {
 		return new ResponseEntity<>(FAIL, HttpStatus.BAD_REQUEST);
 	}
 
+	@GetMapping("/tour")
+	@ApiOperation(value = "키워드로 사용자 게시글 검색", notes = "사용자 게시글 검색 - 스크랩 여부, 제목, 내용, 게시글 번호, 지역, 장애정보, 사진, 사용자 seq 반환")
+	public ResponseEntity<Object> searchTour(@RequestParam String keyword, @RequestParam int page,
+			@RequestParam int count, @RequestParam int userSeq) {
+		List<Map<String, Object>> posts = searchService.searchPost(keyword, userSeq, count);
+
+		if (posts != null) {
+			return new ResponseEntity<>(posts, HttpStatus.OK);
+		}
+		return new ResponseEntity<>(FAIL, HttpStatus.BAD_REQUEST);
+	}
 }
