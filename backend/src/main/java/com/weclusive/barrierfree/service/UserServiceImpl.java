@@ -146,7 +146,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void sendEmailwithUserKey(String email, String id) {
 		User user = userRepository.findByUserId(id);
-		String link = "http://localhost:8080/user/email/certified?userNickname=" + user.getUserNickname()
+		String link = "http://localhost:3000/user/email/certified?userNickname=" + user.getUserNickname()
 				+ "&certified=" + user.getCertKey();
 		String message = mailContentBuilder.build(link);
 		try {
