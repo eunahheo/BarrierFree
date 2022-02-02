@@ -15,6 +15,7 @@ import { Route, Routes } from "react-router-dom";
 import Login from "./components/user/Login";
 import RegisterPage from "./pages/RegisterPage";
 import RegisterCompletedPage from "./pages/RegisterCompletedPage";
+import Review from "./components/review/Review";
 
 function App() {
   return (
