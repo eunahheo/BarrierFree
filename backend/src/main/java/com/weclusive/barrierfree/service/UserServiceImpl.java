@@ -37,6 +37,7 @@ import com.weclusive.barrierfree.repository.UserRepository;
 import com.weclusive.barrierfree.util.JwtUtil;
 import com.weclusive.barrierfree.util.MailContentBuilder;
 import com.weclusive.barrierfree.util.StringUtils;
+import com.weclusive.barrierfree.util.TimeUtils;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -65,11 +66,10 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private AuthenticationManager authenticationManager;
 
-
 	// 회원 등록
 	@Override
 	public void registUser(UserJoin userJoin) {
-		String now = now(); // 현재 시각
+		String now = TimeUtils.curTime(); // 현재 시각
 		userRepository.save(
 				User.builder()
 				.userId(userJoin.getUserId())
@@ -77,7 +77,7 @@ public class UserServiceImpl implements UserService {
 				.userEmail(userJoin.getUserEmail())
 				.userPwd(passwordEncoder.encode(userJoin.getUserPwd())) // 비밀번호 암호화
 				.regDt(now).regId(userJoin.getUserId())
-				.modDt(now()).modId(userJoin.getUserId())
+				.modDt(now).modId(userJoin.getUserId())
 				.enabledYn('n')
 				.certKey(mailService.generate_key()) // 사용자 메일 인증 키
 				.build());
@@ -106,7 +106,7 @@ public class UserServiceImpl implements UserService {
 	// 카카오 회원 등록
 	@Override
 	public void registKakaoUser(UserJoinKakao userJoinKakao, String userEmail) {
-		String now = now(); // 현재 시각
+		String now = TimeUtils.curTime(); // 현재 시각
 
 		userRepository.save(
 				User.builder()
@@ -115,7 +115,7 @@ public class UserServiceImpl implements UserService {
 				.userNickname(userJoinKakao.getUserNickname())
 				.userPwd(passwordEncoder.encode(userEmail)) // 비밀번호 암호화
 				.regDt(now).regId(userJoinKakao.getUserId())
-				.modDt(now()).modId(userJoinKakao.getUserId())
+				.modDt(now).modId(userJoinKakao.getUserId())
 				.certKey(null)
 				.enabledYn('y') // 카카오 회원의 경우 이메일 인증 패스
 				.build());
@@ -319,20 +319,6 @@ public class UserServiceImpl implements UserService {
 		return null;
 	}
 
-	// 현재 시간
-	public String now() {
-		// 현재 날짜와 시간
-		LocalDate date = LocalDate.now(); // yyyy-mm-dd
-		LocalTime time = LocalTime.now(); // HH:mm:ss.sssss
-
-		// 포맷 정의하기
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
-		// 포맷 적용하기
-		String now = date + " " + time.format(formatter);
-
-		return now;
-	}
-
 	// 아이디로 회원 찾기 - 중복 확인
 	@Override
 	public User findByUserId(String userId) {
@@ -426,5 +412,23 @@ public class UserServiceImpl implements UserService {
 	public User findByUserSeq(int userSeq) {
 		User user = userRepository.findByUserSeq(userSeq);
 		return user;
+	}
+
+	@Override
+	public boolean modifyUser(User user) throws Exception{
+		try {
+			User newUser = userRepository.findByUserSeq(user.getUserSeq());
+			newUser.setUserNickname(user.getUserNickname());
+			newUser.setUserPwd(passwordEncoder.encode(user.getUserPwd()));
+			newUser.setUserPhoto(user.getUserPhoto());
+			newUser.setModDt(TimeUtils.curTime());
+			newUser.setModId(user.getUserId());
+			
+			userRepository.save(newUser);
+			return true;
+		} catch(Exception e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 }

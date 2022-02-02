@@ -14,6 +14,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -251,6 +252,21 @@ public class UserController {
 			status = HttpStatus.BAD_REQUEST;
 			result.put("message", FAIL);
 			return new ResponseEntity<Map<String, Object>>(result, status);
+		}
+	}
+	
+	@PutMapping("/modify")
+	@ApiOperation(value = "사용자 정보 수정", notes = "사용자 정보를 수정한다.")
+	public ResponseEntity<Map<String, Object>> modifyInfo(@RequestHeader("Authorization") String accessToken, @RequestBody User user) {
+		Map<String, Object> result = new HashMap<>();
+		try {
+			System.out.println(user);	
+			result.put("result", userService.modifyUser(user));
+			return new ResponseEntity<>(result, HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();	
+			result.put("result", FAIL);
+			return new ResponseEntity<Map<String, Object>>(result,  HttpStatus.BAD_REQUEST);
 		}
 	}
 }

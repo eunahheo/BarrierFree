@@ -29,6 +29,8 @@ public interface UserService {
 	public void createRefreshToken(User user);
 
 	public void sendEmailwithTemp(String userEmail, String userId);
+	
+	public boolean modifyUser(User user) throws Exception;
 
 	// Token
 	public String createAccessToken(User user);
