@@ -27,6 +27,7 @@ import com.weclusive.barrierfree.dto.UserLoginDto;
 import com.weclusive.barrierfree.entity.Token;
 import com.weclusive.barrierfree.entity.User;
 import com.weclusive.barrierfree.repository.TokenRepository;
+import com.weclusive.barrierfree.repository.UserImpairmentRepository;
 import com.weclusive.barrierfree.service.CustomUserDetailsService;
 import com.weclusive.barrierfree.service.UserService;
 import com.weclusive.barrierfree.util.JwtUtil;
@@ -56,6 +57,9 @@ public class UserController {
 	@Autowired
 	private CustomUserDetailsService service;
 
+	@Autowired
+	private UserImpairmentRepository userImpairmentRepository;
+	
 	@PostMapping("/join")
 	@ApiOperation(value = "회원가입", notes = "사용자가 입력한 회원정보를 등록한다.")
 	public ResponseEntity<String> join(@RequestBody UserJoin userJoin) {
@@ -237,6 +241,7 @@ public class UserController {
 			result.put("userNickname", user.getUserNickname());
 			result.put("userPhoto", user.getUserPhoto());
 			result.put("userEmail", user.getUserEmail());
+			result.put("impairments", userService.readUserImpairment(user.getUserSeq()));
 			
 			result.put("message", SUCCESS);
 
