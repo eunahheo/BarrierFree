@@ -17,6 +17,7 @@ import com.weclusive.barrierfree.repository.AlarmRepository;
 import com.weclusive.barrierfree.repository.CommentRepository;
 import com.weclusive.barrierfree.repository.PostRepository;
 import com.weclusive.barrierfree.repository.UserRepository;
+import com.weclusive.barrierfree.util.TimeUtils;
 
 @Service
 public class AlarmServiceImpl implements AlarmService {
@@ -110,4 +111,27 @@ public class AlarmServiceImpl implements AlarmService {
 
 	}
 
+	// 확인하기
+	@Override
+	public Optional<Alarm> checkByAlarmSeq(long alarmSeq) {
+		Optional<Alarm> checkAlarm = alarmRepository.findByAlarmSeq(alarmSeq);
+		String regTime = TimeUtils.curTime();
+
+
+		if (checkAlarm.isPresent()) {
+			checkAlarm.get().setCheckYn('y');
+			checkAlarm.get().setModDt(regTime);
+//			checkAlarm.get().setModId(modId); - 로그인한 사람 id
+			save(checkAlarm.get()); 
+			return checkAlarm;
+		} else
+		
+		return null;
+	}
+	
+	@Override
+	public Alarm save(Alarm alarm) {
+		alarmRepository.save(alarm);
+		return alarm;
+	}
 }

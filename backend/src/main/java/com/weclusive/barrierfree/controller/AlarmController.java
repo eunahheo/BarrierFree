@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -77,4 +78,15 @@ public class AlarmController {
 		}
 	}
 
+	// 알림 확인하기
+	@PutMapping(value = "/check")
+	@ApiOperation(value = "알림 확인하기", response = List.class)
+	public ResponseEntity<Object> deletePost(@RequestParam long alarmSeq) throws Exception {
+		Optional<Alarm> result = alarmService.checkByAlarmSeq(alarmSeq);
+
+		if(result == null)
+			return new ResponseEntity<>(FAIL, HttpStatus.BAD_REQUEST);
+		else
+			return new ResponseEntity<>(SUCCESS, HttpStatus.OK);
+	}
 }
