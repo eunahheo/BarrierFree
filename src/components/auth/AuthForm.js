@@ -15,12 +15,6 @@ import Visual from "../images/Visual.png";
 import VisualHide from "../images/VisualHide.png";
 import RegisterForm from "./RegisterForm";
 
-const AuthBarrierIconBlock = styled.div`
-  img {
-    margin: 1.5rem 0.75rem 0;
-    cursor: pointer;
-  }
-`;
 const AuthFormBlock = styled.div`
   h2 {
     margin: 0;
@@ -31,6 +25,13 @@ const AuthFormBlock = styled.div`
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
+  }
+`;
+
+const AuthBarrierIconBlock = styled.div`
+  img {
+    margin: 1.5rem 0.75rem 0;
+    cursor: pointer;
   }
 `;
 
@@ -55,16 +56,19 @@ const ButtonWithMarginTop = styled(Button)`
   margin-top: 1.5rem;
 `;
 
-const textMap = {
-  login: "로그인",
-  register: "회원가입",
-};
+// const textMap = {
+//   login: "로그인",
+//   register: "회원가입",
+// };
 
 const AuthForm = ({ form, type, onChange, onSubmit, setForm }) => {
-  const text = textMap[type];
+  // const text = textMap[type];
   return (
     <AuthFormBlock>
-      <h2>베리어 프리에 오신 것을 환영합니다!</h2>
+      <h2>
+        <span style={{ color: "#EA5455" }}>베</span>리어{" "}
+        <span style={{ color: "#EA5455" }}>프</span>리에 오신 것을 환영합니다!
+      </h2>
       <p>|필수사항|</p>
       <form onSubmit={onSubmit}>
         <StyledInput
@@ -88,90 +92,89 @@ const AuthForm = ({ form, type, onChange, onSubmit, setForm }) => {
           onChange={onChange}
           // value={form.userPwd}
         />
-        {type === "register" && (
-          <StyledInput
-            name="userPwdCfm"
-            type="password"
-            placeholder="비밀번호를 한번 더 입력하세요"
-            onChange={onChange}
-            value={form.userPwdCfm}
-          />
-        )}
-        {type === "register" && (
-          <StyledInput
-            name="userNickname"
-            placeholder="닉네임을 입력하세요"
-            onChange={onChange}
-          />
-        )}
-        {type === "register" && (
-          // <AuthBarrierIcon style={{ marginTop: "1rem" }}></AuthBarrierIcon>
+        {/* {type === "register" && ( */}
+        <StyledInput
+          name="userPwdCfm"
+          type="password"
+          placeholder="비밀번호를 한번 더 입력하세요"
+          // onChange={onChange}
+          // value={form.userPwdCfm}
+        />
+        {/* )} */}
+        {/* {type === "register" && ( */}
+        <StyledInput
+          name="userNickname"
+          placeholder="닉네임을 입력하세요"
+          onChange={onChange}
+        />
+        {/* )}
+        {type === "register" && ( */}
 
-          <AuthBarrierIconBlock>
-            <div align="center">
-              <img
-                name="physical"
-                src={Physical}
-                width="30"
-                onClick={() => {
-                  if (form.pregnant) {
-                    setForm({ ...form, pregnant: 0 });
-                  } else {
-                    setForm({ ...form, pregnant: 1 });
-                  }
-                }}
-              ></img>
-              <img
-                name="visual"
-                src={Visual}
-                width="30"
-                onClick={() => {
-                  if (form.visual) {
-                    setForm({ ...form, visual: 0 });
-                  } else {
-                    setForm({ ...form, visual: 1 });
-                  }
-                }}
-              ></img>
-              <img
-                name="auditory"
-                src={Auditory}
-                width="30"
-                onClick={() => {
-                  if (form.auditory) {
-                    setForm({ ...form, auditory: 0 });
-                  } else {
-                    setForm({ ...form, auditory: 1 });
-                  }
-                }}
-              ></img>
-              <img
-                name="pregnant"
-                src={Pregnant}
-                width="30"
-                onClick={() => {
-                  if (form.pregnant) {
-                    setForm({ ...form, pregnant: 0 });
-                  } else {
-                    setForm({ ...form, pregnant: 1 });
-                  }
-                }}
-              ></img>
-              <img
-                name="senior"
-                src={Senior}
-                width="30"
-                onClick={() => {
-                  if (form.senior) {
-                    setForm({ ...form, senior: 0 });
-                  } else {
-                    setForm({ ...form, senior: 1 });
-                  }
-                }}
-              ></img>
-            </div>
-          </AuthBarrierIconBlock>
-        )}
+        <AuthBarrierIconBlock>
+          <div align="center">
+            <img
+              name="physical"
+              src={Physical}
+              width="30"
+              onClick={() => {
+                if (form.physical) {
+                  setForm({ ...form, physical: 0 });
+                } else {
+                  setForm({ ...form, physical: 1 });
+                }
+              }}
+            ></img>
+            <img
+              name="visibility"
+              src={Visual}
+              width="30"
+              onClick={() => {
+                if (form.visibility) {
+                  setForm({ ...form, visibility: 0 });
+                } else {
+                  setForm({ ...form, visibility: 1 });
+                }
+              }}
+            ></img>
+            <img
+              name="deaf"
+              src={Auditory}
+              width="30"
+              onClick={() => {
+                if (form.deaf) {
+                  setForm({ ...form, deaf: 0 });
+                } else {
+                  setForm({ ...form, deaf: 1 });
+                }
+              }}
+            ></img>
+            <img
+              name="pregnant"
+              src={Pregnant}
+              width="30"
+              onClick={() => {
+                if (form.pregnant) {
+                  setForm({ ...form, pregnant: 0 });
+                } else {
+                  setForm({ ...form, pregnant: 1 });
+                }
+              }}
+            ></img>
+            <img
+              name="senior"
+              src={Senior}
+              width="30"
+              onClick={() => {
+                if (form.senior) {
+                  setForm({ ...form, senior: 0 });
+                } else {
+                  setForm({ ...form, senior: 1 });
+                }
+              }}
+            ></img>
+          </div>
+        </AuthBarrierIconBlock>
+        {/* )} */}
 
         <ButtonWithMarginTop type="submit" cyan fullWidth>
           회원가입

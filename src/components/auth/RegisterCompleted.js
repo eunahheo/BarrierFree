@@ -7,7 +7,6 @@ const RegisterForm = () => {
     userId: "",
     userEmail: "",
     userPwd: "",
-    userPwdCfm: "",
     userNickname: "",
     physical: 0,
     visibility: 0,
@@ -18,22 +17,24 @@ const RegisterForm = () => {
 
   const onChange = (event) => {
     setForm({ ...regform, [event.target.name]: event.target.value });
-    console.log(regform);
+    // console.log(regform);
   };
 
-  const onSubmit = (event) => {
+  const onSubmit = async (event) => {
     event.preventDefault();
-    // console.log(regform);
+    console.log(regform);
     const { userId, userEmail, userPwd, userPwdCfm, userNickname } = regform;
     if (userPwd != userPwdCfm) {
       alert("비밀번호를 다르게 입력했어요!😥");
       return;
     }
-    axios({
+    await axios({
       url: "/user/join",
       method: "post",
       data: regform,
-    }).then(alert("회원가입이 완료되었습니다!😀"));
+    })
+      .try(alert("회원가입이 완료되었습니다!😀"))
+      .catch((error) => console.log(error), console.log("왜안돼?"));
   };
 
   return (

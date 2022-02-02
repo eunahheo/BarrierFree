@@ -37,7 +37,7 @@ function App() {
         ></Route>
         <Route path="/registerpage" element={<RegisterPage />}></Route>
         <Route
-          path="http://localhost:8080/user/email/certified?userNickname=:userNickname&certified=:certified"
+          path="user/email/certified"
           element={<RegisterCompletedPage />}
         ></Route>
         <Route path="*" element={<NotFound />}></Route>

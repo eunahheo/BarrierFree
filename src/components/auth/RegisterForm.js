@@ -7,7 +7,6 @@ const RegisterForm = () => {
     userId: "",
     userEmail: "",
     userPwd: "",
-    userPwdCfm: "",
     userNickname: "",
     physical: 0,
     visibility: 0,
@@ -23,34 +22,42 @@ const RegisterForm = () => {
 
   const onChange = (event) => {
     // console.log(event.target.value);
-    const { name, value } = event.target;
+    // const { name, value } = event.target;
     setForm({ ...regform, [event.target.name]: event.target.value });
     // console.log(name, value);
-    console.log(regform);
+    // console.log(regform);
   };
 
   // const physicalHandler = () => {
   //   setForm({ ...regform, physical: 1 });
   // };
 
-  const onSubmit = (event) => {
+  const onSubmit = async (event) => {
     event.preventDefault();
-    // console.log(regform);
+    console.log(regform);
     const { userId, userEmail, userPwd, userPwdCfm, userNickname } = regform;
-    if (userPwd != userPwdCfm) {
-      alert("비밀번호를 다르게 입력했어요!😥");
-      return;
+    // if (userPwd != userPwdCfm) {
+    //   alert("비밀번호를 다르게 입력했어요!😥");
+    //   return;
+    // }
+    try {
+      await axios({
+        url: "http://localhost:8080/user/join/",
+        method: "post",
+        // headers: {
+        //   "Content-Type": "application/json",
+        // },
+        data: regform,
+      });
+      // (alert("회원가입이 완료되었습니다!😀"))
+    } catch (error) {
+      console.log(error);
     }
-    axios({
-      url: "/user/join",
-      method: "post",
-      data: regform,
-    }).then(alert("회원가입이 완료되었습니다!😀"));
   };
 
   return (
     <AuthForm
-      type="register"
+      // type="register"
       onChange={onChange}
       onSubmit={onSubmit}
       form={regform}
