@@ -31,7 +31,7 @@ public class RecommendServiceImpl implements RecommendService {
 	private PostRepository postRepository;
 
 	private ImpairmentUtils iutil = new ImpairmentUtils();
-	
+
 	// 상세보기 페이지에 필요한 정보들 반환
 	@SuppressWarnings("unchecked")
 	@Override
@@ -77,7 +77,7 @@ public class RecommendServiceImpl implements RecommendService {
 			result.put("firstimage", parse_item.get("firstimage"));
 			result.put("firstimage2", parse_item.get("firstimage2"));
 			result.put("overview", parse_item.get("overview"));
-			result.put("impairments",loadImpairmentDetail(contentid));
+			result.put("impairments", loadImpairmentDetail(contentid));
 			result.put("mapx", parse_item.get("mapx"));
 			result.put("mapy", parse_item.get("mapy"));
 			result.put("createdtime", parse_item.get("createdtime"));
@@ -181,7 +181,7 @@ public class RecommendServiceImpl implements RecommendService {
 		}
 		return result;
 	}
-	
+
 	// 지역 시도 리스트 반환
 	@Override
 	public JSONArray getSido() throws Exception {
@@ -231,7 +231,7 @@ public class RecommendServiceImpl implements RecommendService {
 		try {
 			String urlstr = "http://api.visitkorea.or.kr/openapi/service/rest/KorWithService/areaCode?"
 					+ "ServiceKey=90E0OY5f9CUd%2BGSJfMuFpPnny5XZ9Ks6RYqd0gV0LqOFeSC9A4B6VVnxmxDSUdtWx7auKWg2ALhbInFELnK8yQ%3D%3D"
-					+ "&areaCode=" + sidoCode + "&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=barrierfree&_type=json";
+					+ "&areaCode=" + sidoCode + "&numOfRows=50&pageNo=1&MobileOS=ETC&MobileApp=barrierfree&_type=json";
 
 			URL url = new URL(urlstr);
 			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -258,6 +258,9 @@ public class RecommendServiceImpl implements RecommendService {
 			result = (JSONArray) parse_items.get("item");
 
 			System.out.println(result);
+		} catch (ClassCastException e) {
+			e.printStackTrace();
+			throw new ClassCastException();
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new Exception();
@@ -266,23 +269,23 @@ public class RecommendServiceImpl implements RecommendService {
 	}
 
 	@Override
-	public List<Map<String, Object>> search(int userSeq, String sidoCode, String sigunguCode, String contentTypeId, JSONObject impairments) throws Exception {
+	public List<Map<String, Object>> search(int userSeq, String sidoCode, String sigunguCode, String contentTypeId,
+			JSONObject impairments) throws Exception {
 		StringBuilder sb = new StringBuilder();
 		List<Map<String, Object>> result = new LinkedList<>();
 		try {
 			String urlstr = "http://api.visitkorea.or.kr/openapi/service/rest/KorWithService/areaBasedList"
-					+ "?ServiceKey=90E0OY5f9CUd%2BGSJfMuFpPnny5XZ9Ks6RYqd0gV0LqOFeSC9A4B6VVnxmxDSUdtWx7auKWg2ALhbInFELnK8yQ%3D%3D"
-					+ "";
-					
-			if(sidoCode!=null) {
-				urlstr += "&areaCode="+ sidoCode;
-				if(sigunguCode!=null)
+					+ "?ServiceKey=90E0OY5f9CUd%2BGSJfMuFpPnny5XZ9Ks6RYqd0gV0LqOFeSC9A4B6VVnxmxDSUdtWx7auKWg2ALhbInFELnK8yQ%3D%3D";
+
+			if (sidoCode != null) {
+				urlstr += "&areaCode=" + sidoCode;
+				if (sigunguCode != null)
 					urlstr += "&sigunguCode=" + sigunguCode;
 			}
-			
-			if(contentTypeId!=null)
+
+			if (contentTypeId != null)
 				urlstr += "&contentTypeId=" + contentTypeId;
-			
+
 			urlstr += "&MobileOS=ETC&MobileApp=barrierfree&_type=json";
 
 			URL url = new URL(urlstr);
@@ -299,7 +302,7 @@ public class RecommendServiceImpl implements RecommendService {
 
 			JSONParser parser = new JSONParser();
 			JSONObject jsonObject = (JSONObject) parser.parse(sb.toString());
-			
+
 			JSONObject parse_response = (JSONObject) jsonObject.get("response"); // response key값에 맞는 Value인 JSON객체를
 																					// 가져옵니다.
 			// response 로 부터 body 찾아오기
@@ -308,21 +311,22 @@ public class RecommendServiceImpl implements RecommendService {
 			JSONObject parse_items = (JSONObject) parse_body.get("items");
 			// body 로 부터 items 받아오기
 			JSONArray parse_item = (JSONArray) parse_items.get("item");
-			
-			for(Object o : parse_item) {
+
+			for (Object o : parse_item) {
 				Map<String, Object> obj = new HashMap<>();
 				JSONObject temp = (JSONObject) o;
 				obj.put("contentid", temp.get("contentid"));
 				obj.put("title", temp.get("title"));
 				obj.put("firstimage", temp.get("firstimage"));
 				obj.put("addr1", temp.get("addr1"));
-				
+
 				char scrap_yn = 'n';
 //				 현재 사용자의 seq를 가져오는 api 필요
-				if (scrapRepository.countByDelYnAndScrapTypeAndUserSeqAndScrapData('n', '1', userSeq, (long) temp.get("contentid")) > 0)
+				if (scrapRepository.countByDelYnAndScrapTypeAndUserSeqAndScrapData('n', '1', userSeq,
+						(long) temp.get("contentid")) > 0)
 					scrap_yn = 'y';
 				obj.put("scrap_yn", scrap_yn);
-				
+
 				result.add(obj);
 			}
 
@@ -330,8 +334,7 @@ public class RecommendServiceImpl implements RecommendService {
 		} catch (ClassCastException e) {
 			e.printStackTrace();
 			throw new ClassCastException();
-		}
-			catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			throw new Exception();
 		}
@@ -339,17 +342,18 @@ public class RecommendServiceImpl implements RecommendService {
 	}
 
 	@Override
-	public List<Map<String, Object>> getNearMyLocation(int userSeq, String lat, String lng, String radius, String contentTypeId) throws Exception {
+	public List<Map<String, Object>> getNearMyLocation(int userSeq, String lat, String lng, String radius,
+			String contentTypeId) throws Exception {
 		StringBuilder sb = new StringBuilder();
 		List<Map<String, Object>> result = new LinkedList<>();
 		try {
 			String urlstr = "http://api.visitkorea.or.kr/openapi/service/rest/KorWithService/locationBasedList"
 					+ "?ServiceKey=90E0OY5f9CUd%2BGSJfMuFpPnny5XZ9Ks6RYqd0gV0LqOFeSC9A4B6VVnxmxDSUdtWx7auKWg2ALhbInFELnK8yQ%3D%3D"
 					+ "&mapX=" + lng + "&mapY=" + lat + "&radius=" + radius;
-			
-			if(contentTypeId!=null)
+
+			if (contentTypeId != null)
 				urlstr += "&contentTypeId=" + contentTypeId;
-			
+
 			urlstr += "&MobileOS=ETC&MobileApp=barrierfree&_type=json";
 
 			URL url = new URL(urlstr);
@@ -366,7 +370,7 @@ public class RecommendServiceImpl implements RecommendService {
 
 			JSONParser parser = new JSONParser();
 			JSONObject jsonObject = (JSONObject) parser.parse(sb.toString());
-			
+
 			JSONObject parse_response = (JSONObject) jsonObject.get("response"); // response key값에 맞는 Value인 JSON객체를
 																					// 가져옵니다.
 			// response 로 부터 body 찾아오기
@@ -375,21 +379,22 @@ public class RecommendServiceImpl implements RecommendService {
 			JSONObject parse_items = (JSONObject) parse_body.get("items");
 			// body 로 부터 items 받아오기
 			JSONArray parse_item = (JSONArray) parse_items.get("item");
-			
-			for(Object o : parse_item) {
+
+			for (Object o : parse_item) {
 				Map<String, Object> obj = new HashMap<>();
 				JSONObject temp = (JSONObject) o;
 				obj.put("contentid", temp.get("contentid"));
 				obj.put("title", temp.get("title"));
 				obj.put("firstimage", temp.get("firstimage"));
 				obj.put("addr1", temp.get("addr1"));
-				
+
 				char scrap_yn = 'n';
 //				 현재 사용자의 seq를 가져오는 api 필요
-				if (scrapRepository.countByDelYnAndScrapTypeAndUserSeqAndScrapData('n', '1', userSeq, (long) temp.get("contentid")) > 0)
+				if (scrapRepository.countByDelYnAndScrapTypeAndUserSeqAndScrapData('n', '1', userSeq,
+						(long) temp.get("contentid")) > 0)
 					scrap_yn = 'y';
 				obj.put("scrap_yn", scrap_yn);
-				
+
 				result.add(obj);
 			}
 
@@ -397,14 +402,11 @@ public class RecommendServiceImpl implements RecommendService {
 		} catch (ClassCastException e) {
 			e.printStackTrace();
 			throw new ClassCastException();
-		}
-			catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			throw new Exception();
 		}
 		return result;
 	}
-
-	
 
 }

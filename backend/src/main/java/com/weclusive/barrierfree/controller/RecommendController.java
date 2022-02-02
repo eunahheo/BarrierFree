@@ -73,9 +73,12 @@ public class RecommendController {
 	@GetMapping("/sigungu")
 	@ApiOperation(value="시구군 정보 조회", notes="시도의 코드를 활용해 시구군 명, 컬럼번호를 조회한다.")
 	public ResponseEntity<Object> getSigungu(int sidoCode) {
-		JSONArray result;
+		JSONArray result = null;
 		try {
 			result = recommendService.getSigungu(sidoCode);
+		} catch(ClassCastException e) {
+			e.printStackTrace();
+			return new ResponseEntity<>(result, HttpStatus.OK);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity<>("오류가 발생했습니다.", HttpStatus.BAD_REQUEST);
