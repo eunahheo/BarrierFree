@@ -12,7 +12,6 @@ import com.weclusive.barrierfree.entity.UserImpairment;
 @Repository
 public interface UserImpairmentRepository extends JpaRepository<UserImpairment, Integer> {
 
- 
 	// 입력한 게시글 번호의 장애 공통코드만 반환
 	@Query(value = "SELECT code FROM UserImpairment WHERE userSeq = ?1 AND delYn = 'n'")
 	public List<String> findImpairment(int userSeq);
