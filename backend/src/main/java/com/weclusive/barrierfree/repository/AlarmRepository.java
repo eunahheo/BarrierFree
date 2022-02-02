@@ -13,12 +13,20 @@ import com.weclusive.barrierfree.entity.Comment;
 @Repository
 public interface AlarmRepository extends JpaRepository<Alarm, Long> {
 
-	// 삭제 안된 알람 조회
+	// 회원의 삭제 안된 알람 유형별 조회
 	@Query(value = "SELECT a FROM Alarm a WHERE a.delYn = 'n' AND a.alarmType = ?1 AND a.userSeq = ?2 ")
 	public List<Alarm> findByAlarmTypeAndUserSeq(char alarmType, int userSeq);
 	
-	// 확인 안하고 삭제 안된 알람 조회
-	@Query(value = "SELECT a FROM Alarm a WHERE a.delYn = 'n' AND a.checkYn = 'n' AND a.alarmSeq = ?1")
+	// 회원의 삭제 안된 알림 조회
+	@Query(value = "SELECT a FROM Alarm a WHERE a.delYn = 'n' AND a.userSeq = ?1")
+	public List<Alarm> findByUserSeq(int userSeq);
+	
+	// 삭제 안된 알림 조회
+	@Query(value = "SELECT a FROM Alarm a WHERE a.delYn = 'n' AND a.alarmSeq = ?1")
 	public Optional<Alarm> findByAlarmSeq(long alarmSeq);
+	
+	// 특정 기간 이후가 지난 알림만 조회(지금은 하루)
+	@Query(value = "SELECT * FROM alarm WHERE reg_dt <= date_add(now(), interval -1 day) AND user_seq = ?1", nativeQuery = true)
+	public List<Alarm> findOldAlarm(int userSeq);
 
 }

@@ -10,8 +10,11 @@ public interface AlarmService {
 
 	public List<Map<String, Object>> readAlarm(int userSeq, char type);
 
-	public Optional<Alarm> checkByAlarmSeq(long alarmSeq);
 	public Alarm save(Alarm alarm);
+
+	public Optional<Alarm> updateByAlarmSeq(long alarmSeq, int type);
+
+	public int deleteOldAlarm(int userSeq);
 
 
 }

@@ -1,5 +1,6 @@
 package com.weclusive.barrierfree.service;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -53,11 +54,11 @@ public class AlarmServiceImpl implements AlarmService {
 					Optional<User> curUser = userRepository.findAllByUserSeq(followerSeq);
 
 					if (curUser.isPresent()) {
-					obj.put("alarm", cur);
-					obj.put("userNickname", curUser.get().getUserNickname());
-					obj.put("userSeq", curUser.get().getUserSeq());
+						obj.put("alarm", cur);
+						obj.put("userNickname", curUser.get().getUserNickname());
+						obj.put("userSeq", curUser.get().getUserSeq());
 
-					result.add(obj);
+						result.add(obj);
 					}
 				}
 			}
@@ -74,13 +75,13 @@ public class AlarmServiceImpl implements AlarmService {
 					Optional<User> curUser = userRepository.findAllByUserSeq(followerSeq);
 
 					if (curPost.isPresent() && curUser.isPresent()) {
-					obj.put("alarm", cur);
-					obj.put("userNickname", curUser.get().getUserNickname());
-					obj.put("userSeq", curUser.get().getUserSeq());
-					obj.put("postTitle", curPost.get().getPostTitle());
-					obj.put("postSeq", curPost.get().getPostSeq());
+						obj.put("alarm", cur);
+						obj.put("userNickname", curUser.get().getUserNickname());
+						obj.put("userSeq", curUser.get().getUserSeq());
+						obj.put("postTitle", curPost.get().getPostTitle());
+						obj.put("postSeq", curPost.get().getPostSeq());
 
-					result.add(obj);
+						result.add(obj);
 					}
 				}
 			}
@@ -111,22 +112,35 @@ public class AlarmServiceImpl implements AlarmService {
 
 	}
 
-	// 확인하기
+	// 확인 및 삭제하기
 	@Override
-	public Optional<Alarm> checkByAlarmSeq(long alarmSeq) {
-		Optional<Alarm> checkAlarm = alarmRepository.findByAlarmSeq(alarmSeq);
-		String regTime = TimeUtils.curTime();
+	public Optional<Alarm> updateByAlarmSeq(long alarmSeq, int type) {
+		Optional<Alarm> updateAlarm = alarmRepository.findByAlarmSeq(alarmSeq);
+		String curTime = TimeUtils.curTime();
 
+		if (updateAlarm.isPresent()) {
 
-		if (checkAlarm.isPresent()) {
-			checkAlarm.get().setCheckYn('y');
-			checkAlarm.get().setModDt(regTime);
-//			checkAlarm.get().setModId(modId); - 로그인한 사람 id
-			save(checkAlarm.get()); 
-			return checkAlarm;
+			// 확인하기
+			if (type == 0) {
+				updateAlarm.get().setCheckYn('y');
+				updateAlarm.get().setModDt(curTime);
+//				updateAlarm.get().setModId(modId); - 로그인한 사람 id
+				save(updateAlarm.get());
+				return updateAlarm;
+			}
+
+			// 삭제하기
+			else {
+				updateAlarm.get().setDelYn('y');
+				updateAlarm.get().setModDt(curTime);
+//				updateAlarm.get().setModId(modId); - 로그인한 사람 id
+				save(updateAlarm.get());
+				return updateAlarm;
+			}
+
 		} else
-		
-		return null;
+
+			return null;
 	}
 	
 	@Override
@@ -134,4 +148,26 @@ public class AlarmServiceImpl implements AlarmService {
 		alarmRepository.save(alarm);
 		return alarm;
 	}
+
+	// 오래된 알림 삭제
+	@Override
+	public int deleteOldAlarm(int userSeq) {
+		List<Alarm> deleteAlarm = alarmRepository.findOldAlarm(userSeq);
+		String curTime = TimeUtils.curTime();
+		int result = 0;
+		
+		if (deleteAlarm.size() != 0) {
+			for (int i = 0; i < deleteAlarm.size(); i++) {
+				deleteAlarm.get(i).setDelYn('y');
+				deleteAlarm.get(i).setModDt(curTime);			
+//				deleteAlarm.get(i).setModId("ID");		- 로그인 한 사람 ID
+				save(deleteAlarm.get(i));
+				result++;
+			}
+			return result;
+		}
+
+		return result;
+	}
+
 }

@@ -81,10 +81,34 @@ public class AlarmController {
 	// 알림 확인하기
 	@PutMapping(value = "/check")
 	@ApiOperation(value = "알림 확인하기", response = List.class)
-	public ResponseEntity<Object> deletePost(@RequestParam long alarmSeq) throws Exception {
-		Optional<Alarm> result = alarmService.checkByAlarmSeq(alarmSeq);
+	public ResponseEntity<Object> checkAlarm(@RequestParam long alarmSeq) throws Exception {
+		Optional<Alarm> result = alarmService.updateByAlarmSeq(alarmSeq, 0);
 
 		if(result == null)
+			return new ResponseEntity<>(FAIL, HttpStatus.BAD_REQUEST);
+		else
+			return new ResponseEntity<>(SUCCESS, HttpStatus.OK);
+	}
+
+	// 알림 삭제하기
+	@PutMapping(value = "/delete")
+	@ApiOperation(value = "알림 삭제하기", response = List.class)
+	public ResponseEntity<Object> deleteAlarm(@RequestParam long alarmSeq) throws Exception {
+		Optional<Alarm> result = alarmService.updateByAlarmSeq(alarmSeq, 1);
+		
+		if(result == null)
+			return new ResponseEntity<>(FAIL, HttpStatus.BAD_REQUEST);
+		else
+			return new ResponseEntity<>(SUCCESS, HttpStatus.OK);
+	}
+
+	// 일정 기간 지난 알림 삭제하기
+	@PutMapping(value = "/deleteOld")
+	@ApiOperation(value = "특정 기간 지난 알림 삭제하기 - 지금은 하루", response = List.class)
+	public ResponseEntity<Object> deleteOldAlarm(@RequestParam int userSeq) throws Exception {
+		int result = alarmService.deleteOldAlarm(userSeq);
+		
+		if(result == 0)
 			return new ResponseEntity<>(FAIL, HttpStatus.BAD_REQUEST);
 		else
 			return new ResponseEntity<>(SUCCESS, HttpStatus.OK);
