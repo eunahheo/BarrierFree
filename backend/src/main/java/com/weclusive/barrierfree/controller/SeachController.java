@@ -3,6 +3,7 @@ package com.weclusive.barrierfree.controller;
 import java.util.List;
 import java.util.Map;
 
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +28,7 @@ public class SeachController {
 
 	@Autowired
 	SearchService searchService;
+	
 
 	@GetMapping("/user")
 	@ApiOperation(value = "키워드로 사용자 검색", notes = "사용자 닉네임 검색 - 사용자 사진, 사용자 닉네임, 사용자 seq 반환")
@@ -53,14 +55,16 @@ public class SeachController {
 	}
 
 	@GetMapping("/tour")
-	@ApiOperation(value = "키워드로 사용자 게시글 검색", notes = "사용자 게시글 검색 - 스크랩 여부, 제목, 내용, 게시글 번호, 지역, 장애정보, 사진, 사용자 seq 반환")
+	@ApiOperation(value = "키워드로 관광 명소 검색", notes = "관광 명소")
 	public ResponseEntity<Object> searchTour(@RequestParam String keyword, @RequestParam int page,
 			@RequestParam int count, @RequestParam int userSeq) {
-		List<Map<String, Object>> posts = searchService.searchPost(keyword, userSeq, count);
-
-		if (posts != null) {
-			return new ResponseEntity<>(posts, HttpStatus.OK);
+		List<JSONObject> result;
+		try {
+			result = searchService.searchTour(keyword, userSeq);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<>("잘못된 요청입니다.", HttpStatus.BAD_REQUEST);
 		}
-		return new ResponseEntity<>(FAIL, HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<>(result,HttpStatus.OK);
 	}
 }
