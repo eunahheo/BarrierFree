@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, useMemo } from "react";
 import Physical from "../images/Physical.png"
 import Auditory from "../images/Auditory.png"
 import Pregnant from "../images/Pregnant.png"
@@ -21,17 +21,71 @@ const Recommend = () => {
   const [townList, setTownList] = useState([]);
   const [city, setCity] = useState('');
   const [town, setTown] = useState('');
+  const [user, setUser] = useState([]);
+
+  // 위도, 경도 설정
+  const [latitude, setLatitude] = useState('');
+  const [longitude, setLongitude] = useState('');
 
   useEffect(() => {
     const setRecommendPage = () => {
-      axios(
-        {
-          method: 'GET',
-          url:'post/all?userSeq=1'
-        }
-      ).then(function (res) {
-        setItemList(res.data)
-      });
+      // login 확인
+      if (localStorage) {
+        const token = localStorage.getItem('accessToken');
+        axios(
+          {
+            method: 'GET',
+            url: 'user/info',
+            headers: {
+             'Authorization': `Bearer ${token}`,
+            },
+        }).then(function (res) {
+          console.log(res)
+          setUser(res.data)
+          console.log(user)
+
+          const loadPage = () => {
+            axios(
+              {
+                method: 'GET',
+                url:'post/all',
+                params: {
+                  userSeq: res.data.userSeq
+                }
+              }
+            ).then(function (res) {
+              console.log(res)
+              setItemList(res.data)
+              console.log(itemList)
+            });
+          }
+
+          const findMyLocation = () => {      
+            
+            // Geolocation API에 액세스할 수 있는지를 확인
+            if (navigator.geolocation) {
+                //위치 정보를 얻기
+                navigator.geolocation.getCurrentPosition (function(res) {
+                  console.log(res)
+                  setLatitude(res.coords.latitude);   // 위도
+                  setLongitude(res.coords.longitude); // 경도
+                }
+                );
+            } else {
+                alert("이 브라우저에서는 Geolocation이 지원되지 않습니다.")
+            }
+          };
+
+          loadPage();
+          findMyLocation();
+
+        })
+      } else {
+        alert('로그인이 필요합니다.')
+      }
+
+      // !!!!!!!!!!!!!!! 로그인이 안됐을 때 로그인 하라는 페이지가 나와야함
+
     }
     
     const setCityDropdown = () => {
@@ -41,55 +95,75 @@ const Recommend = () => {
           url: 'recommend/sido'
         }
       ).then(function (res) {
-        console.log(res.data)
+        // console.log(res.data)
         setCityList(res.data)
+        console.log(longitude)
+        // console.log(cityList)
       });
     }
     setRecommendPage();
     setCityDropdown();
   }, []);
 
-
-  const selectTown = () => {
-    const sidoCode = city
+  // 여행 지역 선택하기
+  const selectTown = (sidoCode) => {
     axios(
       {
         url: 'recommend/sigungu',
         method: 'GET',
-        params: {sidoCode: sidoCode}
+        params: {
+          sidoCode: sidoCode
+        }
       }).then(function (res) {
         console.log(res)
         setTownList(res.data)
-        console.log(townList)
+        // console.log(townList)
       })
   };
   
-  const handelChangeCity = (event) => {
+  const handleChangeCity = (event) => {
+    if (town) {
+      setTown('')
+    }
     console.log(event)
-    setCity(event.target.value);
-    console.log(city)
-    selectTown();
+    if (event.target.value != 8) {
+      setCity(event.target.value);
+      selectTown(event.target.value);
+    } else {
+      setTownList([])
+    }
   }
   
-  const handelChangeTown = (event) => {
+  const handleChangeTown = (event) => {
     console.log(event.target)
     setTown(event.target.value)
     console.log(town)
   }
   
-
+  // 장애 정보 선택하기
   const onClickBarrier = (res) => {
     const barrier = res.target.id
     axios(
       {
-        url:'post/all?userSeq=1',
-        params:{impairment: barrier}
+        url:'post/all',
+        params:{
+          userSeq: user.userSeq,
+          impairment: barrier
+        }
       }
     ).then(function (res) {
+      console.log(user)
       setItemList(res.data)
-      // console.log(res.data)
+      console.log(barrier)
     })
   }
+  
+  // !!!!!!!!!!!!! 검색 기능 만들기
+  const onClickSearch = () => {
+    
+  }
+
+
 
   return (
     <div>
@@ -111,7 +185,7 @@ const Recommend = () => {
             labelId="find-city"
             id="find-city"
             value={city}
-            onChange={handelChangeCity}
+            onChange={handleChangeCity}
             label="시도">
               {cityList.map(city => (
                 <MenuItem name={city.name} value={city.code} key={city.rnum}>{city.name}</MenuItem>
@@ -124,10 +198,10 @@ const Recommend = () => {
             labelId="find-town"
             id="find-town"
             value={town}
-            onChange={handelChangeTown}
+            onChange={handleChangeTown}
             label="시도">
               {townList.map(town => (
-                <MenuItem name={town.name} value={town.code} key={town.rnum}>{town.name}</MenuItem>
+                <MenuItem value={town.code} key={town.rnum}>{town.name}</MenuItem>
               ))}
             </Select>
           </FormControl>
@@ -137,7 +211,7 @@ const Recommend = () => {
           </div>
         </Box>
         <RecommendCategories category={category} onClick={onSelect}></RecommendCategories>
-        <RecommendCardList itemList={itemList} caategory={category}></RecommendCardList>
+        <RecommendCardList itemList={itemList} category={category}></RecommendCardList>
       </Container>
     </div>
   )

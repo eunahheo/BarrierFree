@@ -3,7 +3,7 @@ import React from "react";
 import RecommendCard from "./RecommendCard"
 
 const RecommendCardList = ({ itemList }) => {
-
+  
   return (
     <div className="RecommendCardList">
       <div>
