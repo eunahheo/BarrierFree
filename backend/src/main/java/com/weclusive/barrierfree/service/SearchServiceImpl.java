@@ -94,27 +94,9 @@ public class SearchServiceImpl implements SearchService {
 		return result;
 	}
 
-	@Override
-	public List<Map<String, Object>> searchRestaurant(String keyword, int count) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<Map<String, Object>> searchAccommodation(String keyword, int count) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<Map<String, Object>> searchEvent(String keyword, int count) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<JSONObject> searchTour(String keyword, int userSeq) throws Exception {
+	public List<JSONObject> searchTour(String keyword, String contentTypeId, int userSeq) throws Exception {
 		StringBuilder sb = new StringBuilder();
 		List<JSONObject> result = new ArrayList<>();
 		try {
@@ -126,7 +108,10 @@ public class SearchServiceImpl implements SearchService {
             urlBuilder.append("&" + URLEncoder.encode("MobileApp","UTF-8") + "=" + URLEncoder.encode("barrierfree", "UTF-8")); //서비스명=어플명
             urlBuilder.append("&" + URLEncoder.encode("listYN","UTF-8") + "=" + URLEncoder.encode("Y", "UTF-8")); //목록 구분(Y=목록, N=개수)
             urlBuilder.append("&" + URLEncoder.encode("arrange","UTF-8") + "=" + URLEncoder.encode("B", "UTF-8")); //(A=제목순,B=조회순,C=수정일순,D=생성일순) 대표이미지가 반드시 있는 정렬(O=제목순, P=조회순, Q=수정일순, R=생성일순)
-            urlBuilder.append("&" + URLEncoder.encode("contentTypeId","UTF-8") + "=" + URLEncoder.encode("12", "UTF-8")); //관광타입(관광지, 숙박 등) ID
+          
+            // contentTypeId를 지정하지 않으면 관계 없이 모두 검색 된다.
+            if(!contentTypeId.equals("0"))   urlBuilder.append("&" + URLEncoder.encode("contentTypeId","UTF-8") + "=" + URLEncoder.encode(contentTypeId, "UTF-8")); //관광타입(관광지, 숙박 등) ID
+            
             urlBuilder.append("&" + URLEncoder.encode("keyword","UTF-8") + "=" + URLEncoder.encode(keyword, "UTF-8")); //검색 요청할 키워드 (국문=인코딩 필요)
             urlBuilder.append("&" + URLEncoder.encode("totalCnt","UTF-8") + "=" + URLEncoder.encode("3", "UTF-8")); //ListYN(Y=결과 리스트, N=리스트 갯수)
             urlBuilder.append("&" + URLEncoder.encode("_type","UTF-8")+'='+URLEncoder.encode("json","UTF-8"));
@@ -152,10 +137,37 @@ public class SearchServiceImpl implements SearchService {
 			// response 로 부터 body 찾아오기
 			JSONObject parse_body = (JSONObject) parse_response.get("body");
 			// body 로 부터 items 받아오기
-			JSONObject parse_items = (JSONObject) parse_body.get("items");
+			JSONObject parse_items = null;
+			try {
+				parse_items = (JSONObject) parse_body.get("items");
+			} catch (Exception e) {
+				return null;
+			}
+			
+			Long totalCount = (Long) parse_body.get("totalCount");
+
+			if(totalCount == 1) {
+				JSONObject item = (JSONObject) parse_items.get("item");
+				JSONObject tour = new JSONObject();
+				
+				String contentid = item.get("contentid").toString();
+
+				tour.put("contentid", item.get("contentid"));
+				tour.put("title", item.get("title"));
+				tour.put("firstimage", item.get("firstimage"));
+				
+				
+				tour.put("impairments",loadImpairmentDetail(contentid));
+				tour.put("mapx", item.get("mapx"));
+				tour.put("mapy", item.get("mapy"));
+				tour.put("addr1", item.get("addr1"));
+				tour.put("scrapYN", scrapService.getScrapYn(userSeq, '1', Long.parseLong(contentid)));
+
+				result.add(tour);
+				return result;
+			}
 			// body 로 부터 items 받아오기
 			JSONArray parse_item = (JSONArray) parse_items.get("item");
-
 			
 			for (int i = 0; i < parse_item.size(); i++) {
 				JSONObject item = (JSONObject) parse_item.get(i);
@@ -166,7 +178,7 @@ public class SearchServiceImpl implements SearchService {
 				tour.put("contentid", item.get("contentid"));
 				tour.put("title", item.get("title"));
 				tour.put("firstimage", item.get("firstimage"));
-				tour.put("impairments", loadImpairmentDetail(contentid));
+				tour.put("impairment", loadImpairmentDetail(contentid));
 				tour.put("mapx", item.get("mapx"));
 				tour.put("mapy", item.get("mapy"));
 				tour.put("addr1", item.get("addr1"));
@@ -174,8 +186,7 @@ public class SearchServiceImpl implements SearchService {
 
 				result.add(tour);
 			}
-		
-//			result.put("posts", postRepository.findTop20ByDelYnAndContentIdOrderByPostScrapDesc('n', contentid));
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new Exception();
@@ -228,9 +239,9 @@ public class SearchServiceImpl implements SearchService {
 	}
 
 	@Override
-	public JSONObject loadImpairmentDetail(String contentid) throws Exception {
+	public JSONArray loadImpairmentDetail(String contentid) throws Exception {
 		StringBuilder sb = new StringBuilder();
-		JSONObject result = new JSONObject();
+		JSONArray result = new JSONArray();
 		try {
 			String urlstr = "http://api.visitkorea.or.kr/openapi/service/rest/KorWithService/detailWithTour"
 					+ "?ServiceKey=90E0OY5f9CUd%2BGSJfMuFpPnny5XZ9Ks6RYqd0gV0LqOFeSC9A4B6VVnxmxDSUdtWx7auKWg2ALhbInFELnK8yQ%3D%3D"
@@ -261,7 +272,7 @@ public class SearchServiceImpl implements SearchService {
 			JSONObject parse_item = (JSONObject) parse_items.get("item");
 
 			System.out.println(parse_item);
-			result = iutil.getImpairmentDetail(parse_item);
+			result = iutil.getImpairmentInt(parse_item);
 
 		} catch (Exception e) {
 			e.printStackTrace();

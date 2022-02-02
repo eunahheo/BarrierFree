@@ -55,12 +55,14 @@ public class SeachController {
 	}
 
 	@GetMapping("/tour")
-	@ApiOperation(value = "키워드로 관광 명소 검색", notes = "관광 명소")
-	public ResponseEntity<Object> searchTour(@RequestParam String keyword, @RequestParam int page,
-			@RequestParam int count, @RequestParam int userSeq) {
-		List<JSONObject> result;
+	@ApiOperation(value = "키워드로 관광 명소 검색", notes = "contentTypeId - 전체 : 0 / 관광 명소 : 12 / 음식점 : 39 / 숙박 : 32 / 행사 : 15 / 쇼핑 : 38 / 문화시설 : 14 / 레포츠 : 28")
+//	public ResponseEntity<Object> searchTour(@RequestParam String keyword, @Requestam int page,
+//			@RequestParam int count, @RequestParam int userSeq) {
+	public ResponseEntity<Object> searchTour(@RequestParam String keyword, @RequestParam String contentTypeId, @RequestParam int userSeq) {	
+	List<JSONObject> result;
 		try {
-			result = searchService.searchTour(keyword, userSeq);
+			result = searchService.searchTour(keyword, contentTypeId, userSeq);
+			if(result == null)return new ResponseEntity<>("검색 결과가 없습니다.",HttpStatus.OK);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity<>("잘못된 요청입니다.", HttpStatus.BAD_REQUEST);
