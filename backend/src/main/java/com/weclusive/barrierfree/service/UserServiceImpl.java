@@ -422,7 +422,21 @@ public class UserServiceImpl implements UserService {
 			newUser.setUserPwd(passwordEncoder.encode(user.getUserPwd()));
 			newUser.setUserPhoto(user.getUserPhoto());
 			newUser.setModDt(TimeUtils.curTime());
-			newUser.setModId(user.getUserId());
+			newUser.setModId(userRepository.findByUserSeq(user.getUserSeq()).getUserId());
+			
+			userRepository.save(newUser);
+			return true;
+		} catch(Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+	@Override
+	public boolean withdrawUser(int userSeq) throws Exception {
+		try {
+			User newUser = userRepository.findByUserSeq(userSeq);
+			newUser.setDelYn('y');
 			
 			userRepository.save(newUser);
 			return true;

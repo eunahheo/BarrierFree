@@ -32,6 +32,8 @@ public interface UserService {
 	
 	public boolean modifyUser(User user) throws Exception;
 
+	public boolean withdrawUser(int userSeq) throws Exception;
+	
 	// Token
 	public String createAccessToken(User user);
 

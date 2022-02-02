@@ -36,6 +36,7 @@ import com.weclusive.barrierfree.util.StringUtils;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 
 @RestController
 @CrossOrigin("*")
@@ -256,12 +257,25 @@ public class UserController {
 	}
 	
 	@PutMapping("/modify")
-	@ApiOperation(value = "사용자 정보 수정", notes = "사용자 정보를 수정한다.")
-	public ResponseEntity<Map<String, Object>> modifyInfo(@RequestHeader("Authorization") String accessToken, @RequestBody User user) {
+	@ApiOperation(value = "사용자 정보 수정", notes = "사용자 정보를 수정한다. 수정에 성공하면 true가, 실패하면 fail, API 오류 발생시 FAIL이 반환된다.")
+	public ResponseEntity<Map<String, Object>> modifyInfo(@RequestHeader("Authorization") String accessToken, @ApiParam(value="userSeq 필수, 나머지 정보들은 선택사항")@RequestBody User user) {
 		Map<String, Object> result = new HashMap<>();
 		try {
-			System.out.println(user);	
 			result.put("result", userService.modifyUser(user));
+			return new ResponseEntity<>(result, HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();	
+			result.put("result", FAIL);
+			return new ResponseEntity<Map<String, Object>>(result,  HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@PutMapping("/withdraw")
+	@ApiOperation(value = "사용자 탈퇴", notes = "사용자 정보의 delYn 컬럼을 'y'로 변경한다. 수정에 성공하면 true가, 실패하면 fail, API 오류 발생시 FAIL이 반환된다.")
+	public ResponseEntity<Map<String, Object>> withdrawUser(@RequestHeader("Authorization") String accessToken, @ApiParam(value="탈퇴처리할 사용자의  userSeq")@RequestParam int userSeq) {
+		Map<String, Object> result = new HashMap<>();
+		try {
+			result.put("result", userService.withdrawUser(userSeq));
 			return new ResponseEntity<>(result, HttpStatus.OK);
 		} catch (Exception e) {
 			e.printStackTrace();	
