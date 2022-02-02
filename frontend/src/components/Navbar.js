@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Link, useNavigate, Navigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -91,6 +91,10 @@ import MailIcon from "@mui/icons-material/Mail";
 
 const pages = ["소식함", "여행지 추천", "검색하기", "베프란?"];
 const settings = ["내 계정 보기", "내 스크랩 보기", "프로필 수정", "로그아웃"];
+<<<<<<< HEAD
+=======
+
+>>>>>>> b9d61e58f960030d61536e256a76e35646a4aafb
 const Navbar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -109,10 +113,13 @@ const Navbar = () => {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+<<<<<<< HEAD
   const navigate = useNavigate();
 
   // 로그인/로그아웃 분기
   const isLoggedIn = false;
+=======
+>>>>>>> b9d61e58f960030d61536e256a76e35646a4aafb
 
   return (
     <AppBar position="static">
@@ -155,6 +162,7 @@ const Navbar = () => {
                 display: { xs: "block", md: "none" },
               }}
             >
+<<<<<<< HEAD
               <MenuItem
                 onClick={() => {
                   navigate("/");
@@ -190,6 +198,28 @@ const Navbar = () => {
               >
                 <Typography textAlign="center">베프란?</Typography>
               </MenuItem>
+=======
+              <Link to="/">
+                <MenuItem onClick={handleCloseNavMenu}>
+                  <Typography textAlign="center">소식함</Typography>
+                </MenuItem>
+              </Link>
+              <Link to="/recommend">
+                <MenuItem onClick={handleCloseNavMenu}>
+                  <Typography textAlign="center">여행지 추천</Typography>
+                </MenuItem>
+              </Link>
+              <Link to="/search">
+                <MenuItem onClick={handleCloseNavMenu}>
+                  <Typography textAlign="center">검색하기</Typography>
+                </MenuItem>
+              </Link>
+              <Link to="/about">
+                <MenuItem onClick={handleCloseNavMenu}>
+                  <Typography textAlign="center">베프란?</Typography>
+                </MenuItem>
+              </Link>
+>>>>>>> b9d61e58f960030d61536e256a76e35646a4aafb
             </Menu>
           </Box>
           <Typography
@@ -201,6 +231,7 @@ const Navbar = () => {
             LOGO
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+<<<<<<< HEAD
             <Button
               onClick={() => {
                 navigate("/");
@@ -258,6 +289,48 @@ const Navbar = () => {
               회원가입
               {/* </Navigate> */}
             </Button>
+=======
+            <Link to="/">
+              <Button
+                onClick={handleCloseNavMenu}
+                sx={{ mr: 30, my: 2, color: "white", display: "block" }}
+              >
+                소식함2
+              </Button>
+            </Link>
+            <Link to="/recommend">
+              <Button
+                onClick={handleCloseNavMenu}
+                sx={{ mr: 30, my: 2, color: "white", display: "block" }}
+              >
+                여행지 추천
+              </Button>
+            </Link>
+            <Link to="/search">
+              <Button
+                onClick={handleCloseNavMenu}
+                sx={{ mr: 30, my: 2, color: "white", display: "block" }}
+              >
+                검색하기
+              </Button>
+            </Link>
+            <Link to="/about">
+              <Button
+                onClick={handleCloseNavMenu}
+                sx={{ my: 2, color: "white", display: "block" }}
+              >
+                베프란?
+              </Button>
+            </Link>
+            <Link to="/signup">
+              <Button
+                onClick={handleCloseNavMenu}
+                sx={{ my: 2, color: "white", display: "block" }}
+              >
+                회원가입
+              </Button>
+            </Link>
+>>>>>>> b9d61e58f960030d61536e256a76e35646a4aafb
           </Box>
           {/* 알림 모양 */}
           <IconButton
@@ -292,6 +365,7 @@ const Navbar = () => {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
+<<<<<<< HEAD
               <MenuItem
                 onClick={() => {
                   navigate("/user");
@@ -329,6 +403,29 @@ const Navbar = () => {
               >
                 <Typography textAlign="center">로그아웃</Typography>
               </MenuItem>
+=======
+              <Link to="/user">
+                <MenuItem onClick={handleCloseUserMenu}>
+                  <Typography textAlign="center">내 계정 보기</Typography>
+                </MenuItem>
+              </Link>
+              <Link to="/userpost">
+                <MenuItem onClick={handleCloseUserMenu}>
+                  <Typography textAlign="center">내 스크랩 보기</Typography>
+                </MenuItem>
+              </Link>
+              <Link to="/userpage">
+                <MenuItem onClick={handleCloseUserMenu}>
+                  <Typography textAlign="center">프로필 수정</Typography>
+                </MenuItem>
+              </Link>
+              {/* 로그인일때 로그인되어잇지 않을 때 분기 */}
+              <Link to="/">
+                <MenuItem onClick={handleCloseUserMenu}>
+                  <Typography textAlign="center">로그아웃</Typography>
+                </MenuItem>
+              </Link>
+>>>>>>> b9d61e58f960030d61536e256a76e35646a4aafb
             </Menu>
           </Box>
         </Toolbar>

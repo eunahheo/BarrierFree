@@ -1,19 +1,19 @@
 import { ImageList } from "@mui/material";
 import React from "react";
-import RecommendCard from "./RecommendCard"
+import SearchCard from "./SearchCard"
 
-const RecommendCardList = ({ itemList }) => {
+const SearchCardList = ({ itemList }) => {
 
   return (
     <div className="RecommendCardList">
       <div>
         <ImageList cols={4}>
           {itemList.map(item => (
-            <RecommendCard item={item} key={item.post_seq} />
+            <SearchCard item={item} key={item.post_seq} />
           ))}
         </ImageList>
       </div>
     </div>
   )
 }
-export default RecommendCardList;
+export default SearchCardList;

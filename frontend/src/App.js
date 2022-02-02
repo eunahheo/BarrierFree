@@ -30,6 +30,11 @@ function App() {
         <Route path="/signup" exact={true} element={<Signup />}></Route>
         <Route path="/userpage" exact={true} element={<UserPage />}></Route>
         <Route path="/userpage" exact={true} element={<UserPage />}></Route>
+        <Route
+          path="/post/detail/:reviewCard"
+          exact={true}
+          element={<Review />}
+        ></Route>
         <Route path="/reviewpage" element={<ReviewPage />}></Route>
         <Route
           path="/reviewpage/order-by-bf"
