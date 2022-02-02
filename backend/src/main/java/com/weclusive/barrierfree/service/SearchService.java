@@ -9,7 +9,7 @@ import org.json.simple.JSONObject;
 public interface SearchService {
 	public List<Map<String, Object>> searchUser(String keyword, int count);
 
-	public JSONObject searchTour(String keyword, int count);
+	public List<JSONObject> searchTour(String keyword, int count) throws Exception;
 
 	public List<Map<String, Object>> searchRestaurant(String keyword, int count);
 
