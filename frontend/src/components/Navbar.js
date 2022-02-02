@@ -249,7 +249,7 @@ const Navbar = () => {
             </Button>
             <Button
               onClick={() => {
-                navigate("/signup");
+                navigate("/registerpage");
                 handleCloseNavMenu();
               }}
               sx={{ my: 2, color: "white", display: "block" }}

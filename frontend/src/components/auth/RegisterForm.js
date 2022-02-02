@@ -1,8 +1,10 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
+import { Navigate, useNavigate } from "react-router-dom";
 import AuthForm from "../../components/auth/AuthForm";
 
 const RegisterForm = () => {
+  const navigate = useNavigate();
   const [regform, setForm] = useState({
     userId: "",
     userEmail: "",
@@ -34,12 +36,13 @@ const RegisterForm = () => {
 
   const onSubmit = async (event) => {
     event.preventDefault();
+
     console.log(regform);
     const { userId, userEmail, userPwd, userPwdCfm, userNickname } = regform;
-    // if (userPwd != userPwdCfm) {
-    //   alert("비밀번호를 다르게 입력했어요!😥");
-    //   return;
-    // }
+    if (userPwd !== userPwdCfm) {
+      alert("비밀번호를 다르게 입력했어요!😥");
+      return;
+    }
     try {
       await axios({
         url: "http://localhost:8080/user/join/",
@@ -49,7 +52,8 @@ const RegisterForm = () => {
         // },
         data: regform,
       });
-      // (alert("회원가입이 완료되었습니다!😀"))
+      alert("회원가입이 완료되었습니다!😀");
+      navigate("/");
     } catch (error) {
       console.log(error);
     }

@@ -97,8 +97,8 @@ const AuthForm = ({ form, type, onChange, onSubmit, setForm }) => {
           name="userPwdCfm"
           type="password"
           placeholder="비밀번호를 한번 더 입력하세요"
-          // onChange={onChange}
-          // value={form.userPwdCfm}
+          onChange={onChange}
+          value={form.userPwdCfm}
         />
         {/* )} */}
         {/* {type === "register" && ( */}
