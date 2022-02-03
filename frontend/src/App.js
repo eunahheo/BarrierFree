@@ -16,6 +16,8 @@ import Login from "./components/user/Login";
 import RegisterPage from "./pages/RegisterPage";
 import RegisterCompletedPage from "./pages/RegisterCompletedPage";
 import Review from "./components/review/Review";
+import { eventWrapper } from "@testing-library/user-event/dist/utils";
+// import Signup from "./components/user/Signup";
 import RegisterPageKakao from "./pages/RegisterPageKakao";
 import RegisterEmailCheckPage from "./pages/RegisterEmailCheckPage";
 import LoginPage from "./pages/LoginPage";

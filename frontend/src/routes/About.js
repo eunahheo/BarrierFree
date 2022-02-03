@@ -1,7 +1,7 @@
 import React from "react";
 import Login from "../components/user/Login";
 import Infomation from "../components/infomation/Infomation";
-import Header from "../components/common/Header";
+import TourInfomation from "../components/search/TourInfomation";
 
 function About() {
   return (
@@ -9,6 +9,7 @@ function About() {
       <Header />
       {/* <Infomation></Infomation> */}
       <Login></Login>
+      <TourInfomation></TourInfomation>
       <span>About weclusive</span>;
     </div>
   );
