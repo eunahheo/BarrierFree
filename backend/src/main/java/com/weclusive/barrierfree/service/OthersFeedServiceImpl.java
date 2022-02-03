@@ -95,8 +95,7 @@ public class OthersFeedServiceImpl implements OthersFeedService {
 			obj.put("impairment", list);
 
 			char scrap_yn = 'n';
-			if (scrapRepository.countByDelYnAndScrapTypeAndUserSeqAndScrapData('n', '0', userSeq,
-					post.getPostSeq()) > 0)
+			if (scrapRepository.countByDelYnAndScrapTypeAndUserSeqAndScrapData('n', '0', userSeq, post.getPostSeq()) > 0)
 				scrap_yn = 'y';
 			obj.put("scrap_yn", scrap_yn);
 			result.add(obj);
@@ -118,12 +117,11 @@ public class OthersFeedServiceImpl implements OthersFeedService {
 			obj.put("userNickname", user.getUserNickname());
 			obj.put("userSeq", following.getFollowingSeq());
 
-			Follow isFollowing = (Follow) followRepository.findByDelYnAndUserSeqAndFollowingSeq(userSeq,
-					following.getFollowingSeq());
+			Follow isFollowing = (Follow) followRepository.findByDelYnAndUserSeqAndFollowingSeq(userSeq, following.getFollowingSeq());
 			if (isFollowing == null) {
-				obj.put("followingYn", 'n');
+				obj.put("isfollow", 'n');
 			} else {
-				obj.put("followingYn", 'y');
+				obj.put("isfollow", 'y');
 			}
 			result.add(obj);
 		});
@@ -143,12 +141,11 @@ public class OthersFeedServiceImpl implements OthersFeedService {
 			obj.put("userNickname", user.getUserNickname());
 			obj.put("userSeq", following.getUserSeq());
 
-			Follow isFollowing = (Follow) followRepository.findByDelYnAndUserSeqAndFollowingSeq(userSeq,
-					following.getUserSeq());
+			Follow isFollowing = (Follow) followRepository.findByDelYnAndUserSeqAndFollowingSeq(userSeq, following.getUserSeq());
 			if (isFollowing == null) {
-				obj.put("followingYn", 'n');
+				obj.put("isfollow", 'n');
 			} else {
-				obj.put("followingYn", 'y');
+				obj.put("isfollow", 'y');
 			}
 			result.add(obj);
 		});

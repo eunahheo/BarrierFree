@@ -27,20 +27,19 @@ public class FollowServiceImpl implements FollowService {
 
         followRepository.save(
                 Follow.builder()
-                .userSeq(followDto.getUserSeq())
-                .followingSeq(followDto.getFollowingSeq())
-                .delYn('n')
-                .regDt(now).regId(user.getUserId())
-                .modDt(now).modId(user.getUserId())
-                .build());
+  	                  .userSeq(followDto.getUserSeq())
+	                  .followingSeq(followDto.getFollowingSeq())
+	                  .delYn('n')
+	                  .regDt(now).regId(user.getUserId())
+	                  .modDt(now).modId(user.getUserId())
+	                  .build());
     }
 
     @Override
     public void unfollow(FollowDto followDto) {
         String now = TimeUtils.curTime(); // 현재 시각
         User user = userRepository.findByUserSeq(followDto.getUserSeq());
-        Follow follow = followRepository.findByUserSeqAndFollowingSeqAndDelYn(followDto.getUserSeq(),
-                followDto.getFollowingSeq(), 'n');
+        Follow follow = followRepository.findByUserSeqAndFollowingSeqAndDelYn(followDto.getUserSeq(), followDto.getFollowingSeq(), 'n');
         follow.setDelYn('y');
         follow.setModDt(now);
         follow.setModId(user.getUserId());
