@@ -22,19 +22,18 @@ import io.swagger.annotations.ApiOperation;
 @CrossOrigin("*")
 @RequestMapping("/search")
 @Api("키워드 검색 기능")
-public class SeachController {
+public class SearchController {
 //	private static final String SUCCESS = "success";
 	private static final String FAIL = "fail";
 
 	@Autowired
 	SearchService searchService;
-	
 
 	@GetMapping("/user")
 	@ApiOperation(value = "키워드로 사용자 검색", notes = "사용자 닉네임 검색 - 사용자 사진, 사용자 닉네임, 사용자 seq 반환")
 	public ResponseEntity<Object> searchUser(@RequestParam String keyword, @RequestParam int page,
-			@RequestParam int count) {
-		List<Map<String, Object>> users = searchService.searchUser(keyword, count);
+			@RequestParam int numOfRows) {
+		List<Map<String, Object>> users = searchService.searchUser(keyword, numOfRows);
 
 		if (users != null) {
 			return new ResponseEntity<>(users, HttpStatus.OK);
@@ -45,8 +44,8 @@ public class SeachController {
 	@GetMapping("/post")
 	@ApiOperation(value = "키워드로 사용자 게시글 검색", notes = "사용자 게시글 검색 - 스크랩 여부, 제목, 내용, 게시글 번호, 지역, 장애정보, 사진, 사용자 seq 반환")
 	public ResponseEntity<Object> searchPost(@RequestParam String keyword, @RequestParam int page,
-			@RequestParam int count, @RequestParam int userSeq) {
-		List<Map<String, Object>> posts = searchService.searchPost(keyword, userSeq, count);
+			@RequestParam int numOfRows, @RequestParam int userSeq) {
+		List<Map<String, Object>> posts = searchService.searchPost(keyword, userSeq, numOfRows);
 
 		if (posts != null) {
 			return new ResponseEntity<>(posts, HttpStatus.OK);
@@ -58,15 +57,17 @@ public class SeachController {
 	@ApiOperation(value = "키워드로 관광 명소 검색", notes = "contentTypeId - 전체 : 0 / 관광 명소 : 12 / 음식점 : 39 / 숙박 : 32 / 행사 : 15 / 쇼핑 : 38 / 문화시설 : 14 / 레포츠 : 28")
 //	public ResponseEntity<Object> searchTour(@RequestParam String keyword, @Requestam int page,
 //			@RequestParam int count, @RequestParam int userSeq) {
-	public ResponseEntity<Object> searchTour(@RequestParam String keyword, @RequestParam String contentTypeId, @RequestParam int userSeq) {	
-	List<JSONObject> result;
+	public ResponseEntity<Object> searchTour(@RequestParam String keyword, @RequestParam String contentTypeId,
+			@RequestParam int userSeq, @RequestParam int page, @RequestParam int numOfRows) {
+		List<JSONObject> result;
 		try {
 			result = searchService.searchTour(keyword, contentTypeId, userSeq);
-			if(result == null)return new ResponseEntity<>("검색 결과가 없습니다.",HttpStatus.OK);
+			if (result == null)
+				return new ResponseEntity<>("검색 결과가 없습니다.", HttpStatus.OK);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity<>("잘못된 요청입니다.", HttpStatus.BAD_REQUEST);
 		}
-		return new ResponseEntity<>(result,HttpStatus.OK);
+		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
 }
