@@ -26,7 +26,7 @@ const LoginForm = () => {
       setLoginloading(true);
       try {
         await axios({
-          url: "http://http://i6a504.p.ssafy.io:3030/user/login/",
+          url: "http://i6a504.p.ssafy.io:3030/user/login/",
           method: "post",
           headers: {
             "Content-Type": "application/json",
