@@ -44,7 +44,7 @@ public class OthersFeedServiceImpl implements OthersFeedService {
 	ScrapRepository scrapRepository;
 
 	@Override
-	public Map<String, Object> readOthersFeed(int otherUserSeq) {
+	public Map<String, Object> readOthersFeed(int userSeq, int otherUserSeq) {
 
 		Map<String, Object> obj = new HashMap<>();
 
@@ -56,9 +56,12 @@ public class OthersFeedServiceImpl implements OthersFeedService {
 			obj.put("writePost", postRepository.countByUserSeq(otherUserSeq));
 			obj.put("following", followRepository.countFollowing(otherUserSeq));
 			obj.put("follower", followRepository.countFollower(otherUserSeq));
-			return obj;
 		}
-		return null;
+		Follow follow = followRepository.findByUserSeqAndFollowingSeqAndDelYn(userSeq, otherUserSeq, 'n');
+		if(follow == null) obj.put("isfollow", 'n');
+		else obj.put("isfollow", 'y');
+		
+		return obj;
 	}
 
 	@Override
@@ -150,12 +153,5 @@ public class OthersFeedServiceImpl implements OthersFeedService {
 			result.add(obj);
 		});
 		return result;
-	}
-
-	@Override
-	public boolean isFollow(int otherUserseq, int userSeq) {
-		Follow follow = followRepository.findByUserSeqAndFollowingSeqAndDelYn(userSeq, otherUserseq, 'n');
-		if(follow == null) return false;
-		else return true;
 	}
 }
