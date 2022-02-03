@@ -44,21 +44,24 @@ const Recommend = () => {
           setUser(res.data)
           console.log(user)
 
-          const loadPage = () => {
-            axios(
-              {
-                method: 'GET',
-                url:'post/all',
-                params: {
-                  userSeq: res.data.userSeq
-                }
-              }
-            ).then(function (res) {
-              console.log(res)
-              setItemList(res.data)
-              console.log(itemList)
-            });
-          }
+          // const loadPage = () => {
+          //   axios(
+          //     {
+          //       method: 'GET',
+          //       url:'recommend/myloc',
+          //       params: {
+          //         lat : latitude,
+          //         lng : longitude,
+          //         radius : 20000,
+          //         userSeq: res.data.userSeq
+          //       }
+          //     }
+          //   ).then(function (res) {
+          //     console.log(res)
+          //     setItemList(res.data)
+          //     console.log(itemList)
+          //   });
+          // }
 
           const findMyLocation = () => {      
             
@@ -69,15 +72,33 @@ const Recommend = () => {
                   console.log(res)
                   setLatitude(res.coords.latitude);   // 위도
                   setLongitude(res.coords.longitude); // 경도
+                  axios(
+                    {
+                      method: 'GET',
+                      url:'recommend/myloc',
+                      params: {
+                        lat : res.coords.latitude,
+                        lng : res.coords.longitude,
+                        radius : 20000,
+                        userSeq: user.userSeq
+                      }
+                    }
+                  ).then(function (res) {
+                    console.log(res)
+                    setItemList(res.data)
+                    console.log(itemList)
+                  });
                 }
                 );
+
+
             } else {
                 alert("이 브라우저에서는 Geolocation이 지원되지 않습니다.")
             }
           };
 
-          loadPage();
           findMyLocation();
+          // loadPage();
 
         })
       } else {
@@ -97,7 +118,6 @@ const Recommend = () => {
       ).then(function (res) {
         // console.log(res.data)
         setCityList(res.data)
-        console.log(longitude)
         // console.log(cityList)
       });
     }
@@ -211,7 +231,10 @@ const Recommend = () => {
           </div>
         </Box>
         <RecommendCategories category={category} onClick={onSelect}></RecommendCategories>
-        <RecommendCardList itemList={itemList} category={category}></RecommendCardList>
+        {itemList.map(item => (
+            <p>{item.title}</p>
+          ))}
+        {/* <RecommendCardList itemList={itemList} category={category}></RecommendCardList> */}
       </Container>
     </div>
   )

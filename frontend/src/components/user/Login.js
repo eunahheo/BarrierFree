@@ -2,8 +2,13 @@ import React, {useState} from "react";
 import { Input, Button, Link } from "@material-ui/core";
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from "react-redux";
+import { loginUser } from "../../_actions/user_actions";
+import { PinDropSharp } from "@mui/icons-material";
 
 const Login = () => {
+
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
@@ -20,25 +25,39 @@ const Login = () => {
   const onSubmitHandler = (event) => {
     event.preventDefault();
 
-    axios(
-      {
-        method: "POST",
-        url: 'user/login',
-        data: {
-          'userId': id,
-          'userPwd': password
-        }
-      }).then(res => {
+    let body = {
+      'userId': id,
+      'userPwd': password
+    }
+
+    dispatch(loginUser(body))
+      .then(res => {
         console.log(res)
-        if (res.data.message === "success") {
-          console.log(res)
-          localStorage.setItem("accessToken", res.data.accessToken);
-          console.log(localStorage)
-          setLoginCheck(true);
+        if(res.payload) {
           navigate('/')
+        } else {
+          alert('error!')
         }
-        return res.data;
-     })
+      })
+    // axios(
+    //   {
+    //     method: "POST",
+    //     url: 'user/login',
+    //     data: {
+    //       'userId': id,
+    //       'userPwd': password
+    //     }
+    //   }).then(res => {
+    //     console.log(res)
+    //     if (res.data.message === "success") {
+    //       console.log(res)
+    //       localStorage.setItem("accessToken", res.data.accessToken);
+    //       console.log(localStorage)
+    //       setLoginCheck(true);
+    //       navigate('/')
+    //     }
+    //     return res.data;
+    //  })
    } 
 
   return (
