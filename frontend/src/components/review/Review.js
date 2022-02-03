@@ -22,6 +22,7 @@ const Review = () => {
   const [reviewPoint, setReviewPoint] = useState([]);
   const [comments, setComments] = useState([]);
   const [reviewTime, setReviewTime] = useState("");
+  const [reviewImage, setReviewImage] = useState("");
 
   // 댓글 작성을 위한 const
 
@@ -45,6 +46,7 @@ const Review = () => {
           setBarriers(res.data[0].impairment);
           setReviewPoint(res.data[0].post.postPoint);
           setReviewTime(res.data[0].post.regDt.substring(0, 10));
+          setReviewImage(res.data[0].post.postPhoto);
           console.log(res.data[0].impairment[0]);
         })
         .catch("yes");
@@ -83,7 +85,7 @@ const Review = () => {
           <hr></hr>
           <Grid container spacing={1}>
             <Grid item xs={4}>
-              <img src={Dogimg}></img>
+              <img src={reviewImage} sx={{ maxWidth: 250 }} />
             </Grid>
             <Grid item xs={8}>
               <h4>{reviewDetail.postTitle}</h4>

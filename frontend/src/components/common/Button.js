@@ -9,11 +9,11 @@ const StyledButton = styled.button`
   padding: 0.25rem 1rem;
   // outline: none;
   cursor: pointer;
-
-  background: white;
+  color: white;
+  background: ${palette.blue[0]};
   &:hover {
-    background: black;
-    color: white;
+    background: white;
+    color: ${palette.blue[0]};
   }
 
   ${(props) =>
@@ -45,6 +45,18 @@ const StyledButton = styled.button`
         background: white;
         color: black;
       }
+    `}
+
+  ${(props) =>
+    props.order &&
+    css`
+      // background: yellow;
+      // color: black;
+      margin-right: 1.5rem;
+      // &:hover {
+      //   background: white;
+      //   color: black;
+      // }
     `}
 `;
 

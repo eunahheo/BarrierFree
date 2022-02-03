@@ -240,12 +240,12 @@ const Navbar = () => {
 
             <Button
               onClick={() => {
-                navigate("/login");
+                navigate("/loginpage");
                 handleCloseNavMenu();
               }}
               sx={{ my: 2, color: "white", display: "block" }}
             >
-              로그인
+              로그인2
             </Button>
             <Button
               onClick={() => {
