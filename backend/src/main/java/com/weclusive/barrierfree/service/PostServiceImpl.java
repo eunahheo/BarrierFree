@@ -1,6 +1,5 @@
 package com.weclusive.barrierfree.service;
 
-import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -38,161 +37,6 @@ public class PostServiceImpl implements PostService {
 	@Autowired
 	ScrapRepository scrapRepository;
 
-	@Override
-	public List<Map<String, Object>> readAllPost(int userSeq) {
-		List<Map<String, Object>> result = new LinkedList<>();
-		postRepository.findAll().forEach(post -> {
-			Map<String, Object> obj = new HashMap<>();
-			obj.put("post_seq", post.getPostSeq());
-			obj.put("user_seq", post.getUserSeq());
-			obj.put("post_title", post.getPostTitle());
-			obj.put("post_content", post.getPostContent());
-			obj.put("post_scrap", post.getPostScrap());
-			obj.put("post_photo", post.getPostPhoto());
-//			obj.put("post_photo_alt", post.getPost_photo_alt());
-			obj.put("post_location", post.getPostLocation());
-			obj.put("post_address", post.getPostAddress());
-			obj.put("post_lat", post.getPostLat());
-			obj.put("post_lng", post.getPostLng());
-			obj.put("post_point", post.getPostPoint());
-			obj.put("content_id", post.getContentId());
-			obj.put("del_yn", post.getDelYn());
-			obj.put("reg_dt", post.getRegDt());
-			obj.put("reg_id", post.getRegId());
-			obj.put("mod_dt", post.getModDt());
-			obj.put("mod_id", post.getModId());
-//			List<PostImpairment> list = postImpairmentRepository.findByPostSeq(post.getpostSeq());
-			List<String> list = postImpairmentRepository.findImpairment(post.getPostSeq());
-			obj.put("impairment", list);
-
-			char scrap_yn = 'n';
-			// 현재 사용자의 seq를 가져오는 api 필요
-			if (scrapRepository.countByDelYnAndScrapTypeAndUserSeqAndScrapData('n', '0', userSeq,
-					post.getPostSeq()) > 0)
-				scrap_yn = 'y';
-			obj.put("scrap_yn", scrap_yn);
-			result.add(obj);
-		});
-		return result;
-	}
-
-	@Override
-	public List<Map<String, Object>> readPostlatest(int userSeq) {
-		List<Map<String, Object>> result = new LinkedList<>();
-		postRepository.findTop100ByDelYnOrderByRegDtDesc('n').forEach(post -> {
-			Map<String, Object> obj = new HashMap<>();
-			obj.put("post_seq", post.getPostSeq());
-			obj.put("user_seq", post.getUserSeq());
-			obj.put("post_title", post.getPostTitle());
-			obj.put("post_content", post.getPostContent());
-			obj.put("post_scrap", post.getPostScrap());
-			obj.put("post_photo", post.getPostPhoto());
-//			obj.put("post_photo_alt", post.getPostPhotoAlt());
-			obj.put("post_location", post.getPostLocation());
-			List<String> list = postImpairmentRepository.findImpairment(post.getPostSeq());
-			obj.put("impairment", list);
-
-			char scrap_yn = 'n';
-			// 현재 사용자의 seq를 가져오는 api 필요
-			if (scrapRepository.countByDelYnAndScrapTypeAndUserSeqAndScrapData('n', '0', userSeq,
-					post.getPostSeq()) > 0)
-				scrap_yn = 'y';
-
-			obj.put("scrap_yn", scrap_yn);
-			result.add(obj);
-		});
-		return result;
-	}
-
-	// 스크랩 많은 순
-	@Override
-	public List<Map<String, Object>> readPostScrap(int userSeq) {
-		List<Map<String, Object>> result = new LinkedList<>();
-		postRepository.findTop100ByDelYnOrderByPostScrapDesc('n').forEach(post -> {
-			Map<String, Object> obj = new HashMap<>();
-			obj.put("post_seq", post.getPostSeq());
-			obj.put("user_seq", post.getUserSeq());
-			obj.put("post_title", post.getPostTitle());
-			obj.put("post_content", post.getPostContent());
-			obj.put("post_scrap", post.getPostScrap());
-			obj.put("post_photo", post.getPostPhoto());
-//			obj.put("post_photo_alt", post.getPostPhotoAlt());
-			obj.put("post_location", post.getPostLocation());
-			List<String> list = postImpairmentRepository.findImpairment(post.getPostSeq());
-			obj.put("impairment", list);
-
-			char scrap_yn = 'n';
-			// 현재 사용자의 seq를 가져오는 api 필요
-			if (scrapRepository.countByDelYnAndScrapTypeAndUserSeqAndScrapData('n', '0', userSeq,
-					post.getPostSeq()) > 0)
-				scrap_yn = 'y';
-
-			obj.put("scrap_yn", scrap_yn);
-			result.add(obj);
-		});
-		return result;
-	}
-
-	// 이번주 스크랩 순
-	@Override
-	public List<Map<String, Object>> readPostWeek(int userSeq) {
-		List<Map<String, Object>> result = new LinkedList<>();
-		String startTime = LocalDateTime.now().minusDays(7).toString().replace("T", " ").substring(0, 19);
-		String endTime = TimeUtils.curTime();
-		postRepository.findTop100ByDelYnAndRegDtBetweenOrderByPostScrapDesc('n', startTime, endTime).forEach(post -> {
-			Map<String, Object> obj = new HashMap<>();
-			obj.put("post_seq", post.getPostSeq());
-			obj.put("user_seq", post.getUserSeq());
-			obj.put("post_title", post.getPostTitle());
-			obj.put("post_content", post.getPostContent());
-			obj.put("post_scrap", post.getPostScrap());
-			obj.put("post_photo", post.getPostPhoto());
-//			obj.put("post_photo_alt", post.getPostPhotoAlt());
-			obj.put("post_location", post.getPostLocation());
-			List<String> list = postImpairmentRepository.findImpairment(post.getPostSeq());
-			obj.put("impairment", list);
-
-			char scrap_yn = 'n';
-			// 현재 사용자의 seq를 가져오는 api 필요
-			if (scrapRepository.countByDelYnAndScrapTypeAndUserSeqAndScrapData('n', '0', userSeq,
-					post.getPostSeq()) > 0)
-				scrap_yn = 'y';
-
-			obj.put("scrap_yn", scrap_yn);
-			result.add(obj);
-		});
-		return result;
-	}
-
-	// 팔로워 게시글
-	@Override
-	public List<Map<String, Object>> readPostFollowing(int userSeq) {
-		List<Map<String, Object>> result = new LinkedList<>();
-		// 현재 사용자의 seq를 불러오는 API 필요
-		postRepository.findFollowPost(1).forEach(post -> {
-			Map<String, Object> obj = new HashMap<>();
-			obj.put("post_seq", post.getPostSeq());
-			obj.put("user_seq", post.getUserSeq());
-			obj.put("post_title", post.getPostTitle());
-			obj.put("post_content", post.getPostContent());
-			obj.put("post_scrap", post.getPostScrap());
-			obj.put("post_photo", post.getPostPhoto());
-//			obj.put("post_photo_alt", post.getPostPhotoAlt());
-			obj.put("post_location", post.getPostLocation());
-			List<String> list = postImpairmentRepository.findImpairment(post.getPostSeq());
-			obj.put("impairment", list);
-
-			char scrap_yn = 'n';
-			// 현재 사용자의 seq를 가져오는 api 필요
-			if (scrapRepository.countByDelYnAndScrapTypeAndUserSeqAndScrapData('n', '0', userSeq,
-					post.getPostSeq()) > 0)
-				scrap_yn = 'y';
-
-			obj.put("scrap_yn", scrap_yn);
-			result.add(obj);
-		});
-		return result;
-	}
 
 	// 게시글 상세정보 가져오기
 	@Override
@@ -222,11 +66,15 @@ public class PostServiceImpl implements PostService {
 
 	// 게시글 삭제하기 (del_yn을 y로 변경)
 	@Override
-	public Optional<Post> deleteByPostSeq(long postSeq) {
+	public Optional<Post> deleteByPostSeq(long postSeq, int userSeq) {
 		Optional<Post> deletePost = postRepository.findByPostSeq(postSeq);
 
 		if (deletePost != null) {
+			String curTime = TimeUtils.curTime();
+
 			deletePost.get().setDelYn('y');
+			deletePost.get().setModDt(curTime);
+			deletePost.get().setModId(returnUserId(userSeq));
 			save(deletePost.get());
 			return deletePost;
 		} else
@@ -272,7 +120,7 @@ public class PostServiceImpl implements PostService {
 
 	// 게시글 장애 정보 수정하기
 	@Override
-	public int updatePostImpairmentByPostSeq(long postSeq, Impairment impairment) {
+	public int updatePostImpairmentByPostSeq(long postSeq, Impairment impairment, int userSeq) {
 
 		// 입력한 게시글 번호의 모든 장애 정보 반환(del_yn = n)
 		List<PostImpairment> curImpairment = postImpairmentRepository.findOneByPostSeq(postSeq);
@@ -308,54 +156,55 @@ public class PostServiceImpl implements PostService {
 		// check : 원래 선택 여부(-1) -> impairment : 새로 선택 여부(1)
 		// 취소 -> 선택 : post_code table에 추가하기
 		if (check[0] == -1 && impairment.getPhysical() == 1) {
-			saveImpairment(postSeq, 0);
+			saveImpairment(postSeq, 0, userSeq);
 			res = 1;
 		}
 		if (check[1] == -1 && impairment.getVisibility() == 1) {
-			saveImpairment(postSeq, 1);
+			saveImpairment(postSeq, 1, userSeq);
 			res = 1;
 		}
 		if (check[2] == -1 && impairment.getDeaf() == 1) {
-			saveImpairment(postSeq, 2);
+			saveImpairment(postSeq, 2, userSeq);
 			res = 1;
 		}
 		if (check[3] == -1 && impairment.getInfant() == 1) {
-			saveImpairment(postSeq, 3);
+			saveImpairment(postSeq, 3, userSeq);
 			res = 1;
 		}
 		if (check[4] == -1 && impairment.getSenior() == 1) {
-			saveImpairment(postSeq, 4);
+			saveImpairment(postSeq, 4, userSeq);
 			res = 1;
 		}
 
 		// check : 원래 선택 여부(1) -> impairment : 새로 선택 여부(0)
 		// 선택 -> 취소 : post_code에서 삭제하기 del_yn = y
 		if (check[0] == 1 && impairment.getPhysical() == 0) {
-			updateImpairment(postSeq, 0);
+			updateImpairment(postSeq, 0, userSeq);
 			res = 1;
 		}
 		if (check[1] == 1 && impairment.getVisibility() == 0) {
-			updateImpairment(postSeq, 1);
+			updateImpairment(postSeq, 1, userSeq);
 			res = 1;
 		}
 		if (check[2] == 1 && impairment.getDeaf() == 0) {
-			updateImpairment(postSeq, 2);
+			updateImpairment(postSeq, 2, userSeq);
 			res = 1;
 		}
 		if (check[3] == 1 && impairment.getInfant() == 0) {
-			updateImpairment(postSeq, 3);
+			updateImpairment(postSeq, 3, userSeq);
 			res = 1;
 		}
 		if (check[4] == 1 && impairment.getSenior() == 0) {
-			updateImpairment(postSeq, 4);
+			updateImpairment(postSeq, 4, userSeq);
 			res = 1;
 		}
 
 		return res;
 	}
 
-	// 게시글 저장하기
-	public void saveImpairment(long postSeq, int im) {
+	// 게시글 장애정보 저장하기
+	public void saveImpairment(long postSeq, int im, int userSeq) {
+		String curTime = TimeUtils.curTime();
 		String type = "";
 		switch (im) {
 		case 0:
@@ -380,15 +229,16 @@ public class PostServiceImpl implements PostService {
 		pi.setPostSeq(postSeq);
 		pi.setCode(type);
 		pi.setDelYn('n');
-		pi.setRegDt(TimeUtils.curTime());
-		pi.setRegId(returnUserIdFromPostSeq(postSeq));
-		pi.setModDt(TimeUtils.curTime());
-		pi.setModId(returnUserIdFromPostSeq(postSeq));
+		pi.setRegDt(curTime);
+		pi.setRegId(returnUserId(userSeq));
+		pi.setModDt(curTime);
+		pi.setModId(returnUserId(userSeq));
 		postImpairmentRepository.save(pi);
 	}
 
 	// 게시글 장애 정보 수정하기
-	public void updateImpairment(long postSeq, int im) {
+	public void updateImpairment(long postSeq, int im, int userSeq) {
+		String curTime = TimeUtils.curTime();
 		String type = "";
 		switch (im) {
 		case 0:
@@ -410,21 +260,23 @@ public class PostServiceImpl implements PostService {
 
 		Optional<PostImpairment> pi = postImpairmentRepository.findOneByPostSeqCode(postSeq, type);
 		pi.get().setDelYn('y');
-		pi.get().setModDt(TimeUtils.curTime());
-		pi.get().setModId(returnUserIdFromPostSeq(postSeq));
+		pi.get().setModDt(curTime);
+		pi.get().setModId(returnUserId(userSeq));
 		save(pi.get());
 	}
 
 	// 장애 정보 받아와서 게시글 장애 정보로 저장하기
 	@Override
-	public PostImpairment savePostImpairment(Impairment impairment, long postSeq) {
+	public PostImpairment savePostImpairment(Impairment impairment, long postSeq, int userSeq) {
+		String curTime = TimeUtils.curTime();
+
 		PostImpairment postImpairment = new PostImpairment();
 		postImpairment.setPostSeq(postSeq);
 		postImpairment.setDelYn('n');
-		postImpairment.setRegDt(TimeUtils.curTime());
-		postImpairment.setRegId(returnUserIdFromPostSeq(postSeq));
-		postImpairment.setModDt(TimeUtils.curTime());
-		postImpairment.setModId(returnUserIdFromPostSeq(postSeq));
+		postImpairment.setRegDt(curTime);
+		postImpairment.setRegId(returnUserId(userSeq));
+		postImpairment.setModDt(curTime);
+		postImpairment.setModId(returnUserId(userSeq));
 
 		if (impairment.getPhysical() == 1)
 			postImpairment.setCode("physical");
@@ -448,6 +300,7 @@ public class PostServiceImpl implements PostService {
 	// 게시글 + 장애정보 저장하기
 	@Override
 	public int savePost(PostSave ps) {
+		String curTime = TimeUtils.curTime();
 
 		// 게시글 정보 저장하기
 		Post p = new Post();
@@ -462,9 +315,9 @@ public class PostServiceImpl implements PostService {
 		p.setPostPoint(ps.getPostPoint());
 		p.setPostContent(ps.getPostContent());
 		p.setContentId(ps.getContentId());
-		p.setRegDt(TimeUtils.curTime());
+		p.setRegDt(curTime);
 		p.setRegId(returnUserId(ps.getUserSeq()));
-		p.setModDt(TimeUtils.curTime());
+		p.setModDt(curTime);
 		p.setModId(returnUserId(ps.getUserSeq()));
 		save(p);
 
@@ -473,31 +326,31 @@ public class PostServiceImpl implements PostService {
 		int userSeq = ps.getUserSeq();
 		if (ps.getPhysical() == 1) {
 			postImpairmentRepository.save(PostImpairment.builder().postSeq(postSeq).code("physical")
-					.regDt(TimeUtils.curTime()).regId(returnUserId(userSeq)).modDt(TimeUtils.curTime())
+					.regDt(curTime).regId(returnUserId(userSeq)).modDt(curTime)
 					.modId(returnUserId(userSeq)).build());
 
 		}
 		if (ps.getDeaf() == 1) {
 			postImpairmentRepository.save(PostImpairment.builder().postSeq(postSeq).code("deaf")
-					.regDt(TimeUtils.curTime()).regId(returnUserId(userSeq)).modDt(TimeUtils.curTime())
+					.regDt(curTime).regId(returnUserId(userSeq)).modDt(curTime)
 					.modId(returnUserId(userSeq)).build());
 
 		}
 		if (ps.getInfant() == 1) {
 			postImpairmentRepository.save(PostImpairment.builder().postSeq(postSeq).code("infant")
-					.regDt(TimeUtils.curTime()).regId(returnUserId(userSeq)).modDt(TimeUtils.curTime())
+					.regDt(curTime).regId(returnUserId(userSeq)).modDt(curTime)
 					.modId(returnUserId(userSeq)).build());
 
 		}
 		if (ps.getVisibility() == 1) {
 			postImpairmentRepository.save(PostImpairment.builder().postSeq(postSeq).code("visibility")
-					.regDt(TimeUtils.curTime()).regId(returnUserId(userSeq)).modDt(TimeUtils.curTime())
+					.regDt(curTime).regId(returnUserId(userSeq)).modDt(curTime)
 					.modId(returnUserId(userSeq)).build());
 
 		}
 		if (ps.getSenior() == 1) {
 			postImpairmentRepository.save(PostImpairment.builder().postSeq(postSeq).code("senior")
-					.regDt(TimeUtils.curTime()).regId(returnUserId(userSeq)).modDt(TimeUtils.curTime())
+					.regDt(curTime).regId(returnUserId(userSeq)).modDt(curTime)
 					.modId(returnUserId(userSeq)).build());
 		}
 
@@ -515,13 +368,6 @@ public class PostServiceImpl implements PostService {
 		Optional<User> list = userRepository.findById(userSeq);
 		String userId = list.get().getUserId();
 		return userId;
-	}
-
-	// postSeq -> userId
-	public String returnUserIdFromPostSeq(long postSeq) {
-		Optional<Post> list = postRepository.findById(postSeq);
-		int userSeq = list.get().getUserSeq();
-		return returnUserId(userSeq);
 	}
 
 }
