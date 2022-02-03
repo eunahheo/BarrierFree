@@ -22,7 +22,6 @@ public interface UserService {
 	public User findByUserId(String userId);
 	public User findByUserNickname(String userNickname);
 	public User findByUserEmail(String userEmail);
-	public void createRefreshToken(User user);
 	public void sendEmailwithTemp(String userEmail, String userId);
 	public Map<String, Object> userInfo(String userId);
 	public boolean modifyUser(User user) throws Exception;
@@ -30,6 +29,7 @@ public interface UserService {
 	
 	// Token
 	public String createAccessToken(User user);
+	public void createRefreshToken(User user);
 
 	// Kakao
 	public String getKakaoAccessToken(String code) throws Exception;
