@@ -18,6 +18,7 @@ import RecommendCategories from "./RecommendCategories";
 import { useSelector } from 'react-redux';
 import { userInfo } from "../../_actions/user_actions";
 import { useDispatch } from "react-redux";
+import Header from "../common/Header";
 
 const Recommend = () => {
 
@@ -218,6 +219,7 @@ const Recommend = () => {
 
   return (
     <div>
+      <Header />
       <Container maxWidth="md">
         <h2>내 주변 무장애 여행지</h2>
         <Box border={1}>
