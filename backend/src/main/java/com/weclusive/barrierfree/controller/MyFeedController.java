@@ -15,10 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.weclusive.barrierfree.dto.FollowDto;
 import com.weclusive.barrierfree.entity.Post;
-import com.weclusive.barrierfree.repository.PostRepository;
 import com.weclusive.barrierfree.service.FollowService;
 import com.weclusive.barrierfree.service.MyFeedService;
-import com.weclusive.barrierfree.service.PostService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -37,12 +35,6 @@ public class MyFeedController {
 	
 	@Autowired
 	private FollowService followService;
-	
-	@Autowired
-	private PostService postService;
-	
-	@Autowired
-	private PostRepository postRepository;
 	
 	// 피드 보기
 	@GetMapping("/main")
@@ -133,14 +125,16 @@ public class MyFeedController {
 	}
 
 	// 스크랩 한 추천 게시글
-//	@GetMapping("/scrap/post")
-//	@ApiOperation(value = "스크랩한 게시글 - 작성 게시글", notes = "스크랩 한 추천 게시글 조회하는 기능, 게시글이 없으면 빈 리스트 반환")
-//	public ResponseEntity<Object> readRecommendPosts(@RequestParam int userSeq) {
-//		List<Object> result = myFeedService.readScrapPost(userSeq);
-//		if (result != null) {
-//			return new ResponseEntity<>(result, HttpStatus.OK);
-//		} else {
-//			return new ResponseEntity<>(FAIL, HttpStatus.BAD_REQUEST);
-//		}
-//	}
+	@GetMapping("/scrap/recommend")
+	@ApiOperation(value = "스크랩한 게시글 - 추천 게시글", notes = "스크랩 한 추천 게시글 조회하는 기능, 게시글이 없으면 빈 리스트 반환")
+	public ResponseEntity<Object> readRecommendPosts(@RequestParam int userSeq){
+		List<Object> result;
+		try {
+			result = myFeedService.readScrapRecommend(userSeq);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<>("컨텐츠ID를 확인해주세요.", HttpStatus.BAD_REQUEST);
+		}
+			return new ResponseEntity<>(result, HttpStatus.OK);
+	}
 }

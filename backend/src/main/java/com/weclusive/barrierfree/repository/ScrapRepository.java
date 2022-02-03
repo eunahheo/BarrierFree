@@ -19,6 +19,6 @@ public interface ScrapRepository extends JpaRepository<Scrap, Long> {
 	public int countByDelYnAndScrapTypeAndUserSeq(char delYn, char scrapType, int userSeq);
 
 	// 스크랩한 게시글 번호 반환
-	@Query(value="SELECT scrapData FROM Scrap WHERE delYn = 'n' AND userSeq = ?1 AND scrapType=?2")
+	@Query(value="SELECT scrapData FROM Scrap WHERE delYn = 'n' AND userSeq = ?1 AND scrapType=?2 ORDER BY regDt DESC")
 	public List<Long> findScrapPost(int userSeq, char scrapType);
 }

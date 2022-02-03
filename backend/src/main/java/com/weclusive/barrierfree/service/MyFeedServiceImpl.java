@@ -1,6 +1,5 @@
 package com.weclusive.barrierfree.service;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -32,6 +31,9 @@ public class MyFeedServiceImpl implements MyFeedService {
 
 	@Autowired
 	ScrapRepository scrapRepository;
+	
+	@Autowired
+	RecommendService recommendService;
 
 	// 회원 피드 상단
 	@Override
@@ -143,7 +145,6 @@ public class MyFeedServiceImpl implements MyFeedService {
 			// 스크랩 게시글이 있으면
 			if (scrapPostSeq.size() != 0) {
 				// 최신순 조회를 위해서 역순 정렬
-				Collections.sort(scrapPostSeq, Collections.reverseOrder());
 				scrapPostSeq.forEach(p -> {
 					result.add(postRepository.findByPostSeq(p));
 				});
@@ -154,28 +155,31 @@ public class MyFeedServiceImpl implements MyFeedService {
 
 	}
 	
-	// 스크랩한 추천글 - api 나중에 추가하기
-//	@Override
-//	public List<Object> readScrapRecommend(int userSeq) {
-//		Optional<User> user = userRepository.findAllByUserSeq(userSeq);
-//		
-//		// 사용자가 있으면
-//		if (user.isPresent()) {
-//			List<Long> scrapPostSeq = scrapRepository.findScrapPost(userSeq, '1');
-//			List<Object> result = new LinkedList<>();
-//			
-//			// 스크랩 게시글이 있으면
-//			if (scrapPostSeq.size() != 0) {
-//				// 최신순 조회를 위해서 역순 정렬
-//				Collections.sort(scrapPostSeq, Collections.reverseOrder());
-//				scrapPostSeq.forEach(p -> {
-//					result.add(postRepository.findByPostSeq(p));
-//				});
-//			}
-//			return result;
-//		}
-//		return null;
-//		
-//	}
+	// 스크랩한 추천글 
+	@Override
+	public List<Object> readScrapRecommend(int userSeq) throws Exception{
+		Optional<User> user = userRepository.findAllByUserSeq(userSeq);
+		
+		// 사용자가 있으면
+		if (user.isPresent()) {
+			List<Long> scrapPostSeq = scrapRepository.findScrapPost(userSeq, '1');
+			List<Object> result = new LinkedList<>();
+			
+			// 스크랩 게시글이 있으면
+			if (scrapPostSeq.size() != 0) {
+				for (int i = 0; i < scrapPostSeq.size(); i++) {
+					try {
+						result.add(recommendService.loadDetailView(scrapPostSeq.get(i).toString()));
+					} catch (Exception e) {
+						e.printStackTrace();
+						throw new Exception();
+					}
+				}
+			}
+			return result;
+		}
+		return null;
+		
+	}
 
 }
