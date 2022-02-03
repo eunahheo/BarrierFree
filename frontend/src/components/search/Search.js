@@ -6,14 +6,12 @@ import axios from "axios";
 function Search() {
   const [itemList, setItemList] = useState([]);
   useEffect(() => {
-    axios(
-      {
-        url:'post/all?userSeq=1'
-      }
-    ).then(function (res) {
-      setItemList(res.data)
+    axios({
+      url: "post/all?userSeq=1",
+    }).then(function (res) {
+      setItemList(res.data);
     });
-  }, [])
+  }, []);
 
   return (
     <div>
@@ -23,7 +21,7 @@ function Search() {
         <SearchCardList itemList={itemList}></SearchCardList>
       </Container>
     </div>
-  )
+  );
 }
 
 export default Search;

@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import { Input, Button, Link } from "@material-ui/core";
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
@@ -62,20 +62,26 @@ const Login = () => {
 
   return (
     <div>
-      <h1>로그인</h1> 
+      <h1>로그인</h1>
       <form onSubmit={onSubmitHandler}>
         <Input placeholder="아이디" value={id} onChange={onIdHandler}></Input>
         <br></br>
-        <Input placeholder="비밀번호" value={password} type="password" onChange={onPasswordHandler}></Input>
+        <Input
+          placeholder="비밀번호"
+          type="password"
+          onChange={onPasswordHandler}
+        ></Input>
         <br></br>
         <Link to="/">아이디 찾기</Link>
         <Link to="/">비밀번호 찾기</Link>
-        <Button variant="contained" type="submit">로그인</Button>
+        <Button variant="contained" onClick={onSubmitHandler}>
+          로그인
+        </Button>
         <Button variant="contained">kakao로 로그인</Button>
         <Button variant="contained">회원가입</Button>
       </form>
     </div>
-  )
-}
+  );
+};
 
-export default Login
+export default Login;

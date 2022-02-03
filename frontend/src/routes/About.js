@@ -4,7 +4,6 @@ import Infomation from "../components/infomation/Infomation"
 import TourInfomation from "../components/search/TourInfomation"
 
 function About() {
-  
   return (
     <div>
       {/* <Infomation></Infomation> */}
@@ -12,7 +11,7 @@ function About() {
       <TourInfomation></TourInfomation>
       <span>About weclusive</span>;
     </div>
-  )
+  );
 }
 
 export default About;

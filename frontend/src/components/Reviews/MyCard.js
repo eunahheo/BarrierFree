@@ -1,18 +1,16 @@
 import React, { useState } from "react";
 import { Card, CardMedia, CardContent, Typography } from "@mui/material";
-import RecommendBarrierIcon from "./RecommendBarrierIcon";
+import RecommendBarrierIcon from "../recommend/RecommendBarrierIcon";
 import axios from "axios";
-import Review from "../review/Review";
+// import Review from "../review/Review";
 import { Link, useNavigate } from "react-router-dom";
 
-const RecommendCard = ({ item }) => {
-  // console.log(item)
-  // const pageNum = useState([]);
+const MyCard = ({ item }) => {
   const navigate = useNavigate();
 
-  const { post_photo, post_location, post_title } = item;
-  const barriers = item.impairment;
-  const reviewCard = item.post_seq;
+  const { postPhoto, postLocation, postTitle } = item;
+  // const barriers = item.impairment;
+  const reviewCard = item.postSeq;
   // const state = { 'detailnum': reviewCard}
   const onClickCard = () => {
     // console.log(e)
@@ -23,40 +21,35 @@ const RecommendCard = ({ item }) => {
     }).then(function (res) {
       // console.log(res.config.params.postSeq)
       navigate(`/post/detail/${reviewCard}`);
-      // pageNum(res.config.params.postSeq)
-      // console.log(setCard)
-      // document.location.href = '/detail/'+ reviewCard
     });
-
-    // document.location.href = '/detail/'+ reviewCard
   };
 
   return (
     <div>
-      {/* <Link to={{ pathname: '/post/detail/:reviewCard', state: { detailnum : reviewCard}}}> */}
       <Card
         onClick={onClickCard}
         reviewCard={reviewCard}
         sx={{ maxWidth: 250 }}
+        // style={{ maxHeight: 250 }}
       >
-        {/* <Card onClick={onClickCard} pageNum={reviewCard} sx={{ maxWidth: 250 }}> */}
         <CardMedia
           component="img"
           height="300"
-          image={post_photo}
+          image={postPhoto}
           alt="Dog Picture"
+          style={{ maxHeight: 250 }}
         />
 
         <CardContent align="left">
           <Typography variant="body2" color="text.secondary">
-            {post_location}
+            {postLocation}
           </Typography>
-          {post_title}
-          <RecommendBarrierIcon barriers={barriers}></RecommendBarrierIcon>
+          {postTitle}
+          {/* <RecommendBarrierIcon barriers={barriers}></RecommendBarrierIcon> */}
         </CardContent>
       </Card>
       {/* </Link> */}
     </div>
   );
 };
-export default RecommendCard;
+export default MyCard;
