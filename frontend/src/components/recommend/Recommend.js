@@ -15,6 +15,7 @@ import axios from "axios";
 import RecommendCardList from "./RecommendCardList.js";
 import { Container, Box } from "@material-ui/core";
 import RecommendCategories from "./RecommendCategories";
+import Header from "../common/Header";
 
 const Recommend = () => {
   const [itemList, setItemList] = useState([]);
@@ -92,6 +93,7 @@ const Recommend = () => {
 
   return (
     <div>
+      <Header />
       <Container maxWidth="md">
         <h2>내 주변 무장애 여행지</h2>
         <Box border={1}>

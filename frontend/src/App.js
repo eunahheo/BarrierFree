@@ -26,7 +26,7 @@ function App() {
   // app.use(cors());
   return (
     <div className="App">
-      <Navbar></Navbar>
+      {/* <Navbar></Navbar> */}
       <Routes>
         <Route path="/" exact={true} element={<Home />}></Route>
         <Route path="/login" exact={true} element={<Login />}></Route>
