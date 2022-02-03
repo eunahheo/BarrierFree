@@ -19,7 +19,7 @@ const RegisterCompletedPageBlock = styled.div`
     align-items: center;
   }
 `;
-const RegisterPage = () => {
+const RegisterEmailCheckPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const userNickname = searchParams.get("userNickname");
   const certified = searchParams.get("certified");
@@ -29,7 +29,7 @@ const RegisterPage = () => {
   useEffect(
     () =>
       axios({
-        url: "http://i6a504.p.ssafy.io:3030/user/email/certified",
+        url: "http://localhost:8080/user/email/certified",
         method: "post",
         params: {
           userNickname: userNickname,
@@ -46,12 +46,10 @@ const RegisterPage = () => {
           <span style={{ color: "#EA5455" }}>베</span>리어{" "}
           <span style={{ color: "#EA5455" }}>프</span>리에 오신 것을 환영합니다!
         </h2>
-        <h4>
-          안녕하세요 <span style={{ color: "#EA5455" }}>{userNickname}</span>님!
-        </h4>
-        <p>이메일 인증이 완료되었습니다.</p>
-        <p>베리어 프리에서 여러분의 신나는 여행을 공유해보세요!</p>
-        <Link to="/loginpage">
+        <h4>안녕하세요!</h4>
+        <p>현재 가입 대기상태입니다.</p>
+        <p>베리어 프리를 이용하시려면 인증 메일을 확인해주세요!</p>
+        <Link to="/login">
           <Button fullWidth cyan>
             로그인하기
           </Button>
@@ -66,4 +64,4 @@ const RegisterPage = () => {
   );
 };
 
-export default RegisterPage;
+export default RegisterEmailCheckPage;
