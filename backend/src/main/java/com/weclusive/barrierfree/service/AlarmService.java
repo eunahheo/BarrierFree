@@ -16,5 +16,7 @@ public interface AlarmService {
 
 	public int deleteOldAlarm(int userSeq);
 
+	public int saveAlaram(int userSeq, char type, long data);
+
 
 }

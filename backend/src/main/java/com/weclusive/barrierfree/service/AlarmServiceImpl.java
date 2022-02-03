@@ -124,7 +124,7 @@ public class AlarmServiceImpl implements AlarmService {
 			if (type == 0) {
 				updateAlarm.get().setCheckYn('y');
 				updateAlarm.get().setModDt(curTime);
-//				updateAlarm.get().setModId(modId); - 로그인한 사람 id
+//				updateAlarm.get().setModId(returnUserId(userSeq));
 				save(updateAlarm.get());
 				return updateAlarm;
 			}
@@ -133,13 +133,12 @@ public class AlarmServiceImpl implements AlarmService {
 			else {
 				updateAlarm.get().setDelYn('y');
 				updateAlarm.get().setModDt(curTime);
-//				updateAlarm.get().setModId(modId); - 로그인한 사람 id
+//				updateAlarm.get().setModId(returnUserId(userSeq));
 				save(updateAlarm.get());
 				return updateAlarm;
 			}
 
 		} else
-
 			return null;
 	}
 	
@@ -160,7 +159,7 @@ public class AlarmServiceImpl implements AlarmService {
 			for (int i = 0; i < deleteAlarm.size(); i++) {
 				deleteAlarm.get(i).setDelYn('y');
 				deleteAlarm.get(i).setModDt(curTime);			
-//				deleteAlarm.get(i).setModId("ID");		- 로그인 한 사람 ID
+				deleteAlarm.get(i).setModId(returnUserId(userSeq));
 				save(deleteAlarm.get(i));
 				result++;
 			}
@@ -170,4 +169,28 @@ public class AlarmServiceImpl implements AlarmService {
 		return result;
 	}
 
+	// 알림 저장하기
+	@Override
+	public int saveAlaram(int userSeq, char type, long data) {
+		String curTime = TimeUtils.curTime();
+
+		Alarm a = new Alarm();
+		a.setUserSeq(userSeq);
+		a.setAlarmType(type);
+		a.setAlarmData(data);
+		a.setRegDt(curTime);
+		a.setRegId(returnUserId(userSeq));
+		a.setModDt(curTime);
+		a.setModId(returnUserId(userSeq));
+		save(a);
+	
+		return 1;
+	}
+	
+	// userSeq -> userId
+	public String returnUserId(int userSeq) {
+		Optional<User> list = userRepository.findById(userSeq);
+		String userId = list.get().getUserId();
+		return userId;
+	}
 }

@@ -25,8 +25,8 @@ public interface AlarmRepository extends JpaRepository<Alarm, Long> {
 	@Query(value = "SELECT a FROM Alarm a WHERE a.delYn = 'n' AND a.alarmSeq = ?1")
 	public Optional<Alarm> findByAlarmSeq(long alarmSeq);
 	
-	// 특정 기간 이후가 지난 알림만 조회(지금은 하루)
-	@Query(value = "SELECT * FROM alarm WHERE reg_dt <= date_add(now(), interval -1 day) AND user_seq = ?1", nativeQuery = true)
+	// 특정 기간 이후가 지난 알림만 조회 - 14일로
+	@Query(value = "SELECT * FROM alarm WHERE reg_dt <= date_add(now(), interval -14 day) AND user_seq = ?1", nativeQuery = true)
 	public List<Alarm> findOldAlarm(int userSeq);
 
 }
