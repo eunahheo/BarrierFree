@@ -27,9 +27,9 @@ const Recommend = () => {
   // 시도 설정
   const [cityList, setCityList] = useState([]);
   const [townList, setTownList] = useState([]);
-  // const [city, setCity] = useState('');
-  // const [town, setTown] = useState('');
-  // const [user, setUser] = useState([]);
+  const [city, setCity] = useState('');
+  const [town, setTown] = useState('');
+  const [user, setUser] = useState([]);
 
   // // 위도, 경도 설정
   // const [latitude, setLatitude] = useState('');
@@ -117,18 +117,18 @@ const Recommend = () => {
 
   //   }
     
-    const setCityDropdown = () => {
-      axios(
-        {
-          method: 'GET',
-          url: 'recommend/sido'
-        }
-      ).then(function (res) {
-        // console.log(res.data)
-        setCityList(res.data)
-        // console.log(cityList)
-  const [city, setCity] = useState("");
-  const [town, setTown] = useState("");
+  //   const setCityDropdown = () => {
+  //     axios(
+  //       {
+  //         method: 'GET',
+  //         url: 'recommend/sido'
+  //       }
+  //     ).then(function (res) {
+  //       // console.log(res.data)
+  //       setCityList(res.data)
+  //       // console.log(cityList)
+  // const [city, setCity] = useState("");
+  // const [town, setTown] = useState("");
 
   useEffect(() => {
     const setRecommendPage = () => {
@@ -153,7 +153,6 @@ const Recommend = () => {
     setCityDropdown();
   }, []);
 
-<<<<<<< HEAD
   // 여행 지역 선택하기
   const selectTown = (sidoCode) => {
     axios(
@@ -213,44 +212,6 @@ const Recommend = () => {
   }
 
 
-=======
-  const selectTown = () => {
-    const sidoCode = city;
-    axios({
-      url: "recommend/sigungu",
-      method: "GET",
-      params: { sidoCode: sidoCode },
-    }).then(function (res) {
-      console.log(res);
-      setTownList(res.data);
-      console.log(townList);
-    });
-  };
-
-  const handelChangeCity = (event) => {
-    console.log(event);
-    setCity(event.target.value);
-    console.log(city);
-    selectTown();
-  };
-
-  const handelChangeTown = (event) => {
-    console.log(event.target);
-    setTown(event.target.value);
-    console.log(town);
-  };
-
-  const onClickBarrier = (res) => {
-    const barrier = res.target.id;
-    axios({
-      url: "post/all?userSeq=1",
-      params: { impairment: barrier },
-    }).then(function (res) {
-      setItemList(res.data);
-      // console.log(res.data)
-    });
-  };
->>>>>>> 41ffa62ff75f2adf8abadca6d36480554a3673e3
 
   return (
     <div>
@@ -269,7 +230,6 @@ const Recommend = () => {
           <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
             <InputLabel id="find-city">시도 검색</InputLabel>
             <Select
-<<<<<<< HEAD
             labelId="find-city"
             id="find-city"
             value={city}
@@ -277,25 +237,12 @@ const Recommend = () => {
             label="시도">
               {cityList.map(city => (
                 <MenuItem name={city.name} value={city.code} key={city.rnum}>{city.name}</MenuItem>
-=======
-              labelId="find-city"
-              id="find-city"
-              value={city}
-              onChange={handelChangeCity}
-              label="시도"
-            >
-              {cityList.map((city) => (
-                <MenuItem name={city.name} value={city.code} key={city.rnum}>
-                  {city.name}
-                </MenuItem>
->>>>>>> 41ffa62ff75f2adf8abadca6d36480554a3673e3
               ))}
             </Select>
           </FormControl>
           <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
             <InputLabel id="find-town">시구군 검색</InputLabel>
             <Select
-<<<<<<< HEAD
             labelId="find-town"
             id="find-town"
             value={town}
@@ -303,18 +250,6 @@ const Recommend = () => {
             label="시도">
               {townList.map(town => (
                 <MenuItem value={town.code} key={town.rnum}>{town.name}</MenuItem>
-=======
-              labelId="find-town"
-              id="find-town"
-              value={town}
-              onChange={handelChangeTown}
-              label="시도"
-            >
-              {townList.map((town) => (
-                <MenuItem name={town.name} value={town.code} key={town.rnum}>
-                  {town.name}
-                </MenuItem>
->>>>>>> 41ffa62ff75f2adf8abadca6d36480554a3673e3
               ))}
             </Select>
           </FormControl>
@@ -323,22 +258,11 @@ const Recommend = () => {
             <Button variant="contained">초기화</Button>
           </div>
         </Box>
-<<<<<<< HEAD
         <RecommendCategories category={category} onClick={onSelect}></RecommendCategories>
         {itemList.map(item => (
             <p>{item.title}</p>
           ))}
         {/* <RecommendCardList itemList={itemList} category={category}></RecommendCardList> */}
-=======
-        <RecommendCategories
-          category={category}
-          onClick={onSelect}
-        ></RecommendCategories>
-        <RecommendCardList
-          itemList={itemList}
-          caategory={category}
-        ></RecommendCardList>
->>>>>>> 41ffa62ff75f2adf8abadca6d36480554a3673e3
       </Container>
     </div>
   );
