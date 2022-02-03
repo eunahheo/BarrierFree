@@ -8,13 +8,13 @@ import com.weclusive.barrierfree.entity.Alarm;
 
 public interface AlarmService {
 
-	public List<Map<String, Object>> readAlarm(int userSeq, char type);
+	public List<Map<String, Object>> readAlarm(int userSeq);
 
 	public Alarm save(Alarm alarm);
 
 	public Optional<Alarm> updateByAlarmSeq(long alarmSeq, int type, int userSeq);
 
-	public int deleteOldAlarm(int userSeq);
+	public int deleteOldAlarm();
 
 	public int saveAlaram(int userSeq, char type, long data);
 
