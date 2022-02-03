@@ -1,21 +1,15 @@
 package com.weclusive.barrierfree.config;
 
-import com.google.common.base.Predicates;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.google.common.base.Predicates;
+
 import springfox.documentation.builders.ApiInfoBuilder;
-import springfox.documentation.builders.ParameterBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.schema.ModelRef;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
-import springfox.documentation.service.Parameter;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
@@ -25,19 +19,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 public class SwaggerConfig {
     @Bean
     public Docket api(){
-    	 ParameterBuilder aParameterBuilder = new ParameterBuilder();
-         aParameterBuilder.name("Authorization") //헤더 이름
-                 .description("Access Tocken") //설명
-                 .modelRef(new ModelRef("string"))
-                 .parameterType("header") 
-                 .required(false)
-                 .build();
-    	
-         List<Parameter> aParameters = new ArrayList<>();
-         aParameters.add(aParameterBuilder.build());
-         
         return new Docket(DocumentationType.SWAGGER_2)
-        		.globalOperationParameters(aParameters)
         		// Swagger API 문서에 대한 설명 표기 메소드 (선택)
         		.apiInfo(apiInfo())
         		.select()
@@ -46,7 +28,6 @@ public class SwaggerConfig {
                 // 해당 URL에 해당하는 요청만 Swagger API 문서로
                 .paths(PathSelectors.any())
                 .build();
-
     }
 
 	private ApiInfo apiInfo() {

@@ -32,11 +32,11 @@ public class AlarmController {
 	@Autowired
 	private AlarmService alarmService;
 	
-	// 팔로우 알림 조회
-	@GetMapping("/follow")
-	@ApiOperation(value = "나를 팔로우한 사용자에 대한 알림", notes = "'팔로워'님이 팔로우를 시작했습니다.", response = List.class)
+	// 알림 조회
+	@GetMapping("/all")
+	@ApiOperation(value = "사용자 알림", notes = "전체 알림을 최신순으로 조회", response = List.class)
 	public ResponseEntity<Object> follow(@RequestParam int userSeq) {
-		List<Map<String, Object>> result = alarmService.readAlarm(userSeq, '0');
+		List<Map<String, Object>> result = alarmService.readAlarm(userSeq);
 		if (result != null) {
 			System.out.println(result.toString());
 			return new ResponseEntity<>(result, HttpStatus.OK);
@@ -45,31 +45,6 @@ public class AlarmController {
 		}
 	}
 	
-	// 스크랩 알림 조회
-	@GetMapping("/scrap")
-	@ApiOperation(value = "내 게시글에 스크랩에 대한 알림", notes = "'스크랩한 사람'님이 '무슨 게시글'을 스크랩 했습니다.", response = List.class)
-	public ResponseEntity<Object> scarp(@RequestParam int userSeq) {
-		List<Map<String, Object>> result = alarmService.readAlarm(userSeq, '1');
-		if (result != null) {
-			
-			return new ResponseEntity<>(result, HttpStatus.OK);
-		} else {
-			return new ResponseEntity<>(FAIL, HttpStatus.BAD_REQUEST);
-		}
-	}
-
-	// 댓글 알림 조회
-	@GetMapping("/comment")
-	@ApiOperation(value = "내 게시글에 달린 댓글에 대한 알림", notes = "'댓글 남긴 사람'님이 '무슨 게시글'에 댓글을 남겼습니다.", response = List.class)
-	public ResponseEntity<Object> comment(@RequestParam int userSeq) {
-		List<Map<String, Object>> result = alarmService.readAlarm(userSeq, '2');
-		if (result != null) {
-			
-			return new ResponseEntity<>(result, HttpStatus.OK);
-		} else {
-			return new ResponseEntity<>(FAIL, HttpStatus.BAD_REQUEST);
-		}
-	}
 
 	// 알림 확인하기
 	@PutMapping(value = "/check")
@@ -98,10 +73,10 @@ public class AlarmController {
 	// 일정 기간 지난 알림 삭제하기
 	@PutMapping(value = "/deleteOld")
 	@ApiOperation(value = "특정 기간(14일) 지난 알림 삭제하기", response = List.class)
-	public ResponseEntity<Object> deleteOldAlarm(@RequestParam int userSeq) throws Exception {
-		int result = alarmService.deleteOldAlarm(userSeq);
+	public ResponseEntity<Object> deleteOldAlarm() throws Exception {
+		int result = alarmService.deleteOldAlarm();
 		
-		if(result != 1)
+		if(result == 0)
 			return new ResponseEntity<>(FAIL, HttpStatus.BAD_REQUEST);
 		else
 			return new ResponseEntity<>(SUCCESS, HttpStatus.OK);
@@ -135,8 +110,8 @@ public class AlarmController {
 	// 댓글 알림 저장하기
 	@PostMapping(value = "/saveComment")
 	@ApiOperation(value = "댓글 알림 저장하기", response = List.class)
-	public ResponseEntity<Object> saveCommentAlarm(@RequestParam int userSeq, @RequestParam long CmtSeq) throws Exception {
-		int result = alarmService.saveAlaram(userSeq, '0', CmtSeq);
+	public ResponseEntity<Object> saveCommentAlarm(@RequestParam int userSeq, @RequestParam long cmtSeq) throws Exception {
+		int result = alarmService.saveAlaram(userSeq, '0', cmtSeq);
 		
 		if(result != 1)
 			return new ResponseEntity<>(FAIL, HttpStatus.BAD_REQUEST);

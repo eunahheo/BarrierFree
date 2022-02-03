@@ -7,9 +7,6 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -437,6 +434,8 @@ public class UserServiceImpl implements UserService {
 		try {
 			User newUser = userRepository.findByUserSeq(userSeq);
 			newUser.setDelYn('y');
+			newUser.setModDt(TimeUtils.curTime());
+			newUser.setModId(userRepository.findByUserSeq(userSeq).getUserId());
 			
 			userRepository.save(newUser);
 			return true;
