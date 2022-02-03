@@ -1,6 +1,5 @@
 package com.weclusive.barrierfree.service;
 
-import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -114,7 +113,7 @@ public class AlarmServiceImpl implements AlarmService {
 
 	// 확인 및 삭제하기
 	@Override
-	public Optional<Alarm> updateByAlarmSeq(long alarmSeq, int type) {
+	public Optional<Alarm> updateByAlarmSeq(long alarmSeq, int type, int userSeq) {
 		Optional<Alarm> updateAlarm = alarmRepository.findByAlarmSeq(alarmSeq);
 		String curTime = TimeUtils.curTime();
 
@@ -124,7 +123,7 @@ public class AlarmServiceImpl implements AlarmService {
 			if (type == 0) {
 				updateAlarm.get().setCheckYn('y');
 				updateAlarm.get().setModDt(curTime);
-//				updateAlarm.get().setModId(returnUserId(userSeq));
+				updateAlarm.get().setModId(returnUserId(userSeq));
 				save(updateAlarm.get());
 				return updateAlarm;
 			}
@@ -133,7 +132,7 @@ public class AlarmServiceImpl implements AlarmService {
 			else {
 				updateAlarm.get().setDelYn('y');
 				updateAlarm.get().setModDt(curTime);
-//				updateAlarm.get().setModId(returnUserId(userSeq));
+				updateAlarm.get().setModId(returnUserId(userSeq));
 				save(updateAlarm.get());
 				return updateAlarm;
 			}

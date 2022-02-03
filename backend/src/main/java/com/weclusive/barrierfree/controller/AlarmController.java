@@ -10,19 +10,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.weclusive.barrierfree.dto.FollowDto;
 import com.weclusive.barrierfree.entity.Alarm;
-import com.weclusive.barrierfree.entity.Post;
-import com.weclusive.barrierfree.repository.PostRepository;
 import com.weclusive.barrierfree.service.AlarmService;
-import com.weclusive.barrierfree.service.FollowService;
-import com.weclusive.barrierfree.service.MyFeedService;
-import com.weclusive.barrierfree.service.PostService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -81,8 +74,8 @@ public class AlarmController {
 	// 알림 확인하기
 	@PutMapping(value = "/check")
 	@ApiOperation(value = "알림 확인하기", response = List.class)
-	public ResponseEntity<Object> checkAlarm(@RequestParam long alarmSeq) throws Exception {
-		Optional<Alarm> result = alarmService.updateByAlarmSeq(alarmSeq, 0);
+	public ResponseEntity<Object> checkAlarm(@RequestParam long alarmSeq, @RequestParam int userSeq) throws Exception {
+		Optional<Alarm> result = alarmService.updateByAlarmSeq(alarmSeq, 0, userSeq);
 
 		if(result == null)
 			return new ResponseEntity<>(FAIL, HttpStatus.BAD_REQUEST);
@@ -93,8 +86,8 @@ public class AlarmController {
 	// 알림 삭제하기
 	@PutMapping(value = "/delete")
 	@ApiOperation(value = "알림 삭제하기", response = List.class)
-	public ResponseEntity<Object> deleteAlarm(@RequestParam long alarmSeq) throws Exception {
-		Optional<Alarm> result = alarmService.updateByAlarmSeq(alarmSeq, 1);
+	public ResponseEntity<Object> deleteAlarm(@RequestParam long alarmSeq, @RequestParam int userSeq) throws Exception {
+		Optional<Alarm> result = alarmService.updateByAlarmSeq(alarmSeq, 1, userSeq);
 		
 		if(result == null)
 			return new ResponseEntity<>(FAIL, HttpStatus.BAD_REQUEST);
@@ -104,7 +97,7 @@ public class AlarmController {
 
 	// 일정 기간 지난 알림 삭제하기
 	@PutMapping(value = "/deleteOld")
-	@ApiOperation(value = "특정 기간 지난 알림 삭제하기", response = List.class)
+	@ApiOperation(value = "특정 기간(14일) 지난 알림 삭제하기", response = List.class)
 	public ResponseEntity<Object> deleteOldAlarm(@RequestParam int userSeq) throws Exception {
 		int result = alarmService.deleteOldAlarm(userSeq);
 		

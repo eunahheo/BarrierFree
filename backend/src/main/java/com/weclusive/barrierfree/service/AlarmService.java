@@ -12,11 +12,12 @@ public interface AlarmService {
 
 	public Alarm save(Alarm alarm);
 
-	public Optional<Alarm> updateByAlarmSeq(long alarmSeq, int type);
+	public Optional<Alarm> updateByAlarmSeq(long alarmSeq, int type, int userSeq);
 
 	public int deleteOldAlarm(int userSeq);
 
 	public int saveAlaram(int userSeq, char type, long data);
+
 
 
 }
