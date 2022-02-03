@@ -8,7 +8,6 @@ import com.weclusive.barrierfree.entity.Follow;
 import com.weclusive.barrierfree.entity.User;
 import com.weclusive.barrierfree.repository.FollowRepository;
 import com.weclusive.barrierfree.repository.UserRepository;
-import com.weclusive.barrierfree.util.StringUtils;
 import com.weclusive.barrierfree.util.TimeUtils;
 
 @Service

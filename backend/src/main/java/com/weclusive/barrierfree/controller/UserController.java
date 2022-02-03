@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.mail.MessagingException;
-import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +27,6 @@ import com.weclusive.barrierfree.dto.UserLoginDto;
 import com.weclusive.barrierfree.entity.Token;
 import com.weclusive.barrierfree.entity.User;
 import com.weclusive.barrierfree.repository.TokenRepository;
-import com.weclusive.barrierfree.repository.UserImpairmentRepository;
 import com.weclusive.barrierfree.service.CustomUserDetailsService;
 import com.weclusive.barrierfree.service.UserService;
 import com.weclusive.barrierfree.util.JwtUtil;
@@ -74,12 +72,12 @@ public class UserController {
 
 	@PostMapping("/join/kakao")
 	@ApiOperation(value = "Kakao 회원가입", notes = "사용자가 입력한 회원정보를 등록한다.")
-	public ResponseEntity<String> kakaoJoin(@RequestBody UserJoinKakao user, HttpServletRequest request) {
+	public ResponseEntity<String> kakaoJoin(@RequestBody UserJoinKakao user, @RequestHeader String kakaoToken) {
 		// userId, userNickname, 불편사항
-		String accessToken = request.getHeader("accessToken"); // kakao 최초 로그인 시 받은 kakao access token
+		// kakao 최초 로그인 시 받은 kakao access token
 
 		try {
-			String userEmail = userService.getKakaoEmail(accessToken);
+			String userEmail = userService.getKakaoEmail(kakaoToken);
 			userService.registKakaoUser(user, userEmail); // 회원 등록 - 아이디, 닉네임, 장애정보
 		} catch (Exception e) {
 			e.printStackTrace();
