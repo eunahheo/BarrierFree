@@ -1,5 +1,8 @@
 package com.weclusive.barrierfree.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -56,12 +59,17 @@ public class FollowController {
 	@GetMapping("/isfollow")
 	@ApiOperation(value = "상대방 팔로잉 여부", notes = "현재 유저가 상대방을 팔로잉 했는지 여부를 반환한다.")
 	// 상대방의 userSeq 보내기
-	public ResponseEntity<Object> isFollow(@RequestParam int userSeq, @RequestParam int otherUserSeq) {
+	public ResponseEntity<Map<String, Object>> isFollow(@RequestParam int userSeq, @RequestParam int otherUserSeq) {
+		
+		Map<String, Object> result = new HashMap<>();
+		
 		boolean isfollow = followService.isFollow(otherUserSeq, userSeq);
 		if (isfollow) {
-			return new ResponseEntity<>('y', HttpStatus.OK);
+			result.put("isfollow", 'y');
+			return new ResponseEntity<>(result, HttpStatus.OK);
 		} else {
-			return new ResponseEntity<>('n', HttpStatus.OK);
+			result.put("isfollow", 'n');
+			return new ResponseEntity<>(result, HttpStatus.OK);
 		}
 	}
 }
