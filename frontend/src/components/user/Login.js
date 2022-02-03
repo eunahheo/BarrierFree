@@ -3,7 +3,7 @@ import { Input, Button, Link } from "@material-ui/core";
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from "react-redux";
-import { loginUser } from "../../_actions/user_actions";
+import { loginUser, userInfo } from "../../_actions/user_actions";
 import { PinDropSharp } from "@mui/icons-material";
 
 const Login = () => {
@@ -34,6 +34,8 @@ const Login = () => {
       .then(res => {
         console.log(res)
         if(res.payload) {
+          dispatch(userInfo(res.payload.accessToken))
+          localStorage.setItem("accessToken", res.payload.accessToken)
           navigate('/')
         } else {
           alert('error!')
