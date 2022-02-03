@@ -1,5 +1,6 @@
 package com.weclusive.barrierfree.service;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -35,16 +36,17 @@ public class AlarmServiceImpl implements AlarmService {
 	CommentRepository commentRepository;
 
 	@Override
-	public List<Map<String, Object>> readAlarm(int userSeq, char type) {
-		List<Alarm> alarm = alarmRepository.findByAlarmTypeAndUserSeq(type, userSeq);
-		System.out.println(alarm.toString());
+	public List<Map<String, Object>> readAlarm(int userSeq) {
+		List<Alarm> alarm = alarmRepository.findByAlarmTypeAndUserSeq(userSeq);
 		// 알림이 있으면
 		if (alarm.size() != 0) {
 			List<Map<String, Object>> result = new LinkedList<>();
 
-			// 팔로우 알림
-			if (type == '0') {
-				for (int i = 0; i < alarm.size(); i++) {
+			for (int i = 0; i < alarm.size(); i++) {
+				char type = alarm.get(i).getAlarmType();
+
+				// 팔로우 알림
+				if (type == '0') {
 					Map<String, Object> obj = new HashMap<>();
 
 					Alarm cur = alarm.get(i);
@@ -60,11 +62,9 @@ public class AlarmServiceImpl implements AlarmService {
 						result.add(obj);
 					}
 				}
-			}
 
-			// 게시글 알림
-			else if (type == '1') {
-				for (int i = 0; i < alarm.size(); i++) {
+				// 게시글 알림
+				else if (type == '1') {
 					Map<String, Object> obj = new HashMap<>();
 
 					Alarm cur = alarm.get(i);
@@ -83,10 +83,8 @@ public class AlarmServiceImpl implements AlarmService {
 						result.add(obj);
 					}
 				}
-			}
-			// 댓글 알림
-			else if (type == '2') {
-				for (int i = 0; i < alarm.size(); i++) {
+				// 댓글 알림
+				else if (type == '2') {
 					Map<String, Object> obj = new HashMap<>();
 
 					Alarm cur = alarm.get(i);
@@ -104,7 +102,7 @@ public class AlarmServiceImpl implements AlarmService {
 					}
 				}
 			}
-
+						
 			return result;
 		}
 		return null;
@@ -140,7 +138,7 @@ public class AlarmServiceImpl implements AlarmService {
 		} else
 			return null;
 	}
-	
+
 	@Override
 	public Alarm save(Alarm alarm) {
 		alarmRepository.save(alarm);
@@ -149,16 +147,16 @@ public class AlarmServiceImpl implements AlarmService {
 
 	// 오래된 알림 삭제
 	@Override
-	public int deleteOldAlarm(int userSeq) {
-		List<Alarm> deleteAlarm = alarmRepository.findOldAlarm(userSeq);
+	public int deleteOldAlarm() {
+		List<Alarm> deleteAlarm = alarmRepository.findOldAlarm();
 		String curTime = TimeUtils.curTime();
 		int result = 0;
-		
+
 		if (deleteAlarm.size() != 0) {
 			for (int i = 0; i < deleteAlarm.size(); i++) {
 				deleteAlarm.get(i).setDelYn('y');
-				deleteAlarm.get(i).setModDt(curTime);			
-				deleteAlarm.get(i).setModId(returnUserId(userSeq));
+				deleteAlarm.get(i).setModDt(curTime);
+				deleteAlarm.get(i).setModId("admin");
 				save(deleteAlarm.get(i));
 				result++;
 			}
@@ -182,10 +180,10 @@ public class AlarmServiceImpl implements AlarmService {
 		a.setModDt(curTime);
 		a.setModId(returnUserId(userSeq));
 		save(a);
-	
+
 		return 1;
 	}
-	
+
 	// userSeq -> userId
 	public String returnUserId(int userSeq) {
 		Optional<User> list = userRepository.findById(userSeq);
