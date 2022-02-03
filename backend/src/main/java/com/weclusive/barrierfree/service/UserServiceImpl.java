@@ -7,10 +7,14 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.transaction.Transactional;
 
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -18,8 +22,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
 import com.weclusive.barrierfree.dto.Email;
 import com.weclusive.barrierfree.dto.Impairment;
 import com.weclusive.barrierfree.dto.UserJoin;
@@ -208,7 +210,7 @@ public class UserServiceImpl implements UserService {
 
 	// 카카오 코드로 access token 받기
 	@Override
-	public String getKakaoAccessToken(String code) {
+	public String getKakaoAccessToken(String code) throws Exception {
 		String access_Token = "";
 		String refresh_Token = "";
 		String reqURL = "https://kauth.kakao.com/oauth/token";
@@ -243,17 +245,12 @@ public class UserServiceImpl implements UserService {
 			while ((line = br.readLine()) != null) {
 				result += line;
 			}
-			System.out.println("response body : " + result);
-
 			// Gson 라이브러리에 포함된 클래스로 JSON파싱 객체 생성
-			JsonParser parser = new JsonParser();
-			JsonElement element = parser.parse(result);
+			JSONParser parser = new JSONParser();
+			JSONObject element = (JSONObject) parser.parse(result);
 
-			access_Token = element.getAsJsonObject().get("access_token").getAsString();
-			refresh_Token = element.getAsJsonObject().get("refresh_token").getAsString();
-
-			System.out.println("access_token : " + access_Token);
-			System.out.println("refresh_token : " + refresh_Token);
+			access_Token = element.get("access_token").toString();
+			refresh_Token = element.get("refresh_token").toString();
 
 			br.close();
 			bw.close();
@@ -291,21 +288,17 @@ public class UserServiceImpl implements UserService {
 			while ((line = br.readLine()) != null) {
 				result += line;
 			}
-			System.out.println("response body : " + result);
 
 			// Gson 라이브러리로 JSON파싱
-			JsonParser parser = new JsonParser();
-			JsonElement element = parser.parse(result);
-
-//			int id = element.getAsJsonObject().get("id").getAsInt();
-			boolean hasEmail = element.getAsJsonObject().get("kakao_account").getAsJsonObject().get("has_email")
-					.getAsBoolean();
+			JSONParser parser = new JSONParser();
+			JSONObject element = (JSONObject) parser.parse(result);
+			JSONObject kakao_account = (JSONObject) element.get("kakao_account");
+			
+			boolean hasEmail = (boolean) kakao_account.get("has_email");
 			String email = "";
 			if (hasEmail) {
-				email = element.getAsJsonObject().get("kakao_account").getAsJsonObject().get("email").getAsString();
+				email = kakao_account.get("email").toString();
 			}
-//			System.out.println("id : " + id);
-//			System.out.printlsn("email : " + email);
 
 			br.close();
 
@@ -338,14 +331,6 @@ public class UserServiceImpl implements UserService {
 		return user;
 	}
 
-//	// 회원가입 시 장애정보 등록
-//	@Override
-//	public void registImpairment(String userId, UserJoin impairment) {
-//		User user = userRepository.findByUserId(userId);
-//		String now = now();
-//		
-//
-//	}
 
 	public void saveImpairment(int userSeq, String userId, String code, String now) {
 		userImpairmentRepository.save(UserImpairment.builder().userSeq(userSeq).code(code).delYn('n').regDt(now)
@@ -411,6 +396,22 @@ public class UserServiceImpl implements UserService {
 		return user;
 	}
 
+	@Override
+	public Map<String, Object> userInfo(String userId) {
+		
+		Map<String, Object> userinfo = new HashMap<>();
+		User user = userRepository.findByUserId(userId);
+
+		if(user != null) {
+			userinfo.put("userId", user.getUserId());
+			userinfo.put("userNickname", user.getUserNickname());
+			userinfo.put("userSeq", user.getUserSeq());
+			userinfo.put("userPhoto", user.getUserPhoto());
+			userinfo.put("userEmail", user.getUserEmail());
+		}
+		return userinfo;
+	}
+	
 	@Override
 	public boolean modifyUser(User user) throws Exception{
 		try {
