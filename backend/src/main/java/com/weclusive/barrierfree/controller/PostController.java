@@ -55,8 +55,8 @@ public class PostController {
 
 	@PutMapping(value = "/delete")
 	@ApiOperation(value = "게시글 삭제하기", response = List.class)
-	public ResponseEntity<Object> deletePost(@RequestParam long postSeq) throws Exception {
-		Optional<Post> result = postService.deleteByPostSeq(postSeq);
+	public ResponseEntity<Object> deletePost(@RequestParam long postSeq, @RequestParam int userSeq) throws Exception {
+		Optional<Post> result = postService.deleteByPostSeq(postSeq, userSeq);
 
 		if(result == null)
 			return new ResponseEntity<>(FAIL + " : 해당 게시글이 존재하지 않습니다.", HttpStatus.BAD_REQUEST);

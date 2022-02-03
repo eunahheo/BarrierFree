@@ -66,11 +66,15 @@ public class PostServiceImpl implements PostService {
 
 	// 게시글 삭제하기 (del_yn을 y로 변경)
 	@Override
-	public Optional<Post> deleteByPostSeq(long postSeq) {
+	public Optional<Post> deleteByPostSeq(long postSeq, int userSeq) {
 		Optional<Post> deletePost = postRepository.findByPostSeq(postSeq);
 
 		if (deletePost != null) {
+			String curTime = TimeUtils.curTime();
+
 			deletePost.get().setDelYn('y');
+			deletePost.get().setModDt(curTime);
+			deletePost.get().setModId(returnUserId(userSeq));
 			save(deletePost.get());
 			return deletePost;
 		} else
