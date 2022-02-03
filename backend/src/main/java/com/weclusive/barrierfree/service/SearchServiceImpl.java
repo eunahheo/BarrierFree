@@ -125,7 +125,7 @@ public class SearchServiceImpl implements SearchService {
 			String returnLine;
 			while ((returnLine = br.readLine()) != null) {
 				sb.append(returnLine + "\n");
-				System.out.println(returnLine + "\n");
+//				System.out.println(returnLine + "\n");
 			}
 			connection.disconnect();
 

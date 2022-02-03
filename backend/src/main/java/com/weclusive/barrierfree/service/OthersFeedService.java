@@ -5,7 +5,7 @@ import java.util.Map;
 
 public interface OthersFeedService {
 
-	public Map<String, Object> readOthersFeed(int otherUserSeq);
+	public Map<String, Object> readOthersFeed(int userSeq, int otherUserSeq);
 
 	public List<Map<String, Object>> readOthersPost(int otherUserSeq, int userSeq);
 
@@ -13,5 +13,4 @@ public interface OthersFeedService {
 
 	public List<Map<String, Object>> readOthersFollower(int otherUserSeq, int userSeq);
 
-	public boolean isFollow(int otherUserseq, int userSeq);
 }
