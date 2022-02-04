@@ -40,8 +40,11 @@ const Review = () => {
   // review 창이 뜨자 마자 불러와져야할 것들
   useEffect(() => {
     getPostDetail();
-    getCommentList();
   }, []);
+  
+  useEffect(() => {
+    getCommentList();
+  }, [])
 
   const getPostDetail = () => {
     axios({

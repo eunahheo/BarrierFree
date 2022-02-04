@@ -11,7 +11,7 @@ export function loginUser(dataTosubmit) {
         method: "POST",
         url: 'user/login',
         data: dataTosubmit
-      }).then(res =>  res.data)
+      }).then(res => res.data)
   
   return {
     type: LOGIN_USER,
