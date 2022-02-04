@@ -38,8 +38,8 @@ const AuthTemplate = ({ children }) => {
         <div className="logo-area">
           <Link to="/">HOME</Link>
         </div>
-        {children}
         {/* <img src={bflogo} width="200" style={{ marginTop: "2rem" }}></img> */}
+        {children}
       </WhiteBox>
     </AuthTemplateBlock>
   );

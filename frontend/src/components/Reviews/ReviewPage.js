@@ -1,30 +1,25 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import RecommendCardList from "../recommend/RecommendCardList";
 import Button from "../common/Button";
-// import BasicCardList from "../cards/BasicCard";
-// import OrderBox from "./OrderBox";
-import { Link, useNavigate } from "react-router-dom";
+import MyCardList from "./MyCardList";
 
 const ReviewPage = () => {
-  // const [ordertype, setOrdertype] = useState("");
-  const [myitemList, mysetItemList] = useState([]);
+  const [itemList, setItemList] = useState([]);
 
   const orderbylatest = async () => {
-    // setOrdertype("http://localhost:3000/post/all?userSeq=0");
-    await axios.get(`/post/recently?userSeq=0`).then(function (res) {
-      mysetItemList(res.data);
+    await axios.get(`/main/recently?userSeq=0`).then(function (res) {
+      setItemList(res.data);
       console.log("latest");
     });
   };
 
   const orderbypopular = () => {
-    // setOrdertype("http://localhost:8080/post/scrap?userSeq=1");
     axios({
-      url: `/post/scrap?userSeq=1`,
+      url: `/main/scrap?userSeq=1`,
+      method: "get",
     })
       .then(function (res) {
-        mysetItemList(res.data);
+        setItemList(res.data);
         console.log("popular");
       })
       .catch(function () {
@@ -33,37 +28,44 @@ const ReviewPage = () => {
   };
   const orderbypopularweek = () => {
     axios({
-      url: "/post/weekscrap?userSeq=1",
+      url: "/main/weekscrap?userSeq=1",
       method: "get",
     })
       .then(function (res) {
-        mysetItemList(res.data);
+        setItemList(res.data);
       })
       .catch(function (error) {
         console.log(error);
       });
   };
   const orderbybf = () => {
-    // setOrdertype("http://localhost:8080/post/follow?userSeq=1");
     axios({
-      url: `/post/follow?userSeq=1`,
+      url: `/main/follow?userSeq=1`,
     }).then(function (res) {
-      mysetItemList(res.data);
+      setItemList(res.data);
       console.log("bf");
     });
   };
 
   useEffect(() => {
-    axios({
-      url: `/post/all?userSeq=0`,
-    }).then(function (res) {
-      mysetItemList(res.data);
-    });
+    const res = async () => {
+      try {
+        await axios({
+          url: "/main/all",
+          params: {
+            userSeq: 0,
+          },
+        });
+        setItemList(res.data);
+      } catch (e) {
+        console.log(e);
+      }
+    };
   }, []);
 
   return (
     <div>
-      <h1>Review in here</h1>
+      <h1>Review in here:: reviewpage</h1>
       <Button order onClick={orderbylatest}>
         최신순
       </Button>
@@ -76,8 +78,7 @@ const ReviewPage = () => {
       <Button order onClick={orderbybf}>
         베프만
       </Button>
-      {/* <BasicCardList itemList={myitemList}></BasicCardList> */}
-      <RecommendCardList itemList={myitemList}></RecommendCardList>
+      <MyCardList itemList={itemList}></MyCardList>
     </div>
   );
 };

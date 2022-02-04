@@ -29,8 +29,6 @@ const MyReviewPage = () => {
   return (
     <div>
       <h1>My Review in here</h1>
-      {/* <OrderBox></OrderBox> */}
-      {/* <BasicCardList itemList={myitemList}></BasicCardList> */}
       <MyCardList itemList={itemList}></MyCardList>
     </div>
   );

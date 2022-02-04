@@ -25,11 +25,7 @@ function Home() {
     <div className="Home">
       <Header />
       <h1>Home</h1>
-      {/* <OrderBox /> */}
       <ReviewPage></ReviewPage>
-      {/* <Navbar /> */}
-      {/* <Recommend></Recommend> */}
-      {/* <RecommendCardList itemList={itemList}></RecommendCardList> */}
     </div>
   );
 }

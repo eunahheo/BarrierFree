@@ -16,6 +16,7 @@ import Visual from "../images/Visual.png";
 import VisualHide from "../images/VisualHide.png";
 import RegisterForm from "./RegisterForm";
 import axios from "axios";
+import { red } from "@material-ui/core/colors";
 
 const AuthFormBlock = styled.div`
   h2 {
@@ -35,15 +36,21 @@ const AuthBarrierIconBlock = styled.div`
     margin: 1.5rem 0.75rem 0;
     cursor: pointer;
   }
+  img.active {
+    border: 2px solid red;
+  }
 `;
 
 const StyledInput = styled.input`
   font-size: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
   border: none;
   border-bottom: 1px solid black;
   padding-bottom: 0.5rem;
   outline: none;
-  width: 60%;
+  width: 70%;
 
   &:focus {
     color: $oc-teal-7;
@@ -196,7 +203,7 @@ const AuthForm = ({
         )}
         {type === "register" && (
           <AuthBarrierIconBlock>
-            <div align="center">
+            <div align="center" className="barriericon">
               <img
                 name="physical"
                 src={Physical}
