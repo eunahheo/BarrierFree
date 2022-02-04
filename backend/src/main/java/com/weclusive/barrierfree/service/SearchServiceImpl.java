@@ -71,7 +71,6 @@ public class SearchServiceImpl implements SearchService {
 						keyword);
 
 		posts.forEach(post -> {
-			Map<String, Object> map = new HashMap<>();
 			Map<String, Object> obj = new HashMap<>();
 			obj.put("post_seq", post.getPostSeq());
 			obj.put("user_seq", post.getUserSeq());
@@ -80,6 +79,7 @@ public class SearchServiceImpl implements SearchService {
 			obj.put("post_photo", post.getPostPhoto());
 			obj.put("post_location", post.getPostLocation());
 			List<String> list = postImpairmentRepository.findImpairment(post.getPostSeq());
+			System.out.println(list);
 			obj.put("impairment", list);
 
 			char scrap_yn = 'n';
@@ -89,7 +89,6 @@ public class SearchServiceImpl implements SearchService {
 				scrap_yn = 'y';
 			obj.put("scrap_yn", scrap_yn);
 			result.add(obj);
-			result.add(map);
 		});
 		return result;
 	}
