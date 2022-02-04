@@ -1,18 +1,21 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import RecommendCardList from "../recommend/RecommendCardList";
+import ReviewCardList from "./ReviewCardList";
 import Button from "../common/Button";
 // import BasicCardList from "../cards/BasicCard";
 // import OrderBox from "./OrderBox";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const ReviewPage = () => {
   // const [ordertype, setOrdertype] = useState("");
+  const myuser = useSelector((state) => state.user.userData)
+  const navigate = useNavigate();
   const [myitemList, mysetItemList] = useState([]);
 
   const orderbylatest = async () => {
     // setOrdertype("http://localhost:3000/post/all?userSeq=0");
-    await axios.get(`/post/recently?userSeq=0`).then(function (res) {
+    await axios.get(`/main/recently?userSeq=0`).then(function (res) {
       mysetItemList(res.data);
       console.log("latest");
     });
@@ -21,7 +24,7 @@ const ReviewPage = () => {
   const orderbypopular = () => {
     // setOrdertype("http://localhost:8080/post/scrap?userSeq=1");
     axios({
-      url: `/post/scrap?userSeq=1`,
+      url: `/main/scrap?userSeq=0`,
     })
       .then(function (res) {
         mysetItemList(res.data);
@@ -33,7 +36,7 @@ const ReviewPage = () => {
   };
   const orderbypopularweek = () => {
     axios({
-      url: "/post/weekscrap?userSeq=1",
+      url: `/main/weekscrap?userSeq=0`,
       method: "get",
     })
       .then(function (res) {
@@ -43,19 +46,27 @@ const ReviewPage = () => {
         console.log(error);
       });
   };
+
+
+  // 나중에 고쳐야합니당... !
   const orderbybf = () => {
     // setOrdertype("http://localhost:8080/post/follow?userSeq=1");
-    axios({
-      url: `/post/follow?userSeq=1`,
-    }).then(function (res) {
-      mysetItemList(res.data);
-      console.log("bf");
-    });
+    if (localStorage) {
+      axios({
+        url: `/main/follow?userSeq=${myuser.userSeq}`,
+      }).then(function (res) {
+        mysetItemList(res.data);
+        console.log("bf");
+      });
+    } else {
+      alert('로그인이 필요합니다!')
+      navigator('/loginpage')
+    }
   };
 
   useEffect(() => {
     axios({
-      url: `/post/all?userSeq=0`,
+      url: `/main/all?userSeq=0`,
     }).then(function (res) {
       mysetItemList(res.data);
     });
@@ -77,7 +88,7 @@ const ReviewPage = () => {
         베프만
       </Button>
       {/* <BasicCardList itemList={myitemList}></BasicCardList> */}
-      <RecommendCardList itemList={myitemList}></RecommendCardList>
+      <ReviewCardList itemList={myitemList}></ReviewCardList>
     </div>
   );
 };

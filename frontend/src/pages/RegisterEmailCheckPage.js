@@ -49,7 +49,7 @@ const RegisterEmailCheckPage = () => {
         <h4>안녕하세요!</h4>
         <p>현재 가입 대기상태입니다.</p>
         <p>베리어 프리를 이용하시려면 인증 메일을 확인해주세요!</p>
-        <Link to="/login">
+        <Link to="/loginpage">
           <Button fullWidth cyan>
             로그인하기
           </Button>

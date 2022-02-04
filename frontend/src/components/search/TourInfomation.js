@@ -10,14 +10,13 @@ import { useParams } from "react-router";
 // import "./Review.css"
 // import "styles.css";
 
-const Review = () => {
+const TourInfomation = () => {
   const pageNum = useParams()
-  const reviewNum = Number(pageNum.reviewCard)
+  const infomationNum = Number(pageNum.infomationCard)
   
   // infomation 내용 불러오기 위한 const
   
   const [infomationDetail, setInfomationDetail] = useState([]);
-  const [overview, setOverview] = useState([]);
   const [barriers, setBarriers] = useState([]);
   const [reviewPoint, setReviewPoint] = useState([]);
   const [comments, setComments] = useState([]);
@@ -26,18 +25,16 @@ const Review = () => {
   // review 창이 뜨자 마자 불러와져야할 것들
   useEffect(() => {
     getPostDetail();
-    
   },[])
   
   const getPostDetail = () => {
     axios({
       method: 'GET',
       url: 'recommend/detail',
-      params: {contentid: 126508}
+      params: {contentid: infomationNum}
     }
     ).then(res => {
       setInfomationDetail(res.data)
-      setOverview(JSON.stringify(res.data.overview))
       // console.log(infomationDetail)
     }).catch('yes')
   };
@@ -67,4 +64,4 @@ const Review = () => {
 }
 
 // https://mui.com/components/rating/ 별 표시 할 때 쓸 것
-export default Review;
+export default TourInfomation;

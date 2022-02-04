@@ -3,14 +3,17 @@ import { Container } from "@material-ui/core";
 import SearchCardList from "./SearchCardList.js";
 import axios from "axios";
 import Header from "../common/Header";
+import { useSelector } from "react-redux";
 
 function Search() {
+  const myuser = useSelector((state) => state.user.userData)
   const [itemList, setItemList] = useState([]);
   useEffect(() => {
     axios({
-      url: "post/all?userSeq=1",
+      url: `post/all?userSeq=${myuser.userSeq}`,
     }).then(function (res) {
       setItemList(res.data);
+      console.log(myuser.userSeq)
     });
   }, []);
 

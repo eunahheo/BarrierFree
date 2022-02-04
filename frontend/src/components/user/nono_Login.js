@@ -1,10 +1,8 @@
 import React, { useState } from "react";
 import { Input, Button, Link } from "@material-ui/core";
-import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from "react-redux";
 import { loginUser, userInfo } from "../../_actions/user_actions";
-import { PinDropSharp } from "@mui/icons-material";
 
 const Login = () => {
 
@@ -41,25 +39,6 @@ const Login = () => {
           alert('error!')
         }
       })
-    // axios(
-    //   {
-    //     method: "POST",
-    //     url: 'user/login',
-    //     data: {
-    //       'userId': id,
-    //       'userPwd': password
-    //     }
-    //   }).then(res => {
-    //     console.log(res)
-    //     if (res.data.message === "success") {
-    //       console.log(res)
-    //       localStorage.setItem("accessToken", res.data.accessToken);
-    //       console.log(localStorage)
-    //       setLoginCheck(true);
-    //       navigate('/')
-    //     }
-    //     return res.data;
-    //  })
    } 
 
   return (

@@ -134,6 +134,7 @@ const Recommend = () => {
     })
   }
   
+  console.log(itemList)
   // !!!!!!!!!!!!! 검색 기능 만들기
   const onClickSearch = () => {
     
@@ -188,10 +189,7 @@ const Recommend = () => {
           </div>
         </Box>
         <RecommendCategories category={category} onClick={onSelect}></RecommendCategories>
-        {itemList.map(item => (
-            <p>{item.title}</p>
-          ))}
-        {/* <RecommendCardList itemList={itemList} category={category}></RecommendCardList> */}
+        <RecommendCardList itemList={itemList} category={category}></RecommendCardList>
       </Container>
     </div>
   );
