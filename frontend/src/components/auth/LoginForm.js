@@ -1,11 +1,15 @@
-import axios from "axios";
 import React, { useState, useEffect } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import AuthForm from "../../components/auth/AuthForm";
+import { useDispatch } from "react-redux";
+import { loginUser, userInfo } from "../../_actions/user_actions";
 
 const LoginForm = () => {
-  const [pwdCfm, setPwdCfm] = useState(true);
+
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const [pwdCfm, setPwdCfm] = useState(true);
   const [loginloading, setLoginloading] = useState(false);
   const [regform, setForm] = useState({
     userId: "",
@@ -21,24 +25,25 @@ const LoginForm = () => {
     event.preventDefault();
 
     const { userId, userPwd } = regform;
+    
+    let body = {
+      'userId': userId,
+      'userPwd': userPwd
+    }
 
     if ((userId, userPwd)) {
       setLoginloading(true);
-      try {
-        await axios({
-          url: "http://http://i6a504.p.ssafy.io:3030/user/login/",
-          method: "post",
-          headers: {
-            "Content-Type": "application/json",
-            "Access-Control-Allow-Credentials": true,
-          },
-          data: regform,
-        });
-        alert("로그인이 완료되었습니다!😀");
-        navigate("/");
-      } catch (error) {
-        console.log(error);
-      }
+      dispatch(loginUser(body))
+      .then(res => {
+        console.log(res)
+        if(res.payload) {
+          localStorage.setItem("accessToken", res.payload.accessToken)
+          dispatch(userInfo(res.payload.accessToken))
+          navigate('/')
+        } else {
+          alert('error!')
+        }
+      })
     } else {
       alert("빈 값을 채워주세요!");
     }

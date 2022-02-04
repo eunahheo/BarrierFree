@@ -12,7 +12,6 @@ import ReviewPage from "./components/Reviews/ReviewPage";
 import ReviewPageBf from "./components/Reviews/ReviewPageBf";
 import NotFound from "./routes/NotFound";
 import { Route, Routes } from "react-router-dom";
-import Login from "./components/user/Login";
 import RegisterPage from "./pages/RegisterPage";
 import RegisterCompletedPage from "./pages/RegisterCompletedPage";
 import Review from "./components/review/Review";
@@ -21,6 +20,7 @@ import { eventWrapper } from "@testing-library/user-event/dist/utils";
 import RegisterPageKakao from "./pages/RegisterPageKakao";
 import RegisterEmailCheckPage from "./pages/RegisterEmailCheckPage";
 import LoginPage from "./pages/LoginPage";
+import TourInfomation from './components/search/TourInfomation';
 
 function App() {
   // var cors = require("cors");
@@ -28,10 +28,9 @@ function App() {
   // app.use(cors());
   return (
     <div className="App">
-      <Navbar></Navbar>
+      {/* <Navbar></Navbar> */}
       <Routes>
         <Route path="/" exact={true} element={<Home />}></Route>
-        <Route path="/login" exact={true} element={<Login />}></Route>
         <Route path="/search" exact={true} element={<Search />}></Route>
         <Route path="/about" exact={true} element={<About />}></Route>
         <Route path="/recommend" exact={true} element={<Recommend />}></Route>
@@ -42,6 +41,11 @@ function App() {
           path="/post/detail/:reviewCard"
           exact={true}
           element={<Review />}
+        ></Route>
+        <Route
+          path="/recommend/detail/:infomationCard"
+          exact={true}
+          element={<TourInfomation />}
         ></Route>
         <Route path="/reviewpage" element={<ReviewPage />}></Route>
         <Route

@@ -1,26 +1,31 @@
 import React, { useState } from "react";
 import { Card, CardMedia, CardContent, Typography } from "@mui/material";
-import RecommendBarrierIcon from "./RecommendBarrierIcon";
+import ReviewBarrierIcon from "./ReviewBarrierIcon";
 import axios from "axios";
 import Review from "../review/Review";
 import { Link, useNavigate } from "react-router-dom";
 
-const RecommendCard = ({ item }) => {
+const ReviewCard = ({ item }) => {
+  // console.log(item)
+  // const pageNum = useState([]);
   const navigate = useNavigate();
 
-  const { addr1, contentid, firstimage, scrap_yn, title } = item;
-  const infomationCard = item.contentid;
-  // const barriers = item.impairment;
-  // const contentid  = item.contentid;
+  const { post_photo, post_location, post_title } = item;
+  const barriers = item.impairment;
+  const reviewCard = item.post_seq;
   // const state = { 'detailnum': reviewCard}
   const onClickCard = () => {
     // console.log(e)
     axios({
       method: "GET",
-      url: "recommend/detail",
-      params: { contentid: contentid  },
+      url: "post/detail",
+      params: { postSeq: reviewCard },
     }).then(function (res) {
-      navigate(`/recommend/detail/${contentid}`);
+      // console.log(res.config.params.postSeq)
+      navigate(`/post/detail/${reviewCard}`);
+      // pageNum(res.config.params.postSeq)
+      // console.log(setCard)
+      // document.location.href = '/detail/'+ reviewCard
     });
 
     // document.location.href = '/detail/'+ reviewCard
@@ -31,27 +36,27 @@ const RecommendCard = ({ item }) => {
       {/* <Link to={{ pathname: '/post/detail/:reviewCard', state: { detailnum : reviewCard}}}> */}
       <Card
         onClick={onClickCard}
-        infomationCard={infomationCard}
+        reviewCard={reviewCard}
         sx={{ maxWidth: 250 }}
       >
         {/* <Card onClick={onClickCard} pageNum={reviewCard} sx={{ maxWidth: 250 }}> */}
         <CardMedia
           component="img"
           height="300"
-          image={firstimage}
+          image={post_photo}
           alt="Dog Picture"
         />
 
         <CardContent align="left">
           <Typography variant="body2" color="text.secondary">
-            {title}
+            {post_location}
           </Typography>
-          {title}
-          {/* <RecommendBarrierIcon barriers={barriers}></RecommendBarrierIcon> */}
+          {post_title}
+          <ReviewBarrierIcon barriers={barriers}></ReviewBarrierIcon>
         </CardContent>
       </Card>
       {/* </Link> */}
     </div>
   );
 };
-export default RecommendCard;
+export default ReviewCard;
