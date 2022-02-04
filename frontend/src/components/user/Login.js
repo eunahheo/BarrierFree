@@ -34,8 +34,8 @@ const Login = () => {
       .then(res => {
         console.log(res)
         if(res.payload) {
-          dispatch(userInfo(res.payload.accessToken))
           localStorage.setItem("accessToken", res.payload.accessToken)
+          dispatch(userInfo(res.payload.accessToken))
           navigate('/')
         } else {
           alert('error!')

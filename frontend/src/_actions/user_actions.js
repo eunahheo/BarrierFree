@@ -19,7 +19,8 @@ export function loginUser(dataTosubmit) {
   }
 }
 
-export function userInfo(token) {
+export function userInfo() {
+  const token = localStorage.getItem("accessToken")
   const request = axios(
     {
       method: "GET",
