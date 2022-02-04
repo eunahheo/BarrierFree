@@ -17,6 +17,6 @@ public interface MyFeedService {
 
 	public List<Object> readScrapPost(int userSeq);
 
-//	public List<Object> readScrapRecommend(int userSeq);
+	public List<Object> readScrapRecommend(int userSeq) throws Exception;
 
 }

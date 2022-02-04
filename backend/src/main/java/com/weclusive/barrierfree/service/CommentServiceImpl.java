@@ -9,7 +9,6 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.nimbusds.oauth2.sdk.util.StringUtils;
 import com.weclusive.barrierfree.dto.CommentSave;
 import com.weclusive.barrierfree.entity.Comment;
 import com.weclusive.barrierfree.entity.Post;
@@ -62,11 +61,14 @@ public class CommentServiceImpl implements CommentService {
 
 	// 댓글 삭제하기
 	@Override
-	public Optional<Comment> deleteByCmtSeq(long cmtSeq) {
+	public Optional<Comment> deleteByCmtSeq(long cmtSeq, int userSeq) {
 		Optional<Comment> deleteComment = commentRepository.findByCmtSeq(cmtSeq);
-
+		String curTime = TimeUtils.curTime();
+		
 		if (deleteComment != null) {
 			deleteComment.get().setDelYn('y');
+			deleteComment.get().setModDt(curTime);
+			deleteComment.get().setModId(returnUserId(userSeq));
 			commentRepository.save(deleteComment.get());
 			return deleteComment;
 		} else
@@ -75,20 +77,18 @@ public class CommentServiceImpl implements CommentService {
 
 	// 댓글 수정하기
 	@Override
-	public int updateByCmtSeq(long cmtSeq, String cmtContent) {
+	public int updateByCmtSeq(long cmtSeq, String cmtContent, int userSeq) {
 		Optional<Comment> curComment = commentRepository.findByCmtSeq(cmtSeq);
 
 		if (curComment != null) {
 			if (cmtContent != null) {
 
-				String regTime = TimeUtils.curTime();
-
-				String userId = returnUserId(curComment.get().getUserSeq());
+				String curTime = TimeUtils.curTime();
 
 				Comment updateComment = curComment.get();
 				updateComment.setCmtContent(cmtContent);
-				updateComment.setModDt(regTime);
-				updateComment.setModId(userId);
+				updateComment.setModDt(curTime);
+				updateComment.setModId(returnUserId(userSeq));
 
 				commentRepository.save(updateComment);
 				return 1;
@@ -128,10 +128,4 @@ public class CommentServiceImpl implements CommentService {
 		return userId;
 	}
 
-	// postSeq -> userId
-	public String returnUserIdFromPostSeq(long postSeq) {
-		Optional<Post> list = postRepository.findById(postSeq);
-		int userSeq = list.get().getUserSeq();
-		return returnUserId(userSeq);
-	}
 }

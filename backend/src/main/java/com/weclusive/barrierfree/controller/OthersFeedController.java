@@ -31,8 +31,8 @@ public class OthersFeedController {
 	@GetMapping("/main")
 	@ApiOperation(value = "피드 상단 내용 보기", notes = "프로필 사진, 닉네임, 게시글 수, 팔로잉 수, 팔로워 수를 반환한다.", response = List.class)
 	// 상대방의 userSeq 보내기
-	public ResponseEntity<Object> mainFeed(@RequestParam int otherUserSeq) {
-		Map<String, Object> result = othersfeedService.readOthersFeed(otherUserSeq);
+	public ResponseEntity<Object> mainFeed(@RequestParam int userSeq, @RequestParam int otherUserSeq) {
+		Map<String, Object> result = othersfeedService.readOthersFeed(userSeq, otherUserSeq);
 		if (result != null) {
 			return new ResponseEntity<>(result, HttpStatus.OK);
 		} else {
@@ -73,18 +73,6 @@ public class OthersFeedController {
 			return new ResponseEntity<>(result, HttpStatus.OK);
 		} else {
 			return new ResponseEntity<>(" : 팔로워가가 존재하지 않습니다.", HttpStatus.BAD_REQUEST);
-		}
-	}
-
-	@GetMapping("/isfollow")
-	@ApiOperation(value = "상대방 팔로잉 여부", notes = "현재 유저가 상대방을 팔로잉 했는지 여부를 반환한다.")
-	// 상대방의 userSeq 보내기
-	public ResponseEntity<Object> isFollow(@RequestParam int userSeq, @RequestParam int otherUserSeq) {
-		boolean isfollow = othersfeedService.isFollow(otherUserSeq, userSeq);
-		if (isfollow) {
-			return new ResponseEntity<>('y', HttpStatus.OK);
-		} else {
-			return new ResponseEntity<>('n', HttpStatus.OK);
 		}
 	}
 }

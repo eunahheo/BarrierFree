@@ -34,7 +34,7 @@ const RegisterForm = () => {
       data: regform,
     })
       .try(alert("회원가입이 완료되었습니다!😀"))
-      .catch((error) => console.log(error), console.log("왜안돼?"));
+      .catch((error) => console.log(error));
   };
 
   return (

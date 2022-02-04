@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.mail.MessagingException;
-import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +27,6 @@ import com.weclusive.barrierfree.dto.UserLoginDto;
 import com.weclusive.barrierfree.entity.Token;
 import com.weclusive.barrierfree.entity.User;
 import com.weclusive.barrierfree.repository.TokenRepository;
-import com.weclusive.barrierfree.repository.UserImpairmentRepository;
 import com.weclusive.barrierfree.service.CustomUserDetailsService;
 import com.weclusive.barrierfree.service.UserService;
 import com.weclusive.barrierfree.util.JwtUtil;
@@ -59,16 +57,12 @@ public class UserController {
 	@Autowired
 	private CustomUserDetailsService service;
 
-	@Autowired
-	private UserImpairmentRepository userImpairmentRepository;
-	
 	@PostMapping("/join")
 	@ApiOperation(value = "회원가입", notes = "사용자가 입력한 회원정보를 등록한다.")
 	public ResponseEntity<String> join(@RequestBody UserJoin userJoin) {
 		try {
 			userService.registUser(userJoin); // 회원등록 - 회원정보, 장애정보
 			userService.sendEmailwithUserKey(userJoin.getUserEmail(), userJoin.getUserId()); // 이메일 인증
-
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity<String>(FAIL, HttpStatus.BAD_REQUEST);
@@ -78,13 +72,12 @@ public class UserController {
 
 	@PostMapping("/join/kakao")
 	@ApiOperation(value = "Kakao 회원가입", notes = "사용자가 입력한 회원정보를 등록한다.")
-	public ResponseEntity<String> kakaoJoin(@RequestBody UserJoinKakao user, HttpServletRequest request) {
+	public ResponseEntity<String> kakaoJoin(@RequestBody UserJoinKakao user, @RequestHeader String kakaoToken) {
 		// userId, userNickname, 불편사항
-		String accessToken = request.getHeader("accessToken"); // kakao 최초 로그인 시 받은 kakao access token
-		System.out.println(accessToken);
+		// kakao 최초 로그인 시 받은 kakao access token
 
 		try {
-			String userEmail = userService.getKakaoEmail(accessToken);
+			String userEmail = userService.getKakaoEmail(kakaoToken);
 			userService.registKakaoUser(user, userEmail); // 회원 등록 - 아이디, 닉네임, 장애정보
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -93,15 +86,14 @@ public class UserController {
 		return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 	}
 
-	@PostMapping("/login/kakao")
+	@GetMapping("/login/kakao")
 	@ApiOperation(value = "Kakao 로그인", notes = "카카오 로그인 Api로 로그인한다.")
 	public ResponseEntity<Map<String, Object>> kakaoLogin(@RequestParam String code) {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
-
-		System.out.println(code);
-		String kakaoToken = userService.getKakaoAccessToken(code);
 		User kakaoUser = null;
 		try {
+			String kakaoToken = userService.getKakaoAccessToken(code);
+			
 			String userEmail = userService.getKakaoEmail(kakaoToken);
 			kakaoUser = userService.findByUserEmail(userEmail);
 
@@ -115,13 +107,12 @@ public class UserController {
 			e.printStackTrace();
 		}
 
-//		System.out.println(kakaoToken);
+		// 최초 로그인이 아니면
 		User user = (User) userService.findByUserId(kakaoUser.getUserId());
 		Token refToken = tokenRepository.findByUserSeq(user.getUserSeq());
 
 		UserDetails userDetails = service.loadUserByUsername(user.getUserId());
-		if (refToken == null || !jwtUtil.validateToken(refToken.getTokenRefTK(), userDetails)) { // refreshToken이
-																									// 유효하지 않다면
+		if (refToken == null || !jwtUtil.validateToken(refToken.getTokenRefTK(), userDetails)) { // refreshToken이  유효하지 않다면
 			userService.createRefreshToken(user);
 		} // db에 저장하기
 
@@ -162,8 +153,7 @@ public class UserController {
 				User user = (User) userService.findByUserId(loginUser.getUserId());
 				Token refToken = tokenRepository.findByUserSeq(user.getUserSeq());
 				UserDetails userDetails = service.loadUserByUsername(user.getUserId());
-				if (refToken == null || !jwtUtil.validateToken(refToken.getTokenRefTK(), userDetails)) { // refreshToken이
-																											// 유효하지 않다면
+				if (refToken == null || !jwtUtil.validateToken(refToken.getTokenRefTK(), userDetails)) { // refreshToken이 유효하지 않다면
 					userService.createRefreshToken(user);
 				}
 				resultMap.put("accessToken", userService.createAccessToken(user));
@@ -190,7 +180,7 @@ public class UserController {
 
 	// 사용자 닉네임 중복확인
 	@PostMapping("/check/nickname")
-	@ApiOperation(value = "닉네임 중복 여부", notes = "닉네임 중복 여부를 반환한다.")
+	@ApiOperation(value = "닉네임 중복 확인", notes = "닉네임 중복 여부를 반환한다.")
 	public ResponseEntity<String> checkNickname(@RequestParam String userNickname) {
 		User user = userService.findByUserNickname(userNickname);
 
@@ -230,29 +220,20 @@ public class UserController {
 	@GetMapping("/info")
 	@ApiOperation(value = "사용자 정보 조회", notes = "사용자 정보를 조회한다.")
 	public ResponseEntity<Map<String, Object>> getInfo(@RequestHeader("Authorization") String accessToken) {
-		Map<String, Object> result = new HashMap<>();
+		Map<String, Object> userinfo = new HashMap<>();
 		HttpStatus status = HttpStatus.OK;
 		
 		try {
 			String userId = jwtUtil.extractUserId(accessToken.substring(7));  // access-token에서 userId 추출
-		 
-			User user = userService.findByUserId(userId);
-			
-			result.put("userSeq", user.getUserSeq());
-			result.put("userId", user.getUserId());
-			result.put("userNickname", user.getUserNickname());
-			result.put("userPhoto", user.getUserPhoto());
-			result.put("userEmail", user.getUserEmail());
-			result.put("impairments", userService.readUserImpairment(user.getUserSeq()));
-			
-			result.put("message", SUCCESS);
+			userinfo = userService.userInfo(userId);
+			userinfo.put("message", SUCCESS);
 
-			return new ResponseEntity<Map<String, Object>>(result, status);
+			return new ResponseEntity<Map<String, Object>>(userinfo, status);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 			status = HttpStatus.BAD_REQUEST;
-			result.put("message", FAIL);
-			return new ResponseEntity<Map<String, Object>>(result, status);
+			userinfo.put("message", FAIL);
+			return new ResponseEntity<Map<String, Object>>(userinfo, status);
 		}
 	}
 	

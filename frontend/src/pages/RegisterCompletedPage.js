@@ -1,5 +1,4 @@
 import AuthTemplate from "../components/auth/AuthTemplate";
-import RegisterCompleted from "../components/auth/RegisterCompleted";
 import { useLocation } from "react-router-dom";
 import { useSearchParams } from "react-router-dom";
 import { useEffect } from "react";
@@ -27,15 +26,17 @@ const RegisterPage = () => {
 
   const location = useLocation();
 
-  useEffect(() =>
-    axios({
-      url: "http://localhost:8080/user/email/certified",
-      method: "post",
-      params: {
-        userNickname: userNickname,
-        certified: certified,
-      },
-    })
+  useEffect(
+    () =>
+      axios({
+        url: "http://i6a504.p.ssafy.io:3030/user/email/certified",
+        method: "post",
+        params: {
+          userNickname: userNickname,
+          certified: certified,
+        },
+      }),
+    []
   );
 
   return (
@@ -50,9 +51,11 @@ const RegisterPage = () => {
         </h4>
         <p>이메일 인증이 완료되었습니다.</p>
         <p>베리어 프리에서 여러분의 신나는 여행을 공유해보세요!</p>
-        <Button fullWidth cyan>
-          로그인하기
-        </Button>
+        <Link to="/loginpage">
+          <Button fullWidth cyan>
+            로그인하기
+          </Button>
+        </Link>
         <Link to="/">
           <Button fullWidth cyan style={{ marginTop: "0.5rem" }}>
             메인페이지로 이동
