@@ -160,8 +160,7 @@ public class MainServiceImpl implements MainService {
 	@Override
 	public List<Map<String, Object>> readPostFollowing(int userSeq) {
 		List<Map<String, Object>> result = new LinkedList<>();
-		// 현재 사용자의 seq를 불러오는 API 필요
-		postRepository.findFollowPost(1).forEach(post -> {
+		postRepository.findFollowPost(userSeq).forEach(post -> {
 			Map<String, Object> obj = new HashMap<>();
 			obj.put("post_seq", post.getPostSeq());
 			obj.put("user_seq", post.getUserSeq());
