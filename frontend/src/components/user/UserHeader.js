@@ -66,10 +66,8 @@ const UserHeader = () => {
         </div>
         <div>
           <div className="toggle">팔로워: {userHeaderInfo.follower}</div>
-          {/* <div>팔로워: </div> */}
         </div>
       </div>
-      {/* <UserController></UserController> */}
     </UserHeaderBox>
   );
 };
