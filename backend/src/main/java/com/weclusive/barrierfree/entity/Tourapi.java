@@ -54,7 +54,7 @@ public class Tourapi {
 	private String tourapiTel;
 	
 	@Column(name = "tourapi_image")
-	private String touarapiIage;
+	private String tourapiImage;
 	
 	@Column(name = "tourapi_overview")
 	private String tourapiOverview;
