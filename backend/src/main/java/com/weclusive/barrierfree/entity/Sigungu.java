@@ -26,7 +26,7 @@ public class Sigungu {
 	private String sigunguCode;
 
 	@Column(name = "sigungu_name")
-	private String sigungu;
+	private String sigunguName;
 
 	@Column(name="del_yn")
 	private char delYn = 'n';

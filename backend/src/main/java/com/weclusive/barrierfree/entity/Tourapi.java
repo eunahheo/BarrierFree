@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -19,11 +20,11 @@ public class Tourapi {
 	@Column(name = "tourapi_seq")
 	private long tourapiSeq;
 
-	@Column(name = "contentid")
+	@Column(name = "content_id")
 	private long contentId;
 
 	@Column(name = "tourapi_contenttypeid")
-	private String tourapiContentTypeId;
+	private String tourapiContenttypeid;
 
 	@Column(name = "tourapi_title")
 	private String tourapiTitle;
@@ -53,26 +54,54 @@ public class Tourapi {
 	private String tourapiTel;
 	
 	@Column(name = "tourapi_image")
-	private String touarapiIage;
+	private String tourapiImage;
 	
 	@Column(name = "tourapi_overview")
 	private String tourapiOverview;
-	
+
 	@Column(name = "tourapi_homepage")
 	private String tourapiHomepage;
 
-	@Column(name="del_yn")
+	@Column(name = "del_yn")
 	private char delYn = 'n';
-	
-	@Column(name="reg_dt")
+
+	@Column(name = "reg_dt")
 	private String regDt;
-	
-	@Column(name="reg_id")
+
+	@Column(name = "reg_id")
 	private String regId;
-	
-	@Column(name="mod_dt")
+
+	@Column(name = "mod_dt")
 	private String modDt;
-	
-	@Column(name="mod_id")
+
+	@Column(name = "mod_id")
 	private String modId;
+
+	@Builder
+	public Tourapi(long contentId, String tourapiContentTypeId, String tourapiTitle, String sidoCode,
+			String sigunguCode, String tourapiAddr1, String tourapiAddr2, String tourapiZipcode, String tourapiLat,
+			String tourapiLng, String tourapiTel, String tourapiImage, String tourapiOverview, String tourapiHomepage,
+			char delYn, String regDt, String regId, String modDt, String modId) {
+		super();
+		this.contentId = contentId;
+		this.tourapiContenttypeid = tourapiContentTypeId;
+		this.tourapiTitle = tourapiTitle;
+		this.sidoCode = sidoCode;
+		this.sigunguCode = sigunguCode;
+		this.tourapiAddr1 = tourapiAddr1;
+		this.tourapiAddr2 = tourapiAddr2;
+		this.tourapiZipcode = tourapiZipcode;
+		this.tourapiLat = tourapiLat;
+		this.tourapiLng = tourapiLng;
+		this.tourapiTel = tourapiTel;
+		this.tourapiImage = tourapiImage;
+		this.tourapiOverview = tourapiOverview;
+		this.tourapiHomepage = tourapiHomepage;
+		this.delYn = delYn;
+		this.regDt = regDt;
+		this.regId = regId;
+		this.modDt = modDt;
+		this.modId = modId;
+	}
+
 }
