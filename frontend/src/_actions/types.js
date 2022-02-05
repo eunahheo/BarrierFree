@@ -1,5 +1,7 @@
-export const LOGIN_USER = "login_user";
+import { createActions, handleActions } from 'redux-actions';
 
-export const USER_INFO = "user_info";
+export const LOGIN_USER = 'login_user';
 
-export const COMMENT_SAVE = "comment_save";
+export const USER_INFO = 'user_info';
+
+export const COMMENT_SAVE = 'comment_save';

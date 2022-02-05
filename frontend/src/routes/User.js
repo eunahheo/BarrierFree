@@ -1,14 +1,28 @@
-import axios from "axios";
-import React, { useState, useEffect } from "react";
-import { Navigate } from "react-router-dom";
-import MyReviewPage from "../components/Reviews/MyReviewPage";
-import UserFeedTemplate from "../components/user/UserFeedTemplate";
-import Userbar from "../components/user/Userbar";
-import Header from "../components/common/Header";
-import UserHeader from "../components/user/UserHeader";
+import React, { useState, useEffect } from 'react';
+import { Navigate } from 'react-router-dom';
+import UserHeader from '../components/user/UserHeader';
+import UserPage from '../pages/UserPage';
 
 function User() {
   // const isLoggedIn = false;
+  const [userControllType, setUserControllType] = useState('post');
+
+  const onPost = () => {
+    setUserControllType('post');
+  };
+
+  const onFollowing = () => {
+    setUserControllType('following');
+    console.log('following');
+  };
+
+  const onFollower = () => {
+    setUserControllType('follower');
+  };
+
+  const onScrap = () => {
+    setUserControllType('scrap');
+  };
 
   const isLoggedIn = true;
   if (!isLoggedIn) {
@@ -16,11 +30,15 @@ function User() {
   }
   return (
     <div>
-      <Header />
+      {/* <HeaderContainer /> */}
       <h1>user</h1>
-      <UserHeader></UserHeader>
-      <Userbar></Userbar>
-      <MyReviewPage></MyReviewPage>
+      <UserHeader
+        onPost={onPost}
+        onScrap={onScrap}
+        onFollowing={onFollowing}
+        onFollower={onFollower}
+      ></UserHeader>
+      <UserPage type={userControllType}></UserPage>
     </div>
   );
 }

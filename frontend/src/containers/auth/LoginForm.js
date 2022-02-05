@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import AuthForm from "../../components/auth/AuthForm";
-import { useDispatch } from "react-redux";
-import { loginUser, userInfo } from "../../_actions/user_actions";
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import AuthForm from '../../components/auth/AuthForm';
+import { useDispatch } from 'react-redux';
+import { loginUser, userInfo } from '../../_actions/user_actions';
 
 const LoginForm = () => {
   const dispatch = useDispatch();
@@ -11,8 +11,8 @@ const LoginForm = () => {
   const [pwdCfm, setPwdCfm] = useState(true);
   const [loginloading, setLoginloading] = useState(false);
   const [regform, setForm] = useState({
-    userId: "",
-    userPwd: "",
+    userId: '',
+    userPwd: '',
   });
   const onChange = (event) => {
     setForm({ ...regform, [event.target.name]: event.target.value });
@@ -20,7 +20,7 @@ const LoginForm = () => {
 
   useEffect(() => setLoginloading(false), []);
 
-  const onLogin = async (event) => {
+  const onSubmit = async (event) => {
     event.preventDefault();
 
     const { userId, userPwd } = regform;
@@ -35,15 +35,15 @@ const LoginForm = () => {
       dispatch(loginUser(body)).then((res) => {
         console.log(res);
         if (res.payload) {
-          localStorage.setItem("accessToken", res.payload.accessToken);
+          localStorage.setItem('accessToken', res.payload.accessToken);
           dispatch(userInfo(res.payload.accessToken));
-          navigate("/");
+          navigate('/');
         } else {
-          alert("error!");
+          alert('error!');
         }
       });
     } else {
-      alert("빈 값을 채워주세요!");
+      alert('빈 값을 채워주세요!');
     }
   };
 
@@ -51,12 +51,12 @@ const LoginForm = () => {
     <AuthForm
       type="login"
       onChange={onChange}
-      // onSubmit={onSubmit}
+      onSubmit={onSubmit}
       form={regform}
       setForm={setForm}
       pwdCfm={pwdCfm}
       loading={loginloading}
-      onLogin={onLogin}
+      // onLogin={onLogin}
     />
   );
 };
