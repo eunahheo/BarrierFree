@@ -10,64 +10,34 @@ import { useParams } from "react-router";
 // import "./Review.css"
 // import "styles.css";
 
-const Review = () => {
+const TourInfomation = () => {
   const pageNum = useParams()
-  const reviewNum = Number(pageNum.reviewCard)
+  const infomationNum = Number(pageNum.infomationCard)
   
-  // review 내용 불러오기 위한 const
+  // infomation 내용 불러오기 위한 const
   
   const [infomationDetail, setInfomationDetail] = useState([]);
   const [barriers, setBarriers] = useState([]);
   const [reviewPoint, setReviewPoint] = useState([]);
   const [comments, setComments] = useState([]);
   const [reviewTime, setReviewTime] = useState('');
-  
-  // 댓글 작성을 위한 const
-  
-  const [newComment, setNewComment] = useState('');
-  const onCommentHandler = (event) => {
-    console.log(event)
-    setNewComment(event.target.value);
-  };
-
-  
+    
   // review 창이 뜨자 마자 불러와져야할 것들
   useEffect(() => {
-    const getPostDetail = () => {
-      axios({
-        method: 'GET',
-        url: 'recommend/detail',
-        params: {contentid: 126508}
-      }
-      ).then(res => {
-        console.log(res)
-        setInfomationDetail(res.data)
-        // console.log(infomationDetail)
-      }).catch('yes')
-    };
-    
-    const getCommentList = () => {
-      axios({
-        method: 'GET',
-        url: '/post/comment/detail',
-        params: {postSeq: reviewNum}
-      }
-      ).then(res => {
-        setComments(res.data)
-      }).catch('yes')
-    };
-    
-    
     getPostDetail();
-    getCommentList();
-    
   },[])
   
-  
-  // const saveComment = () => {
-  //   axios.post('/post/comment/saveComment', {1, reviewNum, newComment})
-  // }
-  // onClick={saveComment}
+  const getPostDetail = () => {
+    axios({
+      method: 'GET',
+      url: 'recommend/detail',
+      params: {contentid: infomationNum}
+    }
+    ).then(res => {
+      setInfomationDetail(res.data)
+      // console.log(infomationDetail)
+    }).catch('yes')
+  };
 
 
   return (
@@ -84,7 +54,7 @@ const Review = () => {
           <Grid container>
               <InfoIcon></InfoIcon>
           </Grid>
-
+          
           <div>
           </div>
         </Box>
@@ -94,4 +64,4 @@ const Review = () => {
 }
 
 // https://mui.com/components/rating/ 별 표시 할 때 쓸 것
-export default Review;
+export default TourInfomation;

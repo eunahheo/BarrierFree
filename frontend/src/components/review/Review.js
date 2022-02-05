@@ -9,11 +9,17 @@ import axios from "axios";
 import { useParams } from "react-router";
 import CommentItem from "./CommentItem.js";
 import "./Review.css";
+import { useDispatch, useSelector } from "react-redux";
+import { commentSave } from "../../_actions/comment_actions";
 // import "styles.css";
 
 const Review = () => {
+
+  const dispatch = useDispatch();
+
   const pageNum = useParams();
   const reviewNum = Number(pageNum.reviewCard);
+  const myuser = useSelector((state) => state.user.userData)
 
   // review 내용 불러오기 위한 const
 
@@ -28,50 +34,61 @@ const Review = () => {
 
   const [newComment, setNewComment] = useState("");
   const onCommentHandler = (event) => {
-    console.log(event);
     setNewComment(event.target.value);
   };
 
   // review 창이 뜨자 마자 불러와져야할 것들
   useEffect(() => {
-    const getPostDetail = () => {
-      axios({
-        method: "GET",
-        url: "/post/detail",
-        params: { postSeq: reviewNum },
-      })
-        .then((res) => {
-          console.log(res);
-          setReviewDetail(res.data[0].post);
-          setBarriers(res.data[0].impairment);
-          setReviewPoint(res.data[0].post.postPoint);
-          setReviewTime(res.data[0].post.regDt.substring(0, 10));
-          setReviewImage(res.data[0].post.postPhoto);
-          console.log(res.data[0].impairment[0]);
-        })
-        .catch("yes");
-    };
-
-    const getCommentList = () => {
-      axios({
-        method: "GET",
-        url: "/post/comment/detail",
-        params: { postSeq: reviewNum },
-      })
-        .then((res) => {
-          setComments(res.data);
-        })
-        .catch("yes");
-    };
-
     getPostDetail();
-    getCommentList();
   }, []);
+  
+  useEffect(() => {
+    getCommentList();
+  }, [])
 
-  // const saveComment = () => {
-  //   axios.post('/post/comment/saveComment', {1, reviewNum, newComment})
-  // }
-  // onClick={saveComment}
+  const getPostDetail = () => {
+    axios({
+      method: "GET",
+      url: "/post/detail",
+      params: { postSeq: reviewNum },
+    })
+      .then((res) => {
+        console.log(res);
+        setReviewDetail(res.data[0].post);
+        setBarriers(res.data[0].impairment);
+        setReviewPoint(res.data[0].post.postPoint);
+        setReviewTime(res.data[0].post.regDt.substring(0, 10));
+        setReviewImage(res.data[0].post.postPhoto);
+        console.log(res.data[0].impairment[0]);
+      })
+      .catch("yes");
+  };
+
+  const getCommentList = () => {
+    axios({
+      method: "GET",
+      url: "/post/comment/detail",
+      params: { postSeq: reviewNum },
+    })
+      .then((res) => {
+        setComments(res.data);
+      })
+      .catch("yes");
+  };
+
+
+  // 댓글 작성
+  const onSubmitHandler = (event) => {
+    event.preventDefault();
+
+    let body = {
+      "cmtContent": newComment,
+      "postSeq": reviewNum,
+      "userSeq": myuser.userSeq
+    }
+
+    dispatch(commentSave(body))
+  }
 
   return (
     <div>
@@ -101,11 +118,13 @@ const Review = () => {
             </Grid>
           </Grid>
           <div>
-            <Input
-              placeholder="댓글을 입력하세요"
-              onChange={onCommentHandler}
-            ></Input>
-            <Button variant="contained">작성</Button>
+            <form onSubmit={onSubmitHandler}>
+              <Input
+                placeholder="댓글을 입력하세요"
+                onChange={onCommentHandler}
+              ></Input>
+              <Button onClick={onSubmitHandler} variant="contained">작성</Button>
+            </form>
           </div>
           <div>
             {comments.map((comment) => (
