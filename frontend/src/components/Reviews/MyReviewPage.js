@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-// import RecommendCardList from "../recommend/RecommendCardList";
 import OrderBox from "./OrderBox";
 import MyCardList from "./MyCardList";
 import { useSelector } from "react-redux";

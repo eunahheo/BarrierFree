@@ -9,7 +9,6 @@ import User from "./routes/User";
 import Search from "./components/search/Search";
 import Signup from "./components/user/Signup";
 import ReviewPage from "./components/Reviews/ReviewPage";
-import ReviewPageBf from "./components/Reviews/ReviewPageBf";
 import NotFound from "./routes/NotFound";
 import { Route, Routes } from "react-router-dom";
 import RegisterPage from "./pages/RegisterPage";
@@ -20,7 +19,7 @@ import { eventWrapper } from "@testing-library/user-event/dist/utils";
 import RegisterPageKakao from "./pages/RegisterPageKakao";
 import RegisterEmailCheckPage from "./pages/RegisterEmailCheckPage";
 import LoginPage from "./pages/LoginPage";
-import TourInfomation from './components/search/TourInfomation';
+import TourInfomation from "./components/search/TourInfomation";
 
 function App() {
   // var cors = require("cors");
@@ -48,10 +47,6 @@ function App() {
           element={<TourInfomation />}
         ></Route>
         <Route path="/reviewpage" element={<ReviewPage />}></Route>
-        <Route
-          path="/reviewpage/order-by-bf"
-          element={<ReviewPageBf />}
-        ></Route>
         <Route path="/registerpage" element={<RegisterPage />}></Route>
         <Route path="/loginpage" element={<LoginPage />}></Route>
         <Route
