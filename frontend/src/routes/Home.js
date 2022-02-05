@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 // import OrderBox from "../components/Reviews/OrderBox";
 import ReviewPage from "../components/Reviews/ReviewPage";
+import Header from "../components/common/Header";
 // import './Home.css';
 
 function Home() {
@@ -22,13 +23,9 @@ function Home() {
 
   return (
     <div className="Home">
+      <Header />
       <h1>Home</h1>
-
-      {/* <OrderBox /> */}
       <ReviewPage></ReviewPage>
-      {/* <Navbar /> */}
-      {/* <Recommend></Recommend> */}
-      {/* <RecommendCardList itemList={itemList}></RecommendCardList> */}
     </div>
   );
 }
