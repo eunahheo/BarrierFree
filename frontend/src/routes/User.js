@@ -20,7 +20,6 @@ function User() {
       <h1>user</h1>
       <UserHeader></UserHeader>
       <Userbar></Userbar>
-      {/* <UserFeedTemplate></UserFeedTemplate> */}
       <MyReviewPage></MyReviewPage>
     </div>
   );

@@ -3,17 +3,20 @@ import axios from "axios";
 // import RecommendCardList from "../recommend/RecommendCardList";
 import OrderBox from "./OrderBox";
 import MyCardList from "./MyCardList";
+import { useSelector } from "react-redux";
 
 const MyReviewPage = () => {
+  const myuser = useSelector((state) => state.user.userData);
   const [itemList, setItemList] = useState([]);
-  // 로그인하면 동적으로 변하게 해야 함
+  console.log("myuser", myuser);
+
   const userSeq = 3;
 
   useEffect(() => {
     axios({
       url: `/myFeed/post`,
       method: "get",
-      params: { userSeq: userSeq },
+      params: { userSeq: myuser.userSeq },
     })
       .then(function (res) {
         // console.log(res);

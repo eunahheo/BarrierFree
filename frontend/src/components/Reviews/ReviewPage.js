@@ -8,13 +8,11 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 const ReviewPage = () => {
-  // const [ordertype, setOrdertype] = useState("");
   const myuser = useSelector((state) => state.user.userData);
   const navigate = useNavigate();
   const [myitemList, mysetItemList] = useState([]);
 
   const orderbylatest = async () => {
-    // setOrdertype("http://localhost:3000/post/all?userSeq=0");
     await axios.get(`/main/recently?userSeq=0`).then(function (res) {
       mysetItemList(res.data);
       console.log("latest");
@@ -48,10 +46,13 @@ const ReviewPage = () => {
 
   // 나중에 고쳐야합니당... !
   const orderbybf = () => {
-    // setOrdertype("http://localhost:8080/post/follow?userSeq=1");
     if (localStorage) {
       axios({
-        url: `/main/follow?userSeq=${myuser.userSeq}`,
+        url: "/main/follow",
+        method: "get",
+        params: {
+          userSeq: myuser.userSeq,
+        },
       }).then(function (res) {
         mysetItemList(res.data);
         console.log("bf");

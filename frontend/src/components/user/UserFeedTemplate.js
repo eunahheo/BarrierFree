@@ -19,24 +19,11 @@ const UserControllerBlock = styled.div`
   }
 `;
 const UserController = ({ userNickname, userPhoto, userSeq }) => {
-  // console.log("controller::", userfollowers[0].userNickname);
-  // const userfollower = userfollowers[0];
-  // const userSeq = 1;
-
   return (
     <UserControllerBlock>
       <div className="UserController">
         <div>
           <div>
-            {/* {userfollowers.map((userfollower) => (
-            <span>{userfollower}</span>
-            // <UserFollowerP
-            //   userNickname={userfollower.userNickname}
-            //   userPhoto={userfollower.userPhoto}
-            //   userSeq={userfollower.userSeq}
-            //   key={userfollower.userSeq}
-            // />
-          ))} */}
             <img src={userPhoto}></img>
             <span>{userNickname}</span>
             <Button>팔로우</Button>

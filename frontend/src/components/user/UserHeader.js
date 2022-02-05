@@ -3,12 +3,13 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import palette from "../../lib/styles/palette";
+import { useSelector } from "react-redux";
 
 const UserHeaderBox = styled.div`
   display: flex;
   // flex-dirextion: row;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   .toggle {
     background: ${palette.gray[0]};
     color: ${palette.blue[0]};
@@ -25,16 +26,15 @@ const UserHeaderBox = styled.div`
   }
 `;
 const UserHeader = () => {
-  const userSeq = 1;
   const [userHeaderInfo, setUserHeaderInfo] = useState([]);
-
+  const myuser = useSelector((state) => state.user.userData);
   const getUserHeader = async () => {
     try {
       const response = await axios({
         method: "get",
         url: "/myFeed/main",
         params: {
-          userSeq: userSeq,
+          userSeq: myuser.userSeq,
         },
       });
       console.log(response.data[0]);
@@ -57,7 +57,7 @@ const UserHeader = () => {
           <div>{userHeaderInfo.userNickname}</div>
         </div>
         <div>
-          <div className="toggle">게시글: {userHeaderInfo.postScrap}</div>
+          <div className="toggle">스크랩: {userHeaderInfo.postScrap}</div>
           {/* <div>게시글수</div> */}
         </div>
         <div>
