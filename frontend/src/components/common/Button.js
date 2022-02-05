@@ -72,10 +72,6 @@ const buttonStyle = css`
 const StyledButton = styled.button`
   ${buttonStyle}
 `;
-const StyledButton = styled.button`
-  ${buttonStyle}
-`;
-
 const StyledLink = styled(Link)`
   ${buttonStyle}
 `;

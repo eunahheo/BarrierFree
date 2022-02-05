@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import Responsive from "./Responsive";
-<<<<<<< HEAD
 import MyButton from "./Button";
 import { Link, useNavigate } from "react-router-dom";
 import * as React from "react";
@@ -17,10 +16,6 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import Badge from "@mui/material/Badge";
 import NotificationsIcon from "@mui/icons-material/Notifications";
-=======
-import Button from "./Button";
-import { Link, useNavigate } from "react-router-dom";
->>>>>>> 6ed5fed1003d3c7c30a626803bb6027a0ab8aa7b
 
 const HeaderBlock = styled.div`
   position: fixed;
@@ -48,10 +43,7 @@ const Wrapper = styled(Responsive)`
   .right {
     display: flex;
     align-items: center;
-<<<<<<< HEAD
     justify-content: space-between;
-=======
->>>>>>> 6ed5fed1003d3c7c30a626803bb6027a0ab8aa7b
   }
 `;
 
@@ -60,7 +52,6 @@ const Spacer = styled.div`
 `;
 
 const Header = () => {
-<<<<<<< HEAD
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const handleOpenNavMenu = (event) => {
@@ -79,9 +70,6 @@ const Header = () => {
   };
   const navigate = useNavigate();
 
-=======
-  const navigate = useNavigate();
->>>>>>> 6ed5fed1003d3c7c30a626803bb6027a0ab8aa7b
   return (
     <>
       <HeaderBlock>
@@ -124,7 +112,6 @@ const Header = () => {
           </div>
           <div className="right">
             <Link to="/loginpage">
-<<<<<<< HEAD
               <MyButton>로그인</MyButton>
             </Link>
             <Link to="/registerpage">
@@ -191,13 +178,6 @@ const Header = () => {
                 </MenuItem>
               </Menu>
             </Box>
-=======
-              <Button>로그인</Button>
-            </Link>
-            <Link to="/registerpage">
-              <Button>회원가입</Button>
-            </Link>
->>>>>>> 6ed5fed1003d3c7c30a626803bb6027a0ab8aa7b
           </div>
         </Wrapper>
       </HeaderBlock>
