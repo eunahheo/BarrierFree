@@ -11,10 +11,8 @@ import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.weclusive.barrierfree.entity.Sigungu;
 import com.weclusive.barrierfree.entity.Tourapi;
 import com.weclusive.barrierfree.entity.TourapiImage;
-import com.weclusive.barrierfree.repository.SidoRepository;
 import com.weclusive.barrierfree.repository.SigunguRepository;
 import com.weclusive.barrierfree.repository.TourapiImageRepository;
 import com.weclusive.barrierfree.repository.TourapiRepository;
@@ -65,7 +63,6 @@ public class DbServiceImpl {
 			
 			for (Object o : parse_item) {
 				JSONObject temp = (JSONObject) o;
-//				System.out.print(temp.get("contentid")+" ");
 				long contentid = Long.parseLong(temp.get("contentid").toString());
 				String now = TimeUtils.curTime();
 				loadDetail(contentid, now, Servicekey);
