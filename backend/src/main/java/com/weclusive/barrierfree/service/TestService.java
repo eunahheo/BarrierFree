@@ -6,5 +6,5 @@ public interface TestService {
 	
 	public ArrayList<String> loadAllContentId();
 	
-	public String loadByContentId(String contentid);
+	public int loadByContentId(String contentid);
 }

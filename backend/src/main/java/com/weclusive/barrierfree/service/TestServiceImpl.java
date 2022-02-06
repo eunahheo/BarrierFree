@@ -29,8 +29,8 @@ public class TestServiceImpl implements TestService {
 		ArrayList<String> result = new ArrayList<>();
 		try {
 			String urlstr = "http://api.visitkorea.or.kr/openapi/service/rest/KorWithService/areaBasedList"
-					+ "?ServiceKey=90E0OY5f9CUd%2BGSJfMuFpPnny5XZ9Ks6RYqd0gV0LqOFeSC9A4B6VVnxmxDSUdtWx7auKWg2ALhbInFELnK8yQ%3D%3D"
-					+ "&numOfRows=3&MobileOS=ETC&MobileApp=barrierfree&_type=json";
+					+ "?ServiceKey=JQ0dr75fofUBYyMcnAMiT5lY7W5N4BOl%2FazS3t%2BSyM1ypfNKYZcOsBbLG1AEeVs48N6KfarxqeC1D09kVX3G6Q%3D%3D"
+					+ "&numOfRows=4764&pageNo=2&MobileOS=ETC&MobileApp=barrierfree&_type=json";
 
 			URL url = new URL(urlstr);
 			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -66,11 +66,11 @@ public class TestServiceImpl implements TestService {
 	}
 
 	@SuppressWarnings("unchecked")
-	public String loadByContentId(String contentid) {
+	public int loadByContentId(String contentid) {
 		StringBuilder sb = new StringBuilder();
 		try {
 			String urlstr = "http://api.visitkorea.or.kr/openapi/service/rest/KorWithService/detailWithTour"
-					+ "?ServiceKey=90E0OY5f9CUd%2BGSJfMuFpPnny5XZ9Ks6RYqd0gV0LqOFeSC9A4B6VVnxmxDSUdtWx7auKWg2ALhbInFELnK8yQ%3D%3D"
+					+ "?ServiceKey=JQ0dr75fofUBYyMcnAMiT5lY7W5N4BOl%2FazS3t%2BSyM1ypfNKYZcOsBbLG1AEeVs48N6KfarxqeC1D09kVX3G6Q%3D%3D"
 					+ "&contentId=" + contentid + "&MobileOS=ETC&MobileApp=barrierfree&_type=json";
 
 			URL url = new URL(urlstr);
@@ -100,17 +100,22 @@ public class TestServiceImpl implements TestService {
 
 			obj.keySet().forEach((cur) -> {
 				ArrayList<String> list = (ArrayList<String>) obj.get(cur);
+				StringBuilder overview = new StringBuilder();
 				for (String s : list) {
+					overview.append(s).append("</br>");
+				}
+				System.out.println(contentid);
+				if(overview.length()>0) {
 					trepo.save(TourapiImpairment.builder().contentId(Long.parseLong(contentid)).code(cur.toString())
-							.tiOverview(s).regDt(TimeUtils.curTime()).regId("admin").modDt(TimeUtils.curTime())
+							.tiOverview(overview.toString()).regDt(TimeUtils.curTime()).regId("admin").modDt(TimeUtils.curTime())
 							.modId("admin").build());
 				}
 			});
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			return "false";
+			return 0;
 		}
-		return "success";
+		return 1;
 	}
 }

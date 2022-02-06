@@ -169,7 +169,7 @@ public class MyFeedServiceImpl implements MyFeedService {
 			if (scrapPostSeq.size() != 0) {
 				for (int i = 0; i < scrapPostSeq.size(); i++) {
 					try {
-						result.add(recommendService.loadDetailView(scrapPostSeq.get(i).toString()));
+						result.add(recommendService.loadDetailView(userSeq, scrapPostSeq.get(i)));
 					} catch (Exception e) {
 						e.printStackTrace();
 						throw new Exception();

@@ -19,7 +19,7 @@ public class TourapiImage {
 	@Column(name = "tim_seq")
 	private long timSeq;
 
-	@Column(name = "contentid")
+	@Column(name = "content_id")
 	private long contentId;
 
 	@Column(name = "tim_image")

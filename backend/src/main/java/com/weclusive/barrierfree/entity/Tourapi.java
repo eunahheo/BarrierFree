@@ -19,7 +19,7 @@ public class Tourapi {
 	@Column(name = "tourapi_seq")
 	private long tourapiSeq;
 
-	@Column(name = "contentid")
+	@Column(name = "content_id")
 	private long contentId;
 
 	@Column(name = "tourapi_contenttypeid")
@@ -51,6 +51,9 @@ public class Tourapi {
 
 	@Column(name = "tourapi_tel")
 	private String tourapiTel;
+	
+	@Column(name = "tourapi_image")
+	private String tourapiImage;
 	
 	@Column(name = "tourapi_overview")
 	private String tourapiOverview;
