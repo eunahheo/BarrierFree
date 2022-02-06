@@ -1,20 +1,20 @@
-import styled from "styled-components";
-import Responsive from "./Responsive";
-import MyButton from "./Button";
-import { Link, useNavigate } from "react-router-dom";
-import * as React from "react";
-import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
-import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
-import Menu from "@mui/material/Menu";
-import MenuIcon from "@mui/icons-material/Menu";
-import Container from "@mui/material/Container";
-import Avatar from "@mui/material/Avatar";
-import Tooltip from "@mui/material/Tooltip";
-import MenuItem from "@mui/material/MenuItem";
-import Badge from "@mui/material/Badge";
-import NotificationsIcon from "@mui/icons-material/Notifications";
+import styled from 'styled-components';
+import Responsive from './Responsive';
+import MyButton from './Button';
+import { Link, useNavigate } from 'react-router-dom';
+import * as React from 'react';
+import Box from '@mui/material/Box';
+import Toolbar from '@mui/material/Toolbar';
+import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
+import Menu from '@mui/material/Menu';
+import MenuIcon from '@mui/icons-material/Menu';
+import Container from '@mui/material/Container';
+import Avatar from '@mui/material/Avatar';
+import Tooltip from '@mui/material/Tooltip';
+import MenuItem from '@mui/material/MenuItem';
+import Badge from '@mui/material/Badge';
+import NotificationsIcon from '@mui/icons-material/Notifications';
 
 const HeaderBlock = styled.div`
   position: fixed;
@@ -53,7 +53,7 @@ const Spacer = styled.div`
   height: 4rem;
 `;
 
-const Header = ({ user }) => {
+const Header = ({ user, onLogout }) => {
   console.log(user);
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -80,35 +80,35 @@ const Header = ({ user }) => {
           <div
             className="logo"
             onClick={() => {
-              navigate("/");
+              navigate('/');
             }}
           >
             베리어프리
           </div>
           <div
             onClick={() => {
-              navigate("/");
+              navigate('/');
             }}
           >
             <h4>소식함</h4>
           </div>
           <div
             onClick={() => {
-              navigate("/recommend");
+              navigate('/recommend');
             }}
           >
             <h4>여행추천</h4>
           </div>
           <div
             onClick={() => {
-              navigate("/search");
+              navigate('/search');
             }}
           >
             <h4>검색하기</h4>
           </div>
           <div
             onClick={() => {
-              navigate("/about");
+              navigate('/about');
             }}
           >
             <h4>About</h4>
@@ -118,12 +118,12 @@ const Header = ({ user }) => {
             // 1. 로그인 되어 있을 때
             <div className="right">
               <Link to="/">
-                <MyButton>로그아웃</MyButton>
+                <MyButton onClick={onLogout}>로그아웃</MyButton>
               </Link>
               <Box sx={{ flexGrow: 0 }}>
                 <Tooltip title="Open settings">
                   <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                    <span style={{ color: "black" }}>
+                    <span style={{ color: 'black' }}>
                       {user.userNickname}님
                     </span>
                     <Avatar alt="Remy Sharp" src={user.userPhoto} />
@@ -131,25 +131,25 @@ const Header = ({ user }) => {
                 </Tooltip>
                 <Menu
                   // style={{ background: "red" }}
-                  sx={{ mt: "45px" }}
+                  sx={{ mt: '45px' }}
                   id="menu-appbar"
                   // src={user.userPhoto}
                   anchorEl={anchorElUser}
                   anchorOrigin={{
-                    vertical: "top",
-                    horizontal: "right",
+                    vertical: 'top',
+                    horizontal: 'right',
                   }}
                   keepMounted
                   transformOrigin={{
-                    vertical: "top",
-                    horizontal: "right",
+                    vertical: 'top',
+                    horizontal: 'right',
                   }}
                   open={Boolean(anchorElUser)}
                   onClose={handleCloseUserMenu}
                 >
                   <MenuItem
                     onClick={() => {
-                      navigate("/user");
+                      navigate('/user');
                       handleCloseUserMenu();
                     }}
                   >
@@ -158,7 +158,7 @@ const Header = ({ user }) => {
 
                   <MenuItem
                     onClick={() => {
-                      navigate("/userpost");
+                      navigate('/userpost');
                       handleCloseUserMenu();
                     }}
                   >
@@ -167,7 +167,7 @@ const Header = ({ user }) => {
 
                   <MenuItem
                     onClick={() => {
-                      navigate("/userpage");
+                      navigate('/userpage');
                       handleCloseUserMenu();
                     }}
                   >
@@ -178,7 +178,7 @@ const Header = ({ user }) => {
 
                   <MenuItem
                     onClick={() => {
-                      navigate("/");
+                      navigate('/');
                       handleCloseUserMenu();
                     }}
                   >

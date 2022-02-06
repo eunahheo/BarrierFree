@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 const ResponsiveBlock = styled.div`
   padding-left: 1rem;

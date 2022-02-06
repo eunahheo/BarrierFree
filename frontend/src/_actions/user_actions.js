@@ -1,22 +1,28 @@
 import axios from 'axios';
-import { LOGIN_USER, USER_INFO } from './types';
+import { createAction } from 'redux-actions';
+import { takeLatest, call } from 'redux-saga/effects';
+import * as authAPI from '../lib/api/auth';
+// import { LOGIN_USER, USER_INFO, LOGOUT } from './types';
 
-// const [CHECK, CEHCK_SUCCESS, CHECK_FAILURE] =
-//   createRequestActionTypes('user/CHECK');
+export const LOGIN_USER = 'user/LOGIN_USER';
+export const USER_INFO = 'user/USER_INFO';
+export const LOGOUT = 'user/LOGOUT';
 
-export function loginUser(dataTosubmit) {
-  console.log(dataTosubmit);
+export const loginUser = (dataTosubmit) => {
+  // console.log(dataTosubmit);
   const request = axios({
     method: 'POST',
     url: 'user/login',
     data: dataTosubmit,
-  }).then((res) => res.data);
+  })
+    .then((res) => res.data)
+    .catch((e) => console.log(e));
 
   return {
     type: LOGIN_USER,
     payload: request,
   };
-}
+};
 
 export function userInfo() {
   const token = localStorage.getItem('accessToken');
@@ -31,4 +37,25 @@ export function userInfo() {
     type: USER_INFO,
     payload: request,
   };
+}
+
+export const logout = createAction(LOGOUT);
+// export const logout = () => {
+//   localStorage.removeItem('persist:root');
+//   return {
+//     type: LOGOUT,
+//     payload: { userData: null },
+//   };
+// };
+export function* userSaga() {
+  function* logoutSaga() {
+    try {
+      yield call(authAPI.logout);
+      localStorage.removeItem('persist:root');
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  yield takeLatest(LOGOUT, logoutSaga);
 }

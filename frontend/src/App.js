@@ -20,6 +20,7 @@ import RegisterEmailCheckPage from './pages/RegisterEmailCheckPage';
 import LoginPage from './pages/LoginPage';
 import TourInfomation from './components/search/TourInfomation';
 import HeaderContainer from './components/containers/HeaderContainer';
+import WritePage from './pages/WritePage';
 
 function App() {
   // var cors = require("cors");
@@ -61,6 +62,7 @@ function App() {
           path="/registerpage/emailcheck"
           element={<RegisterEmailCheckPage />}
         ></Route>
+        <Route path="/write" element={<WritePage />}></Route>
         <Route path="*" element={<NotFound />}></Route>
       </Routes>
     </div>

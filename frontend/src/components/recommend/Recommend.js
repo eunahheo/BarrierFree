@@ -1,39 +1,39 @@
-import React, { useEffect, useState, useCallback } from "react";
-import Physical from "../images/Physical.png";
-import Auditory from "../images/Auditory.png";
-import Pregnant from "../images/Pregnant.png";
-import Senior from "../images/Senior.png";
-import Visual from "../images/Visual.png";
+import React, { useEffect, useState, useCallback } from 'react';
+import Physical from '../images/Physical.png';
+import Auditory from '../images/Auditory.png';
+import Pregnant from '../images/Pregnant.png';
+import Senior from '../images/Senior.png';
+import Visual from '../images/Visual.png';
 import {
   Button,
   FormControl,
   InputLabel,
   MenuItem,
   Select,
-} from "@mui/material";
-import axios from "axios";
-import RecommendCardList from "./RecommendCardList.js";
-import { Container, Box } from "@material-ui/core";
-import RecommendCategories from "./RecommendCategories";
-import { useDispatch, useSelector } from "react-redux";
-import Header from "../common/Header";
+} from '@mui/material';
+import axios from 'axios';
+import RecommendCardList from './RecommendCardList.js';
+import { Container, Box } from '@material-ui/core';
+import RecommendCategories from './RecommendCategories';
+import { useDispatch, useSelector } from 'react-redux';
+import Header from '../common/Header';
 
 const Recommend = () => {
   const myuser = useSelector((state) => state.user.userData);
   // console.log(myuser)
   const dispatch = useDispatch();
   const [itemList, setItemList] = useState([]);
-  const [category, setCategory] = useState("all");
+  const [category, setCategory] = useState('all');
   const onSelect = useCallback(
     (category) => (setCategory(category), console.log(category)),
-    []
+    [],
   );
 
   // 시도 설정
   const [cityList, setCityList] = useState([]);
   const [townList, setTownList] = useState([]);
-  const [city, setCity] = useState("");
-  const [town, setTown] = useState("");
+  const [city, setCity] = useState('');
+  const [town, setTown] = useState('');
 
   useEffect(() => {
     const SetRecommendPage = () => {
@@ -51,8 +51,8 @@ const Recommend = () => {
       navigator.geolocation.getCurrentPosition(function (res) {
         // console.log(res)
         axios({
-          method: "GET",
-          url: "recommend/myloc",
+          method: 'GET',
+          url: 'recommend/myloc',
           params: {
             lat: res.coords.latitude, // 위도
             lng: res.coords.longitude, // 경도
@@ -64,14 +64,14 @@ const Recommend = () => {
         });
       });
     } else {
-      alert("이 브라우저에서는 Geolocation이 지원되지 않습니다.");
+      alert('이 브라우저에서는 Geolocation이 지원되지 않습니다.');
     }
   };
 
   const setCityDropdown = () => {
     axios({
-      method: "GET",
-      url: "recommend/sido",
+      method: 'GET',
+      url: 'recommend/sido',
     }).then(function (res) {
       setCityList(res.data);
     });
@@ -80,8 +80,8 @@ const Recommend = () => {
   // 여행 지역 선택하기
   const selectTown = (sidoCode) => {
     axios({
-      url: "recommend/sigungu",
-      method: "GET",
+      url: 'recommend/sigungu',
+      method: 'GET',
       params: {
         sidoCode: sidoCode,
       },
@@ -93,7 +93,7 @@ const Recommend = () => {
 
   const handleChangeCity = (event) => {
     if (town) {
-      setTown("");
+      setTown('');
     }
     console.log(event);
     if (event.target.value != 8) {
@@ -114,7 +114,7 @@ const Recommend = () => {
   const onClickBarrier = (res) => {
     const barrier = res.target.id;
     axios({
-      url: "post/all",
+      url: 'post/all',
       params: {
         userSeq: myuser.userSeq,
         impairment: barrier,
@@ -131,7 +131,6 @@ const Recommend = () => {
 
   return (
     <div>
-      <Header />
       <Container maxWidth="md">
         <h2>내 주변 무장애 여행지</h2>
         <Box border={1}>
