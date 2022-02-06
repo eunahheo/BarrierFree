@@ -17,7 +17,7 @@ public interface RecommendService {
 	public List<Map<String, Object>> getSigungu(String sidoCode) throws Exception;
 	// 시도, 시구군, 장애정보에 대한 검색 결과 반환
 	public List<Map<String, Object>> search(int userSeq, String sidoCode, String sigunguCode, String contentTypeId,
-			JSONObject impairments, int numOfRows, int pageNo) throws Exception;
+			JSONObject impairments, int page, int size) throws Exception;
 	// 내 주변 15km이내 무장애 여행지 리스트 반환 
 	public List<Map<String, Object>> getNearMyLocation(int userSeq, String lat, String lng, String radius,String contentTypeId,
 			 int numOfRows, int pageNo) throws Exception;

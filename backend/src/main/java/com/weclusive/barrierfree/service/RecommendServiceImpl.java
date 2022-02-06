@@ -16,6 +16,8 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -151,70 +153,93 @@ public class RecommendServiceImpl implements RecommendService {
 
 	@Override
 	public List<Map<String, Object>> search(int userSeq, String sidoCode, String sigunguCode, String contentTypeId,
-			JSONObject impairments, int numOfRows, int pageNo) throws Exception {
-		StringBuilder sb = new StringBuilder();
+			JSONObject impairments, int page, int size) throws Exception {
 		List<Map<String, Object>> result = new LinkedList<>();
+		PageRequest pageRequest = PageRequest.of(page, size);
+		Page<Tourapi> pageTours = null;
 		try {
-			String urlstr = "http://api.visitkorea.or.kr/openapi/service/rest/KorWithService/areaBasedList"
-					+ "?ServiceKey=90E0OY5f9CUd%2BGSJfMuFpPnny5XZ9Ks6RYqd0gV0LqOFeSC9A4B6VVnxmxDSUdtWx7auKWg2ALhbInFELnK8yQ%3D%3D";
-
-			if (sidoCode != null) {
-				urlstr += "&areaCode=" + sidoCode;
-				if (sigunguCode != null)
-					urlstr += "&sigunguCode=" + sigunguCode;
+			if(sidoCode==null) {
+				if(contentTypeId==null) {
+					if(impairments==null) {
+						//전체검색
+						System.out.println("전체검색");
+						pageTours = tRepository.findByDelYn('n',pageRequest);
+					}
+					else {
+						//무장애정보만 입력한 검색결과
+						System.out.println("무장애정보만 입력한 검색결과");
+					}
+				}
+				else {
+					if(impairments==null) {
+						//컨텐츠타입id만 입력한 검색결과
+						System.out.println("컨텐츠타입id만 입력한 검색결과");
+						pageTours = tRepository.findByDelYnAndTourapiContenttypeid('n', contentTypeId, pageRequest);
+					}
+					else {
+						//컨텐츠타입id와 무장애정보를 입력한 검색결과
+						System.out.println("컨텐츠타입id와 무장애정보를 입력한 검색결과");
+					}
+				}
 			}
-
-			if (contentTypeId != null)
-				urlstr += "&contentTypeId=" + contentTypeId;
-
-			urlstr += "&MobileOS=ETC&MobileApp=barrierfree&_type=json";
-
-			URL url = new URL(urlstr);
-			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-			connection.setRequestMethod("GET");
-
-			BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream(), "UTF-8"));
-
-			String returnLine;
-			while ((returnLine = br.readLine()) != null) {
-				sb.append(returnLine + "\n");
+			else {
+				if(sigunguCode==null) {
+					if(contentTypeId==null) {
+						if(impairments == null) {
+							//시도만 입력한 검색결과
+							System.out.println("시도만 입력한 검색결과");
+							pageTours =  tRepository.findByDelYnAndSidoCode('n', sidoCode, pageRequest);
+						}
+						else {
+							//시도와 무장애정보를 입력한 검색결과
+							System.out.println("시도와 무장애정보를 입력한 검색결과");
+						}
+					}
+					else {
+						if(impairments == null) {
+							//시도와 컨텐츠타입id를 입력한 검색결과
+							System.out.println("시도와 컨텐츠타입id를 입력한 검색결과");
+							pageTours = tRepository.findByDelYnAndSidoCodeAndTourapiContenttypeid('n', sidoCode, contentTypeId, pageRequest);
+						}
+						else {
+							//시도,컨텐츠타입id,무장애정보를 입력한 검색결과
+							System.out.println("시도,컨텐츠타입id,무장애정보를 입력한 검색결과");
+						}
+					}
+				}
+				else {
+					if(contentTypeId==null) {
+						if(impairments == null) {
+							//시도와 시군구를 입력한 검색결과
+							System.out.println("시도와 시군구를 입력한 검색결과");
+							pageTours = tRepository.findByDelYnAndSidoCodeAndSigunguCode('n', sidoCode, sigunguCode, pageRequest);
+						}
+						else {
+							//시도,시군구,무장애정보를 입력한 검색결과
+							System.out.println("시도,시군구,무장애정보를 입력한 검색결과");
+						}
+					}
+					else {
+						if(impairments == null) {
+							//시도,시군구,컨텐츠타입id를 입력한 검색결과
+							System.out.println("시도,시군구,컨텐츠타입id를 입력한 검색결과");
+							pageTours =  tRepository.findByDelYnAndSidoCodeAndSigunguCodeAndTourapiContenttypeid('n', sidoCode, sigunguCode, contentTypeId, pageRequest);
+						}
+						else {
+							//시도,시군구,컨텐츠타입id,무장애정보를 입력한 검색결과
+							System.out.println("시도,시군구,컨텐츠타입id,무장애정보를 입력한 검색결과");
+						}
+					}
+				}
 			}
-			connection.disconnect();
-
-			JSONParser parser = new JSONParser();
-			JSONObject jsonObject = (JSONObject) parser.parse(sb.toString());
-
-			JSONObject parse_response = (JSONObject) jsonObject.get("response"); // response key값에 맞는 Value인 JSON객체를
-																					// 가져옵니다.
-			// response 로 부터 body 찾아오기
-			JSONObject parse_body = (JSONObject) parse_response.get("body");
-			// body 로 부터 items 받아오기
-			JSONObject parse_items = (JSONObject) parse_body.get("items");
-			// body 로 부터 items 받아오기
-			JSONArray parse_item = (JSONArray) parse_items.get("item");
-
-			for (Object o : parse_item) {
+			
+			System.out.println(pageTours);
+			for(Tourapi t : pageTours) {
 				Map<String, Object> obj = new HashMap<>();
-				JSONObject temp = (JSONObject) o;
-				obj.put("contentid", temp.get("contentid"));
-				obj.put("title", temp.get("title"));
-				obj.put("firstimage", temp.get("firstimage"));
-				obj.put("addr1", temp.get("addr1"));
-
-				char scrap_yn = 'n';
-//				 현재 사용자의 seq를 가져오는 api 필요
-				if (scrapRepository.countByDelYnAndScrapTypeAndUserSeqAndScrapData('n', '1', userSeq,
-						(long) temp.get("contentid")) > 0)
-					scrap_yn = 'y';
-				obj.put("scrap_yn", scrap_yn);
-
+				obj.put("title", t.getTourapiTitle());
 				result.add(obj);
 			}
-
-			System.out.println(result);
-		} catch (ClassCastException e) {
-			e.printStackTrace();
-			throw new ClassCastException();
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new Exception();

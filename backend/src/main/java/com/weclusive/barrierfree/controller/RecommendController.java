@@ -95,11 +95,11 @@ public class RecommendController {
 			@RequestParam(value="시군구코드", required=false) String sigunguCode,
 			@RequestParam(value="컨텐츠타입id", required=false) String contentTypeId,
 			@RequestParam(value="장애정보 객체", required=false) JSONObject impairments,
-			@RequestParam(value="한 페이지에 출력할 게시물 수", required=false) int numOfRows,
-			@RequestParam(value="페이지 번호", required=false) int pageNo) {
+			@RequestParam(value="페이지 번호(0번부터 시작)", required=false) int page,
+			@RequestParam(value="한 페이지에 출력할 게시물 수", required=false) int size) {
 		List<Map<String,Object>> result;
 		try {
-			result = recommendService.search(userSeq, sidoCode, sigunguCode, contentTypeId, impairments, numOfRows, pageNo);
+			result = recommendService.search(userSeq, sidoCode, sigunguCode, contentTypeId, impairments, page, size);
 		} catch(ClassCastException e) {
 			e.printStackTrace();
 			return new ResponseEntity<>("검색결과가 없습니다.", HttpStatus.OK);
