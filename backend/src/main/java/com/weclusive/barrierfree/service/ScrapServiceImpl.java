@@ -1,6 +1,5 @@
 package com.weclusive.barrierfree.service;
 
-import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -9,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.weclusive.barrierfree.entity.Scrap;
 import com.weclusive.barrierfree.repository.ScrapRepository;
+import com.weclusive.barrierfree.util.TimeUtils;
 
 @Service
 public class ScrapServiceImpl implements ScrapService {
@@ -19,7 +19,7 @@ public class ScrapServiceImpl implements ScrapService {
 	@Override
 	public Map<String, Integer> insertScrap(int user_seq, char scrap_type, long scrap_data) throws Exception{
 		Map<String, Integer> result = new HashMap<>();
-		String regTime = LocalDateTime.now().toString().replace("T", " ").substring(0,19);
+		String regTime = TimeUtils.curTime();
 		try {
 		scrapRepository.save(Scrap.builder()
 				.userSeq(user_seq)

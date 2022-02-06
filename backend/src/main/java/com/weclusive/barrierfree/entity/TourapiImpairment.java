@@ -6,20 +6,24 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @NoArgsConstructor
 @Getter
+@Setter
+@ToString
 public class TourapiImpairment {
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ti_seq")
 	private long tiSeq;
 
-	@Column(name = "contentid")
+	@Column(name = "content_id")
 	private long contentId;
 
 	@Column(name = "code")
@@ -42,4 +46,15 @@ public class TourapiImpairment {
 	
 	@Column(name="mod_id")
 	private String modId;
+	
+	@Builder
+	public TourapiImpairment(Long contentId, String code, String tiOverview, String regDt, String regId, String modDt, String modId) {
+		this.contentId = contentId;
+		this.code = code;
+		this.tiOverview = tiOverview;
+		this.regDt = regDt;
+		this.regId = regId;
+		this.modDt = modDt;
+		this.modId = modId;
+	}
 }
