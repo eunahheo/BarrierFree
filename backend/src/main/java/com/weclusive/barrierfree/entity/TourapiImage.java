@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -39,4 +40,18 @@ public class TourapiImage {
 	
 	@Column(name="mod_id")
 	private String modId;
+
+	@Builder
+	public TourapiImage(long contentId, String timImage, char delYn, String regDt, String regId, String modDt,
+			String modId) {
+		super();
+		this.contentId = contentId;
+		this.timImage = timImage;
+		this.delYn = delYn;
+		this.regDt = regDt;
+		this.regId = regId;
+		this.modDt = modDt;
+		this.modId = modId;
+	}
+	
 }
