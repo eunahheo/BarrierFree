@@ -3,7 +3,6 @@ package com.weclusive.barrierfree.repository;
 import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
->>>>>>> backend/src/main/java/com/weclusive/barrierfree/repository/TourapiRepository.java
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -18,7 +17,7 @@ public interface TourapiRepository extends JpaRepository<Tourapi, Long> {
 	// 시도로 검색한 결과
 	public Tourapi findByDelYnAndSidoCode(char delYn, String sidoCode);
 	// 컨텐츠 타입으로 검색한 결과
-	public Tourapi findByDelYnAndTourapiContentTypeId(char delYn, String contentTypeId);
+	public Tourapi findByDelYnAndTourapiContenttypeid(char delYn, String contentTypeId);
 	// 장애정보로 검색한 결과
 	// 시도,시군구로 검색한 결과
 	public Tourapi findByDelYnAndSidoCodeAndSigunguCode(char delYn, String sidoCode, String sigunguCode);
