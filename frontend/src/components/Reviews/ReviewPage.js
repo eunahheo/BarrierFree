@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
-import ReviewCardList from "./ReviewCardList";
-import Button from "../common/Button";
-import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
-import './ReviewPage.css'
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import ReviewCardList from './ReviewCardList';
+import Button from '../common/Button';
+import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import './ReviewPage.css';
 
 const ReviewPage = () => {
   const myuser = useSelector((state) => state.user.userData);
@@ -14,7 +14,7 @@ const ReviewPage = () => {
   const orderbylatest = async () => {
     await axios.get(`/main/recently?userSeq=0`).then(function (res) {
       mysetItemList(res.data);
-      console.log("latest");
+      console.log('latest');
     });
   };
 
@@ -24,16 +24,16 @@ const ReviewPage = () => {
     })
       .then(function (res) {
         mysetItemList(res.data);
-        console.log("popular");
+        console.log('popular');
       })
       .catch(function () {
-        console.log("popular fail");
+        console.log('popular fail');
       });
   };
   const orderbypopularweek = () => {
     axios({
       url: `/main/weekscrap?userSeq=0`,
-      method: "get",
+      method: 'get',
     })
       .then(function (res) {
         mysetItemList(res.data);
@@ -47,18 +47,18 @@ const ReviewPage = () => {
   const orderbybf = () => {
     if (localStorage) {
       axios({
-        url: "/main/follow",
-        method: "get",
+        url: '/main/follow',
+        method: 'get',
         params: {
           userSeq: myuser.userSeq,
         },
       }).then(function (res) {
         mysetItemList(res.data);
-        console.log("bf");
+        console.log('bf');
       });
     } else {
-      alert("로그인이 필요합니다!");
-      navigator("/loginpage");
+      alert('로그인이 필요합니다!');
+      navigator('/loginpage');
     }
   };
 
@@ -86,7 +86,7 @@ const ReviewPage = () => {
         베프만
       </Button>
       {/* <BasicCardList itemList={myitemList}></BasicCardList> */}
-      <ReviewCardList itemList={myitemList}></ReviewCardList>
+      {/* <ReviewCardList itemList={myitemList}></ReviewCardList> */}
     </div>
   );
 };
