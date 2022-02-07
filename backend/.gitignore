@@ -17,7 +17,11 @@ bin/
 
 =======
 **/application.properties
+<<<<<<< HEAD
 >>>>>>> d2d84e74e25593418e2cb985e843ba652105099f
+=======
+>>>>>>> branch 'develop' of https://lab.ssafy.com/s06-webmobile2-sub2/S06P12A504.git
+>>>>>>> a63c360eee0a2136fb6823e7744c5b724dda12de
 ### IntelliJ IDEA ###
 .idea
 *.iws

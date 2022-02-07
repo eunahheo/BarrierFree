@@ -85,7 +85,7 @@ public class ImpairmentUtils {
 		
 		deaf_info.add("signguide"); deaf_info.add("videoguide"); deaf_info.add("hearingroom"); deaf_info.add("hearinghandicapetc");
 		
-		infant_info.add("stroller"); infant_info.add("lactationroom"); infant_info.add("babyspacechair"); infant_info.add("infantsfamilyetc");
+		infant_info.add("stroller"); infant_info.add("lactationroom"); infant_info.add("babysparechair"); infant_info.add("infantsfamilyetc");
 		
 		senior_info.add("elevator"); senior_info.add("restroom"); senior_info.add("guidehuman"); senior_info.add("audioguide"); senior_info.add("videoguide"); senior_info.add("bigprint"); senior_info.add("guidesystem");
 		
