@@ -62,10 +62,9 @@ public class UserController {
 
 	@PostMapping("/join/kakao")
 	@ApiOperation(value = "Kakao 회원가입", notes = "사용자가 입력한 회원정보를 등록한다.")
-	public ResponseEntity<String> kakaoJoin(@RequestBody UserJoinKakao user, @RequestHeader String kakaoToken) {
+	public ResponseEntity<String> kakaoJoin(@RequestBody UserJoinKakao user, @RequestHeader @ApiParam(value = "kakao 로그인 시 받은 accessToken") String kakaoToken) {
 		// userId, userNickname, 불편사항
 		// kakao 최초 로그인 시 받은 kakao access token
-
 		try {
 			String userEmail = userService.getKakaoEmail(kakaoToken);
 			userService.registKakaoUser(user, userEmail); // 회원 등록 - 아이디, 닉네임, 장애정보
@@ -73,6 +72,7 @@ public class UserController {
 			e.printStackTrace();
 			return new ResponseEntity<String>(FAIL, HttpStatus.BAD_REQUEST);
 		}
+		
 		return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 	}
 
@@ -99,8 +99,6 @@ public class UserController {
 
 		// 최초 로그인이 아니면
 		User user = userService.findByUserId(kakaoUser.getUserId());
-//		userService.createRefreshToken(user); // 리프레시 토큰 발급 및 DB에 저장  
-
 		resultMap.put("accessToken", userService.createAccessToken(user));
 		resultMap.put("message", SUCCESS);
 		HttpStatus status = HttpStatus.ACCEPTED;
