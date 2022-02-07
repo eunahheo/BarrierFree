@@ -12,7 +12,7 @@ export const loginUser = (dataTosubmit) => {
   // console.log(dataTosubmit);
   const request = axios({
     method: 'POST',
-    url: 'user/login',
+    url: ' http://i6a504.p.ssafy.io:3030/user/login',
     data: dataTosubmit,
   })
     .then((res) => res.data)

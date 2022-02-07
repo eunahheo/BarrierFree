@@ -39,6 +39,7 @@ const LoginForm = () => {
           dispatch(userInfo(res.payload.accessToken));
           navigate('/');
         } else {
+          console.log(error);
           alert('error!');
         }
       });
