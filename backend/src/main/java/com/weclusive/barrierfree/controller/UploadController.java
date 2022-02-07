@@ -39,11 +39,11 @@ public class UploadController {
 			e.printStackTrace();
 		}
 	}
-	
-	@GetMapping("/imgget")
-	public void get() {
+
+	@PostMapping("/img1")
+	public void post1(@RequestPart(value = "picture", required = true) MultipartFile pic) {
 		try {
-			fileService.fileTest();
+			fileService.uploadFile1(pic);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

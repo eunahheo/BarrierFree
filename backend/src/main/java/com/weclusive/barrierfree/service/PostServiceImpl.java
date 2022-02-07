@@ -109,8 +109,7 @@ public class PostServiceImpl implements PostService {
 				updatePost.setPostLat(pu.getPostLat());
 			if (StringUtils.isNotBlank(pu.getPostLng()))
 				updatePost.setPostLng(pu.getPostLng());
-			if (StringUtils.isNotBlank(pu.getContentId()))
-				updatePost.setContentId(pu.getContentId());
+			updatePost.setContentId(pu.getContentId());
 			updatePost.setPostPoint(pu.getPostPoint());
 			updatePost.setModDt(regTime);
 			updatePost.setModId(userId);

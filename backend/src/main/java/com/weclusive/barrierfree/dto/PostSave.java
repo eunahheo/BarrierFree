@@ -43,7 +43,7 @@ public class PostSave {
 	private int postPoint;
 	
 	@Column(name="content_id")
-	private String contentId;
+	private long contentId;
 	
 	private int physical;
 	private int visibility;
