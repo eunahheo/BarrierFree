@@ -20,7 +20,7 @@ const LoginForm = () => {
 
   useEffect(() => setLoginloading(false), []);
 
-  const onLogin = async (event) => {
+  const onSubmit = async (event) => {
     event.preventDefault();
 
     const { userId, userPwd } = regform;
@@ -51,12 +51,12 @@ const LoginForm = () => {
     <AuthForm
       type="login"
       onChange={onChange}
-      // onSubmit={onSubmit}
+      onSubmit={onSubmit}
       form={regform}
       setForm={setForm}
       pwdCfm={pwdCfm}
       loading={loginloading}
-      onLogin={onLogin}
+      // onLogin={onLogin}
     />
   );
 };
