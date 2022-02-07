@@ -60,7 +60,7 @@ public class Post {
 	private int postPoint;
 
 	@Column(name = "content_id")
-	private String contentId;
+	private long contentId;
 
 	@Column(name = "del_yn")
 	private char delYn = 'n';
@@ -79,7 +79,7 @@ public class Post {
 
 	@Builder
 	public Post(int userSeq, String postTitle, String postContent, String postPhoto, String postAlt,
-			String postLocation, String postAddress, String postLat, String postLng, int postPoint, String contentId,
+			String postLocation, String postAddress, String postLat, String postLng, int postPoint, long contentId,
 			String regDt, String regId, String modDt, String modId) {
 		super();
 		this.userSeq = userSeq;

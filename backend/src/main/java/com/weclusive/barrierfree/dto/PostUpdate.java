@@ -26,6 +26,6 @@ public class PostUpdate {
 
 	private int postPoint;
 
-	private String contentId;
+	private long contentId;
 
 }
