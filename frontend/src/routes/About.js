@@ -1,13 +1,12 @@
-import React from "react";
-import Login from "../components/user/Login"
-import Infomation from "../components/infomation/Infomation"
-import TourInfomation from "../components/search/TourInfomation"
+import React from 'react';
+import Infomation from '../components/infomation/Infomation';
+import TourInfomation from '../components/search/TourInfomation';
+import Header from '../components/common/Header';
+import Editor from '../components/write/Editor';
 
 function About() {
   return (
     <div>
-      {/* <Infomation></Infomation> */}
-      <Login></Login>
       <TourInfomation></TourInfomation>
       <span>About weclusive</span>;
     </div>

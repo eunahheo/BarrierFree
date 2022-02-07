@@ -1,7 +1,7 @@
-import styled from "styled-components";
-import { Link } from "react-router-dom";
-import palette from "../../lib/styles/palette";
-import bflogo from "../images/barrierfreelogo.png";
+import styled from 'styled-components';
+import { Link } from 'react-router-dom';
+import palette from '../../lib/styles/palette';
+import bflogo from '../images/barrierfreelogo.png';
 
 const AuthTemplateBlock = styled.div`
   position: absolute;
@@ -38,6 +38,7 @@ const AuthTemplate = ({ children }) => {
         <div className="logo-area">
           <Link to="/">HOME</Link>
         </div>
+        {/* <img src={bflogo} width="200" style={{ marginTop: "2rem" }}></img> */}
         {children}
         {/* <img src={bflogo} width="200" style={{ marginTop: "2rem" }}></img> */}
       </WhiteBox>
