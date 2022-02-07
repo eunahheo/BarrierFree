@@ -1,15 +1,15 @@
-import axios from "axios";
-import React, { useState, useEffect } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
-import AuthForm from "../../components/auth/AuthForm";
+import axios from 'axios';
+import React, { useState, useEffect } from 'react';
+import { Navigate, useNavigate } from 'react-router-dom';
+import AuthForm from '../../components/auth/AuthForm';
 
 const LoginForm = () => {
   const [pwdCfm, setPwdCfm] = useState(true);
   const navigate = useNavigate();
   const [loginloading, setLoginloading] = useState(false);
   const [regform, setForm] = useState({
-    userId: "",
-    userPwd: "",
+    userId: '',
+    userPwd: '',
   });
   const onChange = (event) => {
     setForm({ ...regform, [event.target.name]: event.target.value });
@@ -26,21 +26,21 @@ const LoginForm = () => {
       setLoginloading(true);
       try {
         await axios({
-          url: "http://http://i6a504.p.ssafy.io:3030/user/login/",
-          method: "post",
+          url: '/user/login/',
+          method: 'post',
           headers: {
-            "Content-Type": "application/json",
-            "Access-Control-Allow-Credentials": true,
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Credentials': true,
           },
           data: regform,
         });
-        alert("로그인이 완료되었습니다!😀");
-        navigate("/");
+        alert('로그인이 완료되었습니다!😀');
+        navigate('/');
       } catch (error) {
         console.log(error);
       }
     } else {
-      alert("빈 값을 채워주세요!");
+      alert('빈 값을 채워주세요!');
     }
   };
 
