@@ -55,17 +55,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.and().authorizeRequests()
 				.mvcMatchers("/v2/**", "/configuration/**", "/swagger*/**", "/webjars/**", "/swagger-resources/**") // spring security랑 swagger 함께 사용하기
 				.permitAll() 
-				.antMatchers("/user/login", "/user/login/kakao")
-				.permitAll()
-				.antMatchers("/user/join", "/user/join/kakao")
-				.permitAll()
-				.antMatchers("/user/email/certified","/user/check/id", "/user/check/nickname")
-				.permitAll()
-				.antMatchers("/user/find/id", "/user/find/password")
-				.permitAll()
-				.antMatchers("/main/**")
-				.permitAll() // 그 외에는 모두 인증을 거치지 않아도 됨
-				.anyRequest().authenticated()
+				.antMatchers("/user/info", "/user/modify", "/user/withdraw").authenticated()
+//				.antMatchers("/scrap/post", "/scrap/recommend", "/alarm/**").authenticated()
+				.anyRequest().permitAll() // 그 외에는 모두 인증을 거치지 않아도 됨
+				
 				.and().exceptionHandling().and().sessionManagement()
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
