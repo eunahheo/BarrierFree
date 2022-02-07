@@ -7,7 +7,6 @@ import Editor from '../components/write/Editor';
 function About() {
   return (
     <div>
-      <Login></Login>
       <TourInfomation></TourInfomation>
       <span>About weclusive</span>;
     </div>
