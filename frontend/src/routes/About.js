@@ -9,8 +9,12 @@ function About() {
     <div>
       {/* <Header /> */}
       {/* <Infomation></Infomation> */}
+<<<<<<< HEAD
       <TourInfomation></TourInfomation>
       <Editor></Editor>
+=======
+      {/* <TourInfomation></TourInfomation> */}
+>>>>>>> feat/fe-78-search_page
       <span>About weclusive</span>;
     </div>
   );

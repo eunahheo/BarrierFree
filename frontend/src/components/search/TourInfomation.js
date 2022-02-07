@@ -31,7 +31,7 @@ const TourInfomation = () => {
     axios({
       method: 'GET',
       url: 'recommend/detail',
-      params: {contentid: infomationNum}
+      params: {contentid: 126273}
     }
     ).then(res => {
       setInfomationDetail(res.data)

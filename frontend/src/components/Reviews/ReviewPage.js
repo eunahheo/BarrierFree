@@ -4,6 +4,7 @@ import ReviewCardList from "./ReviewCardList";
 import Button from "../common/Button";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import './ReviewPage.css'
 
 const ReviewPage = () => {
   const myuser = useSelector((state) => state.user.userData);
@@ -70,8 +71,13 @@ const ReviewPage = () => {
   }, []);
 
   return (
+<<<<<<< HEAD
     <div>
       <h1>Review in here:: reviewpage</h1>
+=======
+    <div class="box">
+      <h1>Review in here</h1>
+>>>>>>> feat/fe-78-search_page
       <Button order onClick={orderbylatest}>
         최신순
       </Button>

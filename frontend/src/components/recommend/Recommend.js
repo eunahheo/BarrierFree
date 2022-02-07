@@ -10,6 +10,7 @@ import {
   InputLabel,
   MenuItem,
   Select,
+<<<<<<< HEAD
 } from '@mui/material';
 import axios from 'axios';
 import RecommendCardList from './RecommendCardList.js';
@@ -17,6 +18,17 @@ import { Container, Box } from '@material-ui/core';
 import RecommendCategories from './RecommendCategories';
 import { useDispatch, useSelector } from 'react-redux';
 import Header from '../common/Header';
+=======
+} from "@mui/material";
+import axios from "axios";
+import RecommendCardList from "./RecommendCardList.js";
+import { Container, Box } from "@material-ui/core";
+import RecommendCategories from "./RecommendCategories";
+import { useDispatch, useSelector } from "react-redux";
+import { findLocation } from "../../_actions/find_actions";
+import Header from "../common/Header";
+import './Recommend.css';
+>>>>>>> feat/fe-78-search_page
 
 const Recommend = () => {
   const myuser = useSelector((state) => state.user.userData);
@@ -34,6 +46,7 @@ const Recommend = () => {
   const [townList, setTownList] = useState([]);
   const [city, setCity] = useState('');
   const [town, setTown] = useState('');
+  const [barrier, setBarrier] = useState('');
 
   useEffect(() => {
     const SetRecommendPage = () => {
@@ -41,6 +54,7 @@ const Recommend = () => {
       setCityDropdown();
     };
 
+<<<<<<< HEAD
     SetRecommendPage();
   }, []);
 
@@ -63,11 +77,37 @@ const Recommend = () => {
           setItemList(res.data);
         });
       });
+=======
+  // 내 위치 받아오기
+  const findMyLocation = () => {      
+    // Geolocation API에 액세스할 수 있는지를 확인
+    if (navigator.geolocation) {
+        //위치 정보를 얻기
+        navigator.geolocation.getCurrentPosition (function(res) {
+          axios(
+            {
+              method: 'GET',
+              url:'recommend/myloc',
+              params: {
+                lat : res.coords.latitude,  // 위도
+                lng : res.coords.longitude,  // 경도
+                radius : 20000,
+                userSeq: myuser.userSeq
+              }
+            }
+          ).then(function (res) {
+
+            setItemList(res.data)
+          });
+        }
+        );
+>>>>>>> feat/fe-78-search_page
     } else {
       alert('이 브라우저에서는 Geolocation이 지원되지 않습니다.');
     }
   };
 
+  // 여행 지역 선택하기
   const setCityDropdown = () => {
     axios({
       method: 'GET',
@@ -76,6 +116,7 @@ const Recommend = () => {
       setCityList(res.data);
     });
   };
+<<<<<<< HEAD
 
   // 여행 지역 선택하기
   const selectTown = (sidoCode) => {
@@ -91,6 +132,9 @@ const Recommend = () => {
     });
   };
 
+=======
+  
+>>>>>>> feat/fe-78-search_page
   const handleChangeCity = (event) => {
     if (town) {
       setTown('');
@@ -102,6 +146,7 @@ const Recommend = () => {
     } else {
       setTownList([]);
     }
+<<<<<<< HEAD
   };
 
   const handleChangeTown = (event) => {
@@ -128,12 +173,84 @@ const Recommend = () => {
   console.log(itemList);
   // !!!!!!!!!!!!! 검색 기능 만들기
   const onClickSearch = () => {};
+=======
+  }
+
+  const selectTown = (sidoCode) => {
+    axios(
+      {
+        url: 'recommend/sigungu',
+        method: 'GET',
+        params: {
+          sidoCode: sidoCode
+        }
+      }).then(function (res) {
+        console.log(res)
+        setTownList(res.data)
+      })
+  };
+  
+  const handleChangeTown = (event) => {
+    setTown(event.target.value)
+  }
+  
+  // 장애 정보 선택하기
+  const onClickBarrier = (res) => {
+    // console.log(res.target.id)
+    if (res.target.id === "physical") {
+      setBarrier(1)
+    } else if (res.target.id === "visual") {
+      setBarrier(2)
+    } else if (res.target.id === "auditory") {
+      setBarrier(3)
+    } else if (res.target.id === "pregnant") {
+      setBarrier(4)
+    } else if (res.target.id === "senior") {
+      setBarrier(5)
+    }
+  }
+  
+  // !!!!!!!!!!!!! 검색 기능 만들기
+  const onClickSearch = () => {
+    // city와 town만 있을 때
+    if (city, town) {
+      let data = {
+        sidoCode: city,
+        sigunguCode: town,
+        userSeq: myuser.userSeq,
+      }
+      dispatch(findLocation(data))
+      setCity('');
+      setTown('');
+    } else if (barrier) {
+      let data = {
+        contentTypeId: barrier,
+        userSeq: myuser.userSeq,
+      }
+      dispatch(findLocation(data))
+      setBarrier('');
+    } else if (city, town, barrier) {
+      let data = {
+        contentTypeId: barrier,
+        sidoCode: city,
+        sigunguCode: town,
+        userSeq: myuser.userSeq,
+      }
+      dispatch(findLocation(data))
+      setCity('');
+      setTown('');
+      setBarrier('');
+    }
+  }
+
+
+>>>>>>> feat/fe-78-search_page
 
   return (
     <div>
       <Container maxWidth="md">
         <h2>내 주변 무장애 여행지</h2>
-        <Box border={1}>
+        <div class="selete-box">
           <h3>무장애 선택하기</h3>
           <div>
             <img id="physical" onClick={onClickBarrier} src={Physical}></img>
@@ -175,10 +292,11 @@ const Recommend = () => {
               ))}
             </Select>
           </FormControl>
-          <div>
-            <Button variant="contained">검색</Button>
-            <Button variant="contained">초기화</Button>
+          <div class="button-list">
+            <Button variant="contained" id="search" onClick={onClickSearch}>검색</Button>
+            <Button variant="contained" id="reset">초기화</Button>
           </div>
+<<<<<<< HEAD
         </Box>
         <RecommendCategories
           category={category}
@@ -188,6 +306,11 @@ const Recommend = () => {
           itemList={itemList}
           category={category}
         ></RecommendCardList>
+=======
+        </div>
+        <RecommendCategories category={category} onClick={onSelect}></RecommendCategories>
+        <RecommendCardList itemList={itemList} category={category}></RecommendCardList>
+>>>>>>> feat/fe-78-search_page
       </Container>
     </div>
   );
