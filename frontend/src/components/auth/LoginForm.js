@@ -24,21 +24,16 @@ const LoginForm = () => {
 
     if ((userId, userPwd)) {
       setLoginloading(true);
-      try {
-        await axios({
-          url: '/user/login/',
-          method: 'get',
-          headers: {
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Credentials': true,
-          },
-          data: regform,
-        });
-        alert('로그인이 완료되었습니다!😀');
-        navigate('/');
-      } catch (error) {
-        console.log(error);
-      }
+      dispatch(loginUser(body)).then((res) => {
+        console.log(res);
+        if (res.payload) {
+          localStorage.setItem('accessToken', res.payload.accessToken);
+          dispatch(userInfo(res.payload.accessToken));
+          navigate('/');
+        } else {
+          alert('error!');
+        }
+      });
     } else {
       alert('빈 값을 채워주세요!');
     }
