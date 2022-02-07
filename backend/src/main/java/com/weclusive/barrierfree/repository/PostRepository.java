@@ -47,7 +47,6 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 	public List<Post> findByAllPosts(int userSeq);
 
 	// 통합 검색 - 사용자 게시글 검색하기(제목, 내용, 지역으로 검색)
-	public Page<Post> findByDelYnAndPostTitleContainingOrPostContentContainingOrPostLocationContaining(char delYn,
-			String keyword, String keyword2, String keyword3, Pageable pageable);
+	public Page<Post> findByDelYnAndPostTitleContainingOrPostContentContainingOrPostLocationContaining(char delYn, String keyword, String keyword2, String keyword3, Pageable pageable);
 
 }

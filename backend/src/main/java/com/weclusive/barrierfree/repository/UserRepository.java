@@ -33,5 +33,4 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
 	// 검색 - 사용자 닉네임
 	public Page<User> findByUserNicknameContaining(String keyword, Pageable pageable);
-
 }
