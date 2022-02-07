@@ -1,11 +1,14 @@
-import axios from 'axios';
 import React, { useState, useEffect } from 'react';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import AuthForm from '../../components/auth/AuthForm';
+import { useDispatch } from 'react-redux';
+import { loginUser, userInfo } from '../../_actions/user_actions';
 
 const LoginForm = () => {
-  const [pwdCfm, setPwdCfm] = useState(true);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const [pwdCfm, setPwdCfm] = useState(true);
   const [loginloading, setLoginloading] = useState(false);
   const [regform, setForm] = useState({
     userId: '',
@@ -21,6 +24,11 @@ const LoginForm = () => {
     event.preventDefault();
 
     const { userId, userPwd } = regform;
+
+    let body = {
+      userId: userId,
+      userPwd: userPwd,
+    };
 
     if ((userId, userPwd)) {
       setLoginloading(true);
