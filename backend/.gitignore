@@ -13,7 +13,11 @@ target/
 .sts4-cache
 .project
 bin/
+<<<<<<< HEAD
+
+=======
 **/application.properties
+>>>>>>> branch 'develop' of https://lab.ssafy.com/s06-webmobile2-sub2/S06P12A504.git
 ### IntelliJ IDEA ###
 .idea
 *.iws
