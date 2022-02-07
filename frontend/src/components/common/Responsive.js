@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 const ResponsiveBlock = styled.div`
   padding-left: 1rem;
@@ -15,7 +15,7 @@ const ResponsiveBlock = styled.div`
   }
 `;
 
-const Responsive = ({ chilren, ...rest }) => {
+const Responsive = ({ children, ...rest }) => {
   return <ResponsiveBlock {...rest}>{children}</ResponsiveBlock>;
 };
 

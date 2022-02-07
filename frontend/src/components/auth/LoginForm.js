@@ -1,15 +1,18 @@
-import axios from "axios";
-import React, { useState, useEffect } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
-import AuthForm from "../../components/auth/AuthForm";
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import AuthForm from '../../components/auth/AuthForm';
+import { useDispatch } from 'react-redux';
+import { loginUser, userInfo } from '../../_actions/user_actions';
 
 const LoginForm = () => {
-  const [pwdCfm, setPwdCfm] = useState(true);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const [pwdCfm, setPwdCfm] = useState(true);
   const [loginloading, setLoginloading] = useState(false);
   const [regform, setForm] = useState({
-    userId: "",
-    userPwd: "",
+    userId: '',
+    userPwd: '',
   });
   const onChange = (event) => {
     setForm({ ...regform, [event.target.name]: event.target.value });
@@ -17,30 +20,31 @@ const LoginForm = () => {
 
   useEffect(() => setLoginloading(false), []);
 
-  const onLogin = async (event) => {
+  const onSubmit = async (event) => {
     event.preventDefault();
 
     const { userId, userPwd } = regform;
 
+    let body = {
+      userId: userId,
+      userPwd: userPwd,
+    };
+
     if ((userId, userPwd)) {
       setLoginloading(true);
-      try {
-        await axios({
-          url: "http://http://i6a504.p.ssafy.io:3030/user/login/",
-          method: "post",
-          headers: {
-            "Content-Type": "application/json",
-            "Access-Control-Allow-Credentials": true,
-          },
-          data: regform,
-        });
-        alert("로그인이 완료되었습니다!😀");
-        navigate("/");
-      } catch (error) {
-        console.log(error);
-      }
+      dispatch(loginUser(body)).then((res) => {
+        console.log(res);
+        if (res.payload) {
+          localStorage.setItem('accessToken', res.payload.accessToken);
+          dispatch(userInfo(res.payload.accessToken));
+          navigate('/');
+        } else {
+          console.log(error);
+          alert('error!');
+        }
+      });
     } else {
-      alert("빈 값을 채워주세요!");
+      alert('빈 값을 채워주세요!');
     }
   };
 
@@ -48,12 +52,12 @@ const LoginForm = () => {
     <AuthForm
       type="login"
       onChange={onChange}
-      // onSubmit={onSubmit}
+      onSubmit={onSubmit}
       form={regform}
       setForm={setForm}
       pwdCfm={pwdCfm}
       loading={loginloading}
-      onLogin={onLogin}
+      // onLogin={onLogin}
     />
   );
 };

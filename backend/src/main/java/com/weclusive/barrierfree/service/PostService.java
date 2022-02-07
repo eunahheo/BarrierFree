@@ -18,5 +18,6 @@ public interface PostService {
 	public int updatePostImpairmentByPostSeq(long postSeq, Impairment impairment, int userSeq);
 	public PostImpairment savePostImpairment(Impairment impairment, long postSeq, int userSeq);
 	public int savePost(PostSave ps);
+	public List<Map<String, Object>> findLocation(String postLocation);
 
 }

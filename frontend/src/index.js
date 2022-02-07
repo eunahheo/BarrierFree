@@ -7,22 +7,43 @@ import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import { applyMiddleware } from 'redux';
 import promiseMiddleware from 'redux-promise';
-import ReduxThunk from 'redux-thunk'
-import Reducer from './_reducers'
+import ReduxThunk from 'redux-thunk';
+import rootReducer from './_reducers';
 import { BrowserRouter } from 'react-router-dom';
+import { persistStore, persistReducer } from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
+import { PersistGate } from 'redux-persist/integration/react';
+import { createLogger } from 'redux-logger';
 
-const createStoreWithMiddleware = applyMiddleware(promiseMiddleware, ReduxThunk)(createStore)
+const persistConfig = {
+  key: 'root',
+  storage,
+};
+
+const persistedReducer = persistReducer(persistConfig, rootReducer);
+const logger = createLogger();
+
+const createStoreWithMiddleware = applyMiddleware(
+  promiseMiddleware,
+  ReduxThunk,
+  logger,
+)(createStore);
+const store = createStoreWithMiddleware(
+  persistedReducer,
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
+);
+
+const persistor = persistStore(store);
 
 ReactDOM.render(
-  <Provider store={createStoreWithMiddleware(Reducer,
-              window.__REDUX_DEVTOOLS_EXTENSION__ &&
-              window.__REDUX_DEVTOOLS_EXTENSION__())}>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
-  </Provider>
-,
-  document.getElementById('root')
+  <Provider store={store}>
+    <PersistGate loading={null} persistor={persistor}>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </PersistGate>
+  </Provider>,
+  document.getElementById('root'),
 );
 
 // If you want to start measuring performance in your app, pass a function

@@ -2,16 +2,15 @@ import React, { useState } from "react";
 import { Card, CardMedia, CardContent, Typography } from "@mui/material";
 import RecommendBarrierIcon from "../recommend/RecommendBarrierIcon";
 import axios from "axios";
-// import Review from "../review/Review";
 import { Link, useNavigate } from "react-router-dom";
 
 const MyCard = ({ item }) => {
   const navigate = useNavigate();
 
   const { postPhoto, postLocation, postTitle } = item;
-  // const barriers = item.impairment;
+
   const reviewCard = item.postSeq;
-  // const state = { 'detailnum': reviewCard}
+  // console.log("reviewcard", reviewCard);
   const onClickCard = () => {
     // console.log(e)
     axios({
@@ -19,7 +18,7 @@ const MyCard = ({ item }) => {
       url: "post/detail",
       params: { postSeq: reviewCard },
     }).then(function (res) {
-      // console.log(res.config.params.postSeq)
+      // console.log(reviewCard);
       navigate(`/post/detail/${reviewCard}`);
     });
   };
@@ -45,10 +44,8 @@ const MyCard = ({ item }) => {
             {postLocation}
           </Typography>
           {postTitle}
-          {/* <RecommendBarrierIcon barriers={barriers}></RecommendBarrierIcon> */}
         </CardContent>
       </Card>
-      {/* </Link> */}
     </div>
   );
 };

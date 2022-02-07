@@ -1,17 +1,22 @@
-import {
-  LOGIN_USER,
-  USER_INFO
-} from '../_actions/types';
+import { handleActions } from 'redux-actions';
+// import { LOGIN_USER, USER_INFO, LOGOUT } from '../_actions/types';
+import { LOGIN_USER, USER_INFO, LOGOUT } from '../_actions/user_actions';
 
-export default function (state = {}, action) {
-  switch (action.type) {
-    
+const initialState = {};
+
+export default function reducer(state = initialState, action) {
+  const { type, payload } = action;
+  switch (type) {
     case LOGIN_USER:
-      return { ...state, loginSuccess: action.payload } 
-    
+      return { ...state, loginSuccess: payload };
+
     case USER_INFO:
-      return { ...state, userData: action.payload }
-      
+      return { ...state, userData: payload };
+
+    case LOGOUT:
+      localStorage.removeItem('persist:root');
+      localStorage.removeItem('accessToken');
+      return { ...state, userData: null, loginSuccess: null };
     default:
       return state;
   }

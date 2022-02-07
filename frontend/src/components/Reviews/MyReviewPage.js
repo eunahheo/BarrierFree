@@ -1,19 +1,18 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
-// import RecommendCardList from "../recommend/RecommendCardList";
-import OrderBox from "./OrderBox";
-import MyCardList from "./MyCardList";
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import MyCardList from './MyCardList';
+import { useSelector } from 'react-redux';
 
 const MyReviewPage = () => {
+  const myuser = useSelector((state) => state.user.userData);
   const [itemList, setItemList] = useState([]);
-  // 로그인하면 동적으로 변하게 해야 함
-  const userSeq = 3;
+  console.log('myuser', myuser);
 
   useEffect(() => {
     axios({
       url: `/myFeed/post`,
-      method: "get",
-      params: { userSeq: userSeq },
+      method: 'get',
+      params: { userSeq: myuser.userSeq },
     })
       .then(function (res) {
         // console.log(res);
@@ -28,9 +27,7 @@ const MyReviewPage = () => {
 
   return (
     <div>
-      <h1>My Review in here</h1>
-      {/* <OrderBox></OrderBox> */}
-      {/* <BasicCardList itemList={myitemList}></BasicCardList> */}
+      <div>My Review in here</div>
       <MyCardList itemList={itemList}></MyCardList>
     </div>
   );

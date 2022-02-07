@@ -14,10 +14,12 @@ import com.weclusive.barrierfree.dto.PostSave;
 import com.weclusive.barrierfree.dto.PostUpdate;
 import com.weclusive.barrierfree.entity.Post;
 import com.weclusive.barrierfree.entity.PostImpairment;
+import com.weclusive.barrierfree.entity.Tourapi;
 import com.weclusive.barrierfree.entity.User;
 import com.weclusive.barrierfree.repository.PostImpairmentRepository;
 import com.weclusive.barrierfree.repository.PostRepository;
 import com.weclusive.barrierfree.repository.ScrapRepository;
+import com.weclusive.barrierfree.repository.TourapiRepository;
 import com.weclusive.barrierfree.repository.UserRepository;
 import com.weclusive.barrierfree.util.StringUtils;
 import com.weclusive.barrierfree.util.TimeUtils;
@@ -37,6 +39,8 @@ public class PostServiceImpl implements PostService {
 	@Autowired
 	ScrapRepository scrapRepository;
 
+	@Autowired
+	TourapiRepository toruapiRepository;
 
 	// 게시글 상세정보 가져오기
 	@Override
@@ -105,8 +109,7 @@ public class PostServiceImpl implements PostService {
 				updatePost.setPostLat(pu.getPostLat());
 			if (StringUtils.isNotBlank(pu.getPostLng()))
 				updatePost.setPostLng(pu.getPostLng());
-			if (StringUtils.isNotBlank(pu.getContentId()))
-				updatePost.setContentId(pu.getContentId());
+			updatePost.setContentId(pu.getContentId());
 			updatePost.setPostPoint(pu.getPostPoint());
 			updatePost.setModDt(regTime);
 			updatePost.setModId(userId);
@@ -307,7 +310,7 @@ public class PostServiceImpl implements PostService {
 		p.setUserSeq(ps.getUserSeq());
 		p.setPostTitle(ps.getPostTitle());
 		p.setPostPhoto(ps.getPostPhoto());
-//		p.setPostPhotoAlt(p.getPostPhotoAlt());
+		p.setPostAlt(p.getPostAlt());
 		p.setPostLocation(ps.getPostLocation());
 		p.setPostAddress(ps.getPostAddress());
 		p.setPostLat(ps.getPostLat());
@@ -325,38 +328,56 @@ public class PostServiceImpl implements PostService {
 		long postSeq = p.getPostSeq();
 		int userSeq = ps.getUserSeq();
 		if (ps.getPhysical() == 1) {
-			postImpairmentRepository.save(PostImpairment.builder().postSeq(postSeq).code("physical")
-					.regDt(curTime).regId(returnUserId(userSeq)).modDt(curTime)
-					.modId(returnUserId(userSeq)).build());
+			postImpairmentRepository.save(PostImpairment.builder().postSeq(postSeq).code("physical").regDt(curTime)
+					.regId(returnUserId(userSeq)).modDt(curTime).modId(returnUserId(userSeq)).build());
 
 		}
 		if (ps.getDeaf() == 1) {
-			postImpairmentRepository.save(PostImpairment.builder().postSeq(postSeq).code("deaf")
-					.regDt(curTime).regId(returnUserId(userSeq)).modDt(curTime)
-					.modId(returnUserId(userSeq)).build());
+			postImpairmentRepository.save(PostImpairment.builder().postSeq(postSeq).code("deaf").regDt(curTime)
+					.regId(returnUserId(userSeq)).modDt(curTime).modId(returnUserId(userSeq)).build());
 
 		}
 		if (ps.getInfant() == 1) {
-			postImpairmentRepository.save(PostImpairment.builder().postSeq(postSeq).code("infant")
-					.regDt(curTime).regId(returnUserId(userSeq)).modDt(curTime)
-					.modId(returnUserId(userSeq)).build());
+			postImpairmentRepository.save(PostImpairment.builder().postSeq(postSeq).code("infant").regDt(curTime)
+					.regId(returnUserId(userSeq)).modDt(curTime).modId(returnUserId(userSeq)).build());
 
 		}
 		if (ps.getVisibility() == 1) {
-			postImpairmentRepository.save(PostImpairment.builder().postSeq(postSeq).code("visibility")
-					.regDt(curTime).regId(returnUserId(userSeq)).modDt(curTime)
-					.modId(returnUserId(userSeq)).build());
+			postImpairmentRepository.save(PostImpairment.builder().postSeq(postSeq).code("visibility").regDt(curTime)
+					.regId(returnUserId(userSeq)).modDt(curTime).modId(returnUserId(userSeq)).build());
 
 		}
 		if (ps.getSenior() == 1) {
-			postImpairmentRepository.save(PostImpairment.builder().postSeq(postSeq).code("senior")
-					.regDt(curTime).regId(returnUserId(userSeq)).modDt(curTime)
-					.modId(returnUserId(userSeq)).build());
+			postImpairmentRepository.save(PostImpairment.builder().postSeq(postSeq).code("senior").regDt(curTime)
+					.regId(returnUserId(userSeq)).modDt(curTime).modId(returnUserId(userSeq)).build());
 		}
 
 		return 1;
 	}
-	
+
+	// 작성한 게시글이 DB에 있는지(추천 게시글에 있는지)
+	@Override
+	public List<Map<String, Object>> findLocation(String postLocation) {
+		List<Map<String, Object>> result = new LinkedList<>();
+		List<Tourapi> api = toruapiRepository.findTourapiTitle(postLocation);
+
+		if (api.size() != 0) {
+			api.forEach(tour -> {
+				Map<String, Object> obj = new HashMap<>();
+				obj.put("postLocation", tour.getTourapiTitle());
+				obj.put("postAddress", tour.getTourapiAddr1());
+				obj.put("postLat", tour.getTourapiLat());
+				obj.put("postLng", tour.getTourapiLng());
+				obj.put("contentId", tour.getContentId());
+				result.add(obj);
+			});
+			return result;
+		}
+
+		return null;
+
+	}
+
 	// 게시글 장애정보 저장하기
 	public PostImpairment save(PostImpairment postImpairment) {
 		postImpairmentRepository.save(postImpairment);
