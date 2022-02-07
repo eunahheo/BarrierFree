@@ -1,7 +1,7 @@
-import styled from "styled-components";
-import { Link } from "react-router-dom";
-import palette from "../../lib/styles/palette";
-import bflogo from "../images/barrierfreelogo.png";
+import styled from 'styled-components';
+import { Link } from 'react-router-dom';
+import palette from '../../lib/styles/palette';
+import bflogo from '../images/barrierfreelogo.png';
 
 const AuthTemplateBlock = styled.div`
   position: absolute;

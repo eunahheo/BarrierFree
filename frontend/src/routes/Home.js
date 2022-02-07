@@ -1,31 +1,53 @@
 // App.js 내용 가져오면 됨
-import React, { useEffect, useState } from "react";
-import axios from "axios";
-// import OrderBox from "../components/Reviews/OrderBox";
-import ReviewPage from "../components/Reviews/ReviewPage";
-import Header from "../components/common/Header";
-// import './Home.css';
+import ReviewPage from '../components/Reviews/ReviewPage';
+import Button from '../components/common/Button';
+import Container from '@mui/material/Container';
+import Grid from '@mui/material/Grid';
+import React from 'react';
+import Icons from '../components/common/Mui';
+import AddCircleRoundedIcon from '@mui/icons-material/AddCircleRounded';
+import palette from '../lib/styles/palette';
+import { useNavigate } from 'react-router-dom';
+import { Navigate } from '../../node_modules/react-router/index';
+import styled from 'styled-components';
+import { useSelector } from 'react-redux';
+
+const CustomIcon = styled('icon')`
+  cursor: pointer;
+`;
 
 function Home() {
-  // const [ordertype, setOrdertype] = useState("");
-
-  // const orderbylatest = () => {
-  //   setOrdertype("http://localhost:3000/post/all?userSeq=0");
-  // };
-
-  // const orderbypopular = () => {
-  //   setOrdertype("http://localhost:8080/post/scrap?userSeq=1");
-  // };
-
-  // const orderbybf = () => {
-  //   setOrdertype("http://localhost:8080/post/follow?userSeq=1");
-  // };
+  const user = useSelector((state) => state.user.userData);
+  const navigate = useNavigate();
+  const navigate_wr = () => {
+    if (user) {
+      navigate('/write');
+    } else {
+      alert('로그인이 필요합니다!😋');
+      navigate('/loginpage');
+    }
+  };
 
   return (
     <div className="Home">
-      <Header />
       <h1>Home</h1>
-      <ReviewPage></ReviewPage>
+      <Container fixed>
+        <Grid container>
+          <Grid item xs={11}>
+            <ReviewPage></ReviewPage>
+          </Grid>
+          <Grid item xs={1}>
+            {/* <Button>+</Button> */}
+            <AddCircleRoundedIcon
+              className="AddCircleRoundedIcon"
+              position="sticky"
+              fontSize="large"
+              sx={{ color: palette.pink[0] }}
+              onClick={navigate_wr}
+            />
+          </Grid>
+        </Grid>
+      </Container>
     </div>
   );
 }

@@ -3,14 +3,14 @@ import axios from 'axios';
 import MyCardList from './MyCardList';
 import { useSelector } from 'react-redux';
 
-const MyReviewPage = () => {
+const UserScrapsIn = () => {
   const myuser = useSelector((state) => state.user.userData);
   const [itemList, setItemList] = useState([]);
   console.log('myuser', myuser);
 
   useEffect(() => {
     axios({
-      url: `/myFeed/post`,
+      url: `/myFeed/scrap/post`,
       method: 'get',
       params: { userSeq: myuser.userSeq },
     })
@@ -27,10 +27,10 @@ const MyReviewPage = () => {
 
   return (
     <div>
-      <div>My Review in here</div>
+      <div>My Scraps In</div>
       <MyCardList itemList={itemList}></MyCardList>
     </div>
   );
 };
 
-export default MyReviewPage;
+export default UserScrapsIn;

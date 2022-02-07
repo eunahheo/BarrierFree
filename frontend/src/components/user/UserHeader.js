@@ -1,9 +1,8 @@
-import UserController from "./UserFeedTemplate";
-import axios from "axios";
-import { useEffect, useState } from "react";
-import styled from "styled-components";
-import palette from "../../lib/styles/palette";
-import { useSelector } from "react-redux";
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import styled from 'styled-components';
+import palette from '../../lib/styles/palette';
+import { useSelector } from 'react-redux';
 
 const UserHeaderBox = styled.div`
   display: flex;
@@ -25,14 +24,14 @@ const UserHeaderBox = styled.div`
     }
   }
 `;
-const UserHeader = () => {
+const UserHeader = ({ onPost, onFollowing, onFollower, onScrap }) => {
   const [userHeaderInfo, setUserHeaderInfo] = useState([]);
   const myuser = useSelector((state) => state.user.userData);
   const getUserHeader = async () => {
     try {
       const response = await axios({
-        method: "get",
-        url: "/myFeed/main",
+        method: 'get',
+        url: '/myFeed/main',
         params: {
           userSeq: myuser.userSeq,
         },
@@ -52,24 +51,26 @@ const UserHeader = () => {
       <div>
         <div>
           <div>
-            <img className="toggle" src={userHeaderInfo.userPhoto} />
+            <img
+              className="toggle"
+              src={userHeaderInfo.userPhoto}
+              onClick={onPost}
+            />
           </div>
           <div>{userHeaderInfo.userNickname}</div>
         </div>
-        <div>
+        <div onClick={onScrap}>
           <div className="toggle">스크랩: {userHeaderInfo.postScrap}</div>
           {/* <div>게시글수</div> */}
         </div>
-        <div>
+        <div onClick={onFollowing}>
           <div className="toggle">팔로잉: {userHeaderInfo.following}</div>
           {/* <div>팔로잉:</div> */}
         </div>
-        <div>
+        <div onClick={onFollower}>
           <div className="toggle">팔로워: {userHeaderInfo.follower}</div>
-          {/* <div>팔로워: </div> */}
         </div>
       </div>
-      {/* <UserController></UserController> */}
     </UserHeaderBox>
   );
 };

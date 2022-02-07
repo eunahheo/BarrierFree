@@ -1,22 +1,21 @@
-import styled from "styled-components";
-import { useState } from "react";
-import { Link } from "react-router-dom";
-import Button from "../common/Button";
-import palette from "../../lib/styles/palette";
-import AuthBarrierIcon from "./AuthBarrierIcon";
-import Physical from "../images/Physical.png";
-import PhysicalHide from "../images/PhysicalHide.png";
-import Auditory from "../images/Auditory.png";
-import AuditoryHide from "../images/AuditoryHide.png";
-import Pregnant from "../images/Pregnant.png";
-import PregnantHide from "../images/PregnantHide.png";
-import Senior from "../images/Senior.png";
-import SeniorHide from "../images/SeniorHide.png";
-import Visual from "../images/Visual.png";
-import VisualHide from "../images/VisualHide.png";
-import RegisterForm from "./RegisterForm";
-import axios from "axios";
-import { red } from "@material-ui/core/colors";
+import styled from 'styled-components';
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import Button from '../common/Button';
+import palette from '../../lib/styles/palette';
+import Physical from '../images/Physical.png';
+import PhysicalHide from '../images/PhysicalHide.png';
+import Auditory from '../images/Auditory.png';
+import AuditoryHide from '../images/AuditoryHide.png';
+import Pregnant from '../images/Pregnant.png';
+import PregnantHide from '../images/PregnantHide.png';
+import Senior from '../images/Senior.png';
+import SeniorHide from '../images/SeniorHide.png';
+import Visual from '../images/Visual.png';
+import VisualHide from '../images/VisualHide.png';
+import RegisterForm from '../../containers/auth/RegisterForm';
+import axios from 'axios';
+import { red } from '@material-ui/core/colors';
 
 const AuthFormBlock = styled.div`
   h2 {
@@ -67,9 +66,9 @@ const ButtonWithMarginTop = styled(Button)`
 `;
 
 const textMap = {
-  login: "로그인",
-  register: "회원가입",
-  registerkakao: "카카오회원가입",
+  login: '로그인',
+  register: '회원가입',
+  registerkakao: '카카오회원가입',
 };
 
 const AuthForm = ({
@@ -80,7 +79,7 @@ const AuthForm = ({
   onSubmit,
   setForm,
   loading,
-  onLogin,
+  // onLogin,
 }) => {
   const onCheckId = async () => {
     // console.log(form.userId.trim().length);
@@ -89,28 +88,28 @@ const AuthForm = ({
     if (idlength >= 5 && idlength <= 20) {
       try {
         const response = await axios({
-          url: "http://i6a504.p.ssafy.io:3030/user/check/id",
-          method: "post",
+          url: 'http://i6a504.p.ssafy.io:3030/user/check/id',
+          method: 'post',
           params: { userId: form.userId },
         });
         console.log(response);
-        if (response.data == "success") {
-          alert("사용 가능한 아이디입니다!😀");
+        if (response.data == 'success') {
+          alert('사용 가능한 아이디입니다!😀');
           setForm({ ...form, EnableuserId: true });
           // console.log("성공!");
           // console.log(form);
         }
       } catch (e) {
-        alert("누군가가 사용중인 아이디입니다!😅");
+        alert('누군가가 사용중인 아이디입니다!😅');
         setForm({ ...form, EnableuserId: false });
         // console.log(e);
         // console.log(form);
       }
     } else if (idlength === 0) {
-      alert("빈 값을 입력하셨습니다😅");
-      console.log("blank");
+      alert('빈 값을 입력하셨습니다😅');
+      console.log('blank');
     } else {
-      alert("5~20자로 입력해주세요!");
+      alert('5~20자로 입력해주세요!');
     }
   };
   const onCheckNickname = async (event) => {
@@ -118,32 +117,32 @@ const AuthForm = ({
     if (form.userNickname.trim()) {
       try {
         const response = await axios({
-          url: "http://i6a504.p.ssafy.io:3030/user/check/nickname",
-          method: "post",
+          url: 'http://i6a504.p.ssafy.io:3030/user/check/nickname',
+          method: 'post',
           params: { userNickname: form.userNickname },
         });
         console.log(response);
-        if (response.data == "success") {
+        if (response.data == 'success') {
           setForm({ ...form, EnableuserNickname: true });
-          alert("사용 가능한 닉네임입니다!😀");
-          console.log("성공!");
+          alert('사용 가능한 닉네임입니다!😀');
+          console.log('성공!');
         }
       } catch (e) {
         setForm({ ...form, EnableuserNickname: false });
-        alert("누군가가 사용중인 닉네임입니다!😅");
+        alert('누군가가 사용중인 닉네임입니다!😅');
         console.log(e);
       }
     } else {
-      alert("빈 값을 입력하셨습니다😅");
-      console.log("blank");
+      alert('빈 값을 입력하셨습니다😅');
+      console.log('blank');
     }
   };
   const text = textMap[type];
   return (
     <AuthFormBlock>
       <h2>
-        <span style={{ color: "#EA5455" }}>베</span>리어{" "}
-        <span style={{ color: "#EA5455" }}>프</span>리에 오신 것을 환영합니다!
+        <span style={{ color: '#EA5455' }}>베</span>리어{' '}
+        <span style={{ color: '#EA5455' }}>프</span>리에 오신 것을 환영합니다!
       </h2>
       <h4>|필수사항|</h4>
       <form onSubmit={onSubmit}>
@@ -154,13 +153,13 @@ const AuthForm = ({
             onChange={onChange}
             value={form.userId}
           />
-          {type === "register" && (
+          {type === 'register' && (
             <Button type="button" onClick={onCheckId}>
               중복 확인
             </Button>
           )}
         </div>
-        {type === "register" && (
+        {type === 'register' && (
           <StyledInput
             name="userEmail"
             placeholder="이메일을 입력하세요"
@@ -177,7 +176,7 @@ const AuthForm = ({
           onChange={onChange}
           // value={form.userPwd}
         />
-        {type === "register" && (
+        {type === 'register' && (
           <StyledInput
             name="userPwdCfm"
             type="password"
@@ -187,21 +186,21 @@ const AuthForm = ({
           />
         )}
         {pwdCfm === false && (
-          <p style={{ color: "red" }}>비밀번호를 확인해주세요</p>
+          <p style={{ color: 'red' }}>비밀번호를 확인해주세요</p>
         )}
-        {type === "register" && (
+        {type === 'register' && (
           <StyledInput
             name="userNickname"
             placeholder="닉네임을 입력하세요"
             onChange={onChange}
           />
         )}
-        {type === "register" && (
+        {type === 'register' && (
           <Button type="button" onClick={onCheckNickname}>
             중복 확인
           </Button>
         )}
-        {type === "register" && (
+        {type === 'register' && (
           <AuthBarrierIconBlock>
             <div align="center" className="barriericon">
               <img
@@ -268,25 +267,25 @@ const AuthForm = ({
           </AuthBarrierIconBlock>
         )}
         {loading === true && <h4>회원가입이 진행중입니다</h4>}
-        {type === "register" && (
+        {type === 'register' && (
           <ButtonWithMarginTop type="submit" cyan fullWidth>
             회원가입
           </ButtonWithMarginTop>
         )}
-        {type === "login" && (
-          <ButtonWithMarginTop type="button" cyan fullWidth onClick={onLogin}>
+        {type === 'login' && (
+          <ButtonWithMarginTop type="submit" cyan fullWidth>
             로그인
           </ButtonWithMarginTop>
         )}
-        {type === "registerkakao" && (
-          <Button kakao fullWidth style={{ marginTop: "1.5rem" }} type="submit">
+        {type === 'registerkakao' && (
+          <Button kakao fullWidth style={{ marginTop: '1.5rem' }} type="submit">
             kakao로 회원가입
           </Button>
         )}
       </form>
-      {type === "register" && (
+      {type === 'register' && (
         <Link to="/registerpage/kakao">
-          <Button kakao fullWidth style={{ marginTop: "0.5rem" }}>
+          <Button kakao fullWidth style={{ marginTop: '0.5rem' }}>
             kakao로 회원가입
           </Button>
         </Link>
