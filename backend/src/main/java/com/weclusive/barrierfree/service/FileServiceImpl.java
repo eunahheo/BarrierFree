@@ -16,7 +16,7 @@ public class FileServiceImpl implements FileService {
 		MultipartFile mFile = pic;
 
 		// 업로드 할 사진 최상위 폴더
-		String filePath = "/home/ubuntu/photo/";
+		String filePath = "~/home/ubuntu/photo/";
 		filePath = filePath.replace("/", File.separator);
 		
 		// 경로 설정 + 날짜로 세부 디렉토리
