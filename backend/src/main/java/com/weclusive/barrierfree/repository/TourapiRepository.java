@@ -12,6 +12,7 @@ import com.weclusive.barrierfree.entity.Tourapi;
 @Repository
 public interface TourapiRepository extends JpaRepository<Tourapi, Long> {
 	// 해당 컨텐츠id에 대한 상세정보 반환
+//	@Query("select t from Tourapi t inner join TourapiImpairment ti on t.contentId = ti.contentId where delYn = ?1 and contentId = ?2")
 	public Tourapi findByDelYnAndContentId(char delYn, long contentid);
 
 	// 전체 검색 결과
