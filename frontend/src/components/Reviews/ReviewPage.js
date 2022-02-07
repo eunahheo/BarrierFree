@@ -71,13 +71,8 @@ const ReviewPage = () => {
   }, []);
 
   return (
-<<<<<<< HEAD
-    <div>
-      <h1>Review in here:: reviewpage</h1>
-=======
     <div class="box">
       <h1>Review in here</h1>
->>>>>>> feat/fe-78-search_page
       <Button order onClick={orderbylatest}>
         최신순
       </Button>

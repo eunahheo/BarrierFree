@@ -2,8 +2,4 @@
   "compilerOptions": {
     "target": "es6"
   }
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> feat/fe-78-search_page
