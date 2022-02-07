@@ -2,10 +2,10 @@ import axios from 'axios';
 import { createAction } from 'redux-actions';
 import { takeLatest, call } from 'redux-saga/effects';
 import * as authAPI from '../lib/api/auth';
-import { LOGIN_USER, USER_INFO } from './types';
+// import { LOGIN_USER, USER_INFO, LOGOUT } from './types';
 
-// export const LOGIN_USER = 'user/LOGIN_USER';
-// export const USER_INFO = 'user/USER_INFO';
+export const LOGIN_USER = 'user/LOGIN_USER';
+export const USER_INFO = 'user/USER_INFO';
 export const LOGOUT = 'user/LOGOUT';
 
 export const loginUser = (dataTosubmit) => {

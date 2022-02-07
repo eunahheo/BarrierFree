@@ -27,7 +27,7 @@ const LoginForm = () => {
       try {
         await axios({
           url: '/user/login/',
-          method: 'post',
+          method: 'get',
           headers: {
             'Content-Type': 'application/json',
             'Access-Control-Allow-Credentials': true,
