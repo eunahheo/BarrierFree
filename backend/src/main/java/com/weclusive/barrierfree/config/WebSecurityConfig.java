@@ -33,7 +33,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	// 비밀번호 암호화
 	// BCryptPasswordEncoder
 	// : BCrypt라는 해시 함수를 이용하여 패스워드를 암호화하는 구현체
-
 	@Bean
 	public PasswordEncoder getPasswordEncoder() {
 		return new BCryptPasswordEncoder();
@@ -52,12 +51,21 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.csrf().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // jwt 인증, 세션 사용 안 함
+		http.csrf().disable().cors().and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // jwt 인증, 세션 사용 안 함
 				.and().authorizeRequests()
-				.mvcMatchers("/v2/**", "/configuration/**", "/swagger*/**", "/webjars/**", "/swagger-resources/**")
-				.permitAll() // spring security랑 swagger 함께 사용하기
-				.antMatchers("/user/info", "/user/modify", "/user/withdraw").authenticated()
-				.anyRequest().permitAll() // 그 외에는 모두 인증을 거치지 않아도 됨
+				.mvcMatchers("/v2/**", "/configuration/**", "/swagger*/**", "/webjars/**", "/swagger-resources/**") // spring security랑 swagger 함께 사용하기
+				.permitAll() 
+				.antMatchers("/user/login", "/user/login/kakao")
+				.permitAll()
+				.antMatchers("/user/join", "/user/join/kakao")
+				.permitAll()
+				.antMatchers("/user/email/certified","/user/check/id", "/user/check/nickname")
+				.permitAll()
+				.antMatchers("/user/find/id", "/user/find/password")
+				.permitAll()
+				.antMatchers("/main/**")
+				.permitAll() // 그 외에는 모두 인증을 거치지 않아도 됨
+				.anyRequest().authenticated()
 				.and().exceptionHandling().and().sessionManagement()
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
