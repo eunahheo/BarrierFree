@@ -86,7 +86,7 @@ const ReviewPage = () => {
         베프만
       </Button>
       {/* <BasicCardList itemList={myitemList}></BasicCardList> */}
-      {/* <ReviewCardList itemList={myitemList}></ReviewCardList> */}
+      <ReviewCardList itemList={myitemList}></ReviewCardList>
     </div>
   );
 };

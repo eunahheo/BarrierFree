@@ -9,7 +9,6 @@ export const USER_INFO = 'user/USER_INFO';
 export const LOGOUT = 'user/LOGOUT';
 
 export const loginUser = (dataTosubmit) => {
-  // console.log(dataTosubmit);
   const request = axios({
     method: 'POST',
     url: ' http://i6a504.p.ssafy.io:3030/user/login',
@@ -40,13 +39,7 @@ export function userInfo() {
 }
 
 export const logout = createAction(LOGOUT);
-// export const logout = () => {
-//   localStorage.removeItem('persist:root');
-//   return {
-//     type: LOGOUT,
-//     payload: { userData: null },
-//   };
-// };
+
 export function* userSaga() {
   function* logoutSaga() {
     try {
