@@ -8,9 +8,9 @@ const ReviewCardList = ({ itemList }) => {
     <div className="ReviewCardList">
       <div>
         <ImageList cols={4}>
-          {itemList.map(item => (
+          {/* {itemList.map(item => (
             <ReviewCard item={item} key={item.post_seq} />
-          ))}
+          ))} */}
         </ImageList>
       </div>
     </div>
