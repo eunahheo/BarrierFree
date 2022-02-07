@@ -1,9 +1,6 @@
 package com.weclusive.barrierfree.dto;
 
 import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -27,8 +24,8 @@ public class PostSave {
 	@Column(name="post_photo")
 	private String postPhoto;
 	
-//	@Column(name="post_photo_alt")
-//	String postPhotoAlt;  // 사진 정보에 대한 설명
+	@Column(name="post_alt")
+	private String postAlt = null;  // 사진 정보에 대한 설명
 	
 	@Column(name="post_location")
 	private String postLocation;

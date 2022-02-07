@@ -41,7 +41,7 @@ public class PostController {
 
 	@Autowired
 	private UserService userService;
-	
+
 	@GetMapping("/detail")
 	@ApiOperation(value = "게시글 상세 보기", notes = "게시글 정보, 장애 정보를 반환한다.", response = List.class)
 	public ResponseEntity<Object> detailPost(@RequestParam long postSeq) {
@@ -58,7 +58,7 @@ public class PostController {
 	public ResponseEntity<Object> deletePost(@RequestParam long postSeq, @RequestParam int userSeq) throws Exception {
 		Optional<Post> result = postService.deleteByPostSeq(postSeq, userSeq);
 
-		if(result == null)
+		if (result == null)
 			return new ResponseEntity<>(FAIL + " : 해당 게시글이 존재하지 않습니다.", HttpStatus.BAD_REQUEST);
 		else
 			return new ResponseEntity<>(SUCCESS, HttpStatus.OK);
@@ -66,7 +66,8 @@ public class PostController {
 
 	@PutMapping(value = "/update")
 	@ApiOperation(value = "게시글 수정하기", response = List.class)
-	public ResponseEntity<String> updatePost(@RequestParam long postSeq, @RequestParam int userSeq, @RequestBody PostUpdate pu) throws Exception {
+	public ResponseEntity<String> updatePost(@RequestParam long postSeq, @RequestParam int userSeq,
+			@RequestBody PostUpdate pu) throws Exception {
 		int res = postService.updateByPostSeq(postSeq, pu, userSeq);
 
 		if (res == 1)
@@ -77,7 +78,8 @@ public class PostController {
 
 	@PutMapping(value = "/updateImpairment")
 	@ApiOperation(value = "게시글 장애 정보 수정하기", response = List.class)
-	public ResponseEntity<String> updatePostImpairment(@RequestParam long postSeq, @RequestParam int userSeq, @RequestBody Impairment impairment) {
+	public ResponseEntity<String> updatePostImpairment(@RequestParam long postSeq, @RequestParam int userSeq,
+			@RequestBody Impairment impairment) {
 		int res = postService.updatePostImpairmentByPostSeq(postSeq, impairment, userSeq);
 
 		if (res == 1)
@@ -100,7 +102,7 @@ public class PostController {
 
 	@GetMapping(value = "/loadUserImpairment")
 	@ApiOperation(value = "회원 장애 정보 불러오기", notes = "게시글 작성할 때 회원의 장애 정보 값을 디폴트로 설정하기 위해 사용한다.")
-	public ResponseEntity<Object> loadUserImpairment(int userSeq) {
+	public ResponseEntity<Object> loadUserImpairment(@RequestParam int userSeq) {
 
 		Impairment ui = userService.readUserImpairment(userSeq);
 		if (ui != null) {
@@ -110,5 +112,18 @@ public class PostController {
 		}
 
 	}
-}
 
+	@GetMapping(value = "/searchLocation")
+	@ApiOperation(value = "장소 DB에 있는지 확인하기", notes = "게시글 작성할 때 추천 게시글에 있는 장소인지를 판별하기 위해 사용한다.")
+	public ResponseEntity<Object> findLocation(@RequestParam String postLocation) {
+
+		List<Map<String, Object>> locations = postService.findLocation(postLocation);
+		if (locations != null) {
+			return new ResponseEntity<Object>(locations, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(FAIL, HttpStatus.BAD_REQUEST);
+		}
+
+	}
+
+}
