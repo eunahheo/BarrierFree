@@ -1,5 +1,6 @@
 package com.weclusive.barrierfree.service;
 
+<<<<<<< HEAD
 import java.util.List;
 import java.util.Map;
 

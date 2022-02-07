@@ -13,4 +13,5 @@ public interface SearchService {
 
 	public List<Map<String, Object>> searchUser(int userSeq, String keyword, int page, int size);
 
+
 }

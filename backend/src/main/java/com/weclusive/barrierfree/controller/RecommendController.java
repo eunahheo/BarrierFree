@@ -79,9 +79,6 @@ public class RecommendController {
 		List<Map<String, Object>> result = new ArrayList<>();
 		try {
 			result = recommendService.getSigungu(sidoCode);
-		} catch(ClassCastException e) {
-			e.printStackTrace();
-			return new ResponseEntity<>(result, HttpStatus.OK);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity<>("오류가 발생했습니다.", HttpStatus.BAD_REQUEST);
