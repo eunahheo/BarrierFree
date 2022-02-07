@@ -1,15 +1,10 @@
 package com.weclusive.barrierfree.entity;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -81,10 +76,6 @@ public class Tourapi {
 
 	@Column(name = "mod_id")
 	private String modId;
-
-	@OneToMany
-	@JoinColumn(name = "content_id")
-	private List<TourapiImpairment> tourapiImpairment = new ArrayList<>();
 	
 	@Builder
 	public Tourapi(long contentId, String tourapiContentTypeId, String tourapiTitle, String sidoCode,

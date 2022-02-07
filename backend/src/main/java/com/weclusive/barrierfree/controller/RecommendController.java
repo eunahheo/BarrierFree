@@ -75,7 +75,7 @@ public class RecommendController {
 	
 	@GetMapping("/sigungu")
 	@ApiOperation(value="시구군 정보 조회", notes="시도의 코드를 활용해 시구군 명, 컬럼번호를 조회한다.")
-	public ResponseEntity<Object> getSigungu(String sidoCode) {
+	public ResponseEntity<Object> getSigungu(@RequestParam @ApiParam(value="시도 코드") String sidoCode) {
 		List<Map<String, Object>> result = new ArrayList<>();
 		try {
 			result = recommendService.getSigungu(sidoCode);
@@ -88,12 +88,13 @@ public class RecommendController {
 	
 	@GetMapping("/search")
 	@ApiOperation(value="관광공사 API 검색", notes="선택한 지역과 무장애 정보에 맞는 검색 결과를 반환한다.")
-	public ResponseEntity<Object> getSearchList(@RequestParam int userSeq, @RequestParam(value="시도코드", required=false) String sidoCode, 
-			@RequestParam(value="시군구코드", required=false) String sigunguCode,
-			@RequestParam(value="컨텐츠타입id", required=false) String contentTypeId,
-			@RequestParam(value="장애정보 객체", required=false) JSONObject impairments,
-			@RequestParam(value="페이지 번호(0번부터 시작)", required=false) int page,
-			@RequestParam(value="한 페이지에 출력할 게시물 수", required=false) int size) {
+	public ResponseEntity<Object> getSearchList(@RequestParam @ApiParam(value="현재 로그인중인 사용자의 userSeq") int userSeq, 
+			@RequestParam(value="sidoCode", required=false) @ApiParam(value="시도코드") String sidoCode, 
+			@RequestParam(value="sigunguCode", required=false) @ApiParam(value="시군구코드") String sigunguCode,
+			@RequestParam(value="contentTypeId", required=false) @ApiParam(value="관광 명소 : 12 / 음식점 : 39 / 숙박 : 32 / 행사 : 15 / 쇼핑 : 38 / 문화시설 : 14 / 레포츠 : 28, 입력안하면 전체") String contentTypeId,
+			@RequestParam(value="impairments", required=false) @ApiParam(value="무장애코드 : physical / visibility / deaf / infant / senior")List<String> impairments,
+			@RequestParam(value="page", required=false) @ApiParam(value="페이지 번호 (0번부터 시작)")int page,
+			@RequestParam(value="size", required=false) @ApiParam(value="한 페이지에 보여줄 게시글 수")int size) {
 		List<Map<String,Object>> result;
 		try {
 			result = recommendService.search(userSeq, sidoCode, sigunguCode, contentTypeId, impairments, page, size);
@@ -110,13 +111,16 @@ public class RecommendController {
 	
 	@GetMapping("/myloc")
 	@ApiOperation(value="내 주변 관광지 관광공사 API 검색", notes="현재 위도 경도 주변의 무장애 관광기 검색 결과를 반환한다.")
-	public ResponseEntity<Object> getSearchListByLoc(@RequestParam int userSeq, @RequestParam String lat, @RequestParam String lng, @RequestParam String radius,
-			@RequestParam(value="contentTypeId", required=false) String contentTypeId,
-			@RequestParam(value="한 페이지에 출력할 게시물 수", required=false) int numOfRows,
-			@RequestParam(value="페이지 번호", required=false) int pageNo) {
+	public ResponseEntity<Object> getSearchListByLoc(@RequestParam @ApiParam(value="현재 로그인중인 사용자의 userSeq") int userSeq, 
+			@RequestParam @ApiParam(value="위도") String lat, 
+			@RequestParam @ApiParam(value="경도") String lng, 
+			@RequestParam @ApiParam(value="반경(m), 최대 20000") String radius,
+			@RequestParam(value="contentTypeId", required=false) @ApiParam(value="관광 명소 : 12 / 음식점 : 39 / 숙박 : 32 / 행사 : 15 / 쇼핑 : 38 / 문화시설 : 14 / 레포츠 : 28, 입력안하면 전체")String contentTypeId,
+			@RequestParam(value="page") @ApiParam(value="페이지 번호 (1번부터 시작)") int page,
+			@RequestParam(value="size") @ApiParam(value="한 페이지에 보여줄 게시글 수") int size) {
 		List<Map<String,Object>> result;
 		try {
-			result = recommendService.getNearMyLocation(userSeq, lat, lng, radius, contentTypeId, numOfRows, pageNo);
+			result = recommendService.getNearMyLocation(userSeq, lat, lng, radius, contentTypeId, page, size);
 		} catch(ClassCastException e) {
 			e.printStackTrace();
 			return new ResponseEntity<>("검색결과가 없습니다.", HttpStatus.OK);
