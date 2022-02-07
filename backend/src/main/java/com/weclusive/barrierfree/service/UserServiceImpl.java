@@ -27,7 +27,6 @@ import com.weclusive.barrierfree.dto.Impairment;
 import com.weclusive.barrierfree.dto.UserJoin;
 import com.weclusive.barrierfree.dto.UserJoinKakao;
 import com.weclusive.barrierfree.dto.UserLoginDto;
-import com.weclusive.barrierfree.entity.Token;
 import com.weclusive.barrierfree.entity.User;
 import com.weclusive.barrierfree.entity.UserImpairment;
 import com.weclusive.barrierfree.repository.TokenRepository;
@@ -182,12 +181,13 @@ public class UserServiceImpl implements UserService {
 		return true;
 	}
 
-	// refresh token 생성 후 DB에 저장
-	@Override
-	public void createRefreshToken(User user) {
-		String ref_token = jwtUtil.generateRefreshToken((user.getUserId()));
-		tokenRepository.save(Token.builder().userSeq(user.getUserSeq()).tokenRefTK(ref_token).build());
-	}
+//	// refresh token 생성 후 DB에 저장
+//	@Override
+//	public String createRefreshToken(User user) {
+//		String ref_token = jwtUtil.generateRefreshToken((user.getUserId()));
+//		tokenRepository.save(Token.builder().userSeq(user.getUserSeq()).tokenRefTK(ref_token).build());
+//		return ref_token;
+//	}
 
 	// AccessToken 생성
 	@Override
@@ -212,7 +212,6 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public String getKakaoAccessToken(String code) throws Exception {
 		String access_Token = "";
-		String refresh_Token = "";
 		String reqURL = "https://kauth.kakao.com/oauth/token";
 
 		try {
@@ -227,8 +226,8 @@ public class UserServiceImpl implements UserService {
 			BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
 			StringBuilder sb = new StringBuilder();
 			sb.append("grant_type=authorization_code");
-			sb.append("&client_id=fa3c898eec92948b420f6f03b934acd1"); // TODO REST_API_KEY 입력
-			sb.append("&redirect_uri=http://localhost:8080/user/login/kakao"); // TODO 인가코드 받은 redirect_uri 입력
+			sb.append("&client_id=fa3c898eec92948b420f6f03b934acd1"); // REST_API_KEY 입력
+			sb.append("&redirect_uri=http://localhost:8080/user/login/kakao"); // 인가코드 받은 redirect_uri 입력
 			sb.append("&code=" + code);
 			bw.write(sb.toString());
 			bw.flush();
@@ -250,7 +249,6 @@ public class UserServiceImpl implements UserService {
 			JSONObject element = (JSONObject) parser.parse(result);
 
 			access_Token = element.get("access_token").toString();
-			refresh_Token = element.get("refresh_token").toString();
 
 			br.close();
 			bw.close();
@@ -444,5 +442,12 @@ public class UserServiceImpl implements UserService {
 			e.printStackTrace();
 			return false;
 		}
+	}
+
+	@Override
+	public void logoutUser(String accessToken) {
+		String userId = jwtUtil.extractUserId(accessToken);
+		int userSeq = userRepository.findByUserId(userId).getUserSeq();
+		tokenRepository.deleteByUserSeq(userSeq); // 해당 리프레시 토큰 삭제
 	}
 }

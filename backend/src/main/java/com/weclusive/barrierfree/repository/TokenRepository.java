@@ -10,5 +10,6 @@ public interface TokenRepository extends JpaRepository<Token, Long> {
 
 	Token findByUserSeq(int userSeq);
 
+	int deleteByUserSeq(int userSeq);
 
 }
