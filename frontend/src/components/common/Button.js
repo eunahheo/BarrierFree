@@ -11,7 +11,6 @@ const buttonStyle = css`
   // outline: none;
   cursor: pointer;
   color: white;
-
   background: ${palette.blue[0]};
   &:hover {
     background: white;

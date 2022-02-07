@@ -13,7 +13,11 @@ target/
 .sts4-cache
 .project
 bin/
+<<<<<<< HEAD
 
+=======
+**/application.properties
+>>>>>>> d2d84e74e25593418e2cb985e843ba652105099f
 ### IntelliJ IDEA ###
 .idea
 *.iws

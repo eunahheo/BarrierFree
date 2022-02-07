@@ -30,6 +30,7 @@ function User() {
   if (!isLoggedIn) {
     return <Navigate to="/loginpage" replace={true} />;
   }
+
   return (
     <div>
       <h1>user</h1>

@@ -7,14 +7,8 @@ import Editor from '../components/write/Editor';
 function About() {
   return (
     <div>
-      {/* <Header /> */}
-      {/* <Infomation></Infomation> */}
-<<<<<<< HEAD
+      <Login></Login>
       <TourInfomation></TourInfomation>
-      <Editor></Editor>
-=======
-      {/* <TourInfomation></TourInfomation> */}
->>>>>>> feat/fe-78-search_page
       <span>About weclusive</span>;
     </div>
   );

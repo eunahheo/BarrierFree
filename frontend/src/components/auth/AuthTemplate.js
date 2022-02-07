@@ -40,6 +40,7 @@ const AuthTemplate = ({ children }) => {
         </div>
         {/* <img src={bflogo} width="200" style={{ marginTop: "2rem" }}></img> */}
         {children}
+        {/* <img src={bflogo} width="200" style={{ marginTop: "2rem" }}></img> */}
       </WhiteBox>
     </AuthTemplateBlock>
   );

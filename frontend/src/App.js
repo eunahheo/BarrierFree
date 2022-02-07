@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import './App.css';
 import Recommend from './components/recommend/Recommend.js';
 import About from './routes/About';

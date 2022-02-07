@@ -49,7 +49,7 @@ const StyledInput = styled.input`
   border-bottom: 1px solid black;
   padding-bottom: 0.5rem;
   outline: none;
-  width: 70%;
+  width: 60%;
 
   &:focus {
     color: $oc-teal-7;
