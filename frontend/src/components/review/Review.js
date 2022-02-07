@@ -1,16 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import Button from "@mui/material/Button";
-import { Box, Container, Grid, Input } from "@material-ui/core";
 import Dogimg from "../common/images/강아지.jpg";
 import Rating from "@mui/material/Rating";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import InfoIcon from "@mui/icons-material/Info";
 import axios from "axios";
 import { useParams } from "react-router";
 import CommentItem from "./CommentItem.js";
-import "./Review.css";
+import "./ReviewTest.css";
 import { useDispatch, useSelector } from "react-redux";
 import { commentSave } from "../../_actions/comment_actions";
+import Header from "../common/Header";
 // import "styles.css";
 
 const Review = () => {
@@ -29,6 +28,7 @@ const Review = () => {
   const [comments, setComments] = useState([]);
   const [reviewTime, setReviewTime] = useState("");
   const [reviewImage, setReviewImage] = useState("");
+  const commentCnt = comments.length
 
   // 댓글 작성을 위한 const
 
@@ -72,67 +72,68 @@ const Review = () => {
     })
       .then((res) => {
         setComments(res.data);
+        
       })
       .catch("yes");
   };
 
 
-  // 댓글 작성
   const onSubmitHandler = (event) => {
     event.preventDefault();
-
-    let body = {
-      "cmtContent": newComment,
-      "postSeq": reviewNum,
-      "userSeq": myuser.userSeq
+    if (newComment) {
+      let body = {
+        "cmtContent": newComment,
+        "postSeq": reviewNum,
+        "userSeq": myuser.userSeq
+      }
+      dispatch(commentSave(body));
+    } else {
+      alert('댓글을 입력해주세요 😉')
     }
-
-    dispatch(commentSave(body))
+    getCommentList()
   }
-
   return (
     <div>
-      <Container maxWidth="md">
-        <Box border={1}>
-          <div>
-            <ArrowBackIcon></ArrowBackIcon>
-            <Button variant="contained">수정</Button>
-            <Button variant="contained">삭제</Button>
-          </div>
-          <hr></hr>
-          <Grid container spacing={1}>
-            <Grid item xs={4}>
-              <img src={reviewImage} sx={{ maxWidth: 250 }} />
-            </Grid>
-            <Grid item xs={8}>
-              <h4>{reviewDetail.postTitle}</h4>
-
+      <Header/>
+      <div class="review-box">
+        <div>
+          <div class="review">
+            <div class="review-img">
+              <img src={reviewImage} class="review-img-size" />
+            </div>
+            <div class="review-content">
+            <div class="button-top">
+              <button variant="contained" id="update">수정</button>
+              <button variant="contained" id="delete">삭제</button>
+            </div>
+              <h1>{reviewDetail.postTitle}</h1>
+              <p id="time">{reviewTime}</p>
               <Rating name="read-only" value={reviewPoint} readOnly></Rating>
-              <p>{reviewTime}</p>
               <p>{barriers}</p>
-              <p>{reviewDetail.postContent}</p>
-              <Grid container>
+              <p class="text-content">{reviewDetail.postContent}</p>
                 <InfoIcon></InfoIcon>
                 <span class="location-name">{reviewDetail.postLocation}</span>
-              </Grid>
-            </Grid>
-          </Grid>
-          <div>
+                <div class="comment-box">
             <form onSubmit={onSubmitHandler}>
-              <Input
+              <input
                 placeholder="댓글을 입력하세요"
                 onChange={onCommentHandler}
-              ></Input>
-              <Button onClick={onSubmitHandler} variant="contained">작성</Button>
+              ></input>
+              <button class="button"
+                onClick={onSubmitHandler} variant="contained">작성</button>
             </form>
+              <p class="comment">댓글보기({commentCnt})</p>
+              <hr class="hr-comment"></hr>
+              {commentCnt >= 1 ? <div class="comment-list">
+                {comments.map((comment) => (
+                  <CommentItem comment={comment} key={comment.cmtSeq}/>
+                  ))}
+              </div> : <p class="no-comment">아직 댓글이 없어요 😉</p>}
+              </div>
+            </div>
           </div>
-          <div>
-            {comments.map((comment) => (
-              <CommentItem comment={comment} key={comment.cmtSeq} />
-            ))}
-          </div>
-        </Box>
-      </Container>
+        </div>
+      </div>
     </div>
   );
 };

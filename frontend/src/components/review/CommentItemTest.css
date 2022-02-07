@@ -1,6 +1,6 @@
 .container {
   display: flex;
-  justify-content: center;
+  justify-content: start;
   /* margin-left: 5rem;
   margin-right: 5rem; */
   /* border: 1px solid; */
@@ -33,7 +33,7 @@
   /* border: 1px solid; */
   font-size: small;
   box-sizing: border-box;
-  width: 10%;
+  /* width: 10%; */
 }
 
 p {
@@ -41,5 +41,5 @@ p {
 }
 
 .comment-content {
-  width: 50%;
+  width: 100%;
 }

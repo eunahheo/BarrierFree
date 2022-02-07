@@ -6,6 +6,7 @@ import Button from "../common/Button";
 // import OrderBox from "./OrderBox";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import './ReviewPage.css'
 
 const ReviewPage = () => {
   // const [ordertype, setOrdertype] = useState("");
@@ -73,7 +74,7 @@ const ReviewPage = () => {
   }, []);
 
   return (
-    <div>
+    <div class="box">
       <h1>Review in here</h1>
       <Button order onClick={orderbylatest}>
         최신순

@@ -8,7 +8,7 @@ function About() {
     <div>
       <Header />
       {/* <Infomation></Infomation> */}
-      <TourInfomation></TourInfomation>
+      {/* <TourInfomation></TourInfomation> */}
       <span>About weclusive</span>;
     </div>
   );
