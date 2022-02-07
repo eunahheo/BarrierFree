@@ -266,7 +266,7 @@ const AuthForm = ({
             </div>
           </AuthBarrierIconBlock>
         )}
-        {loading === true && <h4>회원가입이 진행중입니다</h4>}
+        {loading === true && <h4>회원가입이 진행중입니다 꺄악</h4>}
         {type === 'register' && (
           <ButtonWithMarginTop type="submit" cyan fullWidth>
             회원가입
