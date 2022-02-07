@@ -26,12 +26,15 @@ public class TestController {
 	
 	@GetMapping("/test")
 	@ApiOperation(value = "댓글 보기", notes = "댓글 정보를 반환한다.", response = List.class)
-	public ResponseEntity<Object> test() {
+	public ResponseEntity<Object> test(String contentid) {
 		
-		ArrayList<String> list = ti.loadAllContentId();
-		for(String contentid : list) {
-			ti.loadByContentId(contentid);
-		}
+//		ArrayList<String> list = ti.loadAllContentId();
+//		for(String contentid : list) {
+//			ti.loadByContentId(contentid);
+//		}
+		
+		ti.loadByContentId(contentid);
+		
 		return null;
 	}
 }

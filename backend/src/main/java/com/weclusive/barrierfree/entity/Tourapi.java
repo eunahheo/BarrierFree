@@ -1,5 +1,6 @@
 package com.weclusive.barrierfree.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -81,9 +82,9 @@ public class Tourapi {
 	@Column(name = "mod_id")
 	private String modId;
 
-//	@OneToMany
-//	@JoinColumn(name = "content_id")
-//	private List<TourapiImpairment> tourapiImpairment;
+	@OneToMany
+	@JoinColumn(name = "content_id")
+	private List<TourapiImpairment> tourapiImpairment = new ArrayList<>();
 	
 	@Builder
 	public Tourapi(long contentId, String tourapiContentTypeId, String tourapiTitle, String sidoCode,

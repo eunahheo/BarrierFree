@@ -29,8 +29,8 @@ public class TestServiceImpl implements TestService {
 		ArrayList<String> result = new ArrayList<>();
 		try {
 			String urlstr = "http://api.visitkorea.or.kr/openapi/service/rest/KorWithService/areaBasedList"
-					+ "?ServiceKey=JQ0dr75fofUBYyMcnAMiT5lY7W5N4BOl%2FazS3t%2BSyM1ypfNKYZcOsBbLG1AEeVs48N6KfarxqeC1D09kVX3G6Q%3D%3D"
-					+ "&numOfRows=4764&pageNo=2&MobileOS=ETC&MobileApp=barrierfree&_type=json";
+					+ "?ServiceKey=90E0OY5f9CUd%2BGSJfMuFpPnny5XZ9Ks6RYqd0gV0LqOFeSC9A4B6VVnxmxDSUdtWx7auKWg2ALhbInFELnK8yQ%3D%3D"
+					+ "&numOfRows=6761&pageNo=2&MobileOS=ETC&MobileApp=barrierfree&_type=json";
 
 			URL url = new URL(urlstr);
 			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -70,7 +70,7 @@ public class TestServiceImpl implements TestService {
 		StringBuilder sb = new StringBuilder();
 		try {
 			String urlstr = "http://api.visitkorea.or.kr/openapi/service/rest/KorWithService/detailWithTour"
-					+ "?ServiceKey=JQ0dr75fofUBYyMcnAMiT5lY7W5N4BOl%2FazS3t%2BSyM1ypfNKYZcOsBbLG1AEeVs48N6KfarxqeC1D09kVX3G6Q%3D%3D"
+					+ "?ServiceKey=90E0OY5f9CUd%2BGSJfMuFpPnny5XZ9Ks6RYqd0gV0LqOFeSC9A4B6VVnxmxDSUdtWx7auKWg2ALhbInFELnK8yQ%3D%3D"
 					+ "&contentId=" + contentid + "&MobileOS=ETC&MobileApp=barrierfree&_type=json";
 
 			URL url = new URL(urlstr);
