@@ -36,7 +36,7 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 	public Optional<Post> findByPostSeq(long postSeq);
 
 	// 해당 컨텐츠id에 대한 게시글 20개 반환
-	public List<Post> findTop20ByDelYnAndContentIdOrderByPostScrapDesc(char delYn, String contentId);
+	public List<Post> findTop20ByDelYnAndContentIdOrderByPostScrapDesc(char delYn, long contentId);
 
 	// 회원의 게시글 수 반환
 	@Query(value = "SELECT COUNT(p) FROM Post p WHERE p.delYn = 'n' AND p.userSeq = ?1")
