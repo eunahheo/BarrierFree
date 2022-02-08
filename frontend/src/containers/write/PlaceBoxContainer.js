@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import PlaceBox from '../../../components/write/PlaceBox';
-import { changeField, writePost } from '../../../_actions/write_actions';
+import PlaceBox from '../../components/write/PlaceBox';
+import { changeField, writePost } from '../../_actions/write_actions';
 
 const PlaceBoxContainer = () => {
   const dispatch = useDispatch();

@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import WriteButtons from '../../../components/write/WriteButtons';
-import { writePost } from '../../../_actions/write_actions';
+import WriteButtons from '../../components/write/WriteButtons';
+import { writePost } from '../../_actions/write_actions';
 
 const WriteButtonsContainer = () => {
   const navigate = useNavigate();

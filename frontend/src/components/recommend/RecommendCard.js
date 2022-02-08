@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import { Card, CardMedia, CardContent, Typography } from "@mui/material";
-import RecommendBarrierIcon from "./RecommendBarrierIcon";
-import axios from "axios";
-import Review from "../review/Review";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useState } from 'react';
+import { Card, CardMedia, CardContent, Typography } from '@mui/material';
+import RecommendBarrierIcon from './RecommendBarrierIcon';
+import axios from 'axios';
+import Review from '../review/Review';
+import { Link, useNavigate } from 'react-router-dom';
 
 const RecommendCard = ({ item }) => {
   const navigate = useNavigate();
@@ -16,9 +16,9 @@ const RecommendCard = ({ item }) => {
   const onClickCard = () => {
     // console.log(e)
     axios({
-      method: "GET",
-      url: "recommend/detail",
-      params: { contentid: contentid  },
+      method: 'GET',
+      url: 'recommend/detail',
+      params: { contentid: contentid },
     }).then(function (res) {
       navigate(`/recommend/detail/${contentid}`);
     });

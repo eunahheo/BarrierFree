@@ -7,10 +7,7 @@ const HeaderContainer = () => {
   const dispatch = useDispatch();
   const onLogout = () => {
     dispatch(logout());
-    // localStorage.removeItem('persist:root');
   };
-  // const { user } = useSelector(({ user }) => ({ user: user.user }));
-  // console.log(user);
   return <Header user={user} onLogout={onLogout} />;
 };
 
