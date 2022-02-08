@@ -9,7 +9,6 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,10 +23,7 @@ import com.weclusive.barrierfree.dto.UserFind;
 import com.weclusive.barrierfree.dto.UserJoin;
 import com.weclusive.barrierfree.dto.UserJoinKakao;
 import com.weclusive.barrierfree.dto.UserLoginDto;
-import com.weclusive.barrierfree.entity.Token;
 import com.weclusive.barrierfree.entity.User;
-import com.weclusive.barrierfree.repository.TokenRepository;
-import com.weclusive.barrierfree.service.CustomUserDetailsService;
 import com.weclusive.barrierfree.service.UserService;
 import com.weclusive.barrierfree.util.JwtUtil;
 import com.weclusive.barrierfree.util.StringUtils;
@@ -51,12 +47,6 @@ public class UserController {
 	@Autowired
 	private JwtUtil jwtUtil;
 
-	@Autowired
-	private TokenRepository tokenRepository;
-
-	@Autowired
-	private CustomUserDetailsService service;
-
 	@PostMapping("/join")
 	@ApiOperation(value = "회원가입", notes = "사용자가 입력한 회원정보를 등록한다.")
 	public ResponseEntity<String> join(@RequestBody UserJoin userJoin) {
@@ -72,10 +62,9 @@ public class UserController {
 
 	@PostMapping("/join/kakao")
 	@ApiOperation(value = "Kakao 회원가입", notes = "사용자가 입력한 회원정보를 등록한다.")
-	public ResponseEntity<String> kakaoJoin(@RequestBody UserJoinKakao user, @RequestHeader String kakaoToken) {
+	public ResponseEntity<String> kakaoJoin(@RequestBody UserJoinKakao user, @RequestHeader @ApiParam(value = "kakao 로그인 시 받은 accessToken") String kakaoToken) {
 		// userId, userNickname, 불편사항
 		// kakao 최초 로그인 시 받은 kakao access token
-
 		try {
 			String userEmail = userService.getKakaoEmail(kakaoToken);
 			userService.registKakaoUser(user, userEmail); // 회원 등록 - 아이디, 닉네임, 장애정보
@@ -83,6 +72,7 @@ public class UserController {
 			e.printStackTrace();
 			return new ResponseEntity<String>(FAIL, HttpStatus.BAD_REQUEST);
 		}
+		
 		return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 	}
 
@@ -93,7 +83,7 @@ public class UserController {
 		User kakaoUser = null;
 		try {
 			String kakaoToken = userService.getKakaoAccessToken(code);
-			
+
 			String userEmail = userService.getKakaoEmail(kakaoToken);
 			kakaoUser = userService.findByUserEmail(userEmail);
 
@@ -108,14 +98,7 @@ public class UserController {
 		}
 
 		// 최초 로그인이 아니면
-		User user = (User) userService.findByUserId(kakaoUser.getUserId());
-		Token refToken = tokenRepository.findByUserSeq(user.getUserSeq());
-
-		UserDetails userDetails = service.loadUserByUsername(user.getUserId());
-		if (refToken == null || !jwtUtil.validateToken(refToken.getTokenRefTK(), userDetails)) { // refreshToken이  유효하지 않다면
-			userService.createRefreshToken(user);
-		} // db에 저장하기
-
+		User user = userService.findByUserId(kakaoUser.getUserId());
 		resultMap.put("accessToken", userService.createAccessToken(user));
 		resultMap.put("message", SUCCESS);
 		HttpStatus status = HttpStatus.ACCEPTED;
@@ -150,12 +133,7 @@ public class UserController {
 				resultMap.put("message", "사용자 비밀번호 불일치");
 				return new ResponseEntity<Map<String, Object>>(resultMap, status);
 			} else {
-				User user = (User) userService.findByUserId(loginUser.getUserId());
-				Token refToken = tokenRepository.findByUserSeq(user.getUserSeq());
-				UserDetails userDetails = service.loadUserByUsername(user.getUserId());
-				if (refToken == null || !jwtUtil.validateToken(refToken.getTokenRefTK(), userDetails)) { // refreshToken이 유효하지 않다면
-					userService.createRefreshToken(user);
-				}
+				User user = userService.findByUserId(loginUser.getUserId());
 				resultMap.put("accessToken", userService.createAccessToken(user));
 				resultMap.put("message", SUCCESS);
 				status = HttpStatus.ACCEPTED;
@@ -165,6 +143,16 @@ public class UserController {
 		}
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
+
+//	@PostMapping("/logout")
+//	@ApiOperation(value = "로그아웃", notes = "사용자 로그아웃")
+//	public ResponseEntity<Map<String, Object>> logout(@RequestHeader("Authorization") String accessToken) {
+//		Map<String, Object> resultMap = new HashMap<String, Object>();
+//		HttpStatus status = null;
+//		userService.logoutUser(accessToken);
+//
+//		return new ResponseEntity<Map<String, Object>>(resultMap, status);
+//	}
 
 	// 사용자 아이디 중복확인
 	@PostMapping("/check/id")
@@ -222,9 +210,9 @@ public class UserController {
 	public ResponseEntity<Map<String, Object>> getInfo(@RequestHeader("Authorization") String accessToken) {
 		Map<String, Object> userinfo = new HashMap<>();
 		HttpStatus status = HttpStatus.OK;
-		
+
 		try {
-			String userId = jwtUtil.extractUserId(accessToken.substring(7));  // access-token에서 userId 추출
+			String userId = jwtUtil.extractUserId(accessToken.substring(7)); // access-token에서 userId 추출
 			userinfo = userService.userInfo(userId);
 			userinfo.put("message", SUCCESS);
 
@@ -236,32 +224,34 @@ public class UserController {
 			return new ResponseEntity<Map<String, Object>>(userinfo, status);
 		}
 	}
-	
+
 	@PutMapping("/modify")
 	@ApiOperation(value = "사용자 정보 수정", notes = "사용자 정보를 수정한다. 수정에 성공하면 true가, 실패하면 fail, API 오류 발생시 FAIL이 반환된다.")
-	public ResponseEntity<Map<String, Object>> modifyInfo(@RequestHeader("Authorization") String accessToken, @ApiParam(value="userSeq 필수, 나머지 정보들은 선택사항")@RequestBody User user) {
+	public ResponseEntity<Map<String, Object>> modifyInfo(@RequestHeader("Authorization") String accessToken,
+			@ApiParam(value = "userSeq 필수, 나머지 정보들은 선택사항") @RequestBody User user) {
 		Map<String, Object> result = new HashMap<>();
 		try {
 			result.put("result", userService.modifyUser(user));
 			return new ResponseEntity<>(result, HttpStatus.OK);
 		} catch (Exception e) {
-			e.printStackTrace();	
+			e.printStackTrace();
 			result.put("result", FAIL);
-			return new ResponseEntity<Map<String, Object>>(result,  HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<Map<String, Object>>(result, HttpStatus.BAD_REQUEST);
 		}
 	}
-	
+
 	@PutMapping("/withdraw")
 	@ApiOperation(value = "사용자 탈퇴", notes = "사용자 정보의 delYn 컬럼을 'y'로 변경한다. 수정에 성공하면 true가, 실패하면 fail, API 오류 발생시 FAIL이 반환된다.")
-	public ResponseEntity<Map<String, Object>> withdrawUser(@RequestHeader("Authorization") String accessToken, @ApiParam(value="탈퇴처리할 사용자의  userSeq")@RequestParam int userSeq) {
+	public ResponseEntity<Map<String, Object>> withdrawUser(@RequestHeader("Authorization") String accessToken,
+			@ApiParam(value = "탈퇴처리할 사용자의  userSeq") @RequestParam int userSeq) {
 		Map<String, Object> result = new HashMap<>();
 		try {
 			result.put("result", userService.withdrawUser(userSeq));
 			return new ResponseEntity<>(result, HttpStatus.OK);
 		} catch (Exception e) {
-			e.printStackTrace();	
+			e.printStackTrace();
 			result.put("result", FAIL);
-			return new ResponseEntity<Map<String, Object>>(result,  HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<Map<String, Object>>(result, HttpStatus.BAD_REQUEST);
 		}
 	}
 }

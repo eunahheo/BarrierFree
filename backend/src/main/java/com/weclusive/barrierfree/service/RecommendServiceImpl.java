@@ -79,13 +79,11 @@ public class RecommendServiceImpl implements RecommendService {
 			result.put("zipcode", info.getTourapiZipcode());
 			result.put("scraptimes", scrapRepository.countByDelYnAndScrapTypeAndScrapData('n', '1', contentId));
 			char scrap_yn = 'n';
-			// 현재 사용자의 seq를 가져오는 api 필요
 			if (scrapRepository.countByDelYnAndScrapTypeAndUserSeqAndScrapData('n', '1', userSeq, contentId) > 0)
 				scrap_yn = 'y';
 			result.put("scrap_yn", scrap_yn);
 			result.put("posts",
 					postRepository.findTop20ByDelYnAndContentIdOrderByPostScrapDesc('n', Long.toString(contentId)));
-			result.put("a", info.getTourapiImpairment());
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new Exception();
@@ -121,7 +119,8 @@ public class RecommendServiceImpl implements RecommendService {
 
 			for (Sido sido : list) {
 				Map<String, Object> obj = new HashMap<>();
-				obj.put(sido.getSidoName(), sido.getSidoCode());
+				obj.put("name", sido.getSidoName());
+				obj.put("code", sido.getSidoCode());
 				result.add(obj);
 			}
 
@@ -141,7 +140,8 @@ public class RecommendServiceImpl implements RecommendService {
 
 			for (Sigungu sigungu : list) {
 				Map<String, Object> obj = new HashMap<>();
-				obj.put(sigungu.getSigunguName(), sigungu.getSigunguCode());
+				obj.put("name", sigungu.getSigunguName());
+				obj.put("code", sigungu.getSigunguCode());
 				result.add(obj);
 			}
 			System.out.println(result);
@@ -154,7 +154,7 @@ public class RecommendServiceImpl implements RecommendService {
 
 	@Override
 	public List<Map<String, Object>> search(int userSeq, String sidoCode, String sigunguCode, String contentTypeId,
-			JSONObject impairments, int page, int size) throws Exception {
+			List<String> impairments, int page, int size) throws Exception {
 		List<Map<String, Object>> result = new LinkedList<>();
 		PageRequest pageRequest = PageRequest.of(page, size);
 		Page<Tourapi> pageTours = null;
@@ -169,6 +169,7 @@ public class RecommendServiceImpl implements RecommendService {
 					else {
 						//무장애정보만 입력한 검색결과
 						System.out.println("무장애정보만 입력한 검색결과");
+						pageTours = tRepository.findByImpariments('n', impairments, pageRequest);
 					}
 				}
 				else {
@@ -180,6 +181,7 @@ public class RecommendServiceImpl implements RecommendService {
 					else {
 						//컨텐츠타입id와 무장애정보를 입력한 검색결과
 						System.out.println("컨텐츠타입id와 무장애정보를 입력한 검색결과");
+						pageTours = tRepository.findByTourapiContenttypeidAndImpariments('n', contentTypeId, impairments, pageRequest);
 					}
 				}
 			}
@@ -194,6 +196,7 @@ public class RecommendServiceImpl implements RecommendService {
 						else {
 							//시도와 무장애정보를 입력한 검색결과
 							System.out.println("시도와 무장애정보를 입력한 검색결과");
+							pageTours = tRepository.findBySidoCodeAndImpariments('n', sidoCode, impairments, pageRequest);
 						}
 					}
 					else {
@@ -205,6 +208,7 @@ public class RecommendServiceImpl implements RecommendService {
 						else {
 							//시도,컨텐츠타입id,무장애정보를 입력한 검색결과
 							System.out.println("시도,컨텐츠타입id,무장애정보를 입력한 검색결과");
+							pageTours = tRepository.findBySidoCodeAndTourapiContenttypeidAndImpariments('n', sidoCode, contentTypeId, impairments, pageRequest);
 						}
 					}
 				}
@@ -218,6 +222,7 @@ public class RecommendServiceImpl implements RecommendService {
 						else {
 							//시도,시군구,무장애정보를 입력한 검색결과
 							System.out.println("시도,시군구,무장애정보를 입력한 검색결과");
+							pageTours = tRepository.findBySidoCodeAndSigunguCodeAndImpairments('n', sidoCode, sigunguCode, impairments, pageRequest);
 						}
 					}
 					else {
@@ -229,6 +234,7 @@ public class RecommendServiceImpl implements RecommendService {
 						else {
 							//시도,시군구,컨텐츠타입id,무장애정보를 입력한 검색결과
 							System.out.println("시도,시군구,컨텐츠타입id,무장애정보를 입력한 검색결과");
+							pageTours = tRepository.findBySidoCodeAndSigunguCodeAndTourapiContenttypeidAndImpariments('n', sidoCode, sigunguCode, contentTypeId, impairments, pageRequest);
 						}
 					}
 				}
@@ -238,6 +244,14 @@ public class RecommendServiceImpl implements RecommendService {
 			for(Tourapi t : pageTours) {
 				Map<String, Object> obj = new HashMap<>();
 				obj.put("title", t.getTourapiTitle());
+				obj.put("addr1", t.getTourapiAddr1());
+				obj.put("contentid", t.getContentId());
+				obj.put("firstimage", t.getTourapiImage());
+				char scrap_yn = 'n';
+				// 현재 사용자의 seq를 가져오는 api 필요
+				if (scrapRepository.countByDelYnAndScrapTypeAndUserSeqAndScrapData('n', '1', userSeq, t.getContentId()) > 0)
+					scrap_yn = 'y';
+				obj.put("scrap_yn", scrap_yn);
 				result.add(obj);
 			}
 			
@@ -250,13 +264,13 @@ public class RecommendServiceImpl implements RecommendService {
 
 	@Override
 	public List<Map<String, Object>> getNearMyLocation(int userSeq, String lat, String lng, String radius,
-			String contentTypeId, int numOfRows, int pageNo) throws Exception {
+			String contentTypeId, int page, int size) throws Exception {
 		StringBuilder sb = new StringBuilder();
 		List<Map<String, Object>> result = new LinkedList<>();
 		try {
 			String urlstr = "http://api.visitkorea.or.kr/openapi/service/rest/KorWithService/locationBasedList"
 					+ "?ServiceKey=90E0OY5f9CUd%2BGSJfMuFpPnny5XZ9Ks6RYqd0gV0LqOFeSC9A4B6VVnxmxDSUdtWx7auKWg2ALhbInFELnK8yQ%3D%3D"
-					+ "&mapX=" + lng + "&mapY=" + lat + "&radius=" + radius;
+					+ "&numOfRows=" + size + "&pageNo=" + page + "&mapX=" + lng + "&mapY=" + lat + "&radius=" + radius;
 
 			if (contentTypeId != null)
 				urlstr += "&contentTypeId=" + contentTypeId;

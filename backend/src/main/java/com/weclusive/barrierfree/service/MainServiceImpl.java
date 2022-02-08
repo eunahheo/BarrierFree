@@ -35,34 +35,34 @@ public class MainServiceImpl implements MainService {
 		List<Map<String, Object>> result = new LinkedList<>();
 		postRepository.findAll().forEach(post -> {
 			Map<String, Object> obj = new HashMap<>();
-			obj.put("post_seq", post.getPostSeq());
-			obj.put("user_seq", post.getUserSeq());
-			obj.put("post_title", post.getPostTitle());
-			obj.put("post_content", post.getPostContent());
-			obj.put("post_scrap", post.getPostScrap());
-			obj.put("post_photo", post.getPostPhoto());
-//			obj.put("post_photo_alt", post.getPost_photo_alt());
-			obj.put("post_location", post.getPostLocation());
-			obj.put("post_address", post.getPostAddress());
-			obj.put("post_lat", post.getPostLat());
-			obj.put("post_lng", post.getPostLng());
-			obj.put("post_point", post.getPostPoint());
-			obj.put("content_id", post.getContentId());
-			obj.put("del_yn", post.getDelYn());
-			obj.put("reg_dt", post.getRegDt());
-			obj.put("reg_id", post.getRegId());
-			obj.put("mod_dt", post.getModDt());
-			obj.put("mod_id", post.getModId());
+			obj.put("postSeq", post.getPostSeq());
+			obj.put("UserSeq", post.getUserSeq());
+			obj.put("postTitle", post.getPostTitle());
+			obj.put("postContent", post.getPostContent());
+			obj.put("postScrap", post.getPostScrap());
+			obj.put("postPhoto", post.getPostPhoto());
+			obj.put("postAlt", post.getPostAlt());
+			obj.put("postLocation", post.getPostLocation());
+			obj.put("postAddress", post.getPostAddress());
+			obj.put("postLat", post.getPostLat());
+			obj.put("postLng", post.getPostLng());
+			obj.put("postPoint", post.getPostPoint());
+			obj.put("contentId", post.getContentId());
+			obj.put("delYn", post.getDelYn());
+			obj.put("regDt", post.getRegDt());
+			obj.put("regId", post.getRegId());
+			obj.put("modDt", post.getModDt());
+			obj.put("modId", post.getModId());
 //			List<PostImpairment> list = postImpairmentRepository.findByPostSeq(post.getpostSeq());
 			List<String> list = postImpairmentRepository.findImpairment(post.getPostSeq());
 			obj.put("impairment", list);
 
-			char scrap_yn = 'n';
+			char scrapYn = 'n';
 			// 현재 사용자의 seq를 가져오는 api 필요
 			if (scrapRepository.countByDelYnAndScrapTypeAndUserSeqAndScrapData('n', '0', userSeq,
 					post.getPostSeq()) > 0)
-				scrap_yn = 'y';
-			obj.put("scrap_yn", scrap_yn);
+				scrapYn = 'y';
+			obj.put("scrapYn", scrapYn);
 			result.add(obj);
 		});
 		return result;
@@ -73,24 +73,24 @@ public class MainServiceImpl implements MainService {
 		List<Map<String, Object>> result = new LinkedList<>();
 		postRepository.findTop100ByDelYnOrderByRegDtDesc('n').forEach(post -> {
 			Map<String, Object> obj = new HashMap<>();
-			obj.put("post_seq", post.getPostSeq());
-			obj.put("user_seq", post.getUserSeq());
-			obj.put("post_title", post.getPostTitle());
-			obj.put("post_content", post.getPostContent());
-			obj.put("post_scrap", post.getPostScrap());
-			obj.put("post_photo", post.getPostPhoto());
-//			obj.put("post_photo_alt", post.getPostPhotoAlt());
-			obj.put("post_location", post.getPostLocation());
+			obj.put("postSeq", post.getPostSeq());
+			obj.put("UserSeq", post.getUserSeq());
+			obj.put("postTitle", post.getPostTitle());
+			obj.put("postContent", post.getPostContent());
+			obj.put("postScrap", post.getPostScrap());
+			obj.put("postPhoto", post.getPostPhoto());
+			obj.put("postAlt", post.getPostAlt());
+			obj.put("postLocation", post.getPostLocation());
 			List<String> list = postImpairmentRepository.findImpairment(post.getPostSeq());
 			obj.put("impairment", list);
 
-			char scrap_yn = 'n';
+			char scrapYn = 'n';
 			// 현재 사용자의 seq를 가져오는 api 필요
 			if (scrapRepository.countByDelYnAndScrapTypeAndUserSeqAndScrapData('n', '0', userSeq,
 					post.getPostSeq()) > 0)
-				scrap_yn = 'y';
+				scrapYn = 'y';
 
-			obj.put("scrap_yn", scrap_yn);
+			obj.put("scrapYn", scrapYn);
 			result.add(obj);
 		});
 		return result;
@@ -102,24 +102,24 @@ public class MainServiceImpl implements MainService {
 		List<Map<String, Object>> result = new LinkedList<>();
 		postRepository.findTop100ByDelYnOrderByPostScrapDesc('n').forEach(post -> {
 			Map<String, Object> obj = new HashMap<>();
-			obj.put("post_seq", post.getPostSeq());
-			obj.put("user_seq", post.getUserSeq());
-			obj.put("post_title", post.getPostTitle());
-			obj.put("post_content", post.getPostContent());
-			obj.put("post_scrap", post.getPostScrap());
-			obj.put("post_photo", post.getPostPhoto());
-//			obj.put("post_photo_alt", post.getPostPhotoAlt());
-			obj.put("post_location", post.getPostLocation());
+			obj.put("postSeq", post.getPostSeq());
+			obj.put("UserSeq", post.getUserSeq());
+			obj.put("postTitle", post.getPostTitle());
+			obj.put("postContent", post.getPostContent());
+			obj.put("postScrap", post.getPostScrap());
+			obj.put("postPhoto", post.getPostPhoto());
+			obj.put("postAlt", post.getPostAlt());
+			obj.put("postLocation", post.getPostLocation());
 			List<String> list = postImpairmentRepository.findImpairment(post.getPostSeq());
 			obj.put("impairment", list);
 
-			char scrap_yn = 'n';
+			char scrapYn = 'n';
 			// 현재 사용자의 seq를 가져오는 api 필요
 			if (scrapRepository.countByDelYnAndScrapTypeAndUserSeqAndScrapData('n', '0', userSeq,
 					post.getPostSeq()) > 0)
-				scrap_yn = 'y';
+				scrapYn = 'y';
 
-			obj.put("scrap_yn", scrap_yn);
+			obj.put("scrapYn", scrapYn);
 			result.add(obj);
 		});
 		return result;
@@ -133,24 +133,24 @@ public class MainServiceImpl implements MainService {
 		String endTime = TimeUtils.curTime();
 		postRepository.findTop100ByDelYnAndRegDtBetweenOrderByPostScrapDesc('n', startTime, endTime).forEach(post -> {
 			Map<String, Object> obj = new HashMap<>();
-			obj.put("post_seq", post.getPostSeq());
-			obj.put("user_seq", post.getUserSeq());
-			obj.put("post_title", post.getPostTitle());
-			obj.put("post_content", post.getPostContent());
-			obj.put("post_scrap", post.getPostScrap());
-			obj.put("post_photo", post.getPostPhoto());
-//			obj.put("post_photo_alt", post.getPostPhotoAlt());
-			obj.put("post_location", post.getPostLocation());
+			obj.put("postSeq", post.getPostSeq());
+			obj.put("UserSeq", post.getUserSeq());
+			obj.put("postTitle", post.getPostTitle());
+			obj.put("postContent", post.getPostContent());
+			obj.put("postScrap", post.getPostScrap());
+			obj.put("postPhoto", post.getPostPhoto());
+			obj.put("postAlt", post.getPostAlt());
+			obj.put("postLocation", post.getPostLocation());
 			List<String> list = postImpairmentRepository.findImpairment(post.getPostSeq());
 			obj.put("impairment", list);
 
-			char scrap_yn = 'n';
+			char scrapYn = 'n';
 			// 현재 사용자의 seq를 가져오는 api 필요
 			if (scrapRepository.countByDelYnAndScrapTypeAndUserSeqAndScrapData('n', '0', userSeq,
 					post.getPostSeq()) > 0)
-				scrap_yn = 'y';
+				scrapYn = 'y';
 
-			obj.put("scrap_yn", scrap_yn);
+			obj.put("scrapYn", scrapYn);
 			result.add(obj);
 		});
 		return result;
@@ -162,24 +162,24 @@ public class MainServiceImpl implements MainService {
 		List<Map<String, Object>> result = new LinkedList<>();
 		postRepository.findFollowPost(userSeq).forEach(post -> {
 			Map<String, Object> obj = new HashMap<>();
-			obj.put("post_seq", post.getPostSeq());
-			obj.put("user_seq", post.getUserSeq());
-			obj.put("post_title", post.getPostTitle());
-			obj.put("post_content", post.getPostContent());
-			obj.put("post_scrap", post.getPostScrap());
-			obj.put("post_photo", post.getPostPhoto());
-//			obj.put("post_photo_alt", post.getPostPhotoAlt());
-			obj.put("post_location", post.getPostLocation());
+			obj.put("postSeq", post.getPostSeq());
+			obj.put("UserSeq", post.getUserSeq());
+			obj.put("postTitle", post.getPostTitle());
+			obj.put("postContent", post.getPostContent());
+			obj.put("postScrap", post.getPostScrap());
+			obj.put("postPhoto", post.getPostPhoto());
+			obj.put("postAlt", post.getPostAlt());
+			obj.put("postLocation", post.getPostLocation());
 			List<String> list = postImpairmentRepository.findImpairment(post.getPostSeq());
 			obj.put("impairment", list);
 
-			char scrap_yn = 'n';
+			char scrapYn = 'n';
 			// 현재 사용자의 seq를 가져오는 api 필요
 			if (scrapRepository.countByDelYnAndScrapTypeAndUserSeqAndScrapData('n', '0', userSeq,
 					post.getPostSeq()) > 0)
-				scrap_yn = 'y';
+				scrapYn = 'y';
 
-			obj.put("scrap_yn", scrap_yn);
+			obj.put("scrapYn", scrapYn);
 			result.add(obj);
 		});
 		return result;

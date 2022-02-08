@@ -88,14 +88,6 @@
 			<version>1.5.21</version>
 		</dependency>
 
-
-		<!-- MyBatis -->
-		<dependency>
-			<groupId>org.mybatis.spring.boot</groupId>
-			<artifactId>mybatis-spring-boot-starter</artifactId>
-			<version>2.2.0</version>
-		</dependency>
-
 		<!-- JWT -->
 		<!-- https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt -->
 		<dependency>
@@ -112,10 +104,6 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.google.code.gson</groupId>
-			<artifactId>gson</artifactId>
 		</dependency>
 
 		<!-- 토큰할 때 쓸 수도 있음 -->
