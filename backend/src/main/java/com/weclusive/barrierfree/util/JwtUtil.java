@@ -29,7 +29,7 @@ public class JwtUtil {
 		final Claims claims = extractAllClaims(token);
 		return claimsResolver.apply(claims);
 	}
-	
+
 	// token에서 모든 Claim 추출
 	private Claims extractAllClaims(String token) {
 		return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody();
@@ -42,30 +42,38 @@ public class JwtUtil {
 
 	// Access Token 만들기
 	private String createAccessToken(Map<String, Object> claims, String subject) {
-		System.out.println("원래 만료 시간 : "+ new Date(System.currentTimeMillis() + EXPIRE_MINUTES));
-		return Jwts.builder()
-				.setClaims(claims)
-				.setSubject(subject)
-				.setIssuedAt(new Date(System.currentTimeMillis()))
+		return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(new Date(System.currentTimeMillis()))
 				.setExpiration(new Date(System.currentTimeMillis() + EXPIRE_MINUTES))
 				.signWith(SignatureAlgorithm.HS256, secretKey).compact();
 	}
-	
+
 	// token 유효성 확인
-	// 아이디 확인, 유효시간 확인
-    //유효한 토큰인지 확인
-    public boolean validateToken(String token, UserDetails userDetails) {
-        try {
-            Jws<Claims> claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
-            final String userId = extractUserId(token);
+	public boolean validateToken(String token, UserDetails userDetails) {
+		try {
+			Jws<Claims> claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
+			final String userId = extractUserId(token);
 			if (userId.equals(userDetails.getUsername())) {
-				if(claims.getBody().getExpiration().before(new Date(System.currentTimeMillis() + 1000L * 60 * 5))) { // 만료시간이 5분 이하로 남으면
-	                return false;
-				} 
-            }
-            return true;
-        } catch (JwtException | IllegalArgumentException e) {
-            return false;
-        }
-    }
+//				if(claims.getBody().getExpiration().before(new Date(System.currentTimeMillis() + 1000L * 60 * 5))) { // 만료시간이 5분 이하로 남으면
+				if (claims.getBody().getExpiration().before(new Date())) {
+					return false;
+				}
+			}
+			return true;
+		} catch (JwtException | IllegalArgumentException e) {
+			return false;
+		}
+	}
+
+	// token 유효성 확인
+	public boolean validateToken(String token) {
+		try {
+			Jws<Claims> claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
+			if (claims.getBody().getExpiration().before(new Date())) {
+				return false;
+			}
+			return true;
+		} catch (JwtException | IllegalArgumentException e) {
+			return false;
+		}
+	}
 }
