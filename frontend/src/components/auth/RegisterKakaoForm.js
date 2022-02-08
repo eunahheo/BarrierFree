@@ -27,7 +27,7 @@ const RegisterForm = () => {
 
     try {
       await axios({
-        url: 'http://localhost:8080/user/join/kakao',
+        url: '/user/join/kakao',
         method: 'post',
         data: regform,
         // api.defaults.headers["access-token"] = “카카오 access-token”
