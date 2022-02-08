@@ -310,7 +310,7 @@ public class PostServiceImpl implements PostService {
 		p.setUserSeq(ps.getUserSeq());
 		p.setPostTitle(ps.getPostTitle());
 		p.setPostPhoto(ps.getPostPhoto());
-		p.setPostAlt(p.getPostAlt());
+		p.setPostAlt(ps.getPostAlt());
 		p.setPostLocation(ps.getPostLocation());
 		p.setPostAddress(ps.getPostAddress());
 		p.setPostLat(ps.getPostLat());
