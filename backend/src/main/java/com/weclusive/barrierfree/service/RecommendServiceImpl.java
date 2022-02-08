@@ -119,7 +119,8 @@ public class RecommendServiceImpl implements RecommendService {
 
 			for (Sido sido : list) {
 				Map<String, Object> obj = new HashMap<>();
-				obj.put(sido.getSidoName(), sido.getSidoCode());
+				obj.put("name", sido.getSidoName());
+				obj.put("code", sido.getSidoCode());
 				result.add(obj);
 			}
 
@@ -139,7 +140,8 @@ public class RecommendServiceImpl implements RecommendService {
 
 			for (Sigungu sigungu : list) {
 				Map<String, Object> obj = new HashMap<>();
-				obj.put(sigungu.getSigunguName(), sigungu.getSigunguCode());
+				obj.put("name", sigungu.getSigunguName());
+				obj.put("code", sigungu.getSigunguCode());
 				result.add(obj);
 			}
 			System.out.println(result);
