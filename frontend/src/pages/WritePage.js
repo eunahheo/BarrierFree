@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux';
 import EditorContainer from '../containers/auth/write/EditorContainer';
-import axios from 'axios';
 import WriteBarrierIconContainer from '../containers/auth/write/WriteBarrierIconContainer';
+import ImageUploader from '../components/write/ImageUplader';
 
 const WritePage = () => {
   const user = useSelector((state) => state.user.userData);
@@ -14,6 +14,7 @@ const WritePage = () => {
         <div>
           userlogined
           <WriteBarrierIconContainer></WriteBarrierIconContainer>
+          <ImageUploader></ImageUploader>
           <EditorContainer></EditorContainer>
         </div>
       ) : (
