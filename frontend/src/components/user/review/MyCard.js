@@ -1,8 +1,8 @@
-import React, { useState } from "react";
-import { Card, CardMedia, CardContent, Typography } from "@mui/material";
-import RecommendBarrierIcon from "../recommend/RecommendBarrierIcon";
-import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useState } from 'react';
+import { Card, CardMedia, CardContent, Typography } from '@mui/material';
+import RecommendBarrierIcon from '../../recommend/RecommendBarrierIcon';
+import axios from 'axios';
+import { Link, useNavigate } from 'react-router-dom';
 
 const MyCard = ({ item }) => {
   const navigate = useNavigate();
@@ -14,8 +14,8 @@ const MyCard = ({ item }) => {
   const onClickCard = () => {
     // console.log(e)
     axios({
-      method: "GET",
-      url: "post/detail",
+      method: 'GET',
+      url: 'post/detail',
       params: { postSeq: reviewCard },
     }).then(function (res) {
       // console.log(reviewCard);

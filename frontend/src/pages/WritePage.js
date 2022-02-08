@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux';
-import EditorContainer from '../containers/auth/write/EditorContainer';
-import WriteBarrierIconContainer from '../containers/auth/write/WriteBarrierIconContainer';
+import EditorContainer from '../containers/write/EditorContainer';
+import WriteBarrierIconContainer from '../containers/write/WriteBarrierIconContainer';
 import ImageUploader from '../components/write/ImageUplader';
 
 const WritePage = () => {

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import MyCardList from './MyCardList';
+import MyCardList from './review/MyCardList';
 import { useSelector } from 'react-redux';
 
-const MyReviewPage = () => {
+const UserReview = () => {
   const myuser = useSelector((state) => state.user.userData);
   const [itemList, setItemList] = useState([]);
   console.log('myuser', myuser);
@@ -49,4 +49,4 @@ const MyReviewPage = () => {
   );
 };
 
-export default MyReviewPage;
+export default UserReview;

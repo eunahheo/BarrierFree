@@ -1,0 +1,28 @@
+.infomation-box {
+  /* border: 1px black solid; */
+  margin-top: 50px;
+  margin-bottom: 50px;
+  margin-left: 30rem;
+  margin-right: 30rem;
+}
+
+.infomation {
+  margin-top: 20px;
+  /* display: flex; */
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.info-img {
+  box-sizing: border-box;
+  margin-left: 15%;
+}
+
+.info-content {
+  box-sizing: border-box;
+  /* border: 1px solid; */
+  width: 50%;
+  margin-left: 3rem;
+  text-align: left;
+  margin-right: 15%;
+}

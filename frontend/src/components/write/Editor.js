@@ -7,9 +7,9 @@ import Responsive from '../common/Responsive';
 import axios from '../../../node_modules/axios/index';
 import PlaceBox from './PlaceBox';
 import WriteButtons from './WriteButtons';
-import PlaceBoxContainer from '../../containers/auth/write/PlaceBoxContainer';
+import PlaceBoxContainer from '../../containers/write/PlaceBoxContainer';
 import { useSelector } from 'react-redux';
-import WriteButtonsContainer from '../../containers/auth/write/WriteButtonsContainer';
+import WriteButtonsContainer from '../../containers/write/WriteButtonsContainer';
 import Button from '../common/Button';
 const EditorBlock = styled(Responsive)`
   padding-top: 5rem;

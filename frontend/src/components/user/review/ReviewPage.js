@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import ReviewCardList from './ReviewCardList';
-import Button from '../common/Button';
+import Button from '../../common/Button';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import './ReviewPage.css';

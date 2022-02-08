@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import { Card, CardMedia, CardContent, Typography } from "@mui/material";
-import ReviewBarrierIcon from "./ReviewBarrierIcon";
-import axios from "axios";
-import Review from "../review/Review";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useState } from 'react';
+import { Card, CardMedia, CardContent, Typography } from '@mui/material';
+import ReviewBarrierIcon from './ReviewBarrierIcon';
+import axios from 'axios';
+import Review from '../../review/Review';
+import { Link, useNavigate } from 'react-router-dom';
 
 const ReviewCard = ({ item }) => {
   // console.log(item)
@@ -17,8 +17,8 @@ const ReviewCard = ({ item }) => {
   const onClickCard = () => {
     // console.log(e)
     axios({
-      method: "GET",
-      url: "post/detail",
+      method: 'GET',
+      url: 'post/detail',
       params: { postSeq: reviewCard },
     }).then(function (res) {
       // console.log(res.config.params.postSeq)

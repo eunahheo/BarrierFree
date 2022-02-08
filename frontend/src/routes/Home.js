@@ -1,5 +1,5 @@
 // App.js 내용 가져오면 됨
-import ReviewPage from '../components/Reviews/ReviewPage';
+import ReviewPage from '../components/user/review/ReviewPage';
 import Button from '../components/common/Button';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
@@ -37,7 +37,6 @@ function Home() {
             <ReviewPage></ReviewPage>
           </Grid>
           <Grid item xs={1}>
-            {/* <Button>+</Button> */}
             <AddCircleRoundedIcon
               className="AddCircleRoundedIcon"
               position="sticky"

@@ -21,9 +21,8 @@
   font-size: medium;
   color: white;
   border: 0;
-  
+
   border-radius: 5px;
-  
 }
 
 .arrow {
@@ -54,7 +53,7 @@ form {
   margin-right: 5%;
 }
 
-input {
+.comment-input {
   width: 80%;
   font-size: 16px;
   border: none;
@@ -65,11 +64,12 @@ input {
   height: 40px;
 }
 
-input::placeholder {
+.comment-input::placeholder {
   color: black;
-  
 }
-input:focus {outline:none;}
+.comment-input:focus {
+  outline: none;
+}
 
 .button {
   margin-left: 1rem;
@@ -88,7 +88,7 @@ input:focus {outline:none;}
   width: 50%;
   margin-left: 3rem;
   text-align: left;
-  margin-right: 15%
+  margin-right: 15%;
 }
 
 .review-img {

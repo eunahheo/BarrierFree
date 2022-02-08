@@ -1,6 +1,6 @@
-import { ImageList } from "@mui/material";
-import React from "react";
-import MyCard from "./MyCard";
+import { ImageList } from '@mui/material';
+import React from 'react';
+import MyCard from './MyCard';
 
 const MyCardList = ({ itemList }) => {
   // console.log(typeof itemList);
