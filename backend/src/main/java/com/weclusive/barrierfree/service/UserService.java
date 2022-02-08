@@ -24,12 +24,13 @@ public interface UserService {
 	public User findByUserEmail(String userEmail);
 	public void sendEmailwithTemp(String userEmail, String userId);
 	public Map<String, Object> userInfo(String userId);
+	public void logoutUser(String accessToken);
 	public boolean modifyUser(User user) throws Exception;
 	public boolean withdrawUser(int userSeq) throws Exception;
 	
 	// Token
 	public String createAccessToken(User user);
-	public void createRefreshToken(User user);
+//	public String createRefreshToken(User user);
 
 	// Kakao
 	public String getKakaoAccessToken(String code) throws Exception;

@@ -25,36 +25,34 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 	@Autowired
 	private JwtUtil jwtUtil;
-	
+
 	@Autowired
 	private CustomUserDetailsService service;
 
 	@Override
-	protected void doFilterInternal(HttpServletRequest httpServletRequest,
-			HttpServletResponse httpServletResponse,
+	protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,
 			FilterChain filterChain) throws ServletException, IOException {
-		
 		String authorizationHeader = httpServletRequest.getHeader("Authorization"); // 헤더
-		
+
 		String token = null;
 		String userId = null;
-		
+		UserDetails userDetails = null;
+
 		if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
-			token = authorizationHeader.substring(7); // access-token 
-			userId = jwtUtil.extractUserId(token);  // access-token에서 userId 추출
+			token = authorizationHeader.substring(7); // access-token
+			if (jwtUtil.validateToken(token)) {  // 기간이 만료되지 않았다면
+				userId = jwtUtil.extractUserId(token); // access-token에서 userId 추출
+				userDetails = service.loadUserByUsername(userId);
+			}
 		}
-		
+
 		// userId가 있고, SecurityContextHolder.getContext().getAuthentication()이 비어 있다면 최초 인증이라는 뜻!
 		if (userId != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-			
-			UserDetails userDetails = service.loadUserByUsername(userId);
-
-			if (jwtUtil.validateToken(token, userDetails)) {
-				UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken
-				= new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+			if (jwtUtil.validateToken(token, userDetails)) {  
+				UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
+						userDetails, null, userDetails.getAuthorities());
 				usernamePasswordAuthenticationToken
-					.setDetails(new WebAuthenticationDetailsSource()
-					.buildDetails(httpServletRequest));
+						.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpServletRequest));
 				SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
 			}
 		}
