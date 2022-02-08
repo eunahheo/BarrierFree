@@ -91,10 +91,10 @@ public class RecommendController {
 	public ResponseEntity<Object> getSearchList(@RequestParam @ApiParam(value="현재 로그인중인 사용자의 userSeq") int userSeq, 
 			@RequestParam(value="sidoCode", required=false) @ApiParam(value="시도코드") String sidoCode, 
 			@RequestParam(value="sigunguCode", required=false) @ApiParam(value="시군구코드") String sigunguCode,
-			@RequestParam(value="contentTypeId", required=false) @ApiParam(value="관광 명소 : 12 / 음식점 : 39 / 숙박 : 32 / 행사 : 15 / 쇼핑 : 38 / 문화시설 : 14 / 레포츠 : 28, 입력안하면 전체") String contentTypeId,
+			@RequestParam(value="contentTypeId", required=true) @ApiParam(value="관광 명소 : 12 / 음식점 : 39 / 숙박 : 32 / 행사 : 15 / 쇼핑 : 38 / 문화시설 : 14 / 레포츠 : 28, 입력안하면 전체", required=true) String contentTypeId,
 			@RequestParam(value="impairments", required=false) @ApiParam(value="무장애코드 : physical / visibility / deaf / infant / senior")List<String> impairments,
-			@RequestParam(value="page", required=false) @ApiParam(value="페이지 번호 (0번부터 시작)")int page,
-			@RequestParam(value="size", required=false) @ApiParam(value="한 페이지에 보여줄 게시글 수")int size) {
+			@RequestParam(value="page", required=true) @ApiParam(value="페이지 번호 (0번부터 시작)", required=true)int page,
+			@RequestParam(value="size", required=true) @ApiParam(value="한 페이지에 보여줄 게시글 수", required=true)int size) {
 		List<Map<String,Object>> result;
 		try {
 			result = recommendService.search(userSeq, sidoCode, sigunguCode, contentTypeId, impairments, page, size);
@@ -112,12 +112,12 @@ public class RecommendController {
 	@GetMapping("/myloc")
 	@ApiOperation(value="내 주변 관광지 관광공사 API 검색", notes="현재 위도 경도 주변의 무장애 관광기 검색 결과를 반환한다.")
 	public ResponseEntity<Object> getSearchListByLoc(@RequestParam @ApiParam(value="현재 로그인중인 사용자의 userSeq") int userSeq, 
-			@RequestParam @ApiParam(value="위도") String lat, 
-			@RequestParam @ApiParam(value="경도") String lng, 
-			@RequestParam @ApiParam(value="반경(m), 최대 20000") String radius,
-			@RequestParam(value="contentTypeId", required=false) @ApiParam(value="관광 명소 : 12 / 음식점 : 39 / 숙박 : 32 / 행사 : 15 / 쇼핑 : 38 / 문화시설 : 14 / 레포츠 : 28, 입력안하면 전체")String contentTypeId,
-			@RequestParam(value="page") @ApiParam(value="페이지 번호 (1번부터 시작)") int page,
-			@RequestParam(value="size") @ApiParam(value="한 페이지에 보여줄 게시글 수") int size) {
+			@RequestParam @ApiParam(value="위도", required=true) String lat, 
+			@RequestParam @ApiParam(value="경도", required=true) String lng, 
+			@RequestParam @ApiParam(value="반경(m), 최대 20000", required=true) String radius,
+			@RequestParam(value="contentTypeId", required=true) @ApiParam(value="전체 : 0 / 관광 명소 : 12 / 음식점 : 39 / 숙박 : 32 / 행사 : 15 / 쇼핑 : 38 / 문화시설 : 14 / 레포츠 : 28", required=true)String contentTypeId,
+			@RequestParam(value="page", required=true) @ApiParam(value="페이지 번호 (1번부터 시작)", required=true) int page,
+			@RequestParam(value="size", required=true) @ApiParam(value="한 페이지에 보여줄 게시글 수", required=true) int size) {
 		List<Map<String,Object>> result;
 		try {
 			result = recommendService.getNearMyLocation(userSeq, lat, lng, radius, contentTypeId, page, size);
