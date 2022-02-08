@@ -1,8 +1,5 @@
 import axios from 'axios';
 import { createAction } from 'redux-actions';
-import { takeLatest, call } from 'redux-saga/effects';
-import * as authAPI from '../lib/api/auth';
-// import { LOGIN_USER, USER_INFO, LOGOUT } from './types';
 
 export const LOGIN_USER = 'user/LOGIN_USER';
 export const USER_INFO = 'user/USER_INFO';
@@ -11,7 +8,7 @@ export const LOGOUT = 'user/LOGOUT';
 export const loginUser = (dataTosubmit) => {
   const request = axios({
     method: 'POST',
-    url: ' http://i6a504.p.ssafy.io:3030/user/login',
+    url: '/user/login',
     data: dataTosubmit,
   })
     .then((res) => res.data)
@@ -39,16 +36,3 @@ export function userInfo() {
 }
 
 export const logout = createAction(LOGOUT);
-
-export function* userSaga() {
-  function* logoutSaga() {
-    try {
-      yield call(authAPI.logout);
-      localStorage.removeItem('persist:root');
-    } catch (e) {
-      console.log(e);
-    }
-  }
-
-  yield takeLatest(LOGOUT, logoutSaga);
-}

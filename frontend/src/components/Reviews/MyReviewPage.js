@@ -8,9 +8,25 @@ const MyReviewPage = () => {
   const [itemList, setItemList] = useState([]);
   console.log('myuser', myuser);
 
+  // useEffect(() => {
+  //   const fnt = async () => {
+  //     try {
+  //       const res = await axios({
+  //         url: '/myFeed/post',
+  //         method: 'get',
+  //         params: { userSeq: myuser.userSeq },
+  //       });
+  //       setItemList(res.data);
+  //       console.log(itemList);
+  //     } catch (e) {
+  //       console.log('myreviewerror', e);
+  //     }
+  //   };
+  //   fnt();
+  // }, []);
   useEffect(() => {
     axios({
-      url: `/myFeed/post`,
+      url: '/myFeed/post',
       method: 'get',
       params: { userSeq: myuser.userSeq },
     })
@@ -20,7 +36,7 @@ const MyReviewPage = () => {
         console.log(itemList);
         // console.log(res.data[0]);
       })
-      .catch(function (error) {
+      .catch((error) => {
         console.log(error);
       });
   }, []);

@@ -15,10 +15,10 @@ const StyledButton = styled(Button)`
     margin-left: 1rem;
   }
 `;
-const WriteButtons = () => {
+const WriteButtons = ({ onPublish }) => {
   return (
     <WriteButtonsBlock>
-      <StyledButton>등록</StyledButton>
+      <StyledButton onClick={onPublish}>등록</StyledButton>
       <StyledButton>취소</StyledButton>
     </WriteButtonsBlock>
   );

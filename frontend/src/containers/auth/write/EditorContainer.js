@@ -7,10 +7,9 @@ const EditorContainer = () => {
   const dispatch = useDispatch();
   // 리덕스 스토어에서 title과 body를 불러옴
   // write라는 state를 찾고, 그것의 title과 body를 찾음
-  const { title, body, loadingWritePost } = useSelector(({ write }) => ({
-    title: write.title,
-    body: write.body,
-    loadingWritePost: write.loading.WRITE_POST,
+  const { postTitle, postContent } = useSelector(({ write }) => ({
+    postTitle: write.postTitle,
+    postContent: write.postContent,
   }));
 
   // changeField가 'write/CHANGE_FIELD' 액션을 생성한다.
@@ -33,9 +32,8 @@ const EditorContainer = () => {
     // 불러온 title과 body를 바보 editor에 전달
     <Editor
       onChangeField={onChangeField}
-      title={title}
-      body={body}
-      loadingWritePost={loadingWritePost}
+      postTitle={postTitle}
+      postContent={postContent}
     ></Editor>
   );
 };

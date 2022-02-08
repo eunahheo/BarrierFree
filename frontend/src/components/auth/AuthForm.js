@@ -88,7 +88,7 @@ const AuthForm = ({
     if (idlength >= 5 && idlength <= 20) {
       try {
         const response = await axios({
-          url: 'http://i6a504.p.ssafy.io:3030/user/check/id',
+          url: '/user/check/id',
           method: 'post',
           params: { userId: form.userId },
         });
@@ -117,7 +117,7 @@ const AuthForm = ({
     if (form.userNickname.trim()) {
       try {
         const response = await axios({
-          url: 'http://i6a504.p.ssafy.io:3030/user/check/nickname',
+          url: '/user/check/nickname',
           method: 'post',
           params: { userNickname: form.userNickname },
         });
@@ -240,14 +240,14 @@ const AuthForm = ({
                 }}
               ></img>
               <img
-                name="pregnant"
+                name="infant"
                 src={Pregnant}
                 width="30"
                 onClick={() => {
-                  if (form.pregnant) {
-                    setForm({ ...form, pregnant: 0 });
+                  if (form.infant) {
+                    setForm({ ...form, infant: 0 });
                   } else {
-                    setForm({ ...form, pregnant: 1 });
+                    setForm({ ...form, infant: 1 });
                   }
                 }}
               ></img>
@@ -266,7 +266,10 @@ const AuthForm = ({
             </div>
           </AuthBarrierIconBlock>
         )}
-        {loading === true && <h4>회원가입이 진행중입니다 꺄악</h4>}
+        {loading === true && type === 'login' && <h4>로그인이 진행중입니다</h4>}
+        {loading === true && type === 'register' && (
+          <h4>회원가입이 진행중입니다</h4>
+        )}
         {type === 'register' && (
           <ButtonWithMarginTop type="submit" cyan fullWidth>
             회원가입

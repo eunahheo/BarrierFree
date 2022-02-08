@@ -6,26 +6,21 @@ import { changeField, writePost } from '../../../_actions/write_actions';
 const PlaceBoxContainer = () => {
   const dispatch = useDispatch();
   // const [title, body, place] = useSelector((state) => state.write);
-  const place = useSelector((state) => state.write.place);
+  const postLocation = useSelector((state) => state.write.postLocation);
 
-  const onChangePlace = (place) => {
+  const onChangePlace = (postLocation) => {
     dispatch(
       changeField({
-        key: 'place',
-        value: place,
+        key: 'postLocation',
+        value: postLocation,
       }),
     );
-  };
-
-  const onWritePost = () => {
-    dispatch(writePost({ place }));
   };
 
   return (
     <PlaceBox
       onChangePlace={onChangePlace}
-      place={place}
-      writePost={onWritePost}
+      postLocation={postLocation}
     ></PlaceBox>
   );
 };

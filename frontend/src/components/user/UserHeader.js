@@ -42,7 +42,7 @@ const UserHeader = ({ onPost, onFollowing, onFollower, onScrap }) => {
       console.log(error);
     }
   };
-
+  // getUserHeader();
   useEffect(() => {
     getUserHeader();
   }, []);

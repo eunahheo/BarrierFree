@@ -9,7 +9,8 @@ import PlaceBox from './PlaceBox';
 import WriteButtons from './WriteButtons';
 import PlaceBoxContainer from '../../containers/auth/write/PlaceBoxContainer';
 import { useSelector } from 'react-redux';
-
+import WriteButtonsContainer from '../../containers/auth/write/WriteButtonsContainer';
+import Button from '../common/Button';
 const EditorBlock = styled(Responsive)`
   padding-top: 5rem;
   padding-bottom: 5rem;
@@ -50,7 +51,7 @@ const QuillWrapper = styled.div`
   }
 `;
 
-const Editor = ({ onChangeField, title, body, loadingWritePost }) => {
+const Editor = ({ onChangeField, postTitle, postContent }) => {
   const quillElement = useRef(null);
   const quillInstance = useRef(null);
   const [files, setFiles] = useState('');
@@ -72,12 +73,12 @@ const Editor = ({ onChangeField, title, body, loadingWritePost }) => {
         'content-type': 'multipart/form-data',
       },
     };
-    axios({
-      method: 'post',
-      url: '/post/savePost',
-      formdata: formdata,
-      config: config,
-    });
+    // axios({
+    //   method: 'post',
+    //   url: '/post/savePost',
+    //   formdata: formdata,
+    //   config: config,
+    // });
   };
   useEffect(() => {
     quillInstance.current = new Quill(quillElement.current, {
@@ -95,12 +96,12 @@ const Editor = ({ onChangeField, title, body, loadingWritePost }) => {
   }, []);
 
   const onChangeTitle = (e) => {
-    onChangeField({ key: 'title', value: e.target.value });
+    onChangeField({ key: 'postTitle', value: e.target.value });
   };
 
   const onChangeBody = (e) => {
     console.log('changebody', e);
-    onChangeField({ key: 'body', value: e.target.value });
+    onChangeField({ key: 'postContent', value: e.target.value });
   };
 
   useEffect(() => {
@@ -120,17 +121,23 @@ const Editor = ({ onChangeField, title, body, loadingWritePost }) => {
   return (
     <EditorBlock>
       <hr></hr>
-      <TitleInput placeholder="제목입력" onChange={onChangeTitle}></TitleInput>
+      <TitleInput
+        placeholder="제목입력"
+        onChange={onChangeTitle}
+        value={postTitle}
+      ></TitleInput>
       <BodyTextarea
         placeholder="input내용 작성"
         onChange={onChangeBody}
       ></BodyTextarea>
       <PlaceBoxContainer></PlaceBoxContainer>
-      {loadingWritePost && '등록 중입니다!'}
-      {!loadingWritePost && <WriteButtons></WriteButtons>}
+      {/* {loadingWritePost && '등록 중입니다!'} */}
+      {/* {!loadingWritePost && <WriteButtonsContainer></WriteButtonsContainer>} */}
+      <WriteButtonsContainer></WriteButtonsContainer>
       <QuillWrapper>
         <div ref={quillElement} />
       </QuillWrapper>
+      <Button>임시버튼</Button>
       <div>
         {/* <form method="post" enctype="multipart/form-data"> */}
         <label for="imageFile">사진 선택</label>

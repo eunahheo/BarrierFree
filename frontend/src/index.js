@@ -3,35 +3,39 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { createStore } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
-import { applyMiddleware } from 'redux';
 import promiseMiddleware from 'redux-promise';
 import ReduxThunk from 'redux-thunk';
-import rootReducer from './_reducers';
+import rootReducer, { rootSaga } from './_reducers';
 import { BrowserRouter } from 'react-router-dom';
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import { PersistGate } from 'redux-persist/integration/react';
 import { createLogger } from 'redux-logger';
+import createSagaMiddleware from 'redux-saga';
 
 const persistConfig = {
   key: 'root',
   storage,
 };
-
+const sagaMiddleware = createSagaMiddleware();
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 const logger = createLogger();
 
 const createStoreWithMiddleware = applyMiddleware(
+  sagaMiddleware,
   promiseMiddleware,
   ReduxThunk,
   logger,
 )(createStore);
+
 const store = createStoreWithMiddleware(
   persistedReducer,
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
 );
+
+sagaMiddleware.run(rootSaga);
 
 const persistor = persistStore(store);
 
