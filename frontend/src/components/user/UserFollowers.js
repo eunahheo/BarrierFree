@@ -73,6 +73,7 @@ const UserFollowers = () => {
       <div>UserFollowers</div>
       {userfollowers.map((userfollower) => (
         <UserFollower
+          // userfollower={userfollower}
           userNickname={userfollower.userNickname}
           userPhoto={userfollower.userPhoto}
           userSeq={userfollower.userSeq}

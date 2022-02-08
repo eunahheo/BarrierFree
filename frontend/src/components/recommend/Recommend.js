@@ -17,7 +17,9 @@ import { Container, Box } from '@material-ui/core';
 import RecommendCategories from './RecommendCategories';
 import { useDispatch, useSelector } from 'react-redux';
 import { findLocation } from '../../_actions/find_actions';
+import Header from '../common/Header';
 import './Recommend.css';
+
 const Recommend = () => {
   const myuser = useSelector((state) => state.user.userData);
   // console.log(myuser)
@@ -57,13 +59,17 @@ const Recommend = () => {
             contentTypeId: 12,
             lat: res.coords.latitude, // 위도
             lng: res.coords.longitude, // 경도
-            radius: 1000,
+            radius: 5000,
             userSeq: myuser.userSeq,
             page: 1,
             size: 100,
           },
         }).then(function (res) {
-          setItemList(res.data);
+          if (res.data === '검색결과가 없습니다.') {
+            setItemList([]);
+          } else {
+            setItemList(res.data);
+          }
         });
       });
     } else {

@@ -1,5 +1,5 @@
 // App.js 내용 가져오면 됨
-import ReviewPage from '../components/user/review/ReviewPage';
+import ReviewPage from '../components/common/review/ReviewPage';
 import Button from '../components/common/Button';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
