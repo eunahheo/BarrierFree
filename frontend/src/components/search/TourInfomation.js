@@ -8,9 +8,9 @@ import './TourInfomation.css';
 
 const TourInfomation = () => {
   const pageNum = useParams();
-  const infomationNum = Number(pageNum.infomationCard);
+  const contentid = Number(pageNum.infomationCard);
   const myuser = useSelector((state) => state.user.userData);
-
+  console.log(pageNum);
   // infomation 내용 불러오기 위한 const
 
   const [infomationDetail, setInfomationDetail] = useState([]);
@@ -19,7 +19,7 @@ const TourInfomation = () => {
   const [comments, setComments] = useState([]);
   const [reviewTime, setReviewTime] = useState('');
 
-  // review 창이 뜨자 마자 불러와져야할 것들
+  // Tourinfomation 창이 뜨자 마자 불러와져야할 것들
   useEffect(() => {
     getPostDetail();
   }, []);
@@ -27,9 +27,9 @@ const TourInfomation = () => {
   const getPostDetail = () => {
     axios({
       method: 'GET',
-      url: 'recommend/detail',
+      url: '/recommend/detail',
       params: {
-        contentid: 130183,
+        contentid: contentid,
         userSeq: myuser.userSeq,
       },
     })
@@ -51,8 +51,10 @@ const TourInfomation = () => {
             <div class="info-content">
               <h1>{infomationDetail.title}</h1>
               <p>{infomationDetail.overview}</p>
+              <br />
               <Grid container>
                 <InfoIcon></InfoIcon>
+                <p> {infomationDetail.addr1}</p>
               </Grid>
             </div>
           </div>
