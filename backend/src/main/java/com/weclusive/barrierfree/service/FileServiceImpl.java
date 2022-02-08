@@ -21,7 +21,8 @@ public class FileServiceImpl implements FileService {
 		filePath = filePath.replace("/", File.separator);
 		
 		// 경로 설정 + 날짜로 세부 디렉토리
-		File fileFolder = new File(filePath, getFolder());
+		// File fileFolder = new File(filePath, getFolder());
+		File fileFolder = new File(filePath);
 		System.out.println("Path : " + fileFolder);
 		
 		// 폴더 없으면 생성하기
