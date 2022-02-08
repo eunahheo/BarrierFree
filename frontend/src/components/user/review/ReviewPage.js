@@ -11,11 +11,22 @@ const ReviewPage = () => {
   const navigate = useNavigate();
   const [myitemList, mysetItemList] = useState([]);
 
+  // const orderbylatest = async () => {
+  //   await axios.get(`/main/recently?userSeq=0`).then(function (res) {
+  //     mysetItemList(res.data);
+  //     console.log('latest');
+  //   });
+  // };
   const orderbylatest = async () => {
-    await axios.get(`/main/recently?userSeq=0`).then(function (res) {
-      mysetItemList(res.data);
-      console.log('latest');
-    });
+    axios({
+      method: 'get',
+      url: 'main/recently?userSeq=0',
+    })
+      .then(function (res) {
+        mysetItemList(res.data);
+        console.log('latest');
+      })
+      .catch((error) => console.log(error));
   };
 
   const orderbypopular = () => {
@@ -43,7 +54,6 @@ const ReviewPage = () => {
       });
   };
 
-  // 나중에 고쳐야합니당... !
   const orderbybf = () => {
     if (localStorage) {
       axios({
@@ -64,10 +74,13 @@ const ReviewPage = () => {
 
   useEffect(() => {
     axios({
-      url: `/main/all?userSeq=0`,
-    }).then(function (res) {
-      mysetItemList(res.data);
-    });
+      method: 'get',
+      url: '/main/all?userSeq=0',
+    })
+      .then(function (res) {
+        mysetItemList(res.data);
+      })
+      .catch((error) => console.log(error));
   }, []);
 
   return (

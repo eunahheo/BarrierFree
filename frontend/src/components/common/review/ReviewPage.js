@@ -12,15 +12,20 @@ const ReviewPage = () => {
   const [myitemList, mysetItemList] = useState([]);
 
   const orderbylatest = async () => {
-    await axios.get(`/main/recently?userSeq=0`).then(function (res) {
-      mysetItemList(res.data);
-      console.log('latest');
-    });
+    axios({
+      method: 'get',
+      url: 'main/recently?userSeq=0',
+    })
+      .then(function (res) {
+        mysetItemList(res.data);
+        console.log('latest');
+      })
+      .catch((error) => console.log(error));
   };
 
   const orderbypopular = () => {
     axios({
-      url: `/main/scrap?userSeq=0`,
+      url: '/main/scrap?userSeq=0',
     })
       .then(function (res) {
         mysetItemList(res.data);
@@ -32,7 +37,7 @@ const ReviewPage = () => {
   };
   const orderbypopularweek = () => {
     axios({
-      url: `/main/weekscrap?userSeq=0`,
+      url: '/main/weekscrap?userSeq=0',
       method: 'get',
     })
       .then(function (res) {
@@ -62,11 +67,16 @@ const ReviewPage = () => {
   };
 
   useEffect(() => {
-    axios({
-      url: `/main/all?userSeq=0`,
-    }).then(function (res) {
-      mysetItemList(res.data);
-    });
+    const tmp = () => {
+      axios({
+        url: '/main/all?userSeq=0',
+      })
+        .then(function (res) {
+          mysetItemList(res.data);
+        })
+        .catch((error) => console.log(error));
+    };
+    tmp();
   }, []);
 
   return (
@@ -84,7 +94,7 @@ const ReviewPage = () => {
       <Button order onClick={orderbybf}>
         베프만
       </Button>
-      <ReviewCardList itemList={myitemList}></ReviewCardList>
+      {myitemList && <ReviewCardList itemList={myitemList}></ReviewCardList>}
     </div>
   );
 };

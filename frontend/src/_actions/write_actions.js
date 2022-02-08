@@ -28,6 +28,7 @@ export const writePostAPI = ({ postTitle, postContent, postLocation }) => {
     postAddress: 'sdf12',
     postLat: '123',
     postLng: '13123',
+    postLocation: postLocation,
     userSeq: 8,
     visibility: 0,
     postAlt: '123',
@@ -36,7 +37,6 @@ export const writePostAPI = ({ postTitle, postContent, postLocation }) => {
     senior: 0,
     postTitle: postTitle,
     postContent: postContent,
-    postLocation: postLocation,
   });
 };
 

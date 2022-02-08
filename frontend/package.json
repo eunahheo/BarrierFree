@@ -36,13 +36,13 @@
     "styled-components": "^5.3.3",
     "web-vitals": "^2.1.4"
   },
+  "proxy": "http://i6a504.p.ssafy.io:3030",
   "scripts": {
     "start": "set PORT=80 && react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
-  "proxy": "http://i6a504.p.ssafy.io:3030",
   "eslintConfig": {
     "extends": [
       "react-app",

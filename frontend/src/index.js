@@ -14,7 +14,11 @@ import storage from 'redux-persist/lib/storage';
 import { PersistGate } from 'redux-persist/integration/react';
 import { createLogger } from 'redux-logger';
 import createSagaMiddleware from 'redux-saga';
-
+import axios from 'axios';
+axios.defaults.baseURL =
+  process.env.NODE_ENV === 'development'
+    ? ''
+    : 'https://i6a504.p.ssafy.io:3030';
 const persistConfig = {
   key: 'root',
   storage,

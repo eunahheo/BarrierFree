@@ -55,7 +55,6 @@ const Spacer = styled.div`
 `;
 
 const Header = ({ user, onLogout }) => {
-  console.log(user);
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const handleOpenNavMenu = (event) => {

@@ -10,9 +10,9 @@ const ReviewCard = ({ item }) => {
   // const pageNum = useState([]);
   const navigate = useNavigate();
 
-  const { post_photo, post_location, post_title } = item;
+  const { postPhoto, postLocation, postTitle } = item;
   const barriers = item.impairment;
-  const reviewCard = item.post_seq;
+  const reviewCard = item.postSeq;
   // const state = { 'detailnum': reviewCard}
   const onClickCard = () => {
     // console.log(e)
@@ -43,15 +43,15 @@ const ReviewCard = ({ item }) => {
         <CardMedia
           component="img"
           height="300"
-          image={post_photo}
+          image={postPhoto}
           alt="Dog Picture"
         />
 
         <CardContent align="left">
           <Typography variant="body2" color="text.secondary">
-            {post_location}
+            {postLocation}
           </Typography>
-          {post_title}
+          {postTitle}
           <ReviewBarrierIcon barriers={barriers}></ReviewBarrierIcon>
         </CardContent>
       </Card>
