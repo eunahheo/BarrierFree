@@ -160,7 +160,7 @@ public class RecommendServiceImpl implements RecommendService {
 		Page<Tourapi> pageTours = null;
 		try {
 			if(sidoCode==null) {
-				if(contentTypeId==null) {
+				if(contentTypeId.equals("0")) {
 					if(impairments==null) {
 						//전체검색
 						System.out.println("전체검색");
@@ -187,7 +187,7 @@ public class RecommendServiceImpl implements RecommendService {
 			}
 			else {
 				if(sigunguCode==null) {
-					if(contentTypeId==null) {
+					if(contentTypeId.equals("0")) {
 						if(impairments == null) {
 							//시도만 입력한 검색결과
 							System.out.println("시도만 입력한 검색결과");
@@ -213,7 +213,7 @@ public class RecommendServiceImpl implements RecommendService {
 					}
 				}
 				else {
-					if(contentTypeId==null) {
+					if(contentTypeId.equals("0")) {
 						if(impairments == null) {
 							//시도와 시군구를 입력한 검색결과
 							System.out.println("시도와 시군구를 입력한 검색결과");
@@ -272,7 +272,7 @@ public class RecommendServiceImpl implements RecommendService {
 					+ "?ServiceKey=90E0OY5f9CUd%2BGSJfMuFpPnny5XZ9Ks6RYqd0gV0LqOFeSC9A4B6VVnxmxDSUdtWx7auKWg2ALhbInFELnK8yQ%3D%3D"
 					+ "&numOfRows=" + size + "&pageNo=" + page + "&mapX=" + lng + "&mapY=" + lat + "&radius=" + radius;
 
-			if (contentTypeId != null)
+			if (!contentTypeId.equals("0"))
 				urlstr += "&contentTypeId=" + contentTypeId;
 
 			urlstr += "&MobileOS=ETC&MobileApp=barrierfree&_type=json";
