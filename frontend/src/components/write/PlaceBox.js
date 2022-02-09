@@ -105,8 +105,10 @@ const PlaceBox = ({ onChangePlace, place, onWritePost }) => {
             value={input}
             onChange={onChange}
           />
-          <button onClick={onClick}>등록</button>
-          <button type="submit">추가</button>
+          <button onClick={onClick}>검색</button>
+          {/* <button>검색</button> */}
+          {/* <input></input> */}
+          {/* <button type="submit">추가</button> */}
         </PlaceForm>
         <PlaceItemBlock>
           <PlaceItem place={localPlace} onRemove={onRemove} />

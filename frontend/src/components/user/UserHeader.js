@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import palette from '../../lib/styles/palette';
 import { useSelector } from 'react-redux';
 
@@ -9,10 +9,14 @@ const UserHeaderBox = styled.div`
   // flex-dirextion: row;
   align-items: center;
   justify-content: flex-start;
+  .div {
+    display: table;
+  }
   .toggle {
     background: ${palette.gray[0]};
     color: ${palette.blue[0]};
-
+    text-align: center;
+    margin: auto;
     width: 200px;
     height: 200px;
     border-radius: 100px;
@@ -23,6 +27,21 @@ const UserHeaderBox = styled.div`
       cursor: pointer;
     }
   }
+  .smc {
+    width: 150px;
+    height: 150px;
+  }
+  .span {
+    display: flex;
+    // flex-dirextion: row;
+    display: table-cell;
+    vertical-align: middle;
+  }
+`;
+
+const UserHeaderText = css`
+  display: table-cell;
+  vertical-align: middle;
 `;
 const UserHeader = ({ onPost, onFollowing, onFollower, onScrap }) => {
   const [userHeaderInfo, setUserHeaderInfo] = useState([]);
@@ -42,7 +61,7 @@ const UserHeader = ({ onPost, onFollowing, onFollower, onScrap }) => {
       console.log(error);
     }
   };
-
+  // getUserHeader();
   useEffect(() => {
     getUserHeader();
   }, []);
@@ -60,15 +79,17 @@ const UserHeader = ({ onPost, onFollowing, onFollower, onScrap }) => {
           <div>{userHeaderInfo.userNickname}</div>
         </div>
         <div onClick={onScrap}>
-          <div className="toggle">스크랩: {userHeaderInfo.postScrap}</div>
+          <div className="toggle smc">
+            <span>스크랩: {userHeaderInfo.postScrap}</span>
+          </div>
           {/* <div>게시글수</div> */}
         </div>
         <div onClick={onFollowing}>
-          <div className="toggle">팔로잉: {userHeaderInfo.following}</div>
+          <div className="toggle smc">팔로잉: {userHeaderInfo.following}</div>
           {/* <div>팔로잉:</div> */}
         </div>
         <div onClick={onFollower}>
-          <div className="toggle">팔로워: {userHeaderInfo.follower}</div>
+          <div className="toggle smc">팔로워: {userHeaderInfo.follower}</div>
         </div>
       </div>
     </UserHeaderBox>

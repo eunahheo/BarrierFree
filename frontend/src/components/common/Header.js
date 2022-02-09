@@ -19,6 +19,7 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 const HeaderBlock = styled.div`
   position: fixed;
   z-index: 100;
+  font-family: 'BMHANNAAir';
   width: 100%;
   background: white;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.08);
@@ -55,7 +56,6 @@ const Spacer = styled.div`
 `;
 
 const Header = ({ user, onLogout }) => {
-  console.log(user);
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const handleOpenNavMenu = (event) => {
@@ -95,14 +95,24 @@ const Header = ({ user, onLogout }) => {
           </div>
           <div
             onClick={() => {
-              navigate('/recommend');
+              if (user) {
+                navigate('/recommend');
+              } else {
+                alert('로그인이 필요합니다!🤗');
+                navigate('/loginpage');
+              }
             }}
           >
             <h4>여행추천</h4>
           </div>
           <div
             onClick={() => {
-              navigate('/search');
+              if (user) {
+                navigate('/search');
+              } else {
+                alert('로그인이 필요합니다!🤗');
+                navigate('/loginpage');
+              }
             }}
           >
             <h4>검색하기</h4>
@@ -124,13 +134,14 @@ const Header = ({ user, onLogout }) => {
               <Box sx={{ flexGrow: 0 }}>
                 <Tooltip title="Open settings">
                   <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                    <span style={{ color: 'black' }}>
+                    <span style={{ color: 'black', fontfamily: 'BMHANNAAir' }}>
                       {user.userNickname}님
                     </span>
                     <Avatar alt="Remy Sharp" src={user.userPhoto} />
                   </IconButton>
                 </Tooltip>
                 <Menu
+                  style={{ fontFamily: 'BMHANNAAir' }}
                   // style={{ background: "red" }}
                   sx={{ mt: '45px' }}
                   id="menu-appbar"
@@ -168,7 +179,7 @@ const Header = ({ user, onLogout }) => {
 
                   <MenuItem
                     onClick={() => {
-                      navigate('/userpage');
+                      navigate('/mypage');
                       handleCloseUserMenu();
                     }}
                   >

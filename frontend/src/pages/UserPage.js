@@ -1,5 +1,5 @@
 import React from 'react';
-import MyReviewPage from '../components/Reviews/MyReviewPage';
+import UserReview from '../components/user/UserReview';
 import UserFollowings from '../components/user/UserFollowings';
 import UserFollowers from '../components/user/UserFollowers';
 import UserScraps from '../components/user/UserScraps';
@@ -10,9 +10,9 @@ function UserPage({ type }) {
       <h1>userpage</h1>
 
       {type === 'post' && (
-        <MyReviewPage>
+        <UserReview>
           <h2>userpage-myreviewpage</h2>
-        </MyReviewPage>
+        </UserReview>
       )}
 
       {type === 'following' && (

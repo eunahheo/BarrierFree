@@ -16,6 +16,7 @@ import VisualHide from '../images/VisualHide.png';
 import RegisterForm from '../../containers/auth/RegisterForm';
 import axios from 'axios';
 import { red } from '@material-ui/core/colors';
+import KakaoImage from '../images/kakao_login_large_wide.png';
 
 const AuthFormBlock = styled.div`
   h2 {
@@ -62,7 +63,7 @@ const StyledInput = styled.input`
 `;
 const ButtonWithMarginTop = styled(Button)`
   margin-top: 1.5rem;
-  // padding-right: 3px;
+  padding-right: 10px;
 `;
 
 const textMap = {
@@ -88,7 +89,7 @@ const AuthForm = ({
     if (idlength >= 5 && idlength <= 20) {
       try {
         const response = await axios({
-          url: 'http://i6a504.p.ssafy.io:3030/user/check/id',
+          url: '/user/check/id',
           method: 'post',
           params: { userId: form.userId },
         });
@@ -117,7 +118,7 @@ const AuthForm = ({
     if (form.userNickname.trim()) {
       try {
         const response = await axios({
-          url: 'http://i6a504.p.ssafy.io:3030/user/check/nickname',
+          url: '/user/check/nickname',
           method: 'post',
           params: { userNickname: form.userNickname },
         });
@@ -200,7 +201,7 @@ const AuthForm = ({
             중복 확인
           </Button>
         )}
-        {type === 'register' && (
+        {(type === 'register' || type === 'registerkakao') && (
           <AuthBarrierIconBlock>
             <div align="center" className="barriericon">
               <img
@@ -240,14 +241,14 @@ const AuthForm = ({
                 }}
               ></img>
               <img
-                name="pregnant"
+                name="infant"
                 src={Pregnant}
                 width="30"
                 onClick={() => {
-                  if (form.pregnant) {
-                    setForm({ ...form, pregnant: 0 });
+                  if (form.infant) {
+                    setForm({ ...form, infant: 0 });
                   } else {
-                    setForm({ ...form, pregnant: 1 });
+                    setForm({ ...form, infant: 1 });
                   }
                 }}
               ></img>
@@ -266,7 +267,10 @@ const AuthForm = ({
             </div>
           </AuthBarrierIconBlock>
         )}
-        {loading === true && <h4>회원가입이 진행중입니다 꺄악</h4>}
+        {loading === true && type === 'login' && <h4>로그인이 진행중입니다</h4>}
+        {loading === true && type === 'register' && (
+          <h4>회원가입이 진행중입니다</h4>
+        )}
         {type === 'register' && (
           <ButtonWithMarginTop type="submit" cyan fullWidth>
             회원가입
@@ -283,6 +287,11 @@ const AuthForm = ({
           </Button>
         )}
       </form>
+      {type === 'login' && (
+        <a href="https://kauth.kakao.com/oauth/authorize?client_id=fa3c898eec92948b420f6f03b934acd1&redirect_uri=http://i6a504.p.ssafy.io:80/kakaologinpage&response_type=code">
+          <img src={KakaoImage} id="kakao-login-btn" width="350px" />
+        </a>
+      )}
       {type === 'register' && (
         <Link to="/registerpage/kakao">
           <Button kakao fullWidth style={{ marginTop: '0.5rem' }}>
@@ -290,6 +299,12 @@ const AuthForm = ({
           </Button>
         </Link>
       )}
+      {/* {type === 'kakaoOauth' && (
+        <div>
+          카카오 로그인 진행 중입니다. <br />
+          잠시만 기다려 주세요.
+        </div>
+      )} */}
     </AuthFormBlock>
   );
 };

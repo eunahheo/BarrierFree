@@ -4,6 +4,10 @@ export const USER_INFO = 'user_info';
 
 export const COMMENT_SAVE = 'comment_save';
 
-export const COMMENT_DELETE = "comment_delete";
+export const COMMENT_DELETE = 'comment_delete';
 
-export const FIND_LOCATION = "find_location";
+export const FIND_LOCATION = 'find_location';
+
+export const GETTING_ITEMS = 'getting/GETTING_ITEMS';
+
+export const UPLOAD_IMAGE = 'upload/UPLOAD_IMAGE';

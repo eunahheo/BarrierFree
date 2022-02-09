@@ -1,5 +1,5 @@
 import { call, put } from 'redux-saga/effects';
-import { startLoading, finishLoading } from '../modules/loading';
+import { startLoading, finishLoading } from '../_reducers/loading';
 
 export const createRequestActionTypes = (type) => {
   const SUCCESS = `${type}_SUCCESS`;
@@ -15,9 +15,10 @@ export default function createRequestSaga(type, request) {
     yield put(startLoading(type));
     try {
       const response = yield call(request, action.payload);
+      console.log(response);
       yield put({
         type: SUCCESS,
-        payload: response.data,
+        payload: 'response.data',
       });
     } catch (e) {
       yield put({

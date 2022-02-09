@@ -1,9 +1,10 @@
-import styled, { css } from "styled-components";
-import palette from "../../lib/styles/palette";
-import { Link } from "react-router-dom";
+import styled, { css } from 'styled-components';
+import palette from '../../lib/styles/palette';
+import { Link } from 'react-router-dom';
 
 const buttonStyle = css`
   border: none;
+  font-family: 'BMHANNAAir';
   border-radius: 4px;
   font-size: 1rem;
   font-weight: bold;
@@ -66,6 +67,12 @@ const buttonStyle = css`
       // flex-direction: column;
       // justify-content: space-between;
       // align-items: center;
+    `}
+
+    ${(props) =>
+    props.impact &&
+    css`
+      background: ${palette.pink[0]};
     `}
 `;
 const StyledButton = styled.button`

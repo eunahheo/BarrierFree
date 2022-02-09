@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+  font-family: 'BMHANNAAir';
 }
 
 .App-logo {
@@ -35,4 +36,9 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+@font-face {
+  font-family: 'BMHANNAAir';
+  src: url('./fonts/BMHANNAAir_ttf.ttf');
 }

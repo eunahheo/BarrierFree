@@ -1,33 +1,29 @@
 import './App.css';
+import SearchDetail from './components/search/SearchDetail';
 import Recommend from './components/recommend/Recommend.js';
 import About from './routes/About';
 import Home from './routes/Home';
-import Navbar from './components/Navbar';
 import UserPage from './pages/UserPage';
 import User from './routes/User';
 import Search from './components/search/Search';
-import ReviewPage from './components/Reviews/ReviewPage';
+import ReviewPage from './components/user/review/ReviewPage';
 import NotFound from './routes/NotFound';
 import { Route, Routes } from 'react-router-dom';
 import RegisterPage from './pages/RegisterPage';
 import RegisterCompletedPage from './pages/RegisterCompletedPage';
 import Review from './components/review/Review';
-import { eventWrapper } from '@testing-library/user-event/dist/utils';
-// import Signup from "./components/user/Signup";
 import RegisterPageKakao from './pages/RegisterPageKakao';
 import RegisterEmailCheckPage from './pages/RegisterEmailCheckPage';
 import LoginPage from './pages/LoginPage';
 import TourInfomation from './components/search/TourInfomation';
-import HeaderContainer from './components/containers/HeaderContainer';
+import HeaderContainer from './containers/base/HeaderContainer';
 import WritePage from './pages/WritePage';
+import MyPage from './pages/MyPage';
+import KakaoLoginPage from './pages/KakaoLoginPage';
 
 function App() {
-  // var cors = require("cors");
-  // var app = express();
-  // app.use(cors());
   return (
     <div className="App">
-      {/* <Navbar></Navbar> */}
       <HeaderContainer></HeaderContainer>
       <Routes>
         <Route path="/" exact={true} element={<Home />}></Route>
@@ -49,6 +45,7 @@ function App() {
         <Route path="/reviewpage" element={<ReviewPage />}></Route>
         <Route path="/registerpage" element={<RegisterPage />}></Route>
         <Route path="/loginpage" element={<LoginPage />}></Route>
+        <Route path="/kakaologinpage" element={<KakaoLoginPage />}></Route>
         <Route
           path="/registerpage/kakao"
           element={<RegisterPageKakao />}
@@ -62,6 +59,8 @@ function App() {
           element={<RegisterEmailCheckPage />}
         ></Route>
         <Route path="/write" element={<WritePage />}></Route>
+        <Route path="/search/tour" element={<SearchDetail />}></Route>
+        <Route path="/mypage" element={<MyPage />}></Route>
         <Route path="*" element={<NotFound />}></Route>
       </Routes>
     </div>
