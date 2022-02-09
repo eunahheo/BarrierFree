@@ -11,12 +11,12 @@ import org.springframework.web.multipart.MultipartFile;
 public class FileServiceImpl implements FileService {
 
 	@Override
-	public void uploadFile(MultipartFile pic) throws Exception {
+	public String uploadFile(MultipartFile pic) throws Exception {
 
 		MultipartFile mFile = pic;
 
 		// 업로드 할 사진 최상위 폴더
-		String filePath = "/app";;
+		String filePath = "/app";
 		filePath = filePath.replace("/", File.separator);
 		
 		// 경로 설정 + 날짜로 세부 디렉토리
@@ -42,6 +42,8 @@ public class FileServiceImpl implements FileService {
 		File saveFile = new File(saveFilePath);
 
 		mFile.transferTo(saveFile);
+		
+		return saveFilePath;
 	}
 
 	// 오늘 날짜의 경로를 문자열로 생성한다.
