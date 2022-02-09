@@ -294,11 +294,9 @@ const AuthForm = ({
         </a>
       )}
       {type === 'register' && (
-        <Link to="/registerpage/kakao">
-          <Button kakao fullWidth style={{ marginTop: '0.5rem' }}>
-            kakao로 회원가입
-          </Button>
-        </Link>
+        <a href="https://kauth.kakao.com/oauth/authorize?client_id=fa3c898eec92948b420f6f03b934acd1&redirect_uri=http://i6a504.p.ssafy.io:80/kakaologinpage&response_type=code">
+          <img src={KakaoImage} id="kakao-login-btn" width="350px" />
+        </a>
       )}
       {/* {type === 'kakaoOauth' && (
         <div>
