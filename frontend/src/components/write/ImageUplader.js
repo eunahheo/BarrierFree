@@ -44,7 +44,7 @@ function ImageUploader() {
   const [imageData, setImageData] = useState(null);
   const [imageName, setImageName] = useState('');
   const { image } = useSelector((state) => state.upload);
-
+  const [imageFile, setImageFile] = useState(null);
   // handleuploadclick;
   const onUpload = (event) => {
     const file = event.target.files[0];
@@ -52,6 +52,7 @@ function ImageUploader() {
     const imageData = new FormData();
     imageData.append('imageFile', file);
     console.log(imageData);
+    setImageFile(file);
     setImageData(imageData);
     setImagePreview(URL.createObjectURL(file));
   };
@@ -62,12 +63,12 @@ function ImageUploader() {
   };
   const uploadImageWithAdtData = () => {
     // 전송 보내기 전에 새로운 이름 붙이기
-    imageData.append('imageName', imageName);
+    // imageData.append('imageName', imageName);
     dispatch(uploadImage(imageData));
     axios.post({
       method: 'post',
       url: '/upload/photo',
-      formData: imageData,
+      formData: imageFile,
       Headers: { 'content-type': 'multipart/form-data' },
     });
   };
