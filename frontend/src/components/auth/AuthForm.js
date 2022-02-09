@@ -17,6 +17,7 @@ import RegisterForm from '../../containers/auth/RegisterForm';
 import axios from 'axios';
 import { red } from '@material-ui/core/colors';
 import KakaoImage from '../images/kakao_login_large_wide.png';
+import TextField from '@material-ui/core/TextField';
 
 const AuthFormBlock = styled.div`
   h2 {
@@ -50,7 +51,8 @@ const StyledInput = styled.input`
   border-bottom: 1px solid black;
   padding-bottom: 0.5rem;
   outline: none;
-  width: 60%;
+  width: 95%;
+  background-color: none;
 
   &:focus {
     color: $oc-teal-7;
@@ -63,6 +65,13 @@ const StyledInput = styled.input`
 `;
 const ButtonWithMarginTop = styled(Button)`
   margin-top: 1.5rem;
+  width: 90%;
+  padding-right: 10px;
+`;
+
+const ButtonWith = styled(Button)`
+  margin-top: 0.5rem;
+  width: 90%;
   padding-right: 10px;
 `;
 
@@ -141,27 +150,52 @@ const AuthForm = ({
   const text = textMap[type];
   return (
     <AuthFormBlock>
-      <h2>
+      <h1>
         <span style={{ color: '#EA5455' }}>베</span>리어{' '}
-        <span style={{ color: '#EA5455' }}>프</span>리에 오신 것을 환영합니다!
-      </h2>
-      <h4>|필수사항|</h4>
+        <span style={{ color: '#EA5455' }}>프</span>리에 <br />
+        오신 것을 환영합니다!
+      </h1>
+      {/* {(type === 'register' || type === 'registerkakao') && <h4>|필수사항|</h4>} */}
+
       <form onSubmit={onSubmit}>
         <div>
-          <StyledInput
-            name="userId"
-            placeholder="아이디를 입력하세요"
-            onChange={onChange}
-            value={form.userId}
-          />
-          {(type === 'register' || type === 'registerkakao') && (
-            <Button type="button" onClick={onCheckId}>
+          {type !== 'login' && (
+            <TextField
+              style={{ width: 210 }}
+              label="아이디"
+              variant="standard"
+              name="userId"
+              placeholder="아이디를 입력하세요"
+              onChange={onChange}
+              value={form.userId}
+            />
+          )}
+          {type === 'login' && (
+            <TextField
+              style={{ width: 300 }}
+              label="아이디"
+              variant="standard"
+              name="userId"
+              placeholder="아이디를 입력하세요"
+              onChange={onChange}
+              value={form.userId}
+            />
+          )}
+          {type !== 'login' && (
+            <Button
+              type="button"
+              onClick={onCheckId}
+              style={{ height: 30, marginTop: '0.3rem' }}
+            >
               중복 확인
             </Button>
           )}
         </div>
         {type === 'register' && (
-          <StyledInput
+          <TextField
+            label="이메일"
+            style={{ width: 300 }}
+            variant="standard"
             name="userEmail"
             placeholder="이메일을 입력하세요"
             type="email"
@@ -170,16 +204,24 @@ const AuthForm = ({
           />
         )}
         {type !== 'registerkakao' && (
-          <StyledInput
-            name="userPwd"
-            type="password"
-            placeholder="비밀번호를 입력하세요"
-            onChange={onChange}
-            // value={form.userPwd}
-          />
+          <div>
+            <TextField
+              variant="standard"
+              label="비밀번호"
+              name="userPwd"
+              type="password"
+              placeholder="비밀번호를 입력하세요"
+              onChange={onChange}
+              style={{ width: 300 }}
+              // value={form.userPwd}
+            />
+          </div>
         )}
         {type === 'register' && (
-          <StyledInput
+          <TextField
+            variant="standard"
+            label="비밀번호 확인"
+            style={{ width: 300 }}
             name="userPwdCfm"
             type="password"
             placeholder="비밀번호를 한번 더 입력하세요"
@@ -191,14 +233,21 @@ const AuthForm = ({
           <p style={{ color: 'red' }}>비밀번호를 확인해주세요</p>
         )}
         {(type === 'register' || type === 'registerkakao') && (
-          <StyledInput
+          <TextField
+            style={{ width: 210 }}
+            label="닉네임"
+            variant="standard"
             name="userNickname"
             placeholder="닉네임을 입력하세요"
             onChange={onChange}
           />
         )}
-        {(type === 'register' || type === 'registerkakao') && (
-          <Button type="button" onClick={onCheckNickname}>
+        {type !== 'login' && (
+          <Button
+            type="button"
+            onClick={onCheckNickname}
+            style={{ height: 30, marginTop: '0.3rem' }}
+          >
             중복 확인
           </Button>
         )}
@@ -278,9 +327,9 @@ const AuthForm = ({
           </ButtonWithMarginTop>
         )}
         {type === 'login' && (
-          <ButtonWithMarginTop type="submit" cyan fullWidth>
+          <ButtonWith type="submit" cyan fullWidth>
             로그인
-          </ButtonWithMarginTop>
+          </ButtonWith>
         )}
         {type === 'registerkakao' && (
           <Button kakao fullWidth style={{ marginTop: '1.5rem' }} type="submit">
@@ -297,6 +346,13 @@ const AuthForm = ({
         <a href="https://kauth.kakao.com/oauth/authorize?client_id=fa3c898eec92948b420f6f03b934acd1&redirect_uri=http://i6a504.p.ssafy.io:80/kakaologinpage&response_type=code">
           <img src={KakaoImage} id="kakao-login-btn" width="350px" />
         </a>
+      )}
+      {type === 'login' && (
+        <Link to="/registerpage">
+          <ButtonWith cyan fullWidth>
+            회원가입
+          </ButtonWith>
+        </Link>
       )}
       {/* {type === 'kakaoOauth' && (
         <div>
