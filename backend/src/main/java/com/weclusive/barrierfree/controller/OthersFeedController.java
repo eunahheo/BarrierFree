@@ -15,10 +15,8 @@ import com.weclusive.barrierfree.service.OthersFeedService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import lombok.AllArgsConstructor;
 
 @RestController
-@AllArgsConstructor
 @RequestMapping("/othersFeed")
 @Api("다른 사람 피드 보기")
 public class OthersFeedController {

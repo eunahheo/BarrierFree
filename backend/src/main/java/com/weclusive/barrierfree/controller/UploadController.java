@@ -30,12 +30,13 @@ public class UploadController {
 	@PostMapping("/photo")
 	@ApiOperation(value = "사진 업로드", notes = "사용자가 입력한 사진을 업로드한다.")
 	public ResponseEntity<String> photoUpload(@RequestPart(value = "photo", required = true) MultipartFile pic) {
+		String result = "";
 		try {
-			fileService.uploadFile(pic);
+			result = fileService.uploadFile(pic);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity<String>(FAIL, HttpStatus.BAD_REQUEST);
 		}
-		return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+		return new ResponseEntity<String>(result, HttpStatus.OK);
 	}
 }
