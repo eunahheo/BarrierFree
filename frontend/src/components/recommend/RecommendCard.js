@@ -4,25 +4,29 @@ import RecommendBarrierIcon from './RecommendBarrierIcon';
 import axios from 'axios';
 import Review from '../review/Review';
 import { Link, useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 const RecommendCard = ({ item }) => {
   const navigate = useNavigate();
 
   const { addr1, contentid, firstimage, scrap_yn, title } = item;
+  const myuser = useSelector((state) => state.user.userData);
   const infomationCard = item.contentid;
   // const barriers = item.impairment;
   // const contentid  = item.contentid;
   // const state = { 'detailnum': reviewCard}
   const onClickCard = () => {
-    // console.log(e)
-    axios({
-      method: 'GET',
-      url: 'recommend/detail',
-      params: { contentid: contentid },
-    }).then(function (res) {
-      navigate(`/recommend/detail/${contentid}`);
-    });
-
+    if (myuser) {
+      axios({
+        method: 'GET',
+        url: 'recommend/detail',
+        params: { contentid: contentid, userSeq: myuser.userSeq },
+      }).then(function (res) {
+        navigate(`/recommend/detail/${contentid}`);
+      });
+    } else {
+      alert('로그인이 필요합니다!😀');
+    }
     // document.location.href = '/detail/'+ reviewCard
   };
 
