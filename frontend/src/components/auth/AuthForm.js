@@ -154,7 +154,7 @@ const AuthForm = ({
             onChange={onChange}
             value={form.userId}
           />
-          {type === 'register' && (
+          {(type === 'register' || type === 'registerkakao') && (
             <Button type="button" onClick={onCheckId}>
               중복 확인
             </Button>
@@ -169,14 +169,15 @@ const AuthForm = ({
             value={form.userEmail}
           />
         )}
-
-        <StyledInput
-          name="userPwd"
-          type="password"
-          placeholder="비밀번호를 입력하세요"
-          onChange={onChange}
-          // value={form.userPwd}
-        />
+        {type !== 'registerkakao' && (
+          <StyledInput
+            name="userPwd"
+            type="password"
+            placeholder="비밀번호를 입력하세요"
+            onChange={onChange}
+            // value={form.userPwd}
+          />
+        )}
         {type === 'register' && (
           <StyledInput
             name="userPwdCfm"
@@ -189,14 +190,14 @@ const AuthForm = ({
         {pwdCfm === false && (
           <p style={{ color: 'red' }}>비밀번호를 확인해주세요</p>
         )}
-        {type === 'register' && (
+        {(type === 'register' || type === 'registerkakao') && (
           <StyledInput
             name="userNickname"
             placeholder="닉네임을 입력하세요"
             onChange={onChange}
           />
         )}
-        {type === 'register' && (
+        {(type === 'register' || type === 'registerkakao') && (
           <Button type="button" onClick={onCheckNickname}>
             중복 확인
           </Button>
