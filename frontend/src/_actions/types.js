@@ -11,3 +11,5 @@ export const FIND_LOCATION = 'find_location';
 export const GETTING_ITEMS = 'getting/GETTING_ITEMS';
 
 export const UPLOAD_IMAGE = 'upload/UPLOAD_IMAGE';
+
+export const CURRENT_PARAMS = 'current/CURRENT_PARAMS';

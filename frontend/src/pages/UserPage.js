@@ -3,7 +3,8 @@ import UserReview from '../components/user/UserReview';
 import UserFollowings from '../components/user/UserFollowings';
 import UserFollowers from '../components/user/UserFollowers';
 import UserScraps from '../components/user/UserScraps';
-
+import { useEffect } from 'react';
+import { useParams } from 'react-router';
 function UserPage({ type }) {
   return (
     <div>

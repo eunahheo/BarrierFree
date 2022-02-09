@@ -4,33 +4,40 @@ import MyCardList from './review/MyCardList';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 
-const UserReview = () => {
+const UserScrapsOut = () => {
   const myuserData = useSelector((state) => state.user.userData);
   const myuser = myuserData.userSeq;
   const params = useParams();
   const currentUser = Number(params.userSeq);
 
-  const [itemList, setItemList] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [itemList, setItemList] = useState([]);
 
   useEffect(() => {
-    getUserReview();
+    getUserFeed();
   }, []);
 
-  const getUserReview = async () => {
+  const getUserFeed = async () => {
+    setLoading(true);
     try {
       if (currentUser === myuser) {
         const response = await axios({
-          url: '/myFeed/post',
           method: 'get',
-          params: { userSeq: myuser },
+          url: '/myFeed/scrap/recommend',
+          params: {
+            userSeq: currentUser,
+          },
         });
         setItemList(response.data);
       } else {
+        // othersfeed scrap 부분 api 없음
         const response = await axios({
-          url: '/othersFeed/postAll',
           method: 'get',
-          params: { otherUserSeq: currentUser, userSeq: myuser },
+          url: '/othersFeed/scrap/recommend',
+          params: {
+            otherUserSeq: currentUser,
+            userSeq: myuser,
+          },
         });
         setItemList(response.data);
       }
@@ -43,10 +50,10 @@ const UserReview = () => {
 
   return (
     <div>
-      <div>My Review in here</div>
+      <div>My Scraps Out</div>
       <MyCardList itemList={itemList}></MyCardList>
     </div>
   );
 };
 
-export default UserReview;
+export default UserScrapsOut;

@@ -4,11 +4,17 @@ import UserHeader from '../components/user/UserHeader';
 import UserPage from '../pages/UserPage';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
+import { useSelector } from 'react-redux';
+import { useParams } from 'react-router';
 
 function User() {
-  // const isLoggedIn = false;
   const [userControllType, setUserControllType] = useState('post');
+  const params = useParams();
+  const currentUser = Number(params.userSeq);
 
+  useEffect(() => {
+    setUserControllType('post');
+  }, [currentUser]);
   const onPost = () => {
     setUserControllType('post');
   };

@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import MyCardList from './MyCardList';
+import MyCardList from './review/MyCardList';
 import { useSelector } from 'react-redux';
 
+// 백 api 고쳐지면 수정할 것
 const UserScrapsIn = () => {
   const myuser = useSelector((state) => state.user.userData);
   const [itemList, setItemList] = useState([]);

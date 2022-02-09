@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useSelector } from 'react-redux';
 import Button from '../common/Button';
 import styled from 'styled-components';
+import { useParams } from 'react-router';
 
 const UserFollowerBlock = styled.div`
   display: flex;
@@ -39,31 +40,47 @@ const UserFollowers = () => {
   const [userfollowers, setUserfollowers] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const myuser = useSelector((state) => state.user.userData);
+  const myuserData = useSelector((state) => state.user.userData);
+  const myuser = myuserData.userSeq;
+  const params = useParams();
+  const currentUser = Number(params.userSeq);
 
   useEffect(() => {
     const getfollower = async () => {
       try {
+        setLoading(true);
         setError(null);
         setUserfollowers([]);
-        setLoading(true);
-        const res = await axios({
-          url: '/myFeed/follower',
-          method: 'get',
-          params: {
-            userSeq: myuser.userSeq,
-          },
-        });
-        setUserfollowers(res.data);
+        if (currentUser === myuser) {
+          const response = await axios({
+            url: '/myFeed/follower',
+            method: 'get',
+            params: {
+              userSeq: myuser,
+            },
+          });
+          setUserfollowers(response.data);
+        } else {
+          const response = await axios({
+            url: '/othersFeed/follower',
+            method: 'get',
+            params: {
+              otherUserSeq: currentUser,
+              userSeq: myuser,
+            },
+          });
+          setUserfollowers(response.data);
+        }
       } catch (error) {
         console.log(error);
         setError(error);
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     };
     getfollower();
   }, []);
-  console.log(userfollowers);
+
   if (loading) return <div>로딩중..</div>;
   if (error) return <div>에러가 발생했습니다</div>;
   if (!userfollowers) return null;
