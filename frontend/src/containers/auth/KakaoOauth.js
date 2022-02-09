@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-import AuthForm from '../../components/auth/AuthForm';
 import { useDispatch } from 'react-redux';
 import { loginUser, userInfo } from '../../_actions/user_actions';
 
@@ -14,51 +13,28 @@ const KakaoLoginForm = () => {
 
   axios({
     method: 'GET',
-    url: '/user/login/kakao',
-    params: {
-      code: { code },
-    },
+    url: '/user/login/kakao?code=' + code,
   }).then(function (res) {
     console.log(res);
     if (res.status == 200) {
-      console.log(res.payload.accessToken);
-      localStorage.setItem('accessToken', res.payload.accessToken);
+      console.log(res.data.accessToken);
+      localStorage.setItem('accessToken', res.data.accessToken);
 
-      dispatch(userInfo(res.payload.accessToken));
+      dispatch(userInfo(res.data.accessToken));
       navigate('/');
-    } else if (res.status == 204) {
-      console.log(res.payload.accessToken);
-      console.log('최초 로그인');
+    } else if (res.status == 202) {
+      // 최초 로그인
+      // console.log(res.payload.accessToken);
+      localStorage.setItem('accessToken', res.data.accessToken); // kakaoAccessToken
+      alert('가입된 정보가 없어요! 회원가입 창으로 이동합니다.');
+      navigate('/registerpage/kakao');
     }
   });
 
-  // const [pwdCfm, setPwdCfm] = useState(true);
-  // const [loginloading, setLoginloading] = useState(false);
-  // const [regform, setForm] = useState({
-  //   userId: '',
-  //   userPwd: '',
-  // });
-  // const onChange = (event) => {
-  //   setForm({ ...regform, [event.target.name]: event.target.value });
-  // };
-
-  // // useEffect(() => setLoginloading(false), []);
-
-  // const onSubmit = async (event) => {
-  //   event.preventDefault();
-
-  // const { userId, userPwd } = regform;
-
-  // let body = {
-  //   userId: userId,
-  //   userPwd: userPwd,
-  // };
-  // };
-
   return (
     <div>
-      카카오 로그인 진행 중입니다. <br />
-      잠시만 기다려 주세요.
+      <h2>카카오 로그인 진행 중입니다.</h2>
+      <h3>잠시만 기다려 주세요.</h3>
     </div>
   );
 };

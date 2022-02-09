@@ -201,7 +201,7 @@ const AuthForm = ({
             중복 확인
           </Button>
         )}
-        {type === 'register' && (
+        {(type === 'register' || type === 'registerkakao') && (
           <AuthBarrierIconBlock>
             <div align="center" className="barriericon">
               <img
