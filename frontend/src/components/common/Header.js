@@ -95,14 +95,24 @@ const Header = ({ user, onLogout }) => {
           </div>
           <div
             onClick={() => {
-              navigate('/recommend');
+              if (user) {
+                navigate('/recommend');
+              } else {
+                alert('로그인이 필요합니다!🤗');
+                navigate('/loginpage');
+              }
             }}
           >
             <h4>여행추천</h4>
           </div>
           <div
             onClick={() => {
-              navigate('/search');
+              if (user) {
+                navigate('/search');
+              } else {
+                alert('로그인이 필요합니다!🤗');
+                navigate('/loginpage');
+              }
             }}
           >
             <h4>검색하기</h4>
