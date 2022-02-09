@@ -83,7 +83,7 @@ public class RecommendServiceImpl implements RecommendService {
 				scrap_yn = 'y';
 			result.put("scrap_yn", scrap_yn);
 			result.put("posts",
-					postRepository.findTop20ByDelYnAndContentIdOrderByPostScrapDesc('n', Long.toString(contentId)));
+					postRepository.findTop20ByDelYnAndContentIdOrderByPostScrapDesc('n', contentId));
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new Exception();
