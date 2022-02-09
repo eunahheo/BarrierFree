@@ -3,7 +3,7 @@ import axios from 'axios';
 
 export const uploadImage = (imageData) => async (dispatch) => {
   if (imageData.entries().next().value[1] === null) {
-    const response = await axios.post('postimage url 넣어줘야 됨', imageData, {
+    const response = await axios.post('/upload/photo', imageData, {
       onUploadProgress: (ProgressEvent) => {
         console.log(
           'uploading::',

@@ -19,6 +19,7 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 const HeaderBlock = styled.div`
   position: fixed;
   z-index: 100;
+  font-family: 'BMHANNAAir';
   width: 100%;
   background: white;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.08);
@@ -123,13 +124,14 @@ const Header = ({ user, onLogout }) => {
               <Box sx={{ flexGrow: 0 }}>
                 <Tooltip title="Open settings">
                   <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                    <span style={{ color: 'black' }}>
+                    <span style={{ color: 'black', fontfamily: 'BMHANNAAir' }}>
                       {user.userNickname}님
                     </span>
                     <Avatar alt="Remy Sharp" src={user.userPhoto} />
                   </IconButton>
                 </Tooltip>
                 <Menu
+                  style={{ fontFamily: 'BMHANNAAir' }}
                   // style={{ background: "red" }}
                   sx={{ mt: '45px' }}
                   id="menu-appbar"
@@ -167,7 +169,7 @@ const Header = ({ user, onLogout }) => {
 
                   <MenuItem
                     onClick={() => {
-                      navigate('/userpage');
+                      navigate('/mypage');
                       handleCloseUserMenu();
                     }}
                   >

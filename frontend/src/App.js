@@ -18,6 +18,7 @@ import LoginPage from './pages/LoginPage';
 import TourInfomation from './components/search/TourInfomation';
 import HeaderContainer from './containers/base/HeaderContainer';
 import WritePage from './pages/WritePage';
+import MyPage from './pages/MyPage';
 
 function App() {
   return (
@@ -57,6 +58,7 @@ function App() {
         ></Route>
         <Route path="/write" element={<WritePage />}></Route>
         <Route path="/search/tour" element={<SearchDetail />}></Route>
+        <Route path="/mypage" element={<MyPage />}></Route>
         <Route path="*" element={<NotFound />}></Route>
       </Routes>
     </div>

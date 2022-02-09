@@ -11,6 +11,10 @@ import PlaceBoxContainer from '../../containers/write/PlaceBoxContainer';
 import { useSelector } from 'react-redux';
 import WriteButtonsContainer from '../../containers/write/WriteButtonsContainer';
 import Button from '../common/Button';
+import * as React from 'react';
+import Rating from '@mui/material/Rating';
+import Stack from '@mui/material/Stack';
+
 const EditorBlock = styled(Responsive)`
   padding-top: 5rem;
   padding-bottom: 5rem;
@@ -50,6 +54,19 @@ const QuillWrapper = styled.div`
     line-height: 2;
   }
 `;
+
+export function HalfRating() {
+  return (
+    <Stack spacing={1}>
+      <Rating
+        name="half-rating"
+        defaultValue={2.5}
+        precision={0.5}
+        size="large"
+      />
+    </Stack>
+  );
+}
 
 const Editor = ({ onChangeField, postTitle, postContent }) => {
   const quillElement = useRef(null);
@@ -119,13 +136,15 @@ const Editor = ({ onChangeField, postTitle, postContent }) => {
   };
 
   return (
-    <EditorBlock>
+    // <EditorBlock>
+    <div>
       <hr></hr>
       <TitleInput
         placeholder="제목입력"
         onChange={onChangeTitle}
         value={postTitle}
       ></TitleInput>
+      <HalfRating />
       <BodyTextarea
         placeholder="input내용 작성"
         onChange={onChangeBody}
@@ -158,7 +177,8 @@ const Editor = ({ onChangeField, postTitle, postContent }) => {
           <input type="file" id="imageFile" capture="user" accept="image/*" />
         </p>
       </div>
-    </EditorBlock>
+    </div>
+    // </EditorBlock>
   );
 };
 

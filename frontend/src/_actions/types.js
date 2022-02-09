@@ -8,6 +8,6 @@ export const COMMENT_DELETE = 'comment_delete';
 
 export const FIND_LOCATION = 'find_location';
 
-export const UPLOAD_IMAGE = 'loading/UPLOAD_IMAGE';
-
 export const GETTING_ITEMS = 'getting/GETTING_ITEMS';
+
+export const UPLOAD_IMAGE = 'upload/UPLOAD_IMAGE';
