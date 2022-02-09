@@ -88,7 +88,7 @@ public class UserController {
 			if (kakaoUser == null) { // 최초 로그인이면
 				resultMap.put("message", "최초 로그인");
 				resultMap.put("accessToken", kakaoToken);
-				HttpStatus status = HttpStatus.NO_CONTENT;
+				HttpStatus status = HttpStatus.ACCEPTED;
 				return new ResponseEntity<Map<String, Object>>(resultMap, status);
 			}
 		} catch (Exception e) {
@@ -99,7 +99,7 @@ public class UserController {
 		User user = userService.findByUserId(kakaoUser.getUserId());
 		resultMap.put("accessToken", userService.createAccessToken(user));
 		resultMap.put("message", SUCCESS);
-		HttpStatus status = HttpStatus.ACCEPTED;
+		HttpStatus status = HttpStatus.OK;
 
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
