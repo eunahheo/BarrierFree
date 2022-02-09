@@ -19,6 +19,7 @@ import TourInfomation from './components/search/TourInfomation';
 import HeaderContainer from './containers/base/HeaderContainer';
 import WritePage from './pages/WritePage';
 import MyPage from './pages/MyPage';
+import KakaoLoginPage from './pages/KakaoLoginPage';
 
 function App() {
   return (
@@ -44,6 +45,7 @@ function App() {
         <Route path="/reviewpage" element={<ReviewPage />}></Route>
         <Route path="/registerpage" element={<RegisterPage />}></Route>
         <Route path="/loginpage" element={<LoginPage />}></Route>
+        <Route path="/kakaologinpage" element={<KakaoLoginPage />}></Route>
         <Route
           path="/registerpage/kakao"
           element={<RegisterPageKakao />}

@@ -16,6 +16,7 @@ import VisualHide from '../images/VisualHide.png';
 import RegisterForm from '../../containers/auth/RegisterForm';
 import axios from 'axios';
 import { red } from '@material-ui/core/colors';
+import KakaoImage from '../images/kakao_login_large_wide.png';
 
 const AuthFormBlock = styled.div`
   h2 {
@@ -62,7 +63,7 @@ const StyledInput = styled.input`
 `;
 const ButtonWithMarginTop = styled(Button)`
   margin-top: 1.5rem;
-  // padding-right: 3px;
+  padding-right: 10px;
 `;
 
 const textMap = {
@@ -200,7 +201,7 @@ const AuthForm = ({
             중복 확인
           </Button>
         )}
-        {type === 'register' && (
+        {(type === 'register' || type === 'registerkakao') && (
           <AuthBarrierIconBlock>
             <div align="center" className="barriericon">
               <img
@@ -286,6 +287,11 @@ const AuthForm = ({
           </Button>
         )}
       </form>
+      {type === 'login' && (
+        <a href="https://kauth.kakao.com/oauth/authorize?client_id=fa3c898eec92948b420f6f03b934acd1&redirect_uri=http://i6a504.p.ssafy.io:80/kakaologinpage&response_type=code">
+          <img src={KakaoImage} id="kakao-login-btn" width="350px" />
+        </a>
+      )}
       {type === 'register' && (
         <Link to="/registerpage/kakao">
           <Button kakao fullWidth style={{ marginTop: '0.5rem' }}>
@@ -293,6 +299,12 @@ const AuthForm = ({
           </Button>
         </Link>
       )}
+      {/* {type === 'kakaoOauth' && (
+        <div>
+          카카오 로그인 진행 중입니다. <br />
+          잠시만 기다려 주세요.
+        </div>
+      )} */}
     </AuthFormBlock>
   );
 };
