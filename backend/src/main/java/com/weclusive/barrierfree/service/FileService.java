@@ -6,4 +6,6 @@ public interface FileService {
 
 	public String uploadFile(MultipartFile pic) throws Exception;
 
+//	void fileTest();
+
 }
