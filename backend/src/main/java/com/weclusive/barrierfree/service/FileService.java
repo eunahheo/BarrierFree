@@ -4,6 +4,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 public interface FileService {
 
-	public void uploadFile(MultipartFile pic) throws Exception;
+	public String uploadFile(MultipartFile pic) throws Exception;
 
 }
