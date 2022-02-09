@@ -24,9 +24,6 @@ const Recommend = () => {
   const myuser = useSelector((state) => state.user.userData);
   // console.log(myuser)
   const dispatch = useDispatch();
-  const [itemList, setItemList] = useState([]);
-  var arrayLength = 3;
-  var multiArray = new Array(arrayLength);
   const [result, setResult] = useState([]);
   const [category, setCategory] = useState('all');
   const onSelect = useCallback(
@@ -41,6 +38,15 @@ const Recommend = () => {
   const [town, setTown] = useState('');
   const [barrier, setBarrier] = useState('');
 
+  // 여행지 추천 파트
+  const [itemList, setItemList] = useState([]);
+  const [searchLocationList, setSearchLocationList] = useState([]);
+  const [searchFoodList, setSearchFoodList] = useState([]);
+  const [searchHomeList, setSearchHomeList] = useState([]);
+  const [searchPartyList, setSearchPartyList] = useState([]);
+  const [noresult, setNoresult] = useState('');
+  const [search, setSearch] = useState(false);
+
   useEffect(() => {
     findMyLocation();
     setCityDropdown();
@@ -52,6 +58,7 @@ const Recommend = () => {
     if (navigator.geolocation) {
       //위치 정보를 얻기
       navigator.geolocation.getCurrentPosition(function (res) {
+        console.log(res)
         axios({
           method: 'GET',
           url: '/recommend/myloc',
@@ -62,9 +69,10 @@ const Recommend = () => {
             radius: 5000,
             userSeq: myuser.userSeq,
             page: 1,
-            size: 100,
+            size: 20,
           },
         }).then(function (res) {
+          console.log(res)
           if (res.data === '검색결과가 없습니다.') {
             setItemList([]);
           } else {
@@ -120,38 +128,22 @@ const Recommend = () => {
   };
 
   const onClickSearch = () => {
+    setItemList([]);
+    setSearchLocationList([]);
+    setSearchFoodList([]);
+    setSearchHomeList([]);
+    setSearchPartyList([]);
+    setSearch(true);
     const cityNum = Number(city);
     const townNum = Number(town);
-    // let data = {
-    //   sidoCode: city,
-    //   sigunguCode: town,
-    //   userSeq: myuser.userSeq,
-    //   // contentTypeId: impairmentNums[i],
-    //   impairments: barrier,
-    //   page: 0,
-    //   size: 10
-    //   }
-    // axios(
-    //   {
-    //     method: "GET",
-    //     url: '/recommend/search',
-    //     params: data
-    //   }).then((res) => {
-    //     console.log(res)
-    //     setItemList(res.data)})
-    //   .catch('hey')
-    // setCity('');
-    // setTown('');
-    // setBarrier('');
-    // const impairmentNums = [12, 39, 32, 15];
-    // for (var i = 0; i < impairmentNums.length; i++)
-
+    const impairmentNums = [0, 12, 39, 32, 15];
+    for (var i = 0; i < impairmentNums.length; i++)
     if (city && town && barrier) {
       let data = {
         sidoCode: cityNum,
         sigunguCode: townNum,
         userSeq: myuser.userSeq,
-        // contentTypeId: impairmentNums[i],
+        contentTypeId: impairmentNums[i],
         impairments: barrier,
         page: 0,
         size: 10,
@@ -162,8 +154,37 @@ const Recommend = () => {
         params: data,
       })
         .then((res) => {
-          console.log(res);
-          setItemList(res.data);
+          if (res.config.params.contentTypeId == 0) {
+            if (res.data.length > 0) {
+              setItemList(res.data);
+            } else {
+              setNoresult('검색 내용이 없습니다 😥');
+            }
+          } else if (res.config.params.contentTypeId == 12) {
+            if (res.data.length > 0) {
+              setSearchLocationList(res.data);
+            } else {
+              setNoresult('검색 내용이 없습니다 😥');
+            } 
+          } else if (res.config.params.contentTypeId == 39) {
+            if (res.data.length > 0) {
+              setSearchFoodList(res.data);
+            } else {
+              setNoresult('검색 내용이 없습니다 😥');
+            }
+          } else if (res.config.params.contentTypeId == 32) {
+            if (res.data.length > 0) {
+              setSearchHomeList(res.data);
+            } else {
+              setNoresult('검색 내용이 없습니다 😥');
+            }
+          } else if (res.config.params.contentTypeId == 15) {
+            if (res.data.length > 0) {
+              setSearchPartyList(res.data);
+            } else {
+              setNoresult('검색 내용이 없습니다 😥');
+            }
+          }
         })
         .catch('hey');
 
@@ -172,10 +193,8 @@ const Recommend = () => {
       setBarrier('');
     } else if (barrier) {
       let data = {
-        // sidoCode: cityNum,
-        // sigunguCode: townNum,
         userSeq: myuser.userSeq,
-        contentTypeId: 12,
+        contentTypeId: impairmentNums[i],
         impairments: barrier,
         page: 0,
         size: 10,
@@ -185,8 +204,38 @@ const Recommend = () => {
         url: '/recommend/search',
         params: data,
       }).then((res) => {
-        console.log(res);
-        setItemList(res.data);
+        console.log(res)
+        if (res.config.params.contentTypeId == 0) {
+          if (res.data.length > 0) {
+            setItemList(res.data);
+          } else {
+            setNoresult('검색 내용이 없습니다 😥');
+          }
+        } else if (res.config.params.contentTypeId == 12) {
+          if (res.data.length > 0) {
+            setSearchLocationList(res.data);
+          } else {
+            setNoresult('검색 내용이 없습니다 😥');
+          } 
+        } else if (res.config.params.contentTypeId == 39) {
+          if (res.data.length > 0) {
+            setSearchFoodList(res.data);
+          } else {
+            setNoresult('검색 내용이 없습니다 😥');
+          }
+        } else if (res.config.params.contentTypeId == 32) {
+          if (res.data.length > 0) {
+            setSearchHomeList(res.data);
+          } else {
+            setNoresult('검색 내용이 없습니다 😥');
+          }
+        } else if (res.config.params.contentTypeId == 15) {
+          if (res.data.length > 0) {
+            setSearchPartyList(res.data);
+          } else {
+            setNoresult('검색 내용이 없습니다 😥');
+          }
+        }
       });
 
       setCity('');
@@ -197,8 +246,7 @@ const Recommend = () => {
         sidoCode: cityNum,
         sigunguCode: townNum,
         userSeq: myuser.userSeq,
-        contentTypeId: 12,
-        // impairments: barrier,
+        contentTypeId: impairmentNums[i],
         page: 0,
         size: 10,
       };
@@ -208,8 +256,37 @@ const Recommend = () => {
         params: data,
       })
         .then((res) => {
-          console.log(res);
-          setItemList(res.data);
+          if (res.config.params.contentTypeId == 0) {
+            if (res.data.length > 0) {
+              setItemList(res.data);
+            } else {
+              setNoresult('검색 내용이 없습니다 😥');
+            }
+          } else if (res.config.params.contentTypeId == 12) {
+            if (res.data.length > 0) {
+              setSearchLocationList(res.data);
+            } else {
+              setNoresult('검색 내용이 없습니다 😥');
+            } 
+          } else if (res.config.params.contentTypeId == 39) {
+            if (res.data.length > 0) {
+              setSearchFoodList(res.data);
+            } else {
+              setNoresult('검색 내용이 없습니다 😥');
+            }
+          } else if (res.config.params.contentTypeId == 32) {
+            if (res.data.length > 0) {
+              setSearchHomeList(res.data);
+            } else {
+              setNoresult('검색 내용이 없습니다 😥');
+            }
+          } else if (res.config.params.contentTypeId == 15) {
+            if (res.data.length > 0) {
+              setSearchPartyList(res.data);
+            } else {
+              setNoresult('검색 내용이 없습니다 😥');
+            }
+          }
         })
         .catch('hey');
 
@@ -279,10 +356,65 @@ const Recommend = () => {
           category={category}
           onClick={onSelect}
         ></RecommendCategories>
-        <RecommendCardList
-          itemList={itemList}
-          category={category}
-        ></RecommendCardList>
+
+
+        {search == false? <div>
+          {itemList.length > 0?
+          <div>
+            <RecommendCardList
+              itemList={itemList}
+              category={category}
+            ></RecommendCardList> 
+          </div>
+          : <div>{noresult}</div>}
+          </div>
+          :
+          <div>
+            <h2>명소</h2>
+            {searchLocationList.length > 0?
+            <div>
+              <RecommendCardList
+              itemList={searchLocationList}
+              category={category}
+              ></RecommendCardList> 
+            </div>
+            : <div>{noresult}</div>
+            }
+            <h2>음식점</h2>
+            {searchFoodList.length > 0? 
+            <div>
+              <RecommendCardList
+                itemList={searchFoodList}
+                category={category}
+              ></RecommendCardList>
+            </div>
+            : <div>{noresult}</div>
+            }
+            <h2>숙박시설</h2>
+            {searchHomeList.length > 0? 
+            <div>
+              <RecommendCardList
+                itemList={searchHomeList}
+                category={category}
+            ></RecommendCardList>
+            </div> : <div>{noresult}</div>
+            }
+            <h2>행사</h2>
+            {searchPartyList.length > 0? 
+            <div>
+              <RecommendCardList
+                itemList={searchPartyList}
+                category={category}
+              ></RecommendCardList>
+            </div>
+            : <div>{noresult}</div>
+            }
+            </div>
+      }
+        
+        
+        
+        
       </Container>
     </div>
   );
