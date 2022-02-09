@@ -288,7 +288,7 @@ const AuthForm = ({
         )}
       </form>
       {type === 'login' && (
-        <a href="https://kauth.kakao.com/oauth/authorize?client_id=fa3c898eec92948b420f6f03b934acd1&redirect_uri=http://localhost:80/kakaologinpage&response_type=code">
+        <a href="https://kauth.kakao.com/oauth/authorize?client_id=fa3c898eec92948b420f6f03b934acd1&redirect_uri=http://i6a504.p.ssafy.io:80/kakaologinpage&response_type=code">
           <img src={KakaoImage} id="kakao-login-btn" width="350px" />
         </a>
       )}
