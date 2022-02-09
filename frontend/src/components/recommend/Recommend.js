@@ -51,8 +51,8 @@ const Recommend = () => {
     // Geolocation API에 액세스할 수 있는지를 확인
     if (navigator.geolocation) {
       //위치 정보를 얻기
-      navigator.geolocation.getCurrentPosition(function (res) {
-        axios({
+      navigator.geolocation.getCurrentPosition(async function (res) {
+        await axios({
           method: 'GET',
           url: '/recommend/myloc',
           params: {
