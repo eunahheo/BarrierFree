@@ -18,10 +18,8 @@ import com.weclusive.barrierfree.service.FollowService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import lombok.AllArgsConstructor;
 
 @RestController
-@AllArgsConstructor
 @RequestMapping("/sns")
 @Api("팔로우 기능 ")
 public class FollowController {
