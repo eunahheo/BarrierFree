@@ -17,7 +17,6 @@ import io.swagger.annotations.ApiOperation;
 
 
 //@RestController
-@CrossOrigin("*")
 @RequestMapping("/db")
 public class DbController {
 	@Autowired
