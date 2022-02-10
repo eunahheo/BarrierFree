@@ -132,6 +132,11 @@ public class UserController {
 				return new ResponseEntity<Map<String, Object>>(resultMap, status);
 			} else {
 				User user = userService.findByUserId(loginUser.getUserId());
+				if(user.getEnabledYn() == 'n') {
+					resultMap.put("message", "이메일 인증이 안 된 사용자입니다.");
+					return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.FORBIDDEN);
+				}
+				
 				resultMap.put("accessToken", userService.createAccessToken(user));
 				resultMap.put("message", SUCCESS);
 				status = HttpStatus.ACCEPTED;
