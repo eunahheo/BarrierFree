@@ -1,6 +1,10 @@
-import { CURRENT_PARAMS } from './types';
+import { CURRENT_PARAMS, RESET_PARAMS } from './types';
 
-export const getCurrentParams = (params) => ({
+export const getCurrentParams = (nowparams) => ({
   type: CURRENT_PARAMS,
-  payload: params,
+  payload: nowparams,
+});
+
+export const resetParams = () => ({
+  type: RESET_PARAMS,
 });

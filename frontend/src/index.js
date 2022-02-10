@@ -7,7 +7,8 @@ import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import promiseMiddleware from 'redux-promise';
 import ReduxThunk from 'redux-thunk';
-import rootReducer, { rootSaga } from './_reducers';
+import rootReducer from './_reducers';
+// import rootReducer, { rootSaga } from './_reducers';
 import { BrowserRouter } from 'react-router-dom';
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
@@ -37,7 +38,7 @@ const store = createStoreWithMiddleware(
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
 );
 
-sagaMiddleware.run(rootSaga);
+// sagaMiddleware.run(rootSaga);
 
 const persistor = persistStore(store);
 

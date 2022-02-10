@@ -16,7 +16,6 @@ import MenuItem from '@mui/material/MenuItem';
 import Badge from '@mui/material/Badge';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import { useDispatch } from 'react-redux';
-import { getCurrentParams } from '../../_actions/current_actions';
 
 const HeaderBlock = styled.div`
   position: fixed;
@@ -164,7 +163,6 @@ const Header = ({ user, onLogout }) => {
                 >
                   <MenuItem
                     onClick={() => {
-                      dispatch(getCurrentParams(user.userSeq));
                       navigate(`/user/${user.userSeq}`);
                       handleCloseUserMenu();
                     }}
