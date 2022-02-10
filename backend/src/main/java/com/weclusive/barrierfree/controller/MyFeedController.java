@@ -9,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -116,8 +115,8 @@ public class MyFeedController {
 	// 스크랩 한 작성 게시글
 	@GetMapping("/scrap/post")
 	@ApiOperation(value = "스크랩한 게시글 - 작성 게시글", notes = "스크랩 한 작성 게시글 조회하는 기능, 게시글이 없으면 빈 리스트 반환")
-	public ResponseEntity<Object> readScrapPosts(@RequestHeader("Authorization") String accessToken, @RequestParam int userSeq) {
-		List<Object> result = myFeedService.readScrapPost(userSeq);
+	public ResponseEntity<Object> readScrapPosts(@RequestParam int userSeq) {
+		List<Map<String, Object>> result = myFeedService.readScrapPost(userSeq);
 		if (result != null) {
 			return new ResponseEntity<>(result, HttpStatus.OK);
 		} else {
@@ -128,8 +127,8 @@ public class MyFeedController {
 	// 스크랩 한 추천 게시글
 	@GetMapping("/scrap/recommend")
 	@ApiOperation(value = "스크랩한 게시글 - 추천 게시글", notes = "스크랩 한 추천 게시글 조회하는 기능, 게시글이 없으면 빈 리스트 반환")
-	public ResponseEntity<Object> readRecommendPosts(@RequestHeader("Authorization") String accessToken, @RequestParam int userSeq){
-		List<Object> result;
+	public ResponseEntity<Object> readRecommendPosts(@RequestParam int userSeq){
+		List<Map<String, Object>> result;
 		try {
 			result = myFeedService.readScrapRecommend(userSeq);
 		} catch (Exception e) {
