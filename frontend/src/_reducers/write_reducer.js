@@ -21,6 +21,7 @@ const initialState = {
   physical: 0,
   senior: 0,
   visibility: 0,
+  postPoint: 0,
   writeUserSeq: '',
 };
 

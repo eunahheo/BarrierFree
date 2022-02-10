@@ -55,23 +55,22 @@ const QuillWrapper = styled.div`
   }
 `;
 
-export function HalfRating() {
-  return (
-    <Stack spacing={1}>
-      <Rating
-        name="half-rating"
-        defaultValue={2.5}
-        precision={0.5}
-        size="large"
-      />
-    </Stack>
-  );
-}
+// export function HalfRating() {
+//   return (
+//     <Rating
+//       name="half-rating"
+//       defaultValue={2.5}
+//       precision={0.5}
+//       size="large"
+//     />
+//   );
+// }
 
-const Editor = ({ onChangeField, postTitle, postContent }) => {
+const Editor = ({ onChangeField, postTitle, postContent, postPoint }) => {
   const quillElement = useRef(null);
   const quillInstance = useRef(null);
   const [files, setFiles] = useState('');
+  const [point, setPoint] = useState(0);
 
   const onLoadFile = (event) => {
     const file = event.target.files;
@@ -84,7 +83,6 @@ const Editor = ({ onChangeField, postTitle, postContent }) => {
     formdata.append('postPhoto', files[0]);
     console.log(formdata);
     console.log(files[0]);
-
     const config = {
       Headers: {
         'content-type': 'multipart/form-data',
@@ -121,6 +119,10 @@ const Editor = ({ onChangeField, postTitle, postContent }) => {
     onChangeField({ key: 'postContent', value: e.target.value });
   };
 
+  const onChangePostPoint = (e) => {
+    console.log('changepostpoint', e);
+    onChangeField({ key: 'postPoint', value: postPoint });
+  };
   useEffect(() => {
     preview();
     return () => preview();
@@ -134,7 +136,6 @@ const Editor = ({ onChangeField, postTitle, postContent }) => {
       (imgEl.style.backgroundImage = `url(${reader.result})`);
     reader.readAsDataURL(files[0]);
   };
-
   return (
     // <EditorBlock>
     <div>
@@ -144,7 +145,22 @@ const Editor = ({ onChangeField, postTitle, postContent }) => {
         onChange={onChangeTitle}
         value={postTitle}
       ></TitleInput>
-      <HalfRating />
+      <Rating
+        value={postPoint}
+        // onChange={(event, newValue) => {
+        //   onChangePostPoint();
+        //   console.log(event);
+        // }}
+        name="half-rating"
+        defaultValue={2.5}
+        precision={0.5}
+        size="large"
+        onChange={(event, newValue) => {
+          setPoint(newValue);
+          onChangePostPoint();
+        }}
+      />
+      <span>{postPoint}</span>
       <BodyTextarea
         placeholder="input내용 작성"
         onChange={onChangeBody}
