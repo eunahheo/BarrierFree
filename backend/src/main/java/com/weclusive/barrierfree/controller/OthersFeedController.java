@@ -27,7 +27,7 @@ public class OthersFeedController {
 	private OthersFeedService othersFeedService;
 
 	@GetMapping("/main")
-	@ApiOperation(value = "피드 상단 내용 보기", notes = "프로필 사진, 닉네임, 게시글 수, 팔로잉 수, 팔로워 수를 반환한다.", response = List.class)
+	@ApiOperation(value = "피드 상단 내용 보기", notes = "프로필 사진, 닉네임, 게시글 수, 팔로잉 수, 팔로워 수, 총 스크랩 수를 반환한다.", response = List.class)
 	// 상대방의 userSeq 보내기
 	public ResponseEntity<Object> mainFeed(@RequestParam int userSeq, @RequestParam int otherUserSeq) {
 		Map<String, Object> result = othersFeedService.readOthersFeed(userSeq, otherUserSeq);

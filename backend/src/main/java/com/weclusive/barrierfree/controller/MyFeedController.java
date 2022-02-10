@@ -38,7 +38,7 @@ public class MyFeedController {
 	
 	// 피드 보기
 	@GetMapping("/main")
-	@ApiOperation(value = "피드 상단 내용 보기", notes = "프로필 사진, 닉네임, 게시글 수, 팔로잉 수, 팔로워 수, 스크랩 게시글 수를 반환한다.", response = List.class)
+	@ApiOperation(value = "피드 상단 내용 보기", notes = "프로필 사진, 닉네임, 게시글 수, 팔로잉 수, 팔로워 수, 총 스크랩 수를 반환한다.", response = List.class)
 	public ResponseEntity<Object> mainFeed(@RequestParam int userSeq) {
 		List<Map<String, Object>> result = myFeedService.readMyFeed(userSeq);
 		if (result != null) {
