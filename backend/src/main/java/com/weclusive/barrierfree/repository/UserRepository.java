@@ -16,12 +16,16 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 	// 텅 비어있어도 작동한다.
 	// JpaRepository를 상속받으면 기본적으로 CRUD가 생성된다.
 
+	@Query(value = "SELECT u FROM user u WHERE u.delYn='n' AND u.userNickname = ?1")
 	User findByUserNickname(String userNickname);
 
+	@Query(value = "SELECT u FROM user u WHERE u.delYn='n' AND u.userId = ?1")
 	User findByUserId(String userId);
 
+	@Query(value = "SELECT u FROM user u WHERE u.delYn='n' AND u.userEmail = ?1")
 	User findByUserEmail(String userEmail);
 
+	@Query(value = "SELECT u FROM user u WHERE u.delYn='n' AND u.userSeq = ?1")
 	User findByUserSeq(int userSeq);
 
 	// delyn = n 인 컬럼 수
@@ -32,5 +36,5 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 	public Optional<User> findAllByUserSeq(int userSeq);
 
 	// 검색 - 사용자 닉네임
-	public Page<User> findByUserNicknameContaining(String keyword, Pageable pageable);
+	public Page<User> findByUserNicknameContainingAndDelYn(String keyword, char delYn, Pageable pageable);
 }
