@@ -82,51 +82,6 @@ const Review = () => {
     getDetailFn();
     getCommentList();
   }, []);
-  async function getDetailFn() {
-    setLoading(true);
-    try {
-      const res = await axios({
-        method: 'GET',
-        url: '/post/detail',
-        params: { postSeq: reviewNum },
-      });
-      setReviewDetail(res.data[0].post);
-      setBarriers(res.data[0].impairment);
-      setReviewPoint(res.data[0].post.postPoint);
-      setReviewTime(res.data[0].post.regDt.substring(0, 10));
-      setReviewImage(res.data[0].post.postPhoto);
-      setImgAlt(res.data[0].post.postAlt);
-
-      console.log('reviewdetail', reviewDetail);
-
-      const response = await axios({
-        method: 'get',
-        url: '/othersFeed/main',
-        params: {
-          otherUserSeq: res.data[0].post.userSeq,
-          userSeq: myuser.userSeq,
-        },
-      });
-      console.log(response);
-      setOtherUser(response.data);
-      const response2 = await axios({
-        method: 'get',
-        url: '/sns/isfollow',
-        params: {
-          otherUserSeq: res.data[0].post.userSeq,
-          userSeq: myuser.userSeq,
-        },
-      });
-      if (response2.data.isfollow === 'y') {
-        setCheckFw(true);
-      }
-    } catch (e) {
-      console.log(e);
-      console.log('ERROR');
-    } finally {
-      setLoading(false);
-    }
-  }
 
   // useEffect(() => {
   //   getCommentList();
@@ -198,21 +153,6 @@ const Review = () => {
       alert('댓글을 입력해주세요 😉');
     }
     getCommentList();
-  };
-  // 팔로우, 언팔로우
-  const onFollow = () => {
-    try {
-      const res = axios({
-        method: 'post',
-        url: '/sns/follow',
-        data: {
-          userSeq: myuser.userSeq,
-          followingSeq: reviewDetail.userSeq,
-        },
-      });
-    } catch (error) {
-      console.log(error);
-    }
   };
 
   // 팔로우, 팔로잉
