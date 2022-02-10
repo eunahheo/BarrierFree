@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { createAction } from 'redux-actions';
+import { Navigate, useNavigate } from 'react-router-dom';
 export const LOGIN_USER = 'user/LOGIN_USER';
 export const USER_INFO = 'user/USER_INFO';
 export const LOGOUT = 'user/LOGOUT';
@@ -9,9 +10,7 @@ export const loginUser = (dataTosubmit) => {
     method: 'POST',
     url: '/user/login',
     data: dataTosubmit,
-  })
-    .then((res) => res.data)
-    .catch((e) => console.log(e));
+  }).then((res) => res.data);
 
   return {
     type: LOGIN_USER,
