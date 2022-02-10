@@ -8,7 +8,6 @@ import {
 } from '../_actions/write_actions';
 import createRequestSaga from '../lib/createRequestSaga';
 import { takeLatest } from 'redux-saga/effects';
-import { writePostAPI } from '../_actions/write_actions';
 import axios from '../../node_modules/axios/index';
 
 const writePostSaga = createRequestSaga(
