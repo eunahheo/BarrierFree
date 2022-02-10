@@ -10,7 +10,7 @@ import { commentSave } from '../../_actions/comment_actions';
 import styled from 'styled-components';
 import palette from '../../lib/styles/palette.js';
 import { useNavigate } from '../../../node_modules/react-router/index.js';
-import { getCurrentParams } from '../../_actions/current_actions.js';
+import Button from '../common/Button.js';
 
 const ReviewBox = styled.div`
   display: flex;
@@ -48,7 +48,6 @@ const Review = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const pageNum = useParams();
-  const params = useParams();
   const reviewNum = Number(pageNum.reviewCard);
   const myuser = useSelector((state) => state.user.userData);
 
@@ -71,48 +70,60 @@ const Review = () => {
   };
 
   const [loading, setLoading] = useState(false);
+  const [checkFw, setCheckFw] = useState(false);
   // review 창이 뜨자 마자 불러와져야할 것들
   useEffect(() => {
-    async function getDeatilFn() {
-      setLoading(true);
-      try {
-        const res = await axios({
-          method: 'GET',
-          url: '/post/detail',
-          params: { postSeq: reviewNum },
-        });
-        setReviewDetail(res.data[0].post);
-        setBarriers(res.data[0].impairment);
-        setReviewPoint(res.data[0].post.postPoint);
-        setReviewTime(res.data[0].post.regDt.substring(0, 10));
-        setReviewImage(res.data[0].post.postPhoto);
-        setImgAlt(res.data[0].post.postAlt);
-
-        console.log('reviewdetail', reviewDetail);
-
-        const response = await axios({
-          method: 'get',
-          url: '/othersFeed/main',
-          params: {
-            otherUserSeq: res.data[0].post.userSeq,
-            userSeq: myuser.userSeq,
-          },
-        });
-        console.log(response);
-        setOtherUser(response.data);
-      } catch (e) {
-        console.log(e);
-        console.log('ERROR');
-      } finally {
-        setLoading(false);
-      }
-    }
-    getDeatilFn();
+    getDetailFn();
   }, []);
 
   useEffect(() => {
     getCommentList();
   }, []);
+  async function getDetailFn() {
+    setLoading(true);
+    try {
+      const res = await axios({
+        method: 'GET',
+        url: '/post/detail',
+        params: { postSeq: reviewNum },
+      });
+      setReviewDetail(res.data[0].post);
+      setBarriers(res.data[0].impairment);
+      setReviewPoint(res.data[0].post.postPoint);
+      setReviewTime(res.data[0].post.regDt.substring(0, 10));
+      setReviewImage(res.data[0].post.postPhoto);
+      setImgAlt(res.data[0].post.postAlt);
+
+      console.log('reviewdetail', reviewDetail);
+
+      const response = await axios({
+        method: 'get',
+        url: '/othersFeed/main',
+        params: {
+          otherUserSeq: res.data[0].post.userSeq,
+          userSeq: myuser.userSeq,
+        },
+      });
+      console.log(response);
+      setOtherUser(response.data);
+      const response2 = await axios({
+        method: 'get',
+        url: '/sns/isfollow',
+        params: {
+          otherUserSeq: res.data[0].post.userSeq,
+          userSeq: myuser.userSeq,
+        },
+      });
+      if (response2.data.isfollow === 'y') {
+        setCheckFw(true);
+      }
+    } catch (e) {
+      console.log(e);
+      console.log('ERROR');
+    } finally {
+      setLoading(false);
+    }
+  }
 
   const getCommentList = () => {
     axios({
@@ -140,7 +151,37 @@ const Review = () => {
     }
     getCommentList();
   };
+  // 팔로우, 언팔로우
+  const onFollow = () => {
+    try {
+      const res = axios({
+        method: 'post',
+        url: '/sns/follow',
+        data: {
+          userSeq: myuser.userSeq,
+          followingSeq: reviewDetail.userSeq,
+        },
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
+  const onUnfollow = () => {
+    try {
+      const res = axios({
+        method: 'post',
+        url: '/sns/unfollow',
+        data: {
+          userSeq: myuser.userSeq,
+          followingSeq: reviewDetail.userSeq,
+        },
+      });
+    } catch (error) {
+      console.log(error);
+      return 'error';
+    }
+  };
   const TTS = () => {
     console.log(imgAlt);
     const xmlData = '<speak>' + imgAlt + '</speak>';
@@ -194,15 +235,29 @@ const Review = () => {
                     </button>
                   </div>
                   <h1>{reviewDetail.postTitle}</h1>
-                  <div
-                    style={{ cursor: 'pointer' }}
-                    onClick={() => {
-                      navigate(`/user/${reviewDetail.userSeq}`);
-                      dispatch(getCurrentParams(reviewDetail.userSeq));
-                    }}
-                  >
-                    <img className="toggle" src={otherUser.userPhoto}></img>
-                    <span>작성자 : {otherUser.userNickname}</span>
+                  <div style={{ cursor: 'pointer' }}>
+                    <img
+                      onClick={() => {
+                        navigate(`/user/${reviewDetail.userSeq}`);
+                      }}
+                      className="toggle"
+                      src={otherUser.userPhoto}
+                    ></img>
+                    <span
+                      onClick={() => {
+                        navigate(`/user/${reviewDetail.userSeq}`);
+                      }}
+                    >
+                      작성자 : {otherUser.userNickname}
+                    </span>
+                    {checkFw ? (
+                      <Button onClick={onUnfollow}>팔로잉</Button>
+                    ) : // ) : (reviewDetail.userSeq = myuser.userSeq) ? (
+                    reviewDetail.userSeq === myuser.userSeq ? (
+                      <></>
+                    ) : (
+                      <Button onClick={onFollow}>팔로우</Button>
+                    )}
                   </div>
                   <p id="time">{reviewTime}</p>
                   <Rating
