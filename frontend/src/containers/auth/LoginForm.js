@@ -33,8 +33,10 @@ const LoginForm = () => {
     if ((userId, userPwd)) {
       setLoginloading(true);
       dispatch(loginUser(body)).then((res) => {
-        console.log(res);
         if (res.payload) {
+          if (res.payload.staus === 403) {
+            navigate('/registerpage/emailcheck');
+          }
           localStorage.setItem('accessToken', res.payload.accessToken);
           dispatch(userInfo(res.payload.accessToken));
           navigate('/');
