@@ -5,9 +5,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -18,7 +16,6 @@ import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.weclusive.barrierfree.entity.Sido;
@@ -32,7 +29,6 @@ import com.weclusive.barrierfree.repository.SigunguRepository;
 import com.weclusive.barrierfree.repository.TourapiImageRepository;
 import com.weclusive.barrierfree.repository.TourapiImpairmentRepository;
 import com.weclusive.barrierfree.repository.TourapiRepository;
-import com.weclusive.barrierfree.util.ImpairmentUtils;
 
 @Service
 public class RecommendServiceImpl implements RecommendService {
