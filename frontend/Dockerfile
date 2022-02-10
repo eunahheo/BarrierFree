@@ -12,7 +12,5 @@ RUN mkdir ./build
 # host pc의 현재경로의 build 폴더를 workdir 의 build 폴더로 복사
 ADD ./build ./build
 
-EXPOSE 80
-
 # container 실행 시 자동으로 실행할 command. nginx 시작함
 CMD ["serve", "-s", "build"]
