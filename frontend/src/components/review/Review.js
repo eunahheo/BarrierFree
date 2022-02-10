@@ -61,8 +61,8 @@ const Review = () => {
   const [reviewTime, setReviewTime] = useState('');
   const [reviewImage, setReviewImage] = useState('');
   const [otherUser, setOtherUser] = useState('');
+  const [imgAlt, setImgAlt] = useState('');
   const commentCnt = comments.length;
-
   // 댓글 작성을 위한 const
 
   const [newComment, setNewComment] = useState('');
@@ -86,6 +86,7 @@ const Review = () => {
         setReviewPoint(res.data[0].post.postPoint);
         setReviewTime(res.data[0].post.regDt.substring(0, 10));
         setReviewImage(res.data[0].post.postPhoto);
+        setImgAlt(res.data[0].post.postAlt);
 
         console.log('reviewdetail', reviewDetail);
 
@@ -140,6 +141,37 @@ const Review = () => {
     getCommentList();
   };
 
+  const TTS = () => {
+    console.log(imgAlt);
+    const xmlData = '<speak>' + imgAlt + '</speak>';
+    try {
+      const { data } = axios
+        .post(
+          'https://kakaoi-newtone-openapi.kakao.com/v1/synthesize',
+          xmlData,
+          {
+            headers: {
+              'Content-Type': 'application/xml',
+              Authorization: `KakaoAK fa3c898eec92948b420f6f03b934acd1`,
+            },
+            responseType: 'arraybuffer',
+          },
+        )
+        .then(function (res) {
+          // console.log(res);
+          const context = new AudioContext();
+          context.decodeAudioData(res.data, (buffer) => {
+            const source = context.createBufferSource();
+            source.buffer = buffer;
+            source.connect(context.destination);
+            source.start(0);
+          });
+        });
+    } catch (e) {
+      console.error(e.message);
+    }
+  };
+
   return (
     <div>
       <ReviewBox>
@@ -149,7 +181,7 @@ const Review = () => {
           <div class="review-box">
             <div>
               <div class="review">
-                <div class="review-img">
+                <div class="review-img" onClick={TTS}>
                   <img src={reviewImage} class="review-img-size" />
                 </div>
                 <div class="review-content">
