@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import Button from '../common/Button';
 import styled from 'styled-components';
 import { useParams } from 'react-router';
+import { useNavigate } from 'react-router-dom';
 
 const UserFollowerBlock = styled.div`
   display: flex;
@@ -19,16 +20,79 @@ const UserFollowerBlock = styled.div`
   }
 `;
 
-const UserFollower = ({ userNickname, userPhoto, userSeq }) => {
+const UserFollower = ({
+  userNickname,
+  userPhoto,
+  follower_userSeq,
+  isfollow,
+}) => {
+  const myuserData = useSelector((state) => state.user.userData);
+  const myuser = myuserData.userSeq;
+  const params = useParams();
+  const currentUser = Number(params.userSeq);
+  const navigate = useNavigate();
+
+  const [checkFw, setCheckFw] = useState(false);
+  useEffect(() => {
+    if (isfollow === 'y') {
+      setCheckFw(true);
+    }
+  }, []);
+
+  const onUnfollow = async () => {
+    try {
+      const res = await axios({
+        method: 'post',
+        url: '/sns/unfollow',
+        data: {
+          userSeq: myuser,
+          followingSeq: follower_userSeq,
+        },
+      });
+      setCheckFw(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const onFollow = async () => {
+    try {
+      const res = await axios({
+        method: 'post',
+        url: '/sns/follow',
+        data: {
+          userSeq: myuser,
+          followingSeq: follower_userSeq,
+        },
+      });
+      setCheckFw(true);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const onClick = () => {
+    navigate(`/user/${follower_userSeq}`);
+  };
+
   return (
     <UserFollowerBlock>
       <div className="UserController">
         <div>
+          {}
           <div>
-            <img src={userPhoto}></img>
-            <span>{userNickname}</span>
-            <Button>팔로우</Button>
-            <Button>팔로잉</Button>
+            <img src={userPhoto} onClick={onClick}></img>
+            <span onClick={onClick}>{userNickname}</span>
+            {myuser === follower_userSeq ? (
+              <></>
+            ) : checkFw ? (
+              <Button onClick={onUnfollow} style={{ cursor: 'pointer' }}>
+                팔로잉
+              </Button>
+            ) : (
+              <Button onClick={onFollow} style={{ cursor: 'pointer' }}>
+                팔로우
+              </Button>
+            )}
           </div>
         </div>
       </div>
@@ -60,6 +124,7 @@ const UserFollowers = () => {
             },
           });
           setUserfollowers(response.data);
+          console.log(response.data);
         } else {
           const response = await axios({
             url: '/othersFeed/follower',
@@ -95,11 +160,11 @@ const UserFollowers = () => {
       {userfollowers &&
         userfollowers.map((userfollower) => (
           <UserFollower
-            // userfollower={userfollower}
+            key={userfollower.userSeq}
+            isfollow={userfollower.isfollow}
             userNickname={userfollower.userNickname}
             userPhoto={userfollower.userPhoto}
-            userSeq={userfollower.userSeq}
-            key={userfollower.userSeq}
+            follower_userSeq={userfollower.userSeq}
           />
         ))}
       {userfollowers.length === 0 && <h1>팔로워 없음</h1>}

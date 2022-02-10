@@ -23,7 +23,7 @@ export const writePostAPI = ({
   postTitle,
   postContent,
   postLocation,
-  userSeq,
+  writeUserSeq,
 }) => {
   axios.post('/post/savePost', {
     contentId: 12,
@@ -34,7 +34,7 @@ export const writePostAPI = ({
     postLat: '123',
     postLng: '13123',
     postLocation: postLocation,
-    userSeq: userSeq,
+    userSeq: writeUserSeq,
     visibility: 0,
     postAlt: '123',
     postPhoto: 'string',
@@ -45,15 +45,27 @@ export const writePostAPI = ({
   });
 };
 
-export const writePost = createAction(
-  WRITE_POST,
-  ({ postTitle, postContent, postLocation, userSeq }) => (
-    writePostAPI({ postTitle, postContent, postLocation, userSeq }),
-    {
-      postTitle,
-      postContent,
-      postLocation,
-      userSeq,
-    }
-  ),
-);
+export const writePost = ({
+  postTitle,
+  postContent,
+  postLocation,
+  writeUserSeq,
+}) => {
+  writePostAPI({ postTitle, postContent, postLocation, writeUserSeq });
+  return {
+    type: WRITE_POST,
+    payload: { postTitle, postContent, postLocation, writeUserSeq },
+  };
+};
+
+// createAction(
+//   WRITE_POST,
+//   ({ postTitle, postContent, postLocation, writeuserSeq }) =>
+//     writePostAPI({ postTitle, postContent, postLocation, writeuserSeq }),
+//   {
+//     postTitle,
+//     postContent,
+//     postLocation,
+//     writeuserSeq,
+//   },
+// );
