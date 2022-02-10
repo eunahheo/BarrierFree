@@ -69,6 +69,7 @@ public class OthersFeedServiceImpl implements OthersFeedService {
 			obj.put("writePost", postRepository.countByUserSeq(otherUserSeq));
 			obj.put("following", followRepository.countFollowing(otherUserSeq));
 			obj.put("follower", followRepository.countFollower(otherUserSeq));
+			obj.put("totalScarp", scrapRepository.countByDelYnAndScrapTypeAndUserSeq('n', '0', otherUserSeq) + scrapRepository.countByDelYnAndScrapTypeAndUserSeq('n', '1', otherUserSeq));
 		}
 
 		Follow follow = followRepository.findByUserSeqAndFollowingSeqAndDelYn(userSeq, otherUserSeq, 'n');
@@ -134,7 +135,7 @@ public class OthersFeedServiceImpl implements OthersFeedService {
 	public List<Map<String, Object>> readOthersFollower(int otherUserSeq, int userSeq) {
 		List<Map<String, Object>> result = new LinkedList<>();
 
-		List<Follow> followingList = followRepository.findByFollowingSeq(otherUserSeq);
+		List<Follow> followingList = followRepository.findByFollowingSeqAndDelYn(otherUserSeq, 'n');
 		followingList.forEach(following -> {
 			Map<String, Object> obj = new HashMap<>();
 			User user = userRepository.findByUserSeq(following.getUserSeq());

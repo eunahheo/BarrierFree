@@ -65,9 +65,8 @@ public class MyFeedServiceImpl implements MyFeedService {
 			obj.put("writePost", postRepository.countByUserSeq(userSeq));
 			obj.put("following", followRepository.countFollowing(userSeq));
 			obj.put("follower", followRepository.countFollower(userSeq));
-			obj.put("postScrap", scrapRepository.countByDelYnAndScrapTypeAndUserSeq('n', '0', userSeq));
-			obj.put("recommendScrap", scrapRepository.countByDelYnAndScrapTypeAndUserSeq('n', '1', userSeq));
-
+			obj.put("totalScarp", scrapRepository.countByDelYnAndScrapTypeAndUserSeq('n', '0', userSeq) + scrapRepository.countByDelYnAndScrapTypeAndUserSeq('n', '1', userSeq));
+			
 			result.add(obj);
 			return result;
 		}
