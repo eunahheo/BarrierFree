@@ -2,7 +2,9 @@ import { handleActions } from 'redux-actions';
 // import { LOGIN_USER, USER_INFO, LOGOUT } from '../_actions/types';
 import { LOGIN_USER, USER_INFO, LOGOUT } from '../_actions/user_actions';
 
-const initialState = {};
+const initialState = {
+  loginSuccess: null,
+};
 
 export default function reducer(state = initialState, action) {
   const { type, payload } = action;

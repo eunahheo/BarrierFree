@@ -11,6 +11,11 @@ import styled from 'styled-components';
 import palette from '../../lib/styles/palette.js';
 import { useNavigate } from '../../../node_modules/react-router/index.js';
 import Button from '../common/Button.js';
+import {
+  follow,
+  resetRelationship,
+  unfollow,
+} from '../../_actions/relationship_actions.js';
 
 const ReviewBox = styled.div`
   display: flex;
@@ -52,7 +57,7 @@ const Review = () => {
   const myuser = useSelector((state) => state.user.userData);
 
   // review 내용 불러오기 위한 const
-
+  // debugger;
   const [reviewDetail, setReviewDetail] = useState([]);
   const [barriers, setBarriers] = useState([]);
   const [reviewPoint, setReviewPoint] = useState([]);
@@ -71,12 +76,10 @@ const Review = () => {
 
   const [loading, setLoading] = useState(false);
   const [checkFw, setCheckFw] = useState(false);
+
   // review 창이 뜨자 마자 불러와져야할 것들
   useEffect(() => {
     getDetailFn();
-  }, []);
-
-  useEffect(() => {
     getCommentList();
   }, []);
   async function getDetailFn() {
@@ -125,6 +128,51 @@ const Review = () => {
     }
   }
 
+  // useEffect(() => {
+  //   getCommentList();
+  // }, []);
+  async function getDetailFn() {
+    setLoading(true);
+    try {
+      const res = await axios({
+        method: 'GET',
+        url: '/post/detail',
+        params: { postSeq: reviewNum },
+      });
+      setReviewDetail(res.data[0].post);
+      setBarriers(res.data[0].impairment);
+      setReviewPoint(res.data[0].post.postPoint);
+      setReviewTime(res.data[0].post.regDt.substring(0, 10));
+      setReviewImage(res.data[0].post.postPhoto);
+      setImgAlt(res.data[0].post.postAlt);
+
+      const response = await axios({
+        method: 'get',
+        url: '/othersFeed/main',
+        params: {
+          otherUserSeq: res.data[0].post.userSeq,
+          userSeq: myuser.userSeq,
+        },
+      });
+      setOtherUser(response.data);
+      console.log('otheruser', otherUser);
+      const response2 = await axios({
+        method: 'get',
+        url: '/sns/isfollow',
+        params: {
+          otherUserSeq: res.data[0].post.userSeq,
+          userSeq: myuser.userSeq,
+        },
+      });
+      if (response2.data.isfollow === 'y') {
+        setCheckFw(true);
+      }
+    } catch (e) {
+      console.log(e);
+    } finally {
+      setLoading(false);
+    }
+  }
   const getCommentList = () => {
     axios({
       method: 'GET',
@@ -167,20 +215,18 @@ const Review = () => {
     }
   };
 
+  // 팔로우, 팔로잉
+
   const onUnfollow = () => {
-    try {
-      const res = axios({
-        method: 'post',
-        url: '/sns/unfollow',
-        data: {
-          userSeq: myuser.userSeq,
-          followingSeq: reviewDetail.userSeq,
-        },
-      });
-    } catch (error) {
-      console.log(error);
-      return 'error';
-    }
+    dispatch(unfollow(myuser.userSeq, reviewDetail.userSeq));
+    setCheckFw(false);
+    dispatch(resetRelationship());
+  };
+
+  const onFollow = () => {
+    dispatch(follow(myuser.userSeq, reviewDetail.userSeq));
+    setCheckFw(true);
+    dispatch(resetRelationship());
   };
   const TTS = () => {
     console.log(imgAlt);
@@ -235,29 +281,33 @@ const Review = () => {
                     </button>
                   </div>
                   <h1>{reviewDetail.postTitle}</h1>
-                  <div style={{ cursor: 'pointer' }}>
-                    <img
-                      onClick={() => {
-                        navigate(`/user/${reviewDetail.userSeq}`);
-                      }}
-                      className="toggle"
-                      src={otherUser.userPhoto}
-                    ></img>
-                    <span
-                      onClick={() => {
-                        navigate(`/user/${reviewDetail.userSeq}`);
-                      }}
-                    >
-                      작성자 : {otherUser.userNickname}
-                    </span>
-                    {checkFw ? (
-                      <Button onClick={onUnfollow}>팔로잉</Button>
-                    ) : // ) : (reviewDetail.userSeq = myuser.userSeq) ? (
-                    reviewDetail.userSeq === myuser.userSeq ? (
-                      <></>
-                    ) : (
-                      <Button onClick={onFollow}>팔로우</Button>
-                    )}
+                  <div>
+                    <div style={{ cursor: 'pointer' }}>
+                      <img
+                        className="toggle"
+                        src={otherUser.userPhoto}
+                        onClick={() => {
+                          navigate(`/user/${reviewDetail.userSeq}`);
+                        }}
+                      ></img>
+                      <span
+                        onClick={() => {
+                          navigate(`/user/${reviewDetail.userSeq}`);
+                          console.log('선택시 seq', reviewDetail.userSeq);
+                        }}
+                      >
+                        작성자 : {otherUser.userNickname}
+                      </span>
+
+                      {checkFw ? (
+                        <Button onClick={onUnfollow}>팔로잉</Button>
+                      ) : // ) : (reviewDetail.userSeq = myuser.userSeq) ? (
+                      reviewDetail.userSeq === myuser.userSeq ? (
+                        <></>
+                      ) : (
+                        <Button onClick={onFollow}>팔로우</Button>
+                      )}
+                    </div>
                   </div>
                   <p id="time">{reviewTime}</p>
                   <Rating
@@ -266,9 +316,9 @@ const Review = () => {
                     readOnly
                   ></Rating>
                   <p>{barriers}</p>
-                  <p class="text-content">{reviewDetail.postContent}</p>
+                  {/* <p class="text-content">{reviewDetail.postContent}</p> */}
                   <InfoIcon></InfoIcon>
-                  <span class="location-name">{reviewDetail.postLocation}</span>
+                  {/* <span class="location-name">{reviewDetail.postLocation}</span> */}
                   <div class="comment-box">
                     <form onSubmit={onSubmitHandler}>
                       <input

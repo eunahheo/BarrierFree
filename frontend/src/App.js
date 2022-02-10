@@ -20,6 +20,8 @@ import HeaderContainer from './containers/base/HeaderContainer';
 import WritePage from './pages/WritePage';
 import MyPage from './pages/MyPage';
 import KakaoLoginPage from './pages/KakaoLoginPage';
+import { resetParams } from './_actions/current_actions';
+import { useDispatch } from 'react-redux';
 
 function App() {
   return (
