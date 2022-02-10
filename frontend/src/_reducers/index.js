@@ -5,6 +5,7 @@ import write, { writeSaga } from './write_reducer';
 import upload from './upload_reducers';
 import { all } from 'redux-saga/effects';
 import current from './current_reducer';
+import relationship from './relationship_reducer';
 
 const rootReducer = combineReducers({
   user,
@@ -12,6 +13,7 @@ const rootReducer = combineReducers({
   write,
   upload,
   current,
+  relationship,
 });
 
 export function* rootSaga() {

@@ -19,7 +19,12 @@ export const clickField = createAction(CLICK_FIELD, ({ key, value }) => ({
   value,
 }));
 
-export const writePostAPI = ({ postTitle, postContent, postLocation }) => {
+export const writePostAPI = ({
+  postTitle,
+  postContent,
+  postLocation,
+  userSeq,
+}) => {
   axios.post('/post/savePost', {
     contentId: 12,
     deaf: 0,
@@ -29,7 +34,7 @@ export const writePostAPI = ({ postTitle, postContent, postLocation }) => {
     postLat: '123',
     postLng: '13123',
     postLocation: postLocation,
-    userSeq: 8,
+    userSeq: userSeq,
     visibility: 0,
     postAlt: '123',
     postPhoto: 'string',
@@ -42,12 +47,13 @@ export const writePostAPI = ({ postTitle, postContent, postLocation }) => {
 
 export const writePost = createAction(
   WRITE_POST,
-  ({ postTitle, postContent, postLocation }) => (
-    writePostAPI({ postTitle, postContent, postLocation }),
+  ({ postTitle, postContent, postLocation, userSeq }) => (
+    writePostAPI({ postTitle, postContent, postLocation, userSeq }),
     {
       postTitle,
       postContent,
       postLocation,
+      userSeq,
     }
   ),
 );

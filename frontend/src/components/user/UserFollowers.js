@@ -72,8 +72,12 @@ const UserFollowers = () => {
           setUserfollowers(response.data);
         }
       } catch (error) {
-        console.log(error);
-        setError(error);
+        console.log(error.response.data);
+        if (error.response.data === 'fail') {
+          setError('팔로워가 없습니다.');
+        } else {
+          setError(error);
+        }
       } finally {
         setLoading(false);
       }
@@ -82,21 +86,23 @@ const UserFollowers = () => {
   }, []);
 
   if (loading) return <div>로딩중..</div>;
-  if (error) return <div>에러가 발생했습니다</div>;
+  // if (error) return <div>{error}</div>;
   if (!userfollowers) return null;
 
   return (
     <div>
-      <div>UserFollowers</div>
-      {userfollowers.map((userfollower) => (
-        <UserFollower
-          // userfollower={userfollower}
-          userNickname={userfollower.userNickname}
-          userPhoto={userfollower.userPhoto}
-          userSeq={userfollower.userSeq}
-          key={userfollower.userSeq}
-        />
-      ))}
+      <h3>UserFOLLOWERS</h3>
+      {userfollowers &&
+        userfollowers.map((userfollower) => (
+          <UserFollower
+            // userfollower={userfollower}
+            userNickname={userfollower.userNickname}
+            userPhoto={userfollower.userPhoto}
+            userSeq={userfollower.userSeq}
+            key={userfollower.userSeq}
+          />
+        ))}
+      {userfollowers.length === 0 && <h1>팔로워 없음</h1>}
     </div>
   );
 };

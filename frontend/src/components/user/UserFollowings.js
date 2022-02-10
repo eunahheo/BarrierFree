@@ -38,6 +38,21 @@ const UserFollowing = ({ userNickname, userPhoto, userSeq }) => {
       console.log(error);
     }
   };
+
+  const onFollow = async () => {
+    try {
+      const res = await axios({
+        method: 'post',
+        url: '/sns/follow',
+        data: {
+          userSeq: myuser,
+          followingSeq: userSeq,
+        },
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <UserFollowingBlock>
       <div className="UserController">
@@ -48,7 +63,7 @@ const UserFollowing = ({ userNickname, userPhoto, userSeq }) => {
             {currentUser === myuser ? (
               <Button onClick={onUnfollow}>팔로잉</Button>
             ) : (
-              <Button>팔로우</Button>
+              <Button onClick={onFollow}>팔로우</Button>
             )}
           </div>
         </div>
@@ -93,7 +108,6 @@ const UserFollowings = () => {
           setUserfollowings(response.data);
         }
       } catch (error) {
-        console.log(error);
         setError(error);
       } finally {
         setLoading(false);
@@ -108,15 +122,17 @@ const UserFollowings = () => {
 
   return (
     <div>
-      <div>UserFollowings</div>
-      {userfollowings.map((userfollowing) => (
-        <UserFollowing
-          userNickname={userfollowing.userNickname}
-          userPhoto={userfollowing.userPhoto}
-          userSeq={userfollowing.userSeq}
-          key={userfollowing.userSeq}
-        />
-      ))}
+      <h2>UserFollowings</h2>
+      {userfollowings &&
+        userfollowings.map((userfollowing) => (
+          <UserFollowing
+            userNickname={userfollowing.userNickname}
+            userPhoto={userfollowing.userPhoto}
+            userSeq={userfollowing.userSeq}
+            key={userfollowing.userSeq}
+          />
+        ))}
+      {userfollowings.length === 0 && <h1>팔로잉 없음</h1>}
     </div>
   );
 };

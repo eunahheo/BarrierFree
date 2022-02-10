@@ -12,9 +12,10 @@ const WriteButtonsContainer = () => {
     postContent: write.postContent,
     postLocation: write.postLocation,
   }));
-
+  const myuser = useSelector((state) => state.user.userData);
+  const userSeq = myuser.userSeq;
   const onPublish = () => {
-    dispatch(writePost({ postTitle, postContent, postLocation }));
+    dispatch(writePost({ postTitle, postContent, postLocation, userSeq }));
   };
   return <WriteButtons onPublish={onPublish}></WriteButtons>;
 };

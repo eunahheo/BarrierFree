@@ -11,6 +11,13 @@ import styled from 'styled-components';
 import palette from '../../lib/styles/palette.js';
 import { useNavigate } from '../../../node_modules/react-router/index.js';
 import { getCurrentParams } from '../../_actions/current_actions.js';
+import Button from '../common/Button.js';
+import {
+  checkfw,
+  follow,
+  resetRelationship,
+  unfollow,
+} from '../../_actions/relationship_actions.js';
 
 const ReviewBox = styled.div`
   display: flex;
@@ -71,6 +78,11 @@ const Review = () => {
   };
 
   const [loading, setLoading] = useState(false);
+
+  const [checkFw, setCheckFw] = useState(false);
+  const check_relationship = useSelector(
+    (state) => state.relationship.check_relationship,
+  );
   // review 창이 뜨자 마자 불러와져야할 것들
   useEffect(() => {
     async function getDeatilFn() {
@@ -97,8 +109,20 @@ const Review = () => {
             userSeq: myuser.userSeq,
           },
         });
-        console.log(response);
         setOtherUser(response.data);
+        const response2 = await axios({
+          method: 'get',
+          url: '/sns/isfollow',
+          params: {
+            otherUserSeq: res.data[0].post.userSeq,
+            userSeq: myuser.userSeq,
+          },
+        });
+        if (response2.data.isfollow === 'y') {
+          setCheckFw(true);
+          console.log(checkFw);
+        }
+        console.log(checkFw);
       } catch (e) {
         console.log(e);
         console.log('ERROR');
@@ -140,6 +164,20 @@ const Review = () => {
     getCommentList();
   };
 
+  // 팔로우, 팔로잉
+
+  const onUnfollow = async () => {
+    dispatch(resetRelationship());
+    dispatch(unfollow(myuser.userSeq, reviewDetail.userSeq));
+    setCheckFw(false);
+  };
+
+  const onFollow = async () => {
+    dispatch(resetRelationship());
+    setCheckFw(true);
+    dispatch(follow(myuser.userSeq, reviewDetail.userSeq));
+  };
+
   return (
     <div>
       <ReviewBox>
@@ -162,15 +200,33 @@ const Review = () => {
                     </button>
                   </div>
                   <h1>{reviewDetail.postTitle}</h1>
-                  <div
-                    style={{ cursor: 'pointer' }}
-                    onClick={() => {
-                      navigate(`/user/${reviewDetail.userSeq}`);
-                      dispatch(getCurrentParams(reviewDetail.userSeq));
-                    }}
-                  >
-                    <img className="toggle" src={otherUser.userPhoto}></img>
-                    <span>작성자 : {otherUser.userNickname}</span>
+                  <div>
+                    <div style={{ cursor: 'pointer' }}>
+                      <img
+                        className="toggle"
+                        src={otherUser.userPhoto}
+                        onClick={() => {
+                          navigate(`/user/${reviewDetail.userSeq}`);
+                          dispatch(getCurrentParams(reviewDetail.userSeq));
+                        }}
+                      ></img>
+                      <span
+                        onClick={() => {
+                          navigate(`/user/${reviewDetail.userSeq}`);
+                          dispatch(getCurrentParams(reviewDetail.userSeq));
+                        }}
+                      >
+                        작성자 : {otherUser.userNickname}
+                      </span>
+
+                      {checkFw ? (
+                        <Button onClick={onUnfollow}>팔로잉</Button>
+                      ) : (reviewDetail.userSeq = myuser.userSeq) ? (
+                        <></>
+                      ) : (
+                        <Button onClick={onFollow}>팔로우</Button>
+                      )}
+                    </div>
                   </div>
                   <p id="time">{reviewTime}</p>
                   <Rating
