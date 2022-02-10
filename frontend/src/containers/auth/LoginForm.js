@@ -33,6 +33,7 @@ const LoginForm = () => {
     if ((userId, userPwd)) {
       setLoginloading(true);
       dispatch(loginUser(body)).then((res) => {
+        console.log('loginform', res);
         if (res.payload) {
           if (res.payload.staus === 403) {
             navigate('/registerpage/emailcheck');

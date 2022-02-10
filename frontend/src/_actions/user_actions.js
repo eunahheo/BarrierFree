@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { createAction } from 'redux-actions';
+
 export const LOGIN_USER = 'user/LOGIN_USER';
 export const USER_INFO = 'user/USER_INFO';
 export const LOGOUT = 'user/LOGOUT';
