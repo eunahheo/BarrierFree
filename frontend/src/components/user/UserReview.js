@@ -43,8 +43,9 @@ const UserReview = () => {
 
   return (
     <div>
-      <div>My Review in here</div>
-      <MyCardList itemList={itemList}></MyCardList>
+      <h1>userSeq={currentUser}의 게시물</h1>
+      {itemList.length > 0 && <MyCardList itemList={itemList}></MyCardList>}
+      {itemList.length === 0 && <h1>게시물 없음</h1>}
     </div>
   );
 };

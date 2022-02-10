@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import styled, { css } from 'styled-components';
 import palette from '../../lib/styles/palette';
 import { useParams } from 'react-router';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 const UserHeaderBox = styled.div`
   display: flex;
@@ -50,6 +50,9 @@ const UserHeader = ({ onPost, onFollowing, onFollower, onScrap }) => {
   const myuser = myuserData.userSeq;
   const params = useParams();
   const currentUser = Number(params.userSeq);
+
+  const dispatch = useDispatch();
+
   const [userHeaderInfo, setUserHeaderInfo] = useState([]);
   const getUserHeader = async () => {
     try {
@@ -73,17 +76,27 @@ const UserHeader = ({ onPost, onFollowing, onFollower, onScrap }) => {
             userSeq: myuser,
           },
         });
-        console.log(response.data);
         setUserHeaderInfo(response.data);
       }
     } catch (error) {
       console.log(error);
     }
   };
+  const checkrelation = useSelector(
+    (state) => state.relationship.check_relationship,
+  );
 
+  const currentFollowings = useSelector(
+    (state) => state.relationship.total_followings,
+  );
+
+  const currentFollowers = useSelector(
+    (state) => state.relationship.total_followers,
+  );
+  console.log(userHeaderInfo);
   useEffect(() => {
     getUserHeader();
-  }, [currentUser]);
+  }, [currentUser, checkrelation]);
 
   return (
     <UserHeaderBox>
@@ -96,18 +109,22 @@ const UserHeader = ({ onPost, onFollowing, onFollower, onScrap }) => {
               src={userHeaderInfo.userPhoto}
               onClick={onPost}
             />
+            <span
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              게시글: {userHeaderInfo.writePost}
+            </span>
           </div>
-          <div>{userHeaderInfo.userNickname}</div>
         </div>
         <div onClick={onScrap}>
-          <div className="toggle smc">
-            <span>스크랩: {userHeaderInfo.postScrap}</span>
-          </div>
-          {/* <div>게시글수</div> */}
+          <div className="toggle smc">스크랩: {userHeaderInfo.totalScarp}</div>
         </div>
         <div onClick={onFollowing}>
           <div className="toggle smc">팔로잉: {userHeaderInfo.following}</div>
-          {/* <div>팔로잉:</div> */}
         </div>
         <div onClick={onFollower}>
           <div className="toggle smc">팔로워: {userHeaderInfo.follower}</div>
