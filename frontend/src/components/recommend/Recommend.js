@@ -42,6 +42,7 @@ const Recommend = () => {
   const [searchPartyList, setSearchPartyList] = useState([]);
   const [noresult, setNoresult] = useState('');
   const [search, setSearch] = useState(false);
+  const [click, setClick] = useState(false);
 
 
   useEffect(() => {
@@ -202,10 +203,15 @@ const Recommend = () => {
             }
           }
         });
-
+        if (barrier.length > 0) {
+          for (let i = 0; barrier.length > i; i++ ) {
+            let current = document.getElementById(barrier[i]);
+            current.style.border= null;
+          }
+        }
         setCity('');
         setTown('');
-        setBarrier('');
+        setBarrier([]);
       } else if ((city, town)) {
         let data = {
           sidoCode: cityNum,
@@ -342,10 +348,20 @@ const Recommend = () => {
 
       setCity('');
       setTown('');
-      setBarrier('');
     }
   };
 
+  const onClickReset = () => {
+    if (barrier.length > 0) {
+      for (let i = 0; barrier.length > i; i++ ) {
+        let current = document.getElementById(barrier[i]);
+        current.style.border= null;
+      }
+    }
+    setCity('');
+    setTown('');
+    setBarrier([]);
+  }
   return (
     <div>
       {/* <Header /> */}
@@ -397,7 +413,7 @@ const Recommend = () => {
             <Button variant="contained" id="search" onClick={onClickSearch}>
               검색
             </Button>
-            <Button variant="contained" id="reset">
+            <Button variant="contained" id="reset" onClick={onClickReset}>
               초기화
             </Button>
           </div>
