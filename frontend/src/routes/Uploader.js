@@ -38,11 +38,16 @@ const Uploader = (props) => {
   };
 
   const sendImageToServer = async () => {
-    const config = { headers: { 'Content-Type': 'text/html; charset=utf-8' } };
+    // const config = { headers: { 'Content-Type': 'text/html; charset=utf-8' } };
     if (image.image_file) {
       const formData = new FormData();
-      formData.append('file', image.image_file);
-      await axios.post('/upload/photo', formData, config);
+      formData.append('photo', image.image_file);
+      await axios({
+        method: 'post',
+        url: '/upload/photo',
+        data: formData,
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
       alert('서버에 등록이 완료되었습니다!');
       setImage({
         image_file: '',
