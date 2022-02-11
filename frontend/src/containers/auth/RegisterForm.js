@@ -113,7 +113,7 @@ const RegisterForm = () => {
       setRegisterloading(true);
       try {
         await axios({
-          url: 'http://i6a504.p.ssafy.io:3030/user/join/',
+          url: '/user/join/',
           method: 'post',
           headers: {
             'Content-Type': 'application/json',
