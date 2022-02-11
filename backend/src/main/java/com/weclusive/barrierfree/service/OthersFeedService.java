@@ -13,8 +13,4 @@ public interface OthersFeedService {
 
 	public List<Map<String, Object>> readOthersFollower(int otherUserSeq, int userSeq);
 
-	public List<Map<String, Object>> readScrapPost(int otherUserSeq, int userSeq);
-
-	public List<Map<String, Object>> readScrapRecommend(int otherUserSeq, int userSeq) throws Exception;
-
 }

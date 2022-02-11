@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -38,7 +39,7 @@ public class MyFeedController {
 	
 	// 피드 보기
 	@GetMapping("/main")
-	@ApiOperation(value = "피드 상단 내용 보기", notes = "프로필 사진, 닉네임, 게시글 수, 팔로잉 수, 팔로워 수, 총 스크랩 수를 반환한다.", response = List.class)
+	@ApiOperation(value = "피드 상단 내용 보기", notes = "프로필 사진, 닉네임, 게시글 수, 팔로잉 수, 팔로워 수, 스크랩 게시글 수를 반환한다.", response = List.class)
 	public ResponseEntity<Object> mainFeed(@RequestParam int userSeq) {
 		List<Map<String, Object>> result = myFeedService.readMyFeed(userSeq);
 		if (result != null) {
@@ -115,8 +116,8 @@ public class MyFeedController {
 	// 스크랩 한 작성 게시글
 	@GetMapping("/scrap/post")
 	@ApiOperation(value = "스크랩한 게시글 - 작성 게시글", notes = "스크랩 한 작성 게시글 조회하는 기능, 게시글이 없으면 빈 리스트 반환")
-	public ResponseEntity<Object> readScrapPosts(@RequestParam int userSeq) {
-		List<Map<String, Object>> result = myFeedService.readScrapPost(userSeq);
+	public ResponseEntity<Object> readScrapPosts(@RequestHeader("Authorization") String accessToken, @RequestParam int userSeq) {
+		List<Object> result = myFeedService.readScrapPost(userSeq);
 		if (result != null) {
 			return new ResponseEntity<>(result, HttpStatus.OK);
 		} else {
@@ -127,8 +128,8 @@ public class MyFeedController {
 	// 스크랩 한 추천 게시글
 	@GetMapping("/scrap/recommend")
 	@ApiOperation(value = "스크랩한 게시글 - 추천 게시글", notes = "스크랩 한 추천 게시글 조회하는 기능, 게시글이 없으면 빈 리스트 반환")
-	public ResponseEntity<Object> readRecommendPosts(@RequestParam int userSeq){
-		List<Map<String, Object>> result;
+	public ResponseEntity<Object> readRecommendPosts(@RequestHeader("Authorization") String accessToken, @RequestParam int userSeq){
+		List<Object> result;
 		try {
 			result = myFeedService.readScrapRecommend(userSeq);
 		} catch (Exception e) {

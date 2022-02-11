@@ -56,7 +56,7 @@ public class SearchServiceImpl implements SearchService {
 	public List<Map<String, Object>> searchUser(int userSeq, String keyword, int page, int size) {
 		List<Map<String, Object>> result = new ArrayList<>();
 		PageRequest pageRequest = PageRequest.of(page, size);
-		Page<User> pageResult = userRepository.findByUserNicknameContainingAndDelYn(keyword, 'n', pageRequest);
+		Page<User> pageResult = userRepository.findByUserNicknameContaining(keyword, pageRequest);
 
 		List<User> users = pageResult.getContent();
 		users.forEach(user -> {

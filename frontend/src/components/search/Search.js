@@ -18,6 +18,8 @@ function Search() {
   const [searchPartyList, setSearchPartyList] = useState([]);
   const [noresult, setNoresult] = useState('');
   const [handsearch, setHandsearch] = useState(false);
+  const [searchList, setSearchList] = useState([]);
+  const [number, setNumber] = useState(0);
   const navigate = useNavigate();
 
   const onSearchHandler = (event) => {
@@ -64,65 +66,47 @@ function Search() {
           setNoresult('검색 내용이 없습니다 😥');
         }
       });
+
+    const impairmentNums = [12, 39, 32, 15];
+    
+    for (var i = 0; i < impairmentNums.length; i++)
       axios({
         method: 'GET',
         url: '/search/tour',
         params: {
-          contentTypeId: 12,
+          contentTypeId: impairmentNums[i],
           keyword: searchItem,
           page: 0,
           size: 4,
           userSeq: myuser.userSeq,
         },
       }).then((res) => {
-        // console.log(res.data)
-        if (res.data.length > 0) {
-          setSearchLocationList(res.data);
-        } else {
-          setNoresult('검색 내용이 없습니다 😥');
+        console.log(res)
+        if (res.config.params.contentTypeId == 12) {
+          if (res.data.length > 0) {
+            setSearchLocationList(res.data);
+          } else {
+            setNoresult('검색 내용이 없습니다 😥');
+          } 
+        } else if (res.config.params.contentTypeId == 39) {
+          if (res.data.length > 0) {
+            setSearchFoodList(res.data);
+          } else {
+            setNoresult('검색 내용이 없습니다 😥');
+          }
+        } else if (res.config.params.contentTypeId == 32) {
+          if (res.data.length > 0) {
+            setSearchHomeList(res.data);
+          } else {
+            setNoresult('검색 내용이 없습니다 😥');
+          }
+        } else if (res.config.params.contentTypeId == 15) {
+          if (res.data.length > 0) {
+            setSearchPartyList(res.data);
+          } else {
+            setNoresult('검색 내용이 없습니다 😥');
+          }
         }
-      });
-
-      axios({
-        method: 'GET',
-        url: '/search/tour',
-        params: {
-          contentTypeId: 39,
-          keyword: searchItem,
-          page: 0,
-          size: 4,
-          userSeq: myuser.userSeq,
-        },
-      }).then((res) => {
-        setSearchFoodList(res.data);
-      });
-
-      axios({
-        method: 'GET',
-        url: '/search/tour',
-        params: {
-          contentTypeId: 32,
-          keyword: searchItem,
-          page: 0,
-          size: 4,
-          userSeq: myuser.userSeq,
-        },
-      }).then((res) => {
-        setSearchHomeList(res.data);
-      });
-
-      axios({
-        method: 'GET',
-        url: '/search/tour',
-        params: {
-          contentTypeId: 15,
-          keyword: searchItem,
-          page: 0,
-          size: 4,
-          userSeq: myuser.userSeq,
-        },
-      }).then((res) => {
-        setSearchPartyList(res.data);
       });
     } else {
       alert('검색어를 입력해주세요 😉');
@@ -165,17 +149,27 @@ function Search() {
     });
   };
 
-  const onClickToSearch = () => {
-    setHandsearch(false);
-  };
 
   return (
-    <div>
+    
       <Container maxWidth="md">
+          <div>
+            <h2>여행지 검색하기</h2>
+
+            <form>
+              <input
+                class="input-search"
+                onChange={onSearchHandler}
+                placeholder="검색어를 입력해주세요."
+              ></input>
+              <button class="button-search" onClick={onSubmitHandler}>
+                검색
+              </button>
+            </form>
+          </div>
         {handsearch == true ? (
           <div>
             <div>
-              <p onClick={onClickToSearch}>검색창으로 돌아가기</p>
               {searchLocationList.length >= 1 ? (
                 <div>
                   <h2>명소</h2>
@@ -264,24 +258,8 @@ function Search() {
               )}
             </div>
           </div>
-        ) : (
-          <div>
-            <h2>여행지 검색하기</h2>
-
-            <form>
-              <input
-                class="input-search"
-                onChange={onSearchHandler}
-                placeholder="검색어를 입력해주세요."
-              ></input>
-              <button class="button-search" onClick={onSubmitHandler}>
-                검색
-              </button>
-            </form>
-          </div>
-        )}
+        ) : <div></div>}
       </Container>
-    </div>
   );
 }
 
