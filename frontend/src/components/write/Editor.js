@@ -55,22 +55,23 @@ const QuillWrapper = styled.div`
   }
 `;
 
-// export function HalfRating() {
-//   return (
-//     <Rating
-//       name="half-rating"
-//       defaultValue={2.5}
-//       precision={0.5}
-//       size="large"
-//     />
-//   );
-// }
+export function HalfRating() {
+  return (
+    <Stack spacing={1}>
+      <Rating
+        name="half-rating"
+        defaultValue={2.5}
+        precision={0.5}
+        size="large"
+      />
+    </Stack>
+  );
+}
 
-const Editor = ({ onChangeField, postTitle, postContent, postPoint }) => {
+const Editor = ({ onChangeField, postTitle, postContent }) => {
   const quillElement = useRef(null);
   const quillInstance = useRef(null);
   const [files, setFiles] = useState('');
-  const [point, setPoint] = useState(0);
 
   const onLoadFile = (event) => {
     const file = event.target.files;
@@ -83,6 +84,7 @@ const Editor = ({ onChangeField, postTitle, postContent, postPoint }) => {
     formdata.append('postPhoto', files[0]);
     console.log(formdata);
     console.log(files[0]);
+
     const config = {
       Headers: {
         'content-type': 'multipart/form-data',
@@ -119,10 +121,6 @@ const Editor = ({ onChangeField, postTitle, postContent, postPoint }) => {
     onChangeField({ key: 'postContent', value: e.target.value });
   };
 
-  const onChangePostPoint = (e) => {
-    console.log('changepostpoint', e);
-    onChangeField({ key: 'postPoint', value: e.target.value });
-  };
   useEffect(() => {
     preview();
     return () => preview();
@@ -136,6 +134,7 @@ const Editor = ({ onChangeField, postTitle, postContent, postPoint }) => {
       (imgEl.style.backgroundImage = `url(${reader.result})`);
     reader.readAsDataURL(files[0]);
   };
+
   return (
     // <EditorBlock>
     <div>
@@ -145,15 +144,7 @@ const Editor = ({ onChangeField, postTitle, postContent, postPoint }) => {
         onChange={onChangeTitle}
         value={postTitle}
       ></TitleInput>
-      <Rating
-        value={postPoint}
-        name="postPoint"
-        defaultValue={2.5}
-        precision={1}
-        size="large"
-        onChange={onChangePostPoint}
-      />
-      <span>{postPoint}</span>
+      <HalfRating />
       <BodyTextarea
         placeholder="input내용 작성"
         onChange={onChangeBody}
@@ -162,13 +153,13 @@ const Editor = ({ onChangeField, postTitle, postContent, postPoint }) => {
       {/* {loadingWritePost && '등록 중입니다!'} */}
       {/* {!loadingWritePost && <WriteButtonsContainer></WriteButtonsContainer>} */}
       <WriteButtonsContainer></WriteButtonsContainer>
-      <QuillWrapper>
+      {/* <QuillWrapper>
         <div ref={quillElement} />
       </QuillWrapper>
       <Button>임시버튼</Button>
       <div>
         {/* <form method="post" enctype="multipart/form-data"> */}
-        <label for="imageFile">사진 선택</label>
+      {/* <label for="imageFile">사진 선택</label>
         <input
           id="file"
           name="file"
@@ -179,13 +170,13 @@ const Editor = ({ onChangeField, postTitle, postContent, postPoint }) => {
 
         <button onClick={handleClick}>save</button>
         {/* </form> */}
-        <div className="img__box"></div>
+      {/* <div className="img__box"></div>
 
         <p>
           <label for="imageFile">사진 찍기</label>
           <input type="file" id="imageFile" capture="user" accept="image/*" />
         </p>
-      </div>
+      </div> */}
     </div>
     // </EditorBlock>
   );

@@ -1,10 +1,26 @@
 import React from 'react';
+import ScrollPlayground from '../components/write/Scroll';
 import Uploader from './Uploader';
-
+import axios from 'axios';
+import { useState } from 'react';
+import { useEffect } from 'react';
+import PlaceDialog from '../components/write/PlaceDialog';
 function About() {
+  const [searchPlaces, setSearchPlaces] = useState([]);
+  useEffect(() => {
+    const response = axios({
+      method: 'get',
+      url: '/post/searchLocation',
+      params: { postLocation: '서울' },
+    });
+    console.log(response.data);
+    setSearchPlaces(response.data);
+  }, []);
   return (
     <div>
       <Uploader></Uploader>
+      <PlaceDialog></PlaceDialog>
+      <ScrollPlayground searchPlaces={searchPlaces}></ScrollPlayground>
       <span>About weclusive</span>
       <h1>second test</h1>
       <h4>/20220211_cb015e45-1646-4c7b-9e1a-4abdcd97d3db_alin.png</h4>
