@@ -338,19 +338,22 @@ const AuthForm = ({
           </ButtonWith>
         )}
         {type === 'registerkakao' && (
-          <Button kakao fullWidth style={{ marginTop: '1.5rem' }} type="submit">
-            kakao로 회원가입
-          </Button>
+          <img
+            src={KakaoImage}
+            style={{ marginTop: '1.5rem' }}
+            type="submit"
+            width="350px"
+          />
         )}
       </form>
       {type === 'login' && (
         <a href={KAKAO_LOGIN_URL}>
-          <img src={KakaoImage} id="kakao-login-btn" width="350px" />
+          <img src={KakaoImage} width="350px" />
         </a>
       )}
       {type === 'register' && (
         <a href={KAKAO_LOGIN_URL}>
-          <img src={KakaoImage} id="kakao-login-btn" width="350px" />
+          <img src={KakaoImage} width="350px" />
         </a>
       )}
       {type === 'login' && (
