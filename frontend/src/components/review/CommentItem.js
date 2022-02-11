@@ -1,14 +1,10 @@
-import React, { useEffect } from 'react';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import { useParams } from "react-router";
+import React from 'react';
 import './CommentItemTest.css';
-import { commentDelete, commentUpdate } from '../../_actions/comment_actions';
+import { commentDelete } from '../../_actions/comment_actions';
 import { useDispatch, useSelector } from "react-redux";
 
 
-const CommentItem = ({comment}) => {
-
-  console.log(comment)
+const CommentItem = ({ comment, onRemove }) => {
   const CommentTime = comment.comment.regDt.substring(0, 10)
   const commentNum = comment.comment.cmtSeq
 
@@ -22,19 +18,10 @@ const CommentItem = ({comment}) => {
         "cmtSeq": commentNum,
         "userSeq": myuser.userSeq
       }
+      onRemove(commentNum)
       dispatch(commentDelete(params))
     }
-  
-    // const onUpdateHandler = (event) => {
-    //   event.preventDefault();
-    //     let body = {
-    //       "cmtContent": commentContent,
-    //       "cmtSeq": commentNum,
-    //       "userSeq": myuser.userSeq,
-    //     }
-    
-    //     axios.put()
-    //   }
+
   return(
     <div class="container">
       <div class="user-img">

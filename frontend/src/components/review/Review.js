@@ -35,9 +35,6 @@ const Review = () => {
   // review 창이 뜨자 마자 불러와져야할 것들
   useEffect(() => {
     getPostDetail();
-  }, []);
-
-  useEffect(() => {
     getCommentList();
   }, []);
 
@@ -85,6 +82,10 @@ const Review = () => {
     }
     getCommentList();
   };
+
+  const onRemove = (id) => {
+    setComments(comments.filter(comment => comment.cmtSeq !== id))
+  }
   return (
     <div>
       {/* <Header/> */}
@@ -130,7 +131,7 @@ const Review = () => {
                 {commentCnt >= 1 ? (
                   <div class="comment-list">
                     {comments.map((comment) => (
-                      <CommentItem comment={comment} key={comment.cmtSeq} />
+                      <CommentItem comment={comment} key={comment.cmtSeq} onRemove={onRemove} />
                     ))}
                   </div>
                 ) : (
