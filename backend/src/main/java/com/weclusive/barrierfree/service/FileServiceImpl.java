@@ -20,8 +20,7 @@ public class FileServiceImpl implements FileService {
 		filePath = filePath.replace("/", File.separator);
 		
 		// 경로 설정 + 날짜로 세부 디렉토리
-		File fileFolder = new File(filePath, getFolder());
-		System.out.println("Path : " + fileFolder);
+		File fileFolder = new File(filePath);
 		
 		// 폴더 없으면 생성하기
 		if(!fileFolder.exists()) {
@@ -35,43 +34,28 @@ public class FileServiceImpl implements FileService {
 		UUID uuid = UUID.randomUUID();
 		
 		// uuid + _ + 원래 파일명
-		fileName = uuid.toString() + "_" + fileName;
+		fileName = getDate() + uuid.toString() + "_" + fileName;
 		
 		String saveFilePath = fileFolder + File.separator + fileName;
 			
 		File saveFile = new File(saveFilePath);
 
+
+		// EC2에 저장
 		mFile.transferTo(saveFile);
+		System.out.println("EC2 Path : " + saveFilePath);
 		
-		return saveFilePath;
+		// 테이블에 이미지 경로 저장
+		String DBFilePath = File.separator + "images";
+		DBFilePath += File.separator + fileName;
+		System.out.println("DB Save Path : " + DBFilePath);
+		
+		return DBFilePath;
 	}
 
-	// 오늘 날짜의 경로를 문자열로 생성한다.
-	private String getFolder() {
-		String date = LocalDateTime.now().toString().replace("-", File.separator).substring(0, 10);
-		return date;
+	// 오늘 날짜를 문자열로 생성한다.
+	private String getDate() {
+		String date = LocalDateTime.now().toString().replace("-", "").substring(0, 8);
+		return date + "_";
 	}
-	
-//	@Override
-//	public void fileTest() {
-//		try {
-//			// 1. 파일 객체 생성
-//			File file = new File("\\app\\2022\\02\\09\\");
-//			// 2. 파일 존재여부 체크 및 생성
-//			if (!file.exists()) {
-//				file.createNewFile();
-//			}
-//			// 3. Buffer를 사용해서 File에 write할 수 있는 BufferedWriter 생성
-//			FileWriter fw = new FileWriter(file);
-//			BufferedWriter writer = new BufferedWriter(fw);
-//			// 4. 파일에 쓰기
-//			writer.write("hi");
-//			// 5. BufferedWriter close
-//			writer.close();
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-
-//	}
-
 }

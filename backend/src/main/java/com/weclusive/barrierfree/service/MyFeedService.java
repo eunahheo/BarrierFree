@@ -15,8 +15,8 @@ public interface MyFeedService {
 
 	public List<Post> readPost(int userSeq);
 
-	public List<Object> readScrapPost(int userSeq);
+	public List<Map<String, Object>> readScrapPost(int userSeq);
 
-	public List<Object> readScrapRecommend(int userSeq) throws Exception;
+	public List<Map<String, Object>> readScrapRecommend(int userSeq) throws Exception;
 
 }

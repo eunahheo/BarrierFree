@@ -19,6 +19,7 @@ import { red } from '@material-ui/core/colors';
 import KakaoImage from '../images/kakao_login_large_wide.png';
 import TextField from '@material-ui/core/TextField';
 
+const API_KEY = process.env.REACT_APP_KAKAO_API_KEY;
 const AuthFormBlock = styled.div`
   h2 {
     margin: 0;
@@ -338,12 +339,12 @@ const AuthForm = ({
         )}
       </form>
       {type === 'login' && (
-        <a href="https://kauth.kakao.com/oauth/authorize?client_id=fa3c898eec92948b420f6f03b934acd1&redirect_uri=http://i6a504.p.ssafy.io:80/kakaologinpage&response_type=code">
+        <a href={API_KEY}>
           <img src={KakaoImage} id="kakao-login-btn" width="350px" />
         </a>
       )}
       {type === 'register' && (
-        <a href="https://kauth.kakao.com/oauth/authorize?client_id=fa3c898eec92948b420f6f03b934acd1&redirect_uri=http://i6a504.p.ssafy.io:80/kakaologinpage&response_type=code">
+        <a href={API_KEY}>
           <img src={KakaoImage} id="kakao-login-btn" width="350px" />
         </a>
       )}
