@@ -20,6 +20,8 @@ import HeaderContainer from './containers/base/HeaderContainer';
 import WritePage from './pages/WritePage';
 import MyPage from './pages/MyPage';
 import KakaoLoginPage from './pages/KakaoLoginPage';
+import { resetParams } from './_actions/current_actions';
+import { useDispatch } from 'react-redux';
 
 function App() {
   return (
@@ -27,11 +29,14 @@ function App() {
       <HeaderContainer></HeaderContainer>
       <Routes>
         <Route path="/" exact={true} element={<Home />}></Route>
-        <Route path="/search" exact={true} element={<Search />}></Route>
-        <Route path="/about" exact={true} element={<About />}></Route>
+        <Route path="/write" element={<WritePage />}></Route>
         <Route path="/recommend" exact={true} element={<Recommend />}></Route>
+        <Route path="/search" exact={true} element={<Search />}></Route>
+        <Route path="/search/tour" element={<SearchDetail />}></Route>
+        <Route path="/about" exact={true} element={<About />}></Route>
         <Route path="/user" exact={true} element={<User />}></Route>
-        <Route path="/userpage" exact={true} element={<UserPage />}></Route>
+        <Route path="/user/:userSeq" exact={true} element={<User />}></Route>
+        <Route path="/mypage" element={<MyPage />}></Route>
         <Route
           path="/post/detail/:reviewCard"
           exact={true}
@@ -42,7 +47,6 @@ function App() {
           exact={true}
           element={<TourInfomation />}
         ></Route>
-        <Route path="/reviewpage" element={<ReviewPage />}></Route>
         <Route path="/registerpage" element={<RegisterPage />}></Route>
         <Route path="/loginpage" element={<LoginPage />}></Route>
         <Route path="/kakaologinpage" element={<KakaoLoginPage />}></Route>
@@ -58,9 +62,6 @@ function App() {
           path="/registerpage/emailcheck"
           element={<RegisterEmailCheckPage />}
         ></Route>
-        <Route path="/write" element={<WritePage />}></Route>
-        <Route path="/search/tour" element={<SearchDetail />}></Route>
-        <Route path="/mypage" element={<MyPage />}></Route>
         <Route path="*" element={<NotFound />}></Route>
       </Routes>
     </div>

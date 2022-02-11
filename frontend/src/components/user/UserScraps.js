@@ -1,5 +1,5 @@
-import UserScrapsIn from './review/UserScrapsIn';
-import UserScrapsOut from './review/UserScrapsOut';
+import UserScrapsIn from './UserScrapsIn';
+import UserScrapsOut from './UserScrapsOut';
 
 const UserScraps = () => {
   return (

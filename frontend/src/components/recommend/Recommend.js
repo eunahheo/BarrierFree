@@ -201,6 +201,24 @@ const Recommend = () => {
               setNoresult('검색 내용이 없습니다 😥');
             }
           }
+        });
+
+        setCity('');
+        setTown('');
+        setBarrier('');
+      } else if ((city, town)) {
+        let data = {
+          sidoCode: cityNum,
+          sigunguCode: townNum,
+          userSeq: myuser.userSeq,
+          contentTypeId: impairmentNums[i],
+          page: 0,
+          size: 10,
+        };
+        axios({
+          method: 'GET',
+          url: '/recommend/search',
+          params: data,
         })
         .catch('hey');
       if (barrier.length > 0) {
@@ -389,64 +407,67 @@ const Recommend = () => {
           onClick={onSelect}
         ></RecommendCategories>
 
-
-        {search == false? <div>
-          {itemList.length > 0?
+        {search == false ? (
           <div>
-            <RecommendCardList
-              itemList={itemList}
-              category={category}
-            ></RecommendCardList> 
+            {itemList.length > 0 ? (
+              <div>
+                <RecommendCardList
+                  itemList={itemList}
+                  category={category}
+                ></RecommendCardList>
+              </div>
+            ) : (
+              <div>{noresult}</div>
+            )}
           </div>
-          : <div>{noresult}</div>}
-          </div>
-          :
+        ) : (
           <div>
             <h2>명소</h2>
-            {searchLocationList.length > 0?
-            <div>
-              <RecommendCardList
-              itemList={searchLocationList}
-              category={category}
-              ></RecommendCardList> 
-            </div>
-            : <div>{noresult}</div>
-            }
+            {searchLocationList.length > 0 ? (
+              <div>
+                <RecommendCardList
+                  itemList={searchLocationList}
+                  category={category}
+                ></RecommendCardList>
+              </div>
+            ) : (
+              <div>{noresult}</div>
+            )}
             <h2>음식점</h2>
-            {searchFoodList.length > 0? 
-            <div>
-              <RecommendCardList
-                itemList={searchFoodList}
-                category={category}
-              ></RecommendCardList>
-            </div>
-            : <div>{noresult}</div>
-            }
+            {searchFoodList.length > 0 ? (
+              <div>
+                <RecommendCardList
+                  itemList={searchFoodList}
+                  category={category}
+                ></RecommendCardList>
+              </div>
+            ) : (
+              <div>{noresult}</div>
+            )}
             <h2>숙박시설</h2>
-            {searchHomeList.length > 0? 
-            <div>
-              <RecommendCardList
-                itemList={searchHomeList}
-                category={category}
-            ></RecommendCardList>
-            </div> : <div>{noresult}</div>
-            }
+            {searchHomeList.length > 0 ? (
+              <div>
+                <RecommendCardList
+                  itemList={searchHomeList}
+                  category={category}
+                ></RecommendCardList>
+              </div>
+            ) : (
+              <div>{noresult}</div>
+            )}
             <h2>행사</h2>
-            {searchPartyList.length > 0? 
-            <div>
-              <RecommendCardList
-                itemList={searchPartyList}
-                category={category}
-              ></RecommendCardList>
-            </div>
-            : <div>{noresult}</div>
-            }
-            </div>
-      }
-        
-        
-        
-        
+            {searchPartyList.length > 0 ? (
+              <div>
+                <RecommendCardList
+                  itemList={searchPartyList}
+                  category={category}
+                ></RecommendCardList>
+              </div>
+            ) : (
+              <div>{noresult}</div>
+            )}
+          </div>
+        )}
       </Container>
     </div>
   );

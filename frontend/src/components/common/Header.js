@@ -15,6 +15,7 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import Badge from '@mui/material/Badge';
 import NotificationsIcon from '@mui/icons-material/Notifications';
+import { useDispatch } from 'react-redux';
 
 const HeaderBlock = styled.div`
   position: fixed;
@@ -56,6 +57,7 @@ const Spacer = styled.div`
 `;
 
 const Header = ({ user, onLogout }) => {
+  const dispatch = useDispatch();
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const handleOpenNavMenu = (event) => {
@@ -161,7 +163,7 @@ const Header = ({ user, onLogout }) => {
                 >
                   <MenuItem
                     onClick={() => {
-                      navigate('/user');
+                      navigate(`/user/${user.userSeq}`);
                       handleCloseUserMenu();
                     }}
                   >

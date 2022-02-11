@@ -17,7 +17,7 @@ const KakaoLoginForm = () => {
   }).then(function (res) {
     console.log(res);
     if (res.status == 200) {
-      console.log(res.data.accessToken);
+      // console.log(res.data.accessToken);
       localStorage.setItem('accessToken', res.data.accessToken);
 
       dispatch(userInfo(res.data.accessToken));

@@ -9,8 +9,8 @@ const CommentItem = ({ comment, onRemove }) => {
   const commentNum = comment.comment.cmtSeq
 
   const dispatch = useDispatch();
-  const myuser = useSelector((state) => state.user.userData)
-  console.log(myuser)
+  const myuser = useSelector((state) => state.user.userData);
+  // console.log(myuser)
 
   const onDeleteHandler = (event) => {
     event.preventDefault();
@@ -25,7 +25,7 @@ const CommentItem = ({ comment, onRemove }) => {
   return(
     <div class="container">
       <div class="user-img">
-        <img src='https://dummyimage.com/50x50/ced4da/6c757d.jpg'></img>
+        <img src="https://dummyimage.com/50x50/ced4da/6c757d.jpg"></img>
       </div>
       <div class="comment-info">
         <div>
@@ -35,11 +35,15 @@ const CommentItem = ({ comment, onRemove }) => {
         {/* <p onClick={onUpdateHandler}>수정하기</p> */}
       </div>
       <div class="comment-time">
-        <p>{CommentTime}</p> 
-        {comment.comment.userSeq == myuser.userSeq ? <p onClick={onDeleteHandler}>[삭제]</p> : <p></p>}
+        <p>{CommentTime}</p>
+        {comment.comment.userSeq == myuser.userSeq ? (
+          <p onClick={onDeleteHandler}>[삭제]</p>
+        ) : (
+          <p></p>
+        )}
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default CommentItem;
