@@ -144,7 +144,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void sendEmailwithUserKey(String email, String id) {
 		User user = userRepository.findByUserId(id);
-		String link = "http://i6a504.p.ssafy.io/user/email/certified?userNickname=" + user.getUserNickname()
+		String link = "https://i6a504.p.ssafy.io/user/email/certified?userNickname=" + user.getUserNickname()
 				+ "&certified=" + user.getCertKey();
 		String message = mailContentBuilder.build(link);
 		try {
@@ -227,7 +227,7 @@ public class UserServiceImpl implements UserService {
 			StringBuilder sb = new StringBuilder();
 			sb.append("grant_type=authorization_code");
 			sb.append("&client_id=fa3c898eec92948b420f6f03b934acd1"); // REST_API_KEY 입력
-			sb.append("&redirect_uri=http://i6a504.p.ssafy.io:80/kakaologinpage"); // 인가코드 받은 redirect_uri 입력
+			sb.append("&redirect_uri=https://i6a504.p.ssafy.io/kakaologinpage"); // 인가코드 받은 redirect_uri 입력
 			sb.append("&code=" + code);
 			bw.write(sb.toString());
 			bw.flush();

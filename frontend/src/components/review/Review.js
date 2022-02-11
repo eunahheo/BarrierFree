@@ -155,6 +155,10 @@ const Review = () => {
     getCommentList();
   };
 
+  const onRemove = (id) => {
+    setComments(comments.filter((comment) => comment.cmtSeq !== id));
+  };
+
   // 팔로우, 팔로잉
 
   const onUnfollow = () => {
@@ -168,8 +172,9 @@ const Review = () => {
     setCheckFw(true);
     dispatch(resetRelationship());
   };
+
   const TTS = () => {
-    console.log(imgAlt);
+    const API_KEY = process.env.REACT_APP_KAKAO_API_KEY;
     const xmlData = '<speak>' + imgAlt + '</speak>';
     try {
       const { data } = axios
@@ -179,7 +184,7 @@ const Review = () => {
           {
             headers: {
               'Content-Type': 'application/xml',
-              Authorization: `KakaoAK fa3c898eec92948b420f6f03b934acd1`,
+              Authorization: `KakaoAK ${API_KEY}`,
             },
             responseType: 'arraybuffer',
           },
@@ -280,7 +285,11 @@ const Review = () => {
                     {commentCnt >= 1 ? (
                       <div class="comment-list">
                         {comments.map((comment) => (
-                          <CommentItem comment={comment} key={comment.cmtSeq} />
+                          <CommentItem
+                            comment={comment}
+                            key={comment.cmtSeq}
+                            onRemove={onRemove}
+                          />
                         ))}
                       </div>
                     ) : (

@@ -39,7 +39,7 @@ const LoginForm = () => {
             dispatch(userInfo(res.payload.accessToken));
             navigate('/');
           } else {
-            alert('error!');
+            alert('오류가 발생했습니다!');
           }
         })
         .catch((e) => {
