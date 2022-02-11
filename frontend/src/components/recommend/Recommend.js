@@ -167,7 +167,7 @@ const Recommend = () => {
         url: '/recommend/search',
         params: data,
         paramsSerializer: params => {
-          return qs.stringify(params)
+          return qs.stringify(params, { arrayFormat: 'repeat' })
         }
       })
         .then((res) => {
@@ -250,7 +250,7 @@ const Recommend = () => {
         url: '/recommend/search',
         params: data,
         paramsSerializer: params => {
-          return qs.stringify(params)
+          return qs.stringify(params, { arrayFormat: 'repeat' })
         }
       }).then((res) => {
         console.log(res)
