@@ -4,22 +4,10 @@ import palette from '../../lib/styles/palette';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import { useCallback, useState, useEffect } from 'react';
 import axios from '../../../node_modules/axios/index';
-import PlaceList from './PlaceList';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
 import Button from '../common/Button';
-import {
-  DataGridPro,
-  useGridApiRef,
-  gridVisibleRowCountSelector,
-  visibleGridColumnsLengthSelector,
-  visibleGridColumnsSelector,
-  gridVisibleSortedRowIdsSelector,
-} from '@mui/x-data-grid-pro';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 
 const PlaceBoxBlock = styled.div`
@@ -97,7 +85,10 @@ const PlaceBox = ({ onChangePlace, onChangeField, postLocation }) => {
     setInput(e.target.value);
     onChangeField({ key: 'postLocation', value: e.target.value });
   }, []);
-
+  const onClickPlace = (searchPlace) => {
+    onChangeField({ key: 'postLocation', value: searchPlace.postLocation });
+    onChangeField({ key: 'postAddress', value: searchPlace.postAddress });
+  };
   const onSubmit = useCallback(
     (e) => {
       e.preventDefault();
@@ -164,8 +155,8 @@ const PlaceBox = ({ onChangePlace, onChangeField, postLocation }) => {
 
   const handleClose = () => {
     setOpen(false);
-    // 관광공사 api 전체 검색하도록
     onChangeField({ key: 'postLocation', value: 'none' });
+    onChangeField({ key: 'postAddress', value: '' });
   };
 
   const descriptionElementRef = React.useRef(null);
@@ -208,7 +199,27 @@ const PlaceBox = ({ onChangePlace, onChangeField, postLocation }) => {
                 </div>
               ) : (
                 searchPlaces.map((searchPlace) => (
-                  <div>
+                  <div
+                    onClick={() => {
+                      onChangeField({
+                        key: 'postLocation',
+                        value: searchPlace.postLocation,
+                      });
+                      onChangeField({
+                        key: 'postAddress',
+                        value: searchPlace.postAddress,
+                      });
+                      onChangeField({
+                        key: 'postLat',
+                        value: searchPlace.postLat,
+                      });
+                      onChangeField({
+                        key: 'postLng',
+                        value: searchPlace.postLng,
+                      });
+                    }}
+                    style={{ cursor: 'pointer' }}
+                  >
                     <hr></hr>
                     <h4>{searchPlace.postLocation}</h4>
                     <h4>{searchPlace.postAddress}</h4>
@@ -218,13 +229,20 @@ const PlaceBox = ({ onChangePlace, onChangeField, postLocation }) => {
               )}
             </DialogContent>
             <DialogActions>
-              <Button onClick={handleClose}>취소</Button>
+              {kakaoMap ? (
+                <div>
+                  <Button onClick={() => setOpen(false)}>취소</Button>
+                </div>
+              ) : (
+                <div>
+                  <Button onClick={handleClose}>취소</Button>
+                  <Button onClick={() => setOpen(false)}>확인</Button>
+                </div>
+              )}
             </DialogActions>
           </Dialog>
         </div>
-        <div>
-          <h4>durl: {myLocation}</h4>
-        </div>
+        <div></div>
         <PlaceItemBlock>
           <PlaceItem place={localPlace} onRemove={onRemove} />
         </PlaceItemBlock>

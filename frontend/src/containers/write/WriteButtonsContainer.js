@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import WriteButtons from '../../components/write/WriteButtons';
-import { writePost } from '../../_actions/write_actions';
+import { initialize, writePost } from '../../_actions/write_actions';
 
 const WriteButtonsContainer = () => {
   const myuserData = useSelector((state) => state.user.userData);
@@ -19,6 +19,9 @@ const WriteButtonsContainer = () => {
     physical,
     visibility,
     senior,
+    postAddress,
+    postLat,
+    postLng,
   } = useSelector(({ write }) => ({
     postTitle: write.postTitle,
     postContent: write.postContent,
@@ -29,12 +32,16 @@ const WriteButtonsContainer = () => {
     physical: write.physical,
     visibility: write.visibility,
     senior: write.senior,
+    postAddress: write.postAddress,
+    postLat: write.postLat,
+    postLng: write.postLng,
   }));
-  // const myuser = useSelector((state) => state.user.userData);
-  // const [writeUserSeq, setWriteUserSeq] = useState(null);
-  // setWriteUserSeq(myuser.userSeq);
 
   const onPublish = () => {
+    if (!postTitle) {
+      alert('글을 작성해주세요!😉');
+      return;
+    }
     dispatch(
       writePost({
         postTitle,
@@ -47,8 +54,13 @@ const WriteButtonsContainer = () => {
         physical,
         visibility,
         senior,
+        postAddress,
+        postLat,
+        postLng,
       }),
     );
+    alert('글이 등록되었습니다! 인클루시브에 한발짝 다가가셨습니다 😊');
+    dispatch(initialize());
   };
   return <WriteButtons onPublish={onPublish}></WriteButtons>;
 };
