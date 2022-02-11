@@ -67,7 +67,6 @@ function ImageUploader() {
         method: 'post',
         url: '/upload/photo',
         formData: imageData,
-        headers: { 'Content-Type': 'multipart/form-data' },
       });
       console.log(response);
     } catch (error) {
