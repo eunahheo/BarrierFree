@@ -8,35 +8,7 @@ import {
 } from '../_actions/write_actions';
 import createRequestSaga from '../lib/createRequestSaga';
 import { takeLatest } from 'redux-saga/effects';
-import { writePostAPI } from '../_actions/write_actions';
 import axios from '../../node_modules/axios/index';
-
-const writePostSaga = createRequestSaga(
-  WRITE_POST,
-  ({ title, content, place, deaf, infant, physical, senior, visibility }) => {
-    axios.post('/post/savePost', {
-      contentId: 12,
-      deaf,
-      infant,
-      physical,
-      postAddress: 'sdf12',
-      postLat: '123',
-      postLng: '13123',
-      userSeq: 8,
-      visibility,
-      postAlt: '123',
-      postPhoto: 'string',
-      postPoint: 0,
-      senior,
-      postTitle: title,
-      postContent: content,
-      postLocation: place,
-    });
-  },
-);
-export function* writeSaga() {
-  yield takeLatest(WRITE_POST, writePostSaga);
-}
 
 const initialState = {
   postTitle: '',
@@ -49,6 +21,7 @@ const initialState = {
   physical: 0,
   senior: 0,
   visibility: 0,
+  writeUserSeq: '',
 };
 
 function write(state = initialState, action) {

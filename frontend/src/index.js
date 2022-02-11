@@ -7,7 +7,8 @@ import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import promiseMiddleware from 'redux-promise';
 import ReduxThunk from 'redux-thunk';
-import rootReducer, { rootSaga } from './_reducers';
+import rootReducer from './_reducers';
+// import rootReducer, { rootSaga } from './_reducers';
 import { BrowserRouter } from 'react-router-dom';
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
@@ -16,7 +17,7 @@ import { createLogger } from 'redux-logger';
 import createSagaMiddleware from 'redux-saga';
 import axios from 'axios';
 axios.defaults.baseURL =
-  process.env.NODE_ENV === 'development' ? '' : 'http://i6a504.p.ssafy.io:3030';
+  process.env.NODE_ENV === 'development' ? '' : 'https://i6a504.p.ssafy.io/api';
 const persistConfig = {
   key: 'root',
   storage,
@@ -37,7 +38,7 @@ const store = createStoreWithMiddleware(
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
 );
 
-sagaMiddleware.run(rootSaga);
+// sagaMiddleware.run(rootSaga);
 
 const persistor = persistStore(store);
 

@@ -15,6 +15,7 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import Badge from '@mui/material/Badge';
 import NotificationsIcon from '@mui/icons-material/Notifications';
+import { useDispatch } from 'react-redux';
 
 const HeaderBlock = styled.div`
   position: fixed;
@@ -56,6 +57,7 @@ const Spacer = styled.div`
 `;
 
 const Header = ({ user, onLogout }) => {
+  const dispatch = useDispatch();
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const handleOpenNavMenu = (event) => {
@@ -95,13 +97,16 @@ const Header = ({ user, onLogout }) => {
           </div>
           <div
             onClick={() => {
-              if (user) {
-                navigate('/recommend');
-              } else {
-                alert('로그인이 필요합니다!🤗');
-                navigate('/loginpage');
-              }
+              navigate('/recommend');
             }}
+            // onClick={() => {
+            //   if (user) {
+            //     navigate('/recommend');
+            //   } else {
+            //     alert('로그인이 필요합니다!🤗');
+            //     navigate('/loginpage');
+            //   }
+            // }}
           >
             <h4>여행추천</h4>
           </div>
@@ -161,7 +166,7 @@ const Header = ({ user, onLogout }) => {
                 >
                   <MenuItem
                     onClick={() => {
-                      navigate('/user');
+                      navigate(`/user/${user.userSeq}`);
                       handleCloseUserMenu();
                     }}
                   >
