@@ -28,7 +28,7 @@ const Uploader = (props) => {
       setLoaded(true);
     };
   };
-
+  
   const deleteImage = () => {
     setImage({
       image_file: '',
@@ -37,15 +37,12 @@ const Uploader = (props) => {
     setLoaded(false);
   };
 
-  const sendImageToServer = async () => {
+const sendImageToServer = async () => {
+  const config = {headers : { ContentType: text/html, charset=utf-8}}
     if (image.image_file) {
       const formData = new FormData();
       formData.append('file', image.image_file);
-      await axios({ method='post',
-      url: '/upload/photo', 
-      formData: formData, 
-      Headers: { 'Content-Type': text/html, charset=utf-8
-    }});
+      await axios.post('/upload/photo', formData, config);
       alert('서버에 등록이 완료되었습니다!');
       setImage({
         image_file: '',
