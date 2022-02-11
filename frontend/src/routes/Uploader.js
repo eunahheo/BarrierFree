@@ -38,7 +38,7 @@ const Uploader = (props) => {
   };
 
   const sendImageToServer = async () => {
-    const config = { headers: { contentType: 'text/html; charset=utf-8' } };
+    const config = { headers: { 'Content-Type': 'text/html; charset=utf-8' } };
     if (image.image_file) {
       const formData = new FormData();
       formData.append('file', image.image_file);
