@@ -40,9 +40,13 @@
 }
 
 .icon {
-  width: 1.5rem;
+  width: 2rem;
 }
 
 .overview {
   line-height: 1.5;
+}
+
+.info-posts {
+  margin-top: 30px;
 }
