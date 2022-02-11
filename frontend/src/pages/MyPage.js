@@ -4,9 +4,8 @@ import MyPageContentContainer from '../containers/mypage/MyPageContentContainer'
 const MyPage = () => {
   return (
     <div>
-      <h1>mypage</h1>
+      <h1>회원정보 수정</h1>
       <MyPageHeaderContainer></MyPageHeaderContainer>
-      <MyPageContentContainer></MyPageContentContainer>
     </div>
   );
 };

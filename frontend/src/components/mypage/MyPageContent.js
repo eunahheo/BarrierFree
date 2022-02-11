@@ -97,7 +97,6 @@ const MyPageContent = ({ user }) => {
   };
 
   const updatePass = () => {
-    console.log('클릭');
     const token = localStorage.getItem('accessToken');
     setPassOpen(true);
     axios({
@@ -106,6 +105,8 @@ const MyPageContent = ({ user }) => {
       data: {
         userSeq: user.userSeq,
         userPwd: userPwd,
+        userNickname: user.userNickname,
+        userPhoto: user.userPhoto,
       },
       headers: {
         Authorization: `Bearer ${token}`,
@@ -161,7 +162,9 @@ const MyPageContent = ({ user }) => {
   return (
     <MyPageContentBlock>
       <div>
-        <h2>| 회원정보 수정 |</h2>
+        {/* <h2>| 회원정보 수정 |</h2> */}
+        <br />
+        <br />
         <h3>아이디 : {user.userId}</h3>
         <h3>닉네임: {user.userNickname}</h3>
         <h3>이메일: {user.userEmail}</h3>
