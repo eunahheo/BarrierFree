@@ -55,23 +55,11 @@ const QuillWrapper = styled.div`
   }
 `;
 
-export function HalfRating() {
-  return (
-    <Stack spacing={1}>
-      <Rating
-        name="half-rating"
-        defaultValue={2.5}
-        precision={0.5}
-        size="large"
-      />
-    </Stack>
-  );
-}
-
-const Editor = ({ onChangeField, postTitle, postContent }) => {
+const Editor = ({ onChangeField, postTitle, postContent, postPoint }) => {
   const quillElement = useRef(null);
   const quillInstance = useRef(null);
   const [files, setFiles] = useState('');
+  const [point, setPoint] = useState(0);
 
   const onLoadFile = (event) => {
     const file = event.target.files;
@@ -79,24 +67,6 @@ const Editor = ({ onChangeField, postTitle, postContent }) => {
     console.log(files);
   };
 
-  const handleClick = (event) => {
-    const formdata = new FormData();
-    formdata.append('postPhoto', files[0]);
-    console.log(formdata);
-    console.log(files[0]);
-
-    const config = {
-      Headers: {
-        'content-type': 'multipart/form-data',
-      },
-    };
-    // axios({
-    //   method: 'post',
-    //   url: '/post/savePost',
-    //   formdata: formdata,
-    //   config: config,
-    // });
-  };
   useEffect(() => {
     quillInstance.current = new Quill(quillElement.current, {
       placeholder: '내용 작성란',
@@ -121,6 +91,10 @@ const Editor = ({ onChangeField, postTitle, postContent }) => {
     onChangeField({ key: 'postContent', value: e.target.value });
   };
 
+  const onChangePostPoint = (e) => {
+    console.log('changepostpoint', e);
+    onChangeField({ key: 'postPoint', value: e.target.value });
+  };
   useEffect(() => {
     preview();
     return () => preview();
@@ -134,7 +108,6 @@ const Editor = ({ onChangeField, postTitle, postContent }) => {
       (imgEl.style.backgroundImage = `url(${reader.result})`);
     reader.readAsDataURL(files[0]);
   };
-
   return (
     // <EditorBlock>
     <div>
@@ -144,7 +117,15 @@ const Editor = ({ onChangeField, postTitle, postContent }) => {
         onChange={onChangeTitle}
         value={postTitle}
       ></TitleInput>
-      <HalfRating />
+      <Rating
+        value={postPoint}
+        name="postPoint"
+        defaultValue={2.5}
+        precision={1}
+        size="large"
+        onChange={onChangePostPoint}
+      />
+      <span>{postPoint}</span>
       <BodyTextarea
         placeholder="input내용 작성"
         onChange={onChangeBody}
@@ -153,32 +134,7 @@ const Editor = ({ onChangeField, postTitle, postContent }) => {
       {/* {loadingWritePost && '등록 중입니다!'} */}
       {/* {!loadingWritePost && <WriteButtonsContainer></WriteButtonsContainer>} */}
       <WriteButtonsContainer></WriteButtonsContainer>
-      {/* <QuillWrapper>
-        <div ref={quillElement} />
-      </QuillWrapper>
-      <Button>임시버튼</Button>
-      <div>
-        {/* <form method="post" enctype="multipart/form-data"> */}
-      {/* <label for="imageFile">사진 선택</label>
-        <input
-          id="file"
-          name="file"
-          type="file"
-          accept="image/*"
-          onChange={onLoadFile}
-        />
-
-        <button onClick={handleClick}>save</button>
-        {/* </form> */}
-      {/* <div className="img__box"></div>
-
-        <p>
-          <label for="imageFile">사진 찍기</label>
-          <input type="file" id="imageFile" capture="user" accept="image/*" />
-        </p>
-      </div> */}
     </div>
-    // </EditorBlock>
   );
 };
 

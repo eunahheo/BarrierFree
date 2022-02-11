@@ -6,6 +6,7 @@ import { Card, Container, CardActionArea, CardMedia } from '@mui/material';
 import Button from '../common/Button';
 import { uploadImage } from '../../_actions/upload_actions';
 import axios from '../../../node_modules/axios/index';
+import { changeField } from '../../_actions/write_actions';
 
 function ImageUploader() {
   // const classes = useStyles();
@@ -45,7 +46,7 @@ function ImageUploader() {
       const imageFile = new FormData();
       imageFile.append('photo', imageData);
       try {
-        await axios({
+        const response = await axios({
           method: 'post',
           url: '/upload/photo',
           data: imageFile,
@@ -54,6 +55,7 @@ function ImageUploader() {
         // console.log(response);
         alert('등록이 완료되었습니다!😋');
         setImageData(null);
+        dispatch(changeField({ key: 'postPhoto', value: response.data }));
       } catch (error) {
         console.log(error);
       } finally {

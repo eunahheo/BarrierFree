@@ -30,15 +30,18 @@ export const writePostAPI = ({
   physical,
   visibility,
   senior,
+  postAddress,
+  postLat,
+  postLng,
 }) => {
   axios.post('/post/savePost', {
     contentId: 12,
     deaf,
     infant,
     physical,
-    postAddress: 'sdf12',
-    postLat: '123',
-    postLng: '13123',
+    postAddress,
+    postLat,
+    postLng,
     postLocation,
     userSeq: writeUserSeq,
     visibility,
@@ -62,6 +65,9 @@ export const writePost = ({
   physical,
   visibility,
   senior,
+  postAddress,
+  postLat,
+  postLng,
 }) => {
   writePostAPI({
     postTitle,
@@ -74,6 +80,9 @@ export const writePost = ({
     physical,
     visibility,
     senior,
+    postAddress,
+    postLat,
+    postLng,
   });
   return {
     type: WRITE_POST,
@@ -88,18 +97,9 @@ export const writePost = ({
       physical,
       visibility,
       senior,
+      postAddress,
+      postLat,
+      postLng,
     },
   };
 };
-
-// createAction(
-//   WRITE_POST,
-//   ({ postTitle, postContent, postLocation, writeuserSeq }) =>
-//     writePostAPI({ postTitle, postContent, postLocation, writeuserSeq }),
-//   {
-//     postTitle,
-//     postContent,
-//     postLocation,
-//     writeuserSeq,
-//   },
-// );

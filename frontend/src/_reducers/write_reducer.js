@@ -10,7 +10,10 @@ import {
 const initialState = {
   postTitle: '',
   postContent: '',
+  postLat: '',
+  postLng: '',
   postLocation: '',
+  postAddress: '',
   post: null,
   postError: null,
   deaf: 0,
