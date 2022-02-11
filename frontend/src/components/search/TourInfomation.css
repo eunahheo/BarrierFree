@@ -1,9 +1,9 @@
 .infomation-box {
-  /* border: 1px black solid; */
+  border: 1px black solid;
   margin-top: 50px;
   margin-bottom: 50px;
-  margin-left: 30rem;
-  margin-right: 30rem;
+  margin-left: 10rem;
+  margin-right: 10rem;
 }
 
 .infomation {
@@ -13,16 +13,36 @@
   margin-bottom: 20px;
 }
 
+.info-title {
+  font-size: calc(35px + 2vmin);
+  font-weight: bold;
+}
+
+.info-scrap {
+  font-size: calc(8px + 1vmin);
+  text-align: left;
+  margin-left: 5rem;
+}
+
 .info-img {
+  margin-top: 30px;
   box-sizing: border-box;
-  margin-left: 15%;
 }
 
 .info-content {
   box-sizing: border-box;
-  /* border: 1px solid; */
-  width: 50%;
-  margin-left: 3rem;
+  margin-top: 50px;
+  /* width: 50%; */
+  margin-left: 10rem;
+  margin-right: 10rem;
+  font-size: calc(10px + 1.5vmin);
   text-align: left;
-  margin-right: 15%;
+}
+
+.icon {
+  width: 1.5rem;
+}
+
+.overview {
+  line-height: 1.5;
 }
