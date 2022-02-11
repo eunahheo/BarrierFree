@@ -36,7 +36,7 @@ const RegisterEmailCheckPage = () => {
   useEffect(
     () =>
       axios({
-        url: 'http://localhost:8080/user/email/certified',
+        url: '/user/email/certified',
         method: 'post',
         params: {
           userNickname: userNickname,
