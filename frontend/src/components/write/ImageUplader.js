@@ -42,43 +42,48 @@ function ImageUploader() {
   const dispatch = useDispatch();
   const [imagePreview, setImagePreview] = useState(null);
   const [imageData, setImageData] = useState(null);
-  const [imageName, setImageName] = useState('');
-  const { image } = useSelector((state) => state.upload);
+  // const [imageName, setImageName] = useState('');
   const [imageFile, setImageFile] = useState(null);
+  const image = useSelector((state) => state.upload.image);
   // handleuploadclick;
   const onUpload = (event) => {
     const file = event.target.files[0];
     console.log(file);
     const imageData = new FormData();
     imageData.append('imageFile', file);
-    console.log(imageData);
-    setImageFile(file);
     setImageData(imageData);
+
+    setImageFile(file);
     setImagePreview(URL.createObjectURL(file));
   };
-  const config = {
-    Headers: {
-      'content-Type': 'multipart/form-data',
-    },
-  };
+
   const uploadImageWithAdtData = () => {
     // 전송 보내기 전에 새로운 이름 붙이기
-    // imageData.append('imageName', imageName);
+    // 이 부분은 imageData에 붙이지 말고 state값에 alt로 넘겨주기
+    // imageData.append('postAlt', imageName);
     dispatch(uploadImage(imageData));
-    axios.post({
-      method: 'post',
-      url: '/upload/photo',
-      formData: imageFile,
-      Headers: { 'content-type': 'multipart/form-data' },
-    });
-  };
-  const onc = () => {
-    alert('good');
-  };
-  const onChange = (event) => {
-    setImageName(event.target.value);
+    try {
+      const response = axios({
+        method: 'post',
+        url: '/upload/photo',
+        formData: imageData,
+      });
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
+  // const onChange = (event) => {
+  //   setImageName(event.target.value);
+  // };
+
+  const onDelete = () => {
+    setImagePreview(null);
+    setImageData(null);
+  };
+
+  let inputRef;
   return (
     <div>
       <Card>
@@ -99,21 +104,29 @@ function ImageUploader() {
         capture="user"
         accept="image/*"
         onChange={onUpload}
-        // style={{ display: 'none' }}
+        ref={(refParam) => (inputRef = refParam)}
+        style={{ display: 'none' }}
       />
       <label htmlFor="upload-profile-image">
-        <Button variant="contained" component="span">
+        <Button
+          variant="contained"
+          component="span"
+          onClick={() => inputRef.click()}
+        >
           파일 찾기
         </Button>
       </label>
-      <input
+
+      <Button onClick={onDelete}>올리기 취소</Button>
+      {/* <input
         label="Image Name"
         name="name"
         onChange={onChange}
         value={imageName}
-      />
+        placeholder="시각장애 분들을 위한 음성용 사진 설명을 적어주세요"
+      /> */}
       <Button component="span" onClick={uploadImageWithAdtData}>
-        이미지 등록
+        temp 이미지 등록
       </Button>
     </div>
   );
