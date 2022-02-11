@@ -41,7 +41,11 @@ const Uploader = (props) => {
     if (image.image_file) {
       const formData = new FormData();
       formData.append('file', image.image_file);
-      await axios.post('/upload/photo', formData);
+      await axios({ method='post',
+      url: '/upload/photo', 
+      formData: formData, 
+      Headers: { 'Content-Type': text/html, charset=utf-8
+    }});
       alert('서버에 등록이 완료되었습니다!');
       setImage({
         image_file: '',
