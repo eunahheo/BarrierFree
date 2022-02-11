@@ -28,7 +28,7 @@ const Uploader = (props) => {
       setLoaded(true);
     };
   };
-  
+
   const deleteImage = () => {
     setImage({
       image_file: '',
@@ -37,8 +37,8 @@ const Uploader = (props) => {
     setLoaded(false);
   };
 
-const sendImageToServer = async () => {
-  const config = {headers : { ContentType: text/html, charset=utf-8}}
+  const sendImageToServer = async () => {
+    const config = { headers: { contentType: 'text/html; charset=utf-8' } };
     if (image.image_file) {
       const formData = new FormData();
       formData.append('file', image.image_file);
