@@ -21,6 +21,7 @@ const AuthBarrierIconBlock = styled.div`
 `;
 
 const WriteBarrierIcon = ({
+  onChangeField,
   onClickField,
   deaf,
   infant,
@@ -28,9 +29,42 @@ const WriteBarrierIcon = ({
   senior,
   visibility,
 }) => {
-  const onClickDeaf = (e) => {
-    onClickField({ key: 'deaf', value: 1 });
+  const onClickPhysical = (e) => {
+    if (physical) {
+      onClickField({ key: 'physical', value: 0 });
+    } else {
+      onClickField({ key: 'physical', value: 1 });
+    }
   };
+  const onClickVisibility = (e) => {
+    if (visibility) {
+      onClickField({ key: 'visibility', value: 0 });
+    } else {
+      onClickField({ key: 'visibility', value: 1 });
+    }
+  };
+  const onClickDeaf = (e) => {
+    if (deaf) {
+      onClickField({ key: 'deaf', value: 0 });
+    } else {
+      onClickField({ key: 'deaf', value: 1 });
+    }
+  };
+  const onClickInfant = (e) => {
+    if (infant) {
+      onClickField({ key: 'infant', value: 0 });
+    } else {
+      onClickField({ key: 'infant', value: 1 });
+    }
+  };
+  const onClickSenior = (e) => {
+    if (senior) {
+      onClickField({ key: 'senior', value: 0 });
+    } else {
+      onClickField({ key: 'senior', value: 1 });
+    }
+  };
+
   return (
     <AuthBarrierIconBlock>
       <div align="center" className="barriericon">
@@ -38,62 +72,26 @@ const WriteBarrierIcon = ({
           name="physical"
           src={Physical}
           width="30"
-          // onClick={() => {
-          //   if (form.physical) {
-          //     setForm({ ...form, physical: 0 });
-          //   } else {
-          //     setForm({ ...form, physical: 1 });
-          //   }
-          // }}
+          onClick={onClickPhysical}
         ></img>
         <img
           name="visibility"
           src={Visual}
           width="30"
-          // onClick={() => {
-          //   if (form.visibility) {
-          //     setForm({ ...form, visibility: 0 });
-          //   } else {
-          //     setForm({ ...form, visibility: 1 });
-          //   }
-          // }}
+          onClick={onClickVisibility}
         ></img>
-        <img
-          name="deaf"
-          src={Auditory}
-          width="30"
-          onClick={onClickDeaf}
-          // onClick={() => {
-          //   if (form.deaf) {
-          //     setForm({ ...form, deaf: 0 });
-          //   } else {
-          //     setForm({ ...form, deaf: 1 });
-          //   }
-          // }}
-        ></img>
+        <img name="deaf" src={Auditory} width="30" onClick={onClickDeaf}></img>
         <img
           name="infant"
           src={Pregnant}
           width="30"
-          // onClick={() => {
-          //   if (form.pregnant) {
-          //     setForm({ ...form, pregnant: 0 });
-          //   } else {
-          //     setForm({ ...form, pregnant: 1 });
-          //   }
-          // }}
+          onClick={onClickInfant}
         ></img>
         <img
           name="senior"
           src={Senior}
           width="30"
-          // onClick={() => {
-          //   if (form.senior) {
-          //     setForm({ ...form, senior: 0 });
-          //   } else {
-          //     setForm({ ...form, senior: 1 });
-          //   }
-          // }}
+          onClick={onClickSenior}
         ></img>
       </div>
     </AuthBarrierIconBlock>

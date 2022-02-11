@@ -1,6 +1,10 @@
 import WriteBarrierIcon from '../../components/write/WriteBarrierIcon';
 import { useDispatch, useSelector } from 'react-redux';
-import { initialize, clickField } from '../../_actions/write_actions';
+import {
+  initialize,
+  changeField,
+  clickField,
+} from '../../_actions/write_actions';
 import { useCallback } from 'react';
 
 const WriteBarrierIconContainer = () => {
@@ -20,6 +24,12 @@ const WriteBarrierIconContainer = () => {
     },
     [dispatch],
   );
+  const onChangeField = useCallback(
+    (payload) => {
+      dispatch(changeField(payload));
+    },
+    [dispatch],
+  );
   return (
     <WriteBarrierIcon
       onClickField={onClickField}
@@ -28,6 +38,7 @@ const WriteBarrierIconContainer = () => {
       physical={physical}
       senior={senior}
       visibility={visibility}
+      onChangeField={onChangeField}
     ></WriteBarrierIcon>
   );
 };

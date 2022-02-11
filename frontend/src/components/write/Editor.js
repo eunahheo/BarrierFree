@@ -121,7 +121,7 @@ const Editor = ({ onChangeField, postTitle, postContent, postPoint }) => {
 
   const onChangePostPoint = (e) => {
     console.log('changepostpoint', e);
-    onChangeField({ key: 'postPoint', value: postPoint });
+    onChangeField({ key: 'postPoint', value: e.target.value });
   };
   useEffect(() => {
     preview();
@@ -147,18 +147,11 @@ const Editor = ({ onChangeField, postTitle, postContent, postPoint }) => {
       ></TitleInput>
       <Rating
         value={postPoint}
-        // onChange={(event, newValue) => {
-        //   onChangePostPoint();
-        //   console.log(event);
-        // }}
-        name="half-rating"
+        name="postPoint"
         defaultValue={2.5}
         precision={0.5}
         size="large"
-        onChange={(event, newValue) => {
-          setPoint(newValue);
-          onChangePostPoint();
-        }}
+        onChange={onChangePostPoint}
       />
       <span>{postPoint}</span>
       <BodyTextarea

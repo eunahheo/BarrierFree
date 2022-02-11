@@ -17,7 +17,9 @@ import { createLogger } from 'redux-logger';
 import createSagaMiddleware from 'redux-saga';
 import axios from 'axios';
 axios.defaults.baseURL =
-  process.env.NODE_ENV === 'development' ? '' : 'http://i6a504.p.ssafy.io:3030';
+  process.env.NODE_ENV === 'development'
+    ? 'https://localhost:3030'
+    : 'https://i6a504.p.ssafy.io:3030';
 const persistConfig = {
   key: 'root',
   storage,
