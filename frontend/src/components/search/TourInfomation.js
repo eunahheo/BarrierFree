@@ -10,6 +10,7 @@ import Deaf from '../images/Auditory.png';
 import Infant from '../images/Pregnant.png';
 import Senior from '../images/Senior.png';
 import Visibility from '../images/Visual.png';
+
 const TourInfomation = () => {
   const pageNum = useParams();
   const contentid = Number(pageNum.infomationCard);
@@ -19,7 +20,7 @@ const TourInfomation = () => {
   const [infomationDetail, setInfomationDetail] = useState([]);
   const [barriers, setBarriers] = useState([]);
   const [posts, setPosts] = useState([]);
-
+  const { kakao } = window;
   // Tourinfomation 창이 뜨자 마자 불러와져야할 것들
   useEffect(() => {
     getPostDetail();
@@ -36,40 +37,102 @@ const TourInfomation = () => {
     })
       .then((res) => {
         setInfomationDetail(res.data);
+        imp_rendering(res.data.impairments);
+        // post_rendering(res.data.posts);
+        kakaomap_rendering(res.data);
       })
       .catch('yes');
   };
 
-  const icon_rendering = (i) => {
-    const result = [];
-    if (barriers[i].code == 'physical') result.push(<img src={Physical} />);
-    else if (barriers[i].code == 'visibility')
-      result.push(<img src={Visibility} />);
-    else if (barriers[i].code == 'deaf') result.push(<img src={Deaf} />);
-    else if (barriers[i].code == 'infant') result.push(<img src={Infant} />);
-    else if (barriers[i].code == 'senior') result.push(<img src={Senior} />);
-    return result;
+  const kakaomap_rendering = (data) => {
+    const container = document.getElementById('myMap');
+    const options = {
+      center: new kakao.maps.LatLng(data.lat, data.lng),
+      level: 3,
+    };
+    const map = new kakao.maps.Map(container, options);
+    const markerPosition = new kakao.maps.LatLng(data.lat, data.lng);
+
+    const marker = new kakao.maps.Marker({
+      position: markerPosition,
+    });
+
+    marker.setMap(map);
+
+    var mapTypeControl = new kakao.maps.MapTypeControl();
+
+    map.addControl(mapTypeControl, kakao.maps.ControlPosition.TOPRIGHT);
+
+    var zoomControl = new kakao.maps.ZoomControl();
+    map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
+
+    map.addOverlayMapTypeId(kakao.maps.MapTypeId.TRAFFIC);
+
+    const roadviewContainer = document.getElementById('roadview');
+    const roadview = new kakao.maps.Roadview(roadviewContainer);
+    const roadviewClient = new kakao.maps.RoadviewClient();
+
+    const position = new kakao.maps.LatLng(data.lat, data.lng);
+
+    roadviewClient.getNearestPanoId(position, 50, function (panoId) {
+      roadview.setPanoId(panoId, position);
+    });
   };
 
-  const imp_rendering = (i) => {
+  const imp_rendering = (data) => {
     const result = [];
-    result.push(
-      <p dangerouslySetInnerHTML={{ __html: barriers[i].tiOverview }}></p>,
-      <br />,
-    );
-    return result;
+    for (var i = 0; i < data.length; i++) {
+      if (data[i].code == 'physical')
+        result.push(
+          <div>
+            <img class="icon" src={Physical} />
+            <p dangerouslySetInnerHTML={{ __html: data[i].tiOverview }}></p>
+          </div>,
+        );
+      else if (data[i].code == 'visibility')
+        result.push(
+          <div>
+            <img class="icon" src={Visibility} />
+            <p dangerouslySetInnerHTML={{ __html: data[i].tiOverview }}></p>
+          </div>,
+        );
+      else if (data[i].code == 'deaf')
+        result.push(
+          <div>
+            <img class="icon" src={Deaf} />
+            <p dangerouslySetInnerHTML={{ __html: data[i].tiOverview }}></p>
+          </div>,
+        );
+      else if (data[i].code == 'infant')
+        result.push(
+          <div>
+            <img
+              class="icon"
+              src={Infant}
+              dangerouslySetInnerHTML={{ __html: data[i].tiOverview }}
+            />
+            <p dangerouslySetInnerHTML={{ __html: data[i].tiOverview }}></p>
+          </div>,
+        );
+      else if (data[i].code == 'senior')
+        result.push(
+          <div>
+            <img class="icon" src={Senior} />
+            <p dangerouslySetInnerHTML={{ __html: data[i].tiOverview }}></p>
+          </div>,
+        );
+      result.push(<br />);
+    }
+    setBarriers(result);
   };
 
-  const post_rendering = () => {
+  const post_rendering = (data) => {
     const result = [];
     for (let i = 0; i < posts.length; i++) {
       result.push(<div>{posts[i].title}</div>);
     }
-    return result;
+    setPosts(result);
   };
-
-  console.log(barriers);
-  console.log(posts);
 
   return (
     <div>
@@ -94,16 +157,18 @@ const TourInfomation = () => {
               </Grid>
               <br />
               <div>
-                <p class="overview">
-                  <img class="icon" src={Senior}></img> 하하하
-                </p>
+                <p>{barriers}</p>
               </div>
-              <div>
-                <p>
-                  <img class="icon" src={Senior}></img> 으하하하
-                </p>
-              </div>
+              <div
+                id="myMap"
+                style={{ width: '100%', height: '500px', marginTop: '2rem' }}
+              ></div>
+              <div
+                id="roadview"
+                style={{ width: '100%', height: '500px', marginTop: '0.5rem' }}
+              ></div>
             </div>
+            <div class="info-posts">게시글은 내일 넣을래</div>
           </div>
         </div>
       </div>
