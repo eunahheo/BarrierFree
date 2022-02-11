@@ -10,7 +10,9 @@ export const loginUser = (dataTosubmit) => {
     method: 'POST',
     url: '/user/login',
     data: dataTosubmit,
-  }).then((res) => res.data);
+  })
+    .then((res) => res.data)
+    .catch((e) => e);
 
   return {
     type: LOGIN_USER,
