@@ -18,7 +18,7 @@ import createSagaMiddleware from 'redux-saga';
 import axios from 'axios';
 axios.defaults.baseURL =
   process.env.NODE_ENV === 'development'
-    ? 'http://localhost:3030'
+    ? 'https://i6a504.p.ssafy.io/api'
     : 'https://i6a504.p.ssafy.io/api';
 const persistConfig = {
   key: 'root',

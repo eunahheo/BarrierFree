@@ -4,6 +4,7 @@ import palette from '../../lib/styles/palette';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import { useCallback, useState, useEffect } from 'react';
 import axios from '../../../node_modules/axios/index';
+import PlaceList from './PlaceList';
 
 const PlaceBoxBlock = styled.div`
   width: 100%;
@@ -110,6 +111,12 @@ const PlaceBox = ({ onChangePlace, onChangeField, postLocation }) => {
   useEffect(() => {
     setLocalPlace([]);
   }, []);
+  const [myLocation, setMyLocation] = useState('');
+
+  const onLocationClick = (postLocation) => {
+    setMyLocation(postLocation);
+  };
+  const [mystyle, setStyle] = useState("display : 'none'");
   return (
     <PlaceBoxBlock>
       <div>
@@ -120,17 +127,28 @@ const PlaceBox = ({ onChangePlace, onChangeField, postLocation }) => {
             onChange={onChange}
           />
           <button onClick={onClick}>검색</button>
-          {/* <button>검색</button> */}
-          {/* <input></input> */}
-          {/* <button type="submit">추가</button> */}
         </PlaceForm>
-        {searchPlaces.map((searchPlace) => (
-          <div>
-            <h4>장소명: {searchPlace.postLocation}</h4>
-            <h4>주소: {searchPlace.postAddress}</h4>
-            <hr></hr>
-          </div>
-        ))}
+        <div>
+          <h4>durl: {myLocation}</h4>
+          {searchPlaces.map(
+            (searchPlace) => (
+              <PlaceList
+                postLocation={searchPlace.postLocation}
+                postAddress={searchPlace.postAddress}
+                key={searchPlace.index}
+              ></PlaceList>
+            ),
+            // (
+            //   <div style={{ cursor: 'pointer' }}>
+            //     <h4 name="postLocation" value="postLocation">
+            //       장소명: {searchPlace.postLocation}
+            //     </h4>
+            //     <h4>주소: {searchPlace.postAddress}</h4>
+            //     <hr></hr>
+            //   </div>,
+            // ),
+          )}
+        </div>
         <PlaceItemBlock>
           <PlaceItem place={localPlace} onRemove={onRemove} />
         </PlaceItemBlock>
