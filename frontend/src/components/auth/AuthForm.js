@@ -20,6 +20,11 @@ import KakaoImage from '../images/kakao_login_large_wide.png';
 import TextField from '@material-ui/core/TextField';
 
 const API_KEY = process.env.REACT_APP_KAKAO_API_KEY;
+const KAKAO_LOGIN_URL =
+  'https://kauth.kakao.com/oauth/authorize?client_id=' +
+  API_KEY +
+  '&redirect_uri=https://i6a504.p.ssafy.io:80/kakaologinpage&response_type=code';
+
 const AuthFormBlock = styled.div`
   h2 {
     margin: 0;
@@ -339,12 +344,12 @@ const AuthForm = ({
         )}
       </form>
       {type === 'login' && (
-        <a href={API_KEY}>
+        <a href={KAKAO_LOGIN_URL}>
           <img src={KakaoImage} id="kakao-login-btn" width="350px" />
         </a>
       )}
       {type === 'register' && (
-        <a href={API_KEY}>
+        <a href={KAKAO_LOGIN_URL}>
           <img src={KakaoImage} id="kakao-login-btn" width="350px" />
         </a>
       )}
