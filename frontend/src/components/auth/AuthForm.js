@@ -23,7 +23,7 @@ const API_KEY = process.env.REACT_APP_KAKAO_API_KEY;
 const KAKAO_LOGIN_URL =
   'https://kauth.kakao.com/oauth/authorize?client_id=' +
   API_KEY +
-  '&redirect_uri=https://i6a504.p.ssafy.io:80/kakaologinpage&response_type=code';
+  '&redirect_uri=https://i6a504.p.ssafy.io/kakaologinpage&response_type=code';
 
 const AuthFormBlock = styled.div`
   h2 {
