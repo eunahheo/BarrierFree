@@ -19,6 +19,7 @@ export default function reducer(state = initialState, action) {
       localStorage.removeItem('persist:root');
       localStorage.removeItem('accessToken');
       return { ...state, userData: null, loginSuccess: null };
+
     default:
       return state;
   }
