@@ -1,14 +1,12 @@
-import React, { useEffect } from 'react';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import { useParams } from 'react-router';
+import React from 'react';
 import './CommentItemTest.css';
-import { commentDelete, commentUpdate } from '../../_actions/comment_actions';
-import { useDispatch, useSelector } from 'react-redux';
+import { commentDelete } from '../../_actions/comment_actions';
+import { useDispatch, useSelector } from "react-redux";
 
-const CommentItem = ({ comment }) => {
-  // console.log(comment);
-  const CommentTime = comment.comment.regDt.substring(0, 10);
-  const commentNum = comment.comment.cmtSeq;
+
+const CommentItem = ({ comment, onRemove }) => {
+  const CommentTime = comment.comment.regDt.substring(0, 10)
+  const commentNum = comment.comment.cmtSeq
 
   const dispatch = useDispatch();
   const myuser = useSelector((state) => state.user.userData);
@@ -16,24 +14,15 @@ const CommentItem = ({ comment }) => {
 
   const onDeleteHandler = (event) => {
     event.preventDefault();
-    let params = {
-      cmtSeq: commentNum,
-      userSeq: myuser.userSeq,
-    };
-    dispatch(commentDelete(params));
-  };
+      let params = {
+        "cmtSeq": commentNum,
+        "userSeq": myuser.userSeq
+      }
+      onRemove(commentNum)
+      dispatch(commentDelete(params))
+    }
 
-  // const onUpdateHandler = (event) => {
-  //   event.preventDefault();
-  //     let body = {
-  //       "cmtContent": commentContent,
-  //       "cmtSeq": commentNum,
-  //       "userSeq": myuser.userSeq,
-  //     }
-
-  //     axios.put()
-  //   }
-  return (
+  return(
     <div class="container">
       <div class="user-img">
         <img src="https://dummyimage.com/50x50/ced4da/6c757d.jpg"></img>

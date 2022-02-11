@@ -154,9 +154,13 @@ const Review = () => {
     }
     getCommentList();
   };
+  
+  const onRemove = (id) => {
+    setComments(comments.filter(comment => comment.cmtSeq !== id))
+  }
 
   // 팔로우, 팔로잉
-
+  
   const onUnfollow = () => {
     dispatch(unfollow(myuser.userSeq, reviewDetail.userSeq));
     setCheckFw(false);
@@ -168,6 +172,7 @@ const Review = () => {
     setCheckFw(true);
     dispatch(resetRelationship());
   };
+
   const TTS = () => {
     console.log(imgAlt);
     const xmlData = '<speak>' + imgAlt + '</speak>';
@@ -280,7 +285,7 @@ const Review = () => {
                     {commentCnt >= 1 ? (
                       <div class="comment-list">
                         {comments.map((comment) => (
-                          <CommentItem comment={comment} key={comment.cmtSeq} />
+                          <CommentItem comment={comment} key={comment.cmtSeq} onRemove={onRemove} />
                         ))}
                       </div>
                     ) : (
