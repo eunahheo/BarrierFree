@@ -1,8 +1,10 @@
 import React from 'react';
+import Uploader from './Uploader';
 
 function About() {
   return (
     <div>
+      <Uploader></Uploader>
       <span>About weclusive</span>
       <h1>second test</h1>
       <h4>/20220211_cb015e45-1646-4c7b-9e1a-4abdcd97d3db_alin.png</h4>

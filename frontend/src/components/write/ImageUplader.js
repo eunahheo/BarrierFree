@@ -42,7 +42,7 @@ function ImageUploader() {
   const dispatch = useDispatch();
   const [imagePreview, setImagePreview] = useState(null);
   const [imageData, setImageData] = useState(null);
-  const [imageName, setImageName] = useState('');
+  // const [imageName, setImageName] = useState('');
   const [imageFile, setImageFile] = useState(null);
   const image = useSelector((state) => state.upload.image);
   // handleuploadclick;
@@ -74,9 +74,9 @@ function ImageUploader() {
     }
   };
 
-  const onChange = (event) => {
-    setImageName(event.target.value);
-  };
+  // const onChange = (event) => {
+  //   setImageName(event.target.value);
+  // };
 
   const onDelete = () => {
     setImagePreview(null);
@@ -118,13 +118,13 @@ function ImageUploader() {
       </label>
 
       <Button onClick={onDelete}>올리기 취소</Button>
-      <input
+      {/* <input
         label="Image Name"
         name="name"
         onChange={onChange}
         value={imageName}
         placeholder="시각장애 분들을 위한 음성용 사진 설명을 적어주세요"
-      />
+      /> */}
       <Button component="span" onClick={uploadImageWithAdtData}>
         temp 이미지 등록
       </Button>
