@@ -149,7 +149,7 @@ const Editor = ({ onChangeField, postTitle, postContent, postPoint }) => {
         value={postPoint}
         name="postPoint"
         defaultValue={2.5}
-        precision={0.5}
+        precision={1}
         size="large"
         onChange={onChangePostPoint}
       />

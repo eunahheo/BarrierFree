@@ -6,9 +6,6 @@ import {
   WRITE_POST_SUCCESS,
   WRITE_POST_FAILURE,
 } from '../_actions/write_actions';
-import createRequestSaga from '../lib/createRequestSaga';
-import { takeLatest } from 'redux-saga/effects';
-import axios from '../../node_modules/axios/index';
 
 const initialState = {
   postTitle: '',
@@ -33,16 +30,6 @@ function write(state = initialState, action) {
     case CHANGE_FIELD:
       return { ...state, [action.payload.key]: action.payload.value };
     case CLICK_FIELD:
-      // if (state.wrtie.action.payload.key === 1 && action.payload.value === 1) {
-      //   return { ...state, [action.payload.key]: 0 };
-      // } else if (
-      //   state.wrtie.action.payload.key === 0 &&
-      //   action.payload.value === 1
-      // ) {
-      //   return { ...state, [action.payload.key]: 1 };
-      // } else {
-      //   return { ...state };
-      // }
       return { ...state, [action.payload.key]: action.payload.value };
     case WRITE_POST:
       return { ...state, post: null, postError: null };

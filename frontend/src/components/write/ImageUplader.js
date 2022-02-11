@@ -62,12 +62,17 @@ function ImageUploader() {
     // 이 부분은 imageData에 붙이지 말고 state값에 alt로 넘겨주기
     // imageData.append('postAlt', imageName);
     dispatch(uploadImage(imageData));
-    axios.post({
-      method: 'post',
-      url: '/upload/photo',
-      formData: imageData,
-      Headers: { 'content-type': 'multipart/form-data' },
-    });
+    try {
+      const response = axios({
+        method: 'post',
+        url: '/upload/photo',
+        formData: imageData,
+        enctype: 'multipart/form-data',
+      });
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const onChange = (event) => {

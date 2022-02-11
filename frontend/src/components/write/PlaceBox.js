@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import palette from '../../lib/styles/palette';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import { useCallback, useState, useEffect } from 'react';
+import axios from '../../../node_modules/axios/index';
 
 const PlaceBoxBlock = styled.div`
   width: 100%;
@@ -55,16 +56,16 @@ const PlaceItem = React.memo(({ place, onRemove }) => (
   </div>
 ));
 
-const PlaceBox = ({ onChangePlace, place, onWritePost }) => {
+const PlaceBox = ({ onChangePlace, onChangeField, postLocation }) => {
   const [input, setInput] = useState('');
   const [localPlace, setLocalPlace] = useState([]);
-
+  const [searchPlaces, setSearchPlaces] = useState([]);
   const insertPlace = useCallback(
-    (place) => {
-      if (!place.trim()) return;
-      if (localPlace === place) return;
-      setLocalPlace(place);
-      onChangePlace(place);
+    (postLocation) => {
+      if (!postLocation.trim()) return;
+      if (localPlace === postLocation) return;
+      setLocalPlace(postLocation);
+      onChangePlace(postLocation);
     },
     [localPlace, onChangePlace],
   );
@@ -76,6 +77,7 @@ const PlaceBox = ({ onChangePlace, place, onWritePost }) => {
 
   const onChange = useCallback((e) => {
     setInput(e.target.value);
+    onChangeField({ key: 'postLocation', value: e.target.value });
   }, []);
 
   const onSubmit = useCallback(
@@ -87,12 +89,24 @@ const PlaceBox = ({ onChangePlace, place, onWritePost }) => {
     },
     [input, insertPlace],
   );
-  const onClick = () => {
-    onWritePost();
+  const onClick = async () => {
+    try {
+      const response = await axios({
+        method: 'get',
+        url: '/post/searchLocation',
+        params: { postLocation: postLocation },
+      });
+      console.log(response.data);
+      setSearchPlaces(response.data);
+    } catch (e) {
+      console.log(e.response.data);
+      // fail로 반환
+      // 여기서 카카오 지도 검색으로 넘어가도록 함
+    }
   };
   useEffect(() => {
-    setLocalPlace(place);
-  }, [place]);
+    setLocalPlace(postLocation);
+  }, [postLocation]);
   useEffect(() => {
     setLocalPlace([]);
   }, []);
@@ -110,6 +124,13 @@ const PlaceBox = ({ onChangePlace, place, onWritePost }) => {
           {/* <input></input> */}
           {/* <button type="submit">추가</button> */}
         </PlaceForm>
+        {searchPlaces.map((searchPlace) => (
+          <div>
+            <h4>장소명: {searchPlace.postLocation}</h4>
+            <h4>주소: {searchPlace.postAddress}</h4>
+            <hr></hr>
+          </div>
+        ))}
         <PlaceItemBlock>
           <PlaceItem place={localPlace} onRemove={onRemove} />
         </PlaceItemBlock>

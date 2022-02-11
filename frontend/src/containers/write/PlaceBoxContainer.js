@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PlaceBox from '../../components/write/PlaceBox';
 import { changeField, writePost } from '../../_actions/write_actions';
+import { useCallback } from 'react';
 
 const PlaceBoxContainer = () => {
   const dispatch = useDispatch();
@@ -17,10 +18,18 @@ const PlaceBoxContainer = () => {
     );
   };
 
+  const onChangeField = useCallback(
+    (payload) => {
+      dispatch(changeField(payload));
+    },
+    [dispatch],
+  );
+
   return (
     <PlaceBox
       onChangePlace={onChangePlace}
       postLocation={postLocation}
+      onChangeField={onChangeField}
     ></PlaceBox>
   );
 };

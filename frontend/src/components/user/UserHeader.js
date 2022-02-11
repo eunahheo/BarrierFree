@@ -28,6 +28,10 @@ const UserHeaderBox = styled.div`
       cursor: pointer;
     }
   }
+  .toggle:focus {
+    background: ${palette.pink[0]};
+    border: 1px solie ${palette.pink[0]};
+  }
   .smc {
     width: 150px;
     height: 150px;
@@ -37,6 +41,17 @@ const UserHeaderBox = styled.div`
     // flex-dirextion: row;
     display: table-cell;
     vertical-align: middle;
+  }
+  .cont2 {
+    background: ${palette.pink[0]};
+    color: white;
+    cursor: pointer;
+    text-align: center;
+    margin: auto;
+    width: 148px;
+    height: 148px;
+    border-radius: 100px;
+    box-sizing: border-box;
   }
 `;
 
@@ -50,7 +65,7 @@ const UserHeader = ({ onPost, onFollowing, onFollower, onScrap }) => {
   const myuser = myuserData.userSeq;
   const params = useParams();
   const currentUser = Number(params.userSeq);
-
+  const [style, setStyle] = useState('toggle');
   const dispatch = useDispatch();
 
   const [userHeaderInfo, setUserHeaderInfo] = useState([]);
