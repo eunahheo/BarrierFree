@@ -9,6 +9,12 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
+import Paper from '@mui/material/Paper';
+import InputBase from '@mui/material/InputBase';
+import IconButton from '@mui/material/IconButton';
+import Icon from '@mui/material/Icon';
+import SearchIcon from '@mui/icons-material/Search';
+import Divider from '@mui/material/Divider';
 
 const PlaceBoxBlock = styled.div`
   width: 100%;
@@ -17,11 +23,10 @@ const PlaceBoxBlock = styled.div`
 `;
 
 const PlaceForm = styled.form`
-  border-radius: 4px;
   overflow: hidden;
   display: flex;
   width: 100%;
-  border: 1px solid ${palette.blue[0]};
+
   input,
   button {
     outline: none;
@@ -29,17 +34,9 @@ const PlaceForm = styled.form`
     font-size: 1.125rem;
   }
 
-  input {
-    padding: 0.5rem;
-    flex: 1;
-    min-width: 0;
-  }
   button {
-    cursor: pointer;
-    padding-right: 1rem;
-    padding-left: 1rem;
-    background: ${palette.blue[0]};
-    color: white;
+    // background: ${palette.blue[0]};
+    color: ${palette.blue[0]};
     &:hover {
       background: ${palette.gray[0]};
       color: ${palette.blue[0]};
@@ -174,12 +171,32 @@ const PlaceBox = ({ onChangePlace, onChangeField, postLocation }) => {
     <PlaceBoxBlock>
       <div>
         <PlaceForm onSubmit={onSubmit}>
-          <input
-            placeholder="장소를 입력하세요"
-            value={input}
-            onChange={onChange}
-          />
-          <button onClick={handleClickOpen('paper')}>검색</button>
+          <Paper
+            component="form"
+            sx={{
+              p: '2px 4px',
+              display: 'flex',
+              alignItems: 'center',
+              width: 400,
+            }}
+          >
+            <LocationOnIcon sx={{ color: '#2D4059' }} aria-label="menu" />
+
+            <InputBase
+              sx={{ ml: 1, flex: 1 }}
+              placeholder="장소를 입력하세요"
+              value={input}
+              onChange={onChange}
+            />
+            <IconButton
+              onClick={handleClickOpen('paper')}
+              sx={{ p: '10px' }}
+              aria-label="search"
+            >
+              <SearchIcon />
+            </IconButton>
+            <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
+          </Paper>
         </PlaceForm>
         <div>
           {/* <Button onClick={handleClickOpen('paper')}>검색 장소 보기</Button> */}
@@ -190,7 +207,7 @@ const PlaceBox = ({ onChangePlace, onChangeField, postLocation }) => {
             aria-labelledby="scroll-dialog-title"
             aria-describedby="scroll-dialog-description"
           >
-            <DialogTitle id="scroll-dialog-title">Subscribe</DialogTitle>
+            <DialogTitle id="scroll-dialog-title">장소 검색 결과</DialogTitle>
             <DialogContent dividers={scroll === 'paper'}>
               {kakaoMap ? (
                 <div>
@@ -222,12 +239,13 @@ const PlaceBox = ({ onChangePlace, onChangeField, postLocation }) => {
                         key: 'contentId',
                         value: searchPlace.contentId,
                       });
+                      setInput(searchPlace.postLocation);
+                      setOpen(false);
                     }}
                     style={{ cursor: 'pointer' }}
                   >
-                    <hr></hr>
                     <h4>{searchPlace.postLocation}</h4>
-                    <h4>{searchPlace.postAddress}</h4>
+                    <h5>{searchPlace.postAddress}</h5>
                     <hr></hr>
                   </div>
                 ))
@@ -247,10 +265,10 @@ const PlaceBox = ({ onChangePlace, onChangeField, postLocation }) => {
             </DialogActions>
           </Dialog>
         </div>
-        <div></div>
-        <PlaceItemBlock>
+        <br />
+        {/* <PlaceItemBlock>
           <PlaceItem place={localPlace} onRemove={onRemove} />
-        </PlaceItemBlock>
+        </PlaceItemBlock> */}
       </div>
     </PlaceBoxBlock>
   );

@@ -279,7 +279,6 @@ const AuthForm = ({
                 src={physicalFlag ? Physical : PhysicalHide}
                 width="30"
                 onClick={() => {
-                  console.log('physical', barrierIcon.physicalFlag);
                   if (form.physical) {
                     setForm({ ...form, physical: 0 });
                     setBarrierIcon({ ...barrierIcon, physicalFlag: false });
