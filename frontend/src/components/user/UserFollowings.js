@@ -37,6 +37,9 @@ const UserFollowing = ({
   useEffect(() => {
     if (isfollow === 'y') {
       setCheckFw(true);
+    } else if (myuser === currentUser) {
+      setCheckFw(true);
+      console.log('check', currentUser, myuser, checkFw);
     }
   }, []);
 
@@ -130,6 +133,7 @@ const UserFollowings = () => {
             },
           });
           setUserfollowings(response.data);
+          console.log('myfeed', userfollowings);
         } else {
           const response = await axios({
             url: '/othersFeed/following',
