@@ -1,14 +1,14 @@
-import React from "react";
-import Physical from "../images/Physical.png";
-import PhysicalHide from "../images/PhysicalHide.png";
-import Auditory from "../images/Auditory.png";
-import AuditoryHide from "../images/AuditoryHide.png";
-import Pregnant from "../images/Pregnant.png";
-import PregnantHide from "../images/PregnantHide.png";
-import Senior from "../images/Senior.png";
-import SeniorHide from "../images/SeniorHide.png";
-import Visual from "../images/Visual.png";
-import VisualHide from "../images/VisualHide.png";
+import React from 'react';
+import Physical from '../images/Physical.png';
+import PhysicalHide from '../images/PhysicalHide.png';
+import Auditory from '../images/Auditory.png';
+import AuditoryHide from '../images/AuditoryHide.png';
+import Pregnant from '../images/Pregnant.png';
+import PregnantHide from '../images/PregnantHide.png';
+import Senior from '../images/Senior.png';
+import SeniorHide from '../images/SeniorHide.png';
+import Visual from '../images/Visual.png';
+import VisualHide from '../images/VisualHide.png';
 
 function BarrierIcon() {
   return (
