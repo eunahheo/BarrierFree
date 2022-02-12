@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import MyCardList from './review/MyCardList';
+import ScrapCardList from './review/ScrapCardList';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 
@@ -29,6 +29,7 @@ const UserScrapsOut = () => {
           },
         });
         setItemList(response.data);
+        console.log('testing', response.data);
       } else {
         // othersfeed scrap 부분 api 없음
         const response = await axios({
@@ -51,7 +52,7 @@ const UserScrapsOut = () => {
   return (
     <div>
       <div>My Scraps Out</div>
-      <MyCardList itemList={itemList}></MyCardList>
+      <ScrapCardList itemList={itemList}></ScrapCardList>
     </div>
   );
 };

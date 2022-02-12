@@ -16,6 +16,7 @@ import {
   resetRelationship,
   unfollow,
 } from '../../_actions/relationship_actions.js';
+import ReviewBarrierIcon from '../common/review/ReviewBarrierIcon.js';
 
 const ReviewBox = styled.div`
   display: flex;
@@ -68,7 +69,7 @@ const Review = () => {
   const [imgAlt, setImgAlt] = useState('');
   const commentCnt = comments.length;
   // 댓글 작성을 위한 const
-
+  const [heart, setHeart] = useState(false);
   const [newComment, setNewComment] = useState('');
   const onCommentHandler = (event) => {
     setNewComment(event.target.value);
@@ -76,9 +77,27 @@ const Review = () => {
 
   const [loading, setLoading] = useState(false);
   const [checkFw, setCheckFw] = useState(false);
-
+  // const postScrap = reviewDetail.postScrap
   // review 창이 뜨자 마자 불러와져야할 것들
   useEffect(() => {
+    axios({
+      method: 'get',
+      url: '/scrap/check',
+      params: {
+        scrap_data: reviewNum,
+        scrap_type: 0,
+        user_seq: myuser.userSeq,
+      },
+    }).then(function (res) {
+      if (res.data.scarp_yn === 'y') {
+        setHeart(true);
+      }
+      console.log(res.data.scrap_yn);
+    });
+    //     }),
+    // catch (e) {
+    //   console.log(e);
+    // }
     getDetailFn();
     getCommentList();
   }, []);
@@ -172,7 +191,33 @@ const Review = () => {
     setCheckFw(true);
     dispatch(resetRelationship());
   };
+  const plusScrap = reviewDetail.postScrap + 1;
+  const onClickHeart = () => {
+    setHeart(true);
+    axios({
+      method: 'get',
+      url: '/scrap/insert',
+      params: {
+        scrap_data: reviewNum,
+        scrap_type: 0,
+        user_seq: myuser.userSeq,
+      },
+    });
+    const plusPostScrap = reviewDetail.userSeq + 1;
+  };
 
+  const onRemoveHeart = () => {
+    setHeart(false);
+    // axios({
+    //   method: 'get',
+    //   url: '/scrap/insert',
+    //   params: {
+    //     scrap_data: reviewNum,
+    //     scrap_type: 0,
+    //     user_seq: myuser.userSeq,
+    //   },
+    // });
+  };
   const TTS = () => {
     const API_KEY = process.env.REACT_APP_KAKAO_API_KEY;
     const xmlData = '<speak>' + imgAlt + '</speak>';
@@ -218,7 +263,7 @@ const Review = () => {
                   <p>사진을 누르시면 사진 설명을 들으실 수 있어요 🎧</p>
                 </div>
                 <div class="review-content">
-                  {reviewDetail.userSeq == myuser.userSeq? (
+                  {reviewDetail.userSeq == myuser.userSeq ? (
                     <div class="button-top">
                       <button variant="contained" id="update">
                         수정
@@ -227,7 +272,33 @@ const Review = () => {
                         삭제
                       </button>
                     </div>
-                  ): <span></span>}
+                  ) : (
+                    <span></span>
+                  )}
+                  <h2>
+                    {heart ? (
+                      <span
+                        style={{
+                          color: `${palette.pink[0]}`,
+                          cursor: 'pointer',
+                        }}
+                      >
+                        ❤
+                      </span>
+                    ) : (
+                      <span
+                        style={{
+                          color: `${palette.pink[0]}`,
+                          cursor: 'pointer',
+                        }}
+                        onClick={onClickHeart}
+                      >
+                        ♡
+                      </span>
+                    )}
+                    <span> {reviewDetail.postScrap}</span>
+                    {/* {review} */}
+                  </h2>
                   <h1>{reviewDetail.postTitle}</h1>
                   <div>
                     <div style={{ cursor: 'pointer' }}>
@@ -257,13 +328,24 @@ const Review = () => {
                       )}
                     </div>
                   </div>
+                  <br></br>
                   <p id="time">{reviewTime}</p>
+                  <br></br>
                   <Rating
                     name="read-only"
                     value={reviewPoint}
                     readOnly
                   ></Rating>
-                  <p>{barriers}</p>
+                  <div>
+                    <h3>{reviewDetail.postLocation}</h3>
+                  </div>
+                  <div>
+                    <span>{reviewDetail.postAddress}</span>
+                  </div>
+                  <h4>{reviewDetail.postContent}</h4>
+                  {/* <p>{barriers}</p> */}
+
+                  <ReviewBarrierIcon barriers={barriers}></ReviewBarrierIcon>
                   {/* <p class="text-content">{reviewDetail.postContent}</p> */}
                   <InfoIcon></InfoIcon>
                   {/* <span class="location-name">{reviewDetail.postLocation}</span> */}

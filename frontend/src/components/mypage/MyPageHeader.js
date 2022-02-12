@@ -4,6 +4,9 @@ import Button from '../common/Button';
 import MyPageContent from '../../components/mypage/MyPageContent';
 import Grid from '@material-ui/core/Grid';
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
+import axios from 'axios';
+
 const MyPageHeaderBlock = styled.div`
   display: flex;
   // flex-dirextion: row;
@@ -38,34 +41,54 @@ const MyPageHeaderBlock = styled.div`
     vertical-align: middle;
   }
 `;
-let inputRef;
 
 const MyPageHeader = ({ user }) => {
+  const myuser = useSelector((state) => state.user.userData);
   const [imagePreview, setImagePreview] = useState(null);
   const [imageData, setImageData] = useState(null);
-  const [imageName, setImageName] = useState('');
-  // const [imageFile, setImageFile] = useState(null);
-  // const image = useSelector((state) => state.upload.image);
-  // handleuploadclick;
-  // const [loading, setLoading] = useState(false);
-  // const onUpload = (event) => {
-  //   event.preventDefault();
+  const token = localStorage.getItem('accessToken');
+  // console.log(token);
+  // const [postPhoto, setPostPhoto] = useState('');
 
-  //   if (event.target.files[0]) {
-  //     setLoading('loading');
-  //   }
+  const onUpload = (event) => {
+    event.preventDefault();
+    const file = event.target.files[0];
+    setImageData(file);
+    setImagePreview(URL.createObjectURL(file));
+  };
 
-  //   const file = event.target.files[0];
-  //   console.log(file);
-  //   // const imageData = new FormData();
-  //   // imageData.append('photo', file);
-  //   setImageData(file);
-  //   setLoading(true);
-  //   console.log(imageData);
-  //   // setImageData(imageData);
-  //   // setImageFile(file);
-  //   setImagePreview(URL.createObjectURL(file));
-  // };
+  const uploadImageWithAdtData = async () => {
+    if (imageData) {
+      const imageFile = new FormData();
+      imageFile.append('photo', imageData);
+      try {
+        const response = await axios({
+          method: 'post',
+          url: '/upload/photo',
+          data: imageFile,
+          headers: { 'Content-Type': 'multipart/form-data' },
+        });
+        console.log(response.data);
+        const response2 = await axios({
+          method: 'put',
+          url: '/user/modify',
+          data: {
+            userSeq: myuser.userSeq,
+            userPhoto: response.data,
+          },
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      alert('사진을 추가하세요😀');
+    }
+  };
+
+  let inputRef;
 
   return (
     <Grid
@@ -81,12 +104,18 @@ const MyPageHeader = ({ user }) => {
             id="upload-profile-image"
             capture="user"
             accept="image/*"
-            // onChange={onUpload}
+            onChange={onUpload}
             ref={(refParam) => (inputRef = refParam)}
             style={{ display: 'none' }}
           />
           <div>
-            <img className="toggle" src={user.userPhoto} />
+            {imagePreview != null ? (
+              <img className="toggle" src={imagePreview} />
+            ) : (
+              <img className="toggle" src={user.userPhoto} />
+            )}
+            {/* <img className="toggle" 
+            src={user.userPhoto} /> */}
             <h2>{user.userNickname}님</h2>
             <label htmlFor="upload-profile-image">
               <Button
@@ -96,6 +125,7 @@ const MyPageHeader = ({ user }) => {
               >
                 프로필 사진 변경
               </Button>
+              <Button onClick={uploadImageWithAdtData}>저장</Button>
             </label>
           </div>
         </MyPageHeaderBlock>
