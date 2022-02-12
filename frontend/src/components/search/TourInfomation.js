@@ -10,6 +10,7 @@ import Deaf from '../images/Auditory.png';
 import Infant from '../images/Pregnant.png';
 import Senior from '../images/Senior.png';
 import Visibility from '../images/Visual.png';
+import ReviewCardList from '../user/review/ReviewCardList';
 
 const TourInfomation = () => {
   const pageNum = useParams();
@@ -21,6 +22,7 @@ const TourInfomation = () => {
   const [barriers, setBarriers] = useState([]);
   const [posts, setPosts] = useState([]);
   const { kakao } = window;
+
   // Tourinfomation 창이 뜨자 마자 불러와져야할 것들
   useEffect(() => {
     getPostDetail();
@@ -38,7 +40,7 @@ const TourInfomation = () => {
       .then((res) => {
         setInfomationDetail(res.data);
         imp_rendering(res.data.impairments);
-        // post_rendering(res.data.posts);
+        setPosts(res.data.posts);
         kakaomap_rendering(res.data);
       })
       .catch('yes');
@@ -126,14 +128,6 @@ const TourInfomation = () => {
     setBarriers(result);
   };
 
-  const post_rendering = (data) => {
-    const result = [];
-    for (let i = 0; i < posts.length; i++) {
-      result.push(<div>{posts[i].title}</div>);
-    }
-    setPosts(result);
-  };
-
   return (
     <div>
       <div class="infomation-box">
@@ -145,30 +139,51 @@ const TourInfomation = () => {
               <img src={infomationDetail.firstimage}></img>
             </div>
             <div class="info-content">
+              <h2>여행지 정보</h2>
               <div
                 dangerouslySetInnerHTML={{ __html: infomationDetail.overview }}
               ></div>
               <br />
-              <Grid container>
-                <InfoIcon></InfoIcon>
+              <div>
+                <h2>홈페이지</h2>
+                <p
+                  dangerouslySetInnerHTML={{
+                    __html: infomationDetail.homepage,
+                  }}
+                ></p>
+              </div>
+              <br />
+              <div>
+                <h2>주소</h2>
                 <p>
                   {infomationDetail.addr1} {infomationDetail.addr2}
                 </p>
-              </Grid>
+              </div>
               <br />
               <div>
+                <h2>무장애 정보</h2>
                 <p>{barriers}</p>
               </div>
-              <div
-                id="myMap"
-                style={{ width: '100%', height: '500px', marginTop: '2rem' }}
-              ></div>
-              <div
-                id="roadview"
-                style={{ width: '100%', height: '500px', marginTop: '0.5rem' }}
-              ></div>
+              <div>
+                <h2>지도</h2>
+                <div
+                  id="myMap"
+                  style={{ width: '100%', height: '500px', marginTop: '2rem' }}
+                ></div>
+                <div
+                  id="roadview"
+                  style={{
+                    width: '100%',
+                    height: '500px',
+                    marginTop: '0.5rem',
+                  }}
+                ></div>
+              </div>
+              <div>
+                <h2>{infomationDetail.title}에 대한 게시글</h2>
+                <ReviewCardList itemList={posts}></ReviewCardList>
+              </div>
             </div>
-            <div class="info-posts">게시글은 내일 넣을래</div>
           </div>
         </div>
       </div>
