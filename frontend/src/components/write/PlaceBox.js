@@ -157,6 +157,7 @@ const PlaceBox = ({ onChangePlace, onChangeField, postLocation }) => {
     setOpen(false);
     onChangeField({ key: 'postLocation', value: 'none' });
     onChangeField({ key: 'postAddress', value: '' });
+    onChangeField({ key: 'contentId', value: 0 });
   };
 
   const descriptionElementRef = React.useRef(null);
@@ -216,6 +217,10 @@ const PlaceBox = ({ onChangePlace, onChangeField, postLocation }) => {
                       onChangeField({
                         key: 'postLng',
                         value: searchPlace.postLng,
+                      });
+                      onChangeField({
+                        key: 'contentId',
+                        value: searchPlace.contentId,
                       });
                     }}
                     style={{ cursor: 'pointer' }}

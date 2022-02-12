@@ -28,6 +28,7 @@ const EditorContainer = () => {
     postLat,
     postLng,
     postPhoto,
+    contentId,
   } = useSelector(({ write }) => ({
     postTitle: write.postTitle,
     postContent: write.postContent,
@@ -42,6 +43,7 @@ const EditorContainer = () => {
     postLat: write.postLat,
     postLng: write.postLng,
     postPhoto: write.postPhoto,
+    contentId: write.contentId,
   }));
   // changeField가 'write/CHANGE_FIELD' 액션을 생성한다.
   // 그 액션에는 {key, value}라는 payload가 들어왓을 때 그 payload를 return하는 action
@@ -77,6 +79,7 @@ const EditorContainer = () => {
       postLat={postLat}
       postLng={postLng}
       postPhoto={postPhoto}
+      contentId={contentId}
     ></Editor>
   );
 };

@@ -77,6 +77,7 @@ const Editor = ({
   postLng,
   postPhoto,
   onChangeField,
+  contentId,
 }) => {
   // const [files, setFiles] = useState('');
   // const [point, setPoint] = useState(0);
@@ -172,6 +173,7 @@ const Editor = ({
             postLng,
             postPhoto: response.data,
             postAlt: imageName,
+            contentId,
           }),
         );
         alert('글이 등록되었습니다! 인클루시브에 한발짝 다가가셨습니다 😊');

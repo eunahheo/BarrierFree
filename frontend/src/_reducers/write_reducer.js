@@ -25,6 +25,7 @@ const initialState = {
   writeUserSeq: '',
   postPhoto: '',
   postAlt: '',
+  contentId: 0,
 };
 
 function write(state = initialState, action) {
