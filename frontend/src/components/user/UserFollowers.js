@@ -167,7 +167,9 @@ const UserFollowers = () => {
             follower_userSeq={userfollower.userSeq}
           />
         ))}
-      {userfollowers.length === 0 && <h1>팔로워 없음</h1>}
+      {myuser === currentUser && userfollowers.length === 0 && (
+        <h1>팔로워 없음</h1>
+      )}
     </div>
   );
 };

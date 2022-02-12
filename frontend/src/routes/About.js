@@ -21,6 +21,13 @@ function About() {
       <Uploader></Uploader>
       <PlaceDialog></PlaceDialog>
       <ScrollPlayground searchPlaces={searchPlaces}></ScrollPlayground>
+      <h1>Third test</h1>
+      <h4>/images/20220212_90aadf91-4f73-4957-b42a-ca6ca9999e67_test222.png</h4>
+      <img src="/images/20220212_90aadf91-4f73-4957-b42a-ca6ca9999e67_test222.png"></img>
+      <h4>
+        /images/20220212_1bd6e013-5c36-4992-9b9b-1dd878cbf5f9_barrierfreelogo.png
+      </h4>
+      <img src="/images/20220212_1bd6e013-5c36-4992-9b9b-1dd878cbf5f9_barrierfreelogo.png"></img>
       <span>About weclusive</span>
       <h1>second test</h1>
       <h4>/20220211_cb015e45-1646-4c7b-9e1a-4abdcd97d3db_alin.png</h4>

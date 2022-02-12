@@ -50,8 +50,10 @@ const UserFollowing = ({
           followingSeq: following_userSeq,
         },
       });
-
-      onRemove(following_userSeq);
+      setCheckFw(false);
+      if (myuser === currentUser) {
+        onRemove(following_userSeq);
+      }
     } catch (error) {
       console.log(error);
     }
@@ -67,6 +69,7 @@ const UserFollowing = ({
           followingSeq: following_userSeq,
         },
       });
+      setCheckFw(true);
     } catch (error) {
       console.log(error);
     }
@@ -118,17 +121,16 @@ const UserFollowings = () => {
         setError(null);
         setUserfollowings([]);
         console.log(typeof currentUser, typeof myuser);
-        // if (currentUser === myuser) {
-        //   const response = await axios({
-        //     url: '/myFeed/following',
-        //     method: 'get',
-        //     params: {
-        //       userSeq: myuser,
-        //     },
-        //   });
-        //   setUserfollowings(response.data);
-        // } else
-        {
+        if (currentUser === myuser) {
+          const response = await axios({
+            url: '/myFeed/following',
+            method: 'get',
+            params: {
+              userSeq: myuser,
+            },
+          });
+          setUserfollowings(response.data);
+        } else {
           const response = await axios({
             url: '/othersFeed/following',
             method: 'get',
@@ -138,6 +140,7 @@ const UserFollowings = () => {
             },
           });
           setUserfollowings(response.data);
+          console.log('fowllowing', response.data);
         }
       } catch (error) {
         setError(error);
