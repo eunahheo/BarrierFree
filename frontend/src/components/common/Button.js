@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 const buttonStyle = css`
   border: none;
-  font-family: 'BMHANNAAir';
+  font-family: 'KoddiUDOnGothic-Regular';
   border-radius: 4px;
   font-size: 1rem;
   font-weight: bold;
