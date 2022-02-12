@@ -14,19 +14,19 @@ const WritePage = () => {
       {user ? (
         <div>
           <h1>WRITE PAGE</h1>
-          <Box>
+          {/* <Box>
             <Grid container spacing={12}>
               <Grid item xs={1}></Grid>
-              <Grid item xs={5}>
-                <ImageUploader></ImageUploader>
-                <WriteBarrierIconContainer></WriteBarrierIconContainer>
-              </Grid>
-              <Grid item xs={5}>
-                <EditorContainer></EditorContainer>
-              </Grid>
+              <Grid item xs={5}> */}
+          {/* <ImageUploader></ImageUploader> */}
+          {/* <WriteBarrierIconContainer></WriteBarrierIconContainer> */}
+          {/* </Grid>
+              <Grid item xs={5}> */}
+          <EditorContainer></EditorContainer>
+          {/* </Grid>
               <Grid item xs={1}></Grid>
             </Grid>
-          </Box>
+          </Box> */}
         </div>
       ) : (
         <div>notlogined</div>

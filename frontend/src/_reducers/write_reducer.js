@@ -23,6 +23,7 @@ const initialState = {
   visibility: 0,
   postPoint: 0,
   writeUserSeq: '',
+  postPhoto: '',
 };
 
 function write(state = initialState, action) {
