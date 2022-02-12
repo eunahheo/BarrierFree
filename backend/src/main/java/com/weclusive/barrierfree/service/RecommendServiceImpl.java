@@ -21,10 +21,12 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import com.weclusive.barrierfree.entity.Post;
 import com.weclusive.barrierfree.entity.Sido;
 import com.weclusive.barrierfree.entity.Sigungu;
 import com.weclusive.barrierfree.entity.Tourapi;
 import com.weclusive.barrierfree.entity.TourapiImpairment;
+import com.weclusive.barrierfree.repository.PostImpairmentRepository;
 import com.weclusive.barrierfree.repository.PostRepository;
 import com.weclusive.barrierfree.repository.ScrapRepository;
 import com.weclusive.barrierfree.repository.SidoRepository;
@@ -42,6 +44,9 @@ public class RecommendServiceImpl implements RecommendService {
 
 	@Autowired
 	private PostRepository postRepository;
+	
+	@Autowired
+	private PostImpairmentRepository postImpairmentRepository;
 
 	@Autowired
 	private TourapiRepository tRepository;
@@ -82,8 +87,19 @@ public class RecommendServiceImpl implements RecommendService {
 			if (scrapRepository.countByDelYnAndScrapTypeAndUserSeqAndScrapData('n', '1', userSeq, contentId) > 0)
 				scrap_yn = 'y';
 			result.put("scrap_yn", scrap_yn);
-			result.put("posts",
-					postRepository.findTop20ByDelYnAndContentIdOrderByPostScrapDesc('n', contentId));
+			
+			List<Post> postlist = postRepository.findTop4ByDelYnAndContentIdOrderByPostScrapDesc('n', contentId);
+			List<Map<String,Object>> list = new ArrayList<>();
+			for(Post p : postlist) {
+				Map<String, Object> map = new HashMap<>();
+				map.put("postPhoto", p.getPostPhoto());
+				map.put("postTitle", p.getPostTitle());
+				map.put("impairments", postImpairmentRepository.findImpairment(p.getPostSeq()));
+				map.put("postSeq", p.getPostSeq());
+				map.put("postLoaction", p.getPostLocation());
+				list.add(map);
+			}
+			result.put("posts", list);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new Exception();
