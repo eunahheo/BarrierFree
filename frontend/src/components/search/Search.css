@@ -32,5 +32,6 @@
 .more {
   text-align: right;
   display: flex;
+  justify-content: end;
   box-sizing: border-box;
 }

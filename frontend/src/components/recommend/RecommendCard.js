@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Card, CardMedia, CardContent, Typography } from '@mui/material';
 import RecommendBarrierIcon from './RecommendBarrierIcon';
 import axios from 'axios';
@@ -7,14 +7,27 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 const RecommendCard = ({ item }) => {
+  const [barriers, setBarrier] = useState([]);
   const navigate = useNavigate();
-
   const { addr1, contentid, firstimage, scrap_yn, title } = item;
   const myuser = useSelector((state) => state.user.userData);
   const infomationCard = item.contentid;
-  // const barriers = item.impairment;
-  // const contentid  = item.contentid;
-  // const state = { 'detailnum': reviewCard}
+  
+  useEffect(() => {
+    onGetBarriers()
+  }, [])
+  
+  const onGetBarriers = () => {
+    axios({
+      method: 'GET',
+      url: 'recommend/impairment',
+      params: {contentid: contentid}
+    }).then(function (res) {
+      setBarrier(res.data)
+    })
+  }
+  
+  // 카드를 눌렀을 때 이동
   const onClickCard = () => {
     if (myuser) {
       axios({
