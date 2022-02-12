@@ -228,7 +228,6 @@ const Editor = ({
                   />
                 </CardActionArea>
               </Card>
-              <button onClick={tempClick}>temp alt</button>
 
               <input
                 type="file"
@@ -266,7 +265,6 @@ const Editor = ({
           <Grid item xs={5}>
             <div className="righteditor">
               <hr></hr>
-              <h1>에디터용 이미지업로더</h1>
               <TitleInput
                 placeholder="제목입력"
                 onChange={onChangeTitle}
