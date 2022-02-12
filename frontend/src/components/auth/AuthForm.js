@@ -154,6 +154,17 @@ const AuthForm = ({
     }
   };
   const text = textMap[type];
+
+  const [barrierIcon, setBarrierIcon] = useState({
+    physicalFlag: false,
+    visibilityFlag: false,
+    deafFlag: false,
+    infantFlag: false,
+    seniorFlag: false,
+  });
+  const { physicalFlag, visibilityFlag, deafFlag, infantFlag, seniorFlag } =
+    barrierIcon;
+
   return (
     <AuthFormBlock>
       <h1>
@@ -262,61 +273,72 @@ const AuthForm = ({
             <div align="center" className="barriericon">
               <img
                 name="physical"
-                src={Physical}
+                src={physicalFlag ? Physical : PhysicalHide}
                 width="30"
                 onClick={() => {
+                  console.log('physical', barrierIcon.physicalFlag);
                   if (form.physical) {
                     setForm({ ...form, physical: 0 });
+                    setBarrierIcon({ ...barrierIcon, physicalFlag: false });
                   } else {
                     setForm({ ...form, physical: 1 });
+                    setBarrierIcon({ ...barrierIcon, physicalFlag: true });
                   }
                 }}
               ></img>
               <img
                 name="visibility"
-                src={Visual}
+                src={visibilityFlag ? Visual : VisualHide}
                 width="30"
                 onClick={() => {
                   if (form.visibility) {
                     setForm({ ...form, visibility: 0 });
+                    setBarrierIcon({ ...barrierIcon, visibilityFlag: false });
                   } else {
                     setForm({ ...form, visibility: 1 });
+                    setBarrierIcon({ ...barrierIcon, visibilityFlag: true });
                   }
                 }}
               ></img>
               <img
                 name="deaf"
-                src={Auditory}
+                src={deafFlag ? Auditory : AuditoryHide}
                 width="30"
                 onClick={() => {
                   if (form.deaf) {
                     setForm({ ...form, deaf: 0 });
+                    setBarrierIcon({ ...barrierIcon, deafFlag: false });
                   } else {
                     setForm({ ...form, deaf: 1 });
+                    setBarrierIcon({ ...barrierIcon, deafFlag: true });
                   }
                 }}
               ></img>
               <img
                 name="infant"
-                src={Pregnant}
+                src={infantFlag ? Pregnant : PregnantHide}
                 width="30"
                 onClick={() => {
                   if (form.infant) {
                     setForm({ ...form, infant: 0 });
+                    setBarrierIcon({ ...barrierIcon, infantFlag: false });
                   } else {
                     setForm({ ...form, infant: 1 });
+                    setBarrierIcon({ ...barrierIcon, infantFlag: true });
                   }
                 }}
               ></img>
               <img
                 name="senior"
-                src={Senior}
+                src={seniorFlag ? Senior : SeniorHide}
                 width="30"
                 onClick={() => {
                   if (form.senior) {
                     setForm({ ...form, senior: 0 });
+                    setBarrierIcon({ ...barrierIcon, seniorFlag: false });
                   } else {
                     setForm({ ...form, senior: 1 });
+                    setBarrierIcon({ ...barrierIcon, seniorFlag: true });
                   }
                 }}
               ></img>
