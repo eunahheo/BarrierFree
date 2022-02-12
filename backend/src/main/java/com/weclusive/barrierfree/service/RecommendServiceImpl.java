@@ -90,7 +90,7 @@ public class RecommendServiceImpl implements RecommendService {
 				Map<String, Object> map = new HashMap<>();
 				map.put("postPhoto", p.getPostPhoto());
 				map.put("postTitle", p.getPostTitle());
-				map.put("impairments", postImpairmentRepository.findImpairment(p.getPostSeq()));
+				map.put("impairment", postImpairmentRepository.findImpairment(p.getPostSeq()));
 				map.put("postSeq", p.getPostSeq());
 				map.put("postLoaction", p.getPostLocation());
 				list.add(map);
