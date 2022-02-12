@@ -21,3 +21,16 @@
   background-color: rgb(45, 64, 89);
   border-radius: 5px;
 }
+
+.title {
+  text-align: left;
+  display: flex;
+  border-bottom: 1px solid;
+  box-sizing: border-box;
+}
+
+.more {
+  text-align: right;
+  display: flex;
+  box-sizing: border-box;
+}

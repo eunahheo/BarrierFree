@@ -215,16 +215,19 @@ const Review = () => {
               <div class="review">
                 <div class="review-img" onClick={TTS}>
                   <img src={reviewImage} class="review-img-size" />
+                  <p>사진을 누르시면 사진 설명을 들으실 수 있어요 🎧</p>
                 </div>
                 <div class="review-content">
-                  <div class="button-top">
-                    <button variant="contained" id="update">
-                      수정
-                    </button>
-                    <button variant="contained" id="delete">
-                      삭제
-                    </button>
-                  </div>
+                  {reviewDetail.userSeq == myuser.userSeq? (
+                    <div class="button-top">
+                      <button variant="contained" id="update">
+                        수정
+                      </button>
+                      <button variant="contained" id="delete">
+                        삭제
+                      </button>
+                    </div>
+                  ): <span></span>}
                   <h1>{reviewDetail.postTitle}</h1>
                   <div>
                     <div style={{ cursor: 'pointer' }}>
