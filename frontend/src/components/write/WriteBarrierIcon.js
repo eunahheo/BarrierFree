@@ -9,6 +9,7 @@ import SeniorHide from '../images/SeniorHide.png';
 import Visual from '../images/Visual.png';
 import VisualHide from '../images/VisualHide.png';
 import styled from 'styled-components';
+import { useState } from 'react';
 
 const AuthBarrierIconBlock = styled.div`
   img {
@@ -29,39 +30,59 @@ const WriteBarrierIcon = ({
   senior,
   visibility,
 }) => {
+  const [barrierIcon, setBarrierIcon] = useState({
+    physicalFlag: false,
+    visibilityFlag: false,
+    deafFlag: false,
+    infantFlag: false,
+    seniorFlag: false,
+  });
+  const { physicalFlag, visibilityFlag, deafFlag, infantFlag, seniorFlag } =
+    barrierIcon;
+
   const onClickPhysical = (e) => {
     if (physical) {
       onClickField({ key: 'physical', value: 0 });
+      setBarrierIcon({ ...barrierIcon, physicalFlag: false });
     } else {
       onClickField({ key: 'physical', value: 1 });
+      setBarrierIcon({ ...barrierIcon, physicalFlag: true });
     }
   };
   const onClickVisibility = (e) => {
     if (visibility) {
       onClickField({ key: 'visibility', value: 0 });
+      setBarrierIcon({ ...barrierIcon, visibilityFlag: false });
     } else {
       onClickField({ key: 'visibility', value: 1 });
+      setBarrierIcon({ ...barrierIcon, visibilityFlag: true });
     }
   };
   const onClickDeaf = (e) => {
     if (deaf) {
       onClickField({ key: 'deaf', value: 0 });
+      setBarrierIcon({ ...barrierIcon, deafFlag: false });
     } else {
       onClickField({ key: 'deaf', value: 1 });
+      setBarrierIcon({ ...barrierIcon, deafFlag: true });
     }
   };
   const onClickInfant = (e) => {
     if (infant) {
       onClickField({ key: 'infant', value: 0 });
+      setBarrierIcon({ ...barrierIcon, infantFlag: false });
     } else {
       onClickField({ key: 'infant', value: 1 });
+      setBarrierIcon({ ...barrierIcon, infantFlag: true });
     }
   };
   const onClickSenior = (e) => {
     if (senior) {
       onClickField({ key: 'senior', value: 0 });
+      setBarrierIcon({ ...barrierIcon, seniorFlag: false });
     } else {
       onClickField({ key: 'senior', value: 1 });
+      setBarrierIcon({ ...barrierIcon, seniorFlag: true });
     }
   };
 
@@ -70,26 +91,31 @@ const WriteBarrierIcon = ({
       <div align="center" className="barriericon">
         <img
           name="physical"
-          src={Physical}
+          src={physicalFlag ? Physical : PhysicalHide}
           width="30"
           onClick={onClickPhysical}
         ></img>
         <img
           name="visibility"
-          src={Visual}
+          src={visibilityFlag ? Visual : VisualHide}
           width="30"
           onClick={onClickVisibility}
         ></img>
-        <img name="deaf" src={Auditory} width="30" onClick={onClickDeaf}></img>
+        <img
+          name="deaf"
+          src={deafFlag ? Auditory : AuditoryHide}
+          width="30"
+          onClick={onClickDeaf}
+        ></img>
         <img
           name="infant"
-          src={Pregnant}
+          src={infantFlag ? Pregnant : PregnantHide}
           width="30"
           onClick={onClickInfant}
         ></img>
         <img
           name="senior"
-          src={Senior}
+          src={seniorFlag ? Senior : SeniorHide}
           width="30"
           onClick={onClickSenior}
         ></img>
