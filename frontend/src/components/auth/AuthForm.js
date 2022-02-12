@@ -13,9 +13,7 @@ import Senior from '../images/Senior.png';
 import SeniorHide from '../images/SeniorHide.png';
 import Visual from '../images/Visual.png';
 import VisualHide from '../images/VisualHide.png';
-import RegisterForm from '../../containers/auth/RegisterForm';
 import axios from 'axios';
-import { red } from '@material-ui/core/colors';
 import KakaoImage from '../images/kakao_login_large_wide.png';
 import TextField from '@material-ui/core/TextField';
 
@@ -79,6 +77,11 @@ const ButtonWith = styled(Button)`
   margin-top: 0.5rem;
   width: 90%;
   padding-right: 10px;
+`;
+
+const KakaoJoinButton = styled.button`
+  background-color: transparent;
+  border-color: transparent;
 `;
 
 const textMap = {
@@ -360,12 +363,9 @@ const AuthForm = ({
           </ButtonWith>
         )}
         {type === 'registerkakao' && (
-          <img
-            src={KakaoImage}
-            style={{ marginTop: '1.5rem' }}
-            type="submit"
-            width="350px"
-          />
+          <KakaoJoinButton type="submit">
+            <img src={KakaoImage} width="350px" />
+          </KakaoJoinButton>
         )}
       </form>
       {type === 'login' && (
