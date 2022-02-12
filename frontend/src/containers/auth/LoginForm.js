@@ -32,16 +32,23 @@ const LoginForm = () => {
 
     if ((userId, userPwd)) {
       setLoginloading(true);
-      dispatch(loginUser(body)).then((res) => {
-        console.log(res);
-        if (res.payload) {
-          localStorage.setItem('accessToken', res.payload.accessToken);
-          dispatch(userInfo(res.payload.accessToken));
-          navigate('/');
-        } else {
-          alert('error!');
-        }
-      });
+      dispatch(loginUser(body))
+        .then((res) => {
+          if (res.payload) {
+            localStorage.setItem('accessToken', res.payload.accessToken);
+            dispatch(userInfo(res.payload.accessToken));
+            navigate('/');
+          } else {
+            alert('오류가 발생했습니다!');
+          }
+        })
+        .catch((e) => {
+          if (e.response.status === 403) {
+            navigate('/registerpage/emailcheck');
+          } else {
+            alert('아이디와 비밀번호를 다시 한 번 확인해주세요.');
+          }
+        });
     } else {
       alert('빈 값을 채워주세요!');
     }

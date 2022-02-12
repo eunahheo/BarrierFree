@@ -18,7 +18,6 @@ function Search() {
   const [searchPartyList, setSearchPartyList] = useState([]);
   const [noresult, setNoresult] = useState('');
   const [handsearch, setHandsearch] = useState(false);
-  const [searchList, setSearchList] = useState([]);
   const [number, setNumber] = useState(0);
   const navigate = useNavigate();
 
@@ -82,25 +81,25 @@ function Search() {
         },
       }).then((res) => {
         console.log(res)
-        if (res.config.params.contentTypeId == 12) {
+        if (res.config.params.contentTypeId === 12) {
           if (res.data.length > 0) {
             setSearchLocationList(res.data);
           } else {
             setNoresult('검색 내용이 없습니다 😥');
           } 
-        } else if (res.config.params.contentTypeId == 39) {
+        } else if (res.config.params.contentTypeId === 39) {
           if (res.data.length > 0) {
             setSearchFoodList(res.data);
           } else {
             setNoresult('검색 내용이 없습니다 😥');
           }
-        } else if (res.config.params.contentTypeId == 32) {
+        } else if (res.config.params.contentTypeId === 32) {
           if (res.data.length > 0) {
             setSearchHomeList(res.data);
           } else {
             setNoresult('검색 내용이 없습니다 😥');
           }
-        } else if (res.config.params.contentTypeId == 15) {
+        } else if (res.config.params.contentTypeId === 15) {
           if (res.data.length > 0) {
             setSearchPartyList(res.data);
           } else {
@@ -167,20 +166,24 @@ function Search() {
               </button>
             </form>
           </div>
-        {handsearch == true ? (
+        {handsearch === true ? (
           <div>
             <div>
               {searchLocationList.length >= 1 ? (
                 <div>
-                  <h2>명소</h2>
-                  <p onClick={onClickLocation}>더보기</p>
+                  <h2 class="title">명소</h2>
+                  <p class="more" id={12} onClick={(e) => {
+                    setNumber(e.target.id)
+                  },
+                  onClickLocation
+                  }>+더보기</p>
                   <SearchCardList
                     itemList={searchLocationList}
                   ></SearchCardList>
                 </div>
               ) : (
                 <div>
-                  <h2>명소</h2>
+                  <h2 class="title">명소</h2>
                   <p>{noresult}</p>
                 </div>
               )}
@@ -188,13 +191,13 @@ function Search() {
             <div>
               {searchFoodList.length >= 1 ? (
                 <div>
-                  <h2>음식점</h2>
-                  <p onClick={onClickFood}>더보기</p>
+                  <h2 class="title">음식점</h2>
+                  <p class="more" onClick={onClickFood}>+더보기</p>
                   <SearchCardList itemList={searchFoodList}></SearchCardList>
                 </div>
               ) : (
                 <div>
-                  <h2>음식점</h2>
+                  <h2 class="title">음식점</h2>
                   <p>{noresult}</p>
                 </div>
               )}
@@ -202,13 +205,13 @@ function Search() {
             <div>
               {searchHomeList.length >= 1 ? (
                 <div>
-                  <h2>숙박시설</h2>
-                  <p onClick={onClickHome}>더보기</p>
+                  <h2 class="title">숙박시설</h2>
+                  <p class="more" onClick={onClickHome}>+더보기</p>
                   <SearchCardList itemList={searchHomeList}></SearchCardList>
                 </div>
               ) : (
                 <div>
-                  <h2>숙박시설</h2>
+                  <h2 class="title">숙박시설</h2>
                   <p>{noresult}</p>
                 </div>
               )}
@@ -216,13 +219,13 @@ function Search() {
             <div>
               {searchPartyList.length >= 1 ? (
                 <div>
-                  <h2>행사</h2>
-                  <p onClick={onClickParty}>더보기</p>
+                  <h2 class="title">행사</h2>
+                  <p class="more" onClick={onClickParty}>+더보기</p>
                   <SearchCardList itemList={searchPartyList}></SearchCardList>
                 </div>
               ) : (
                 <div>
-                  <h2>행사</h2>
+                  <h2 class="title">행사</h2>
                   <p>{noresult}</p>
                 </div>
               )}
@@ -230,14 +233,14 @@ function Search() {
             <div>
               {searchReivewList.length >= 2 ? (
                 <div>
-                  <h2>여행 후기</h2>
+                  <h2 class="title">여행 후기</h2>
                   {searchReivewList.map((review) => (
                     <p key={review.post_seq}>{review.post_title}</p>
                   ))}
                 </div>
               ) : (
                 <div>
-                  <h2>여행 후기</h2>
+                  <h2 class="title">여행 후기</h2>
                   <p>{noresult}</p>
                 </div>
               )}
@@ -245,14 +248,14 @@ function Search() {
             <div>
               {searchUserList.length >= 1 ? (
                 <div>
-                  <h2>사용자</h2>
+                  <h2 class="title">사용자</h2>
                   {searchUserList.map((result) => (
                     <p key={result.userSeq}>{result.userNickname}</p>
                   ))}
                 </div>
               ) : (
                 <div>
-                  <h2>사용자</h2>
+                  <h2 class="title">사용자</h2>
                   <p>{noresult}</p>
                 </div>
               )}

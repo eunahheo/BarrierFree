@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import SearchCardList from './SearchCardList.js';
 import { useNavigate } from '../../../node_modules/react-router/index.js';
+import { Container } from '@material-ui/core';
 
 const SearchDetail = () => {
   const [searchList, setSearchList] = useState([]);
@@ -22,7 +23,7 @@ const SearchDetail = () => {
         contentTypeId: number,
         keyword: searchItem,
         page: 0,
-        size: 100,
+        size: 12,
         userSeq: myuser.userSeq,
       },
     }).then((res) => {
@@ -40,10 +41,12 @@ const SearchDetail = () => {
   };
 
   return (
+    <Container maxWidth="md">
     <div>
       <p onClick={onClickToSearch}>검색창으로 돌아가기</p>
       <SearchCardList itemList={searchList}></SearchCardList>
     </div>
+    </Container>
   );
 };
 

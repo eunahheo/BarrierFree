@@ -13,11 +13,15 @@ import Senior from '../images/Senior.png';
 import SeniorHide from '../images/SeniorHide.png';
 import Visual from '../images/Visual.png';
 import VisualHide from '../images/VisualHide.png';
-import RegisterForm from '../../containers/auth/RegisterForm';
 import axios from 'axios';
-import { red } from '@material-ui/core/colors';
 import KakaoImage from '../images/kakao_login_large_wide.png';
 import TextField from '@material-ui/core/TextField';
+
+const API_KEY = process.env.REACT_APP_KAKAO_API_KEY;
+const KAKAO_LOGIN_URL =
+  'https://kauth.kakao.com/oauth/authorize?client_id=' +
+  API_KEY +
+  '&redirect_uri=https://i6a504.p.ssafy.io/kakaologinpage&response_type=code';
 
 const AuthFormBlock = styled.div`
   h2 {
@@ -73,6 +77,11 @@ const ButtonWith = styled(Button)`
   margin-top: 0.5rem;
   width: 90%;
   padding-right: 10px;
+`;
+
+const KakaoJoinButton = styled.button`
+  background-color: transparent;
+  border-color: transparent;
 `;
 
 const textMap = {
@@ -148,6 +157,17 @@ const AuthForm = ({
     }
   };
   const text = textMap[type];
+
+  const [barrierIcon, setBarrierIcon] = useState({
+    physicalFlag: false,
+    visibilityFlag: false,
+    deafFlag: false,
+    infantFlag: false,
+    seniorFlag: false,
+  });
+  const { physicalFlag, visibilityFlag, deafFlag, infantFlag, seniorFlag } =
+    barrierIcon;
+
   return (
     <AuthFormBlock>
       <h1>
@@ -256,61 +276,71 @@ const AuthForm = ({
             <div align="center" className="barriericon">
               <img
                 name="physical"
-                src={Physical}
+                src={physicalFlag ? Physical : PhysicalHide}
                 width="30"
                 onClick={() => {
                   if (form.physical) {
                     setForm({ ...form, physical: 0 });
+                    setBarrierIcon({ ...barrierIcon, physicalFlag: false });
                   } else {
                     setForm({ ...form, physical: 1 });
+                    setBarrierIcon({ ...barrierIcon, physicalFlag: true });
                   }
                 }}
               ></img>
               <img
                 name="visibility"
-                src={Visual}
+                src={visibilityFlag ? Visual : VisualHide}
                 width="30"
                 onClick={() => {
                   if (form.visibility) {
                     setForm({ ...form, visibility: 0 });
+                    setBarrierIcon({ ...barrierIcon, visibilityFlag: false });
                   } else {
                     setForm({ ...form, visibility: 1 });
+                    setBarrierIcon({ ...barrierIcon, visibilityFlag: true });
                   }
                 }}
               ></img>
               <img
                 name="deaf"
-                src={Auditory}
+                src={deafFlag ? Auditory : AuditoryHide}
                 width="30"
                 onClick={() => {
                   if (form.deaf) {
                     setForm({ ...form, deaf: 0 });
+                    setBarrierIcon({ ...barrierIcon, deafFlag: false });
                   } else {
                     setForm({ ...form, deaf: 1 });
+                    setBarrierIcon({ ...barrierIcon, deafFlag: true });
                   }
                 }}
               ></img>
               <img
                 name="infant"
-                src={Pregnant}
+                src={infantFlag ? Pregnant : PregnantHide}
                 width="30"
                 onClick={() => {
                   if (form.infant) {
                     setForm({ ...form, infant: 0 });
+                    setBarrierIcon({ ...barrierIcon, infantFlag: false });
                   } else {
                     setForm({ ...form, infant: 1 });
+                    setBarrierIcon({ ...barrierIcon, infantFlag: true });
                   }
                 }}
               ></img>
               <img
                 name="senior"
-                src={Senior}
+                src={seniorFlag ? Senior : SeniorHide}
                 width="30"
                 onClick={() => {
                   if (form.senior) {
                     setForm({ ...form, senior: 0 });
+                    setBarrierIcon({ ...barrierIcon, seniorFlag: false });
                   } else {
                     setForm({ ...form, senior: 1 });
+                    setBarrierIcon({ ...barrierIcon, seniorFlag: true });
                   }
                 }}
               ></img>
@@ -332,19 +362,19 @@ const AuthForm = ({
           </ButtonWith>
         )}
         {type === 'registerkakao' && (
-          <Button kakao fullWidth style={{ marginTop: '1.5rem' }} type="submit">
-            kakao로 회원가입
-          </Button>
+          <KakaoJoinButton type="submit">
+            <img src={KakaoImage} width="350px" />
+          </KakaoJoinButton>
         )}
       </form>
       {type === 'login' && (
-        <a href="https://kauth.kakao.com/oauth/authorize?client_id=fa3c898eec92948b420f6f03b934acd1&redirect_uri=http://i6a504.p.ssafy.io:80/kakaologinpage&response_type=code">
-          <img src={KakaoImage} id="kakao-login-btn" width="350px" />
+        <a href={KAKAO_LOGIN_URL}>
+          <img src={KakaoImage} width="350px" />
         </a>
       )}
       {type === 'register' && (
-        <a href="https://kauth.kakao.com/oauth/authorize?client_id=fa3c898eec92948b420f6f03b934acd1&redirect_uri=http://i6a504.p.ssafy.io:80/kakaologinpage&response_type=code">
-          <img src={KakaoImage} id="kakao-login-btn" width="350px" />
+        <a href={KAKAO_LOGIN_URL}>
+          <img src={KakaoImage} width="350px" />
         </a>
       )}
       {type === 'login' && (

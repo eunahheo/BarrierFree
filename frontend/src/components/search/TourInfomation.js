@@ -1,23 +1,27 @@
 import React, { useEffect, useState } from 'react';
-import { Grid } from '@material-ui/core';
+import { Grid, Divider } from '@material-ui/core';
 import InfoIcon from '@mui/icons-material/Info';
 import axios from 'axios';
 import { useParams } from 'react-router';
 import { useSelector } from 'react-redux';
 import './TourInfomation.css';
+import Physical from '../images/Physical.png';
+import Deaf from '../images/Auditory.png';
+import Infant from '../images/Pregnant.png';
+import Senior from '../images/Senior.png';
+import Visibility from '../images/Visual.png';
+import ReviewCardList from '../user/review/ReviewCardList';
 
 const TourInfomation = () => {
   const pageNum = useParams();
   const contentid = Number(pageNum.infomationCard);
   const myuser = useSelector((state) => state.user.userData);
-  console.log(pageNum);
   // infomation 내용 불러오기 위한 const
 
   const [infomationDetail, setInfomationDetail] = useState([]);
   const [barriers, setBarriers] = useState([]);
-  const [reviewPoint, setReviewPoint] = useState([]);
-  const [comments, setComments] = useState([]);
-  const [reviewTime, setReviewTime] = useState('');
+  const [posts, setPosts] = useState([]);
+  const { kakao } = window;
 
   // Tourinfomation 창이 뜨자 마자 불러와져야할 것들
   useEffect(() => {
@@ -35,9 +39,93 @@ const TourInfomation = () => {
     })
       .then((res) => {
         setInfomationDetail(res.data);
-        // console.log(infomationDetail)
+        imp_rendering(res.data.impairments);
+        setPosts(res.data.posts);
+        kakaomap_rendering(res.data);
       })
       .catch('yes');
+  };
+
+  const kakaomap_rendering = (data) => {
+    const container = document.getElementById('myMap');
+    const options = {
+      center: new kakao.maps.LatLng(data.lat, data.lng),
+      level: 3,
+    };
+    const map = new kakao.maps.Map(container, options);
+    const markerPosition = new kakao.maps.LatLng(data.lat, data.lng);
+
+    const marker = new kakao.maps.Marker({
+      position: markerPosition,
+    });
+
+    marker.setMap(map);
+
+    var mapTypeControl = new kakao.maps.MapTypeControl();
+
+    map.addControl(mapTypeControl, kakao.maps.ControlPosition.TOPRIGHT);
+
+    var zoomControl = new kakao.maps.ZoomControl();
+    map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
+
+    map.addOverlayMapTypeId(kakao.maps.MapTypeId.TRAFFIC);
+
+    const roadviewContainer = document.getElementById('roadview');
+    const roadview = new kakao.maps.Roadview(roadviewContainer);
+    const roadviewClient = new kakao.maps.RoadviewClient();
+
+    const position = new kakao.maps.LatLng(data.lat, data.lng);
+
+    roadviewClient.getNearestPanoId(position, 50, function (panoId) {
+      roadview.setPanoId(panoId, position);
+    });
+  };
+
+  const imp_rendering = (data) => {
+    const result = [];
+    for (var i = 0; i < data.length; i++) {
+      if (data[i].code == 'physical')
+        result.push(
+          <div>
+            <img class="icon" src={Physical} />
+            <p dangerouslySetInnerHTML={{ __html: data[i].tiOverview }}></p>
+          </div>,
+        );
+      else if (data[i].code == 'visibility')
+        result.push(
+          <div>
+            <img class="icon" src={Visibility} />
+            <p dangerouslySetInnerHTML={{ __html: data[i].tiOverview }}></p>
+          </div>,
+        );
+      else if (data[i].code == 'deaf')
+        result.push(
+          <div>
+            <img class="icon" src={Deaf} />
+            <p dangerouslySetInnerHTML={{ __html: data[i].tiOverview }}></p>
+          </div>,
+        );
+      else if (data[i].code == 'infant')
+        result.push(
+          <div>
+            <img
+              class="icon"
+              src={Infant}
+              dangerouslySetInnerHTML={{ __html: data[i].tiOverview }}
+            />
+            <p dangerouslySetInnerHTML={{ __html: data[i].tiOverview }}></p>
+          </div>,
+        );
+      else if (data[i].code == 'senior')
+        result.push(
+          <div>
+            <img class="icon" src={Senior} />
+            <p dangerouslySetInnerHTML={{ __html: data[i].tiOverview }}></p>
+          </div>,
+        );
+      result.push(<br />);
+    }
+    setBarriers(result);
   };
 
   return (
@@ -45,17 +133,56 @@ const TourInfomation = () => {
       <div class="infomation-box">
         <div>
           <div class="infomation">
+            <div class="info-scrap">스크랩 : {infomationDetail.scraptimes}</div>
+            <div class="info-title">{infomationDetail.title}</div>
             <div class="info-img">
               <img src={infomationDetail.firstimage}></img>
             </div>
             <div class="info-content">
-              <h1>{infomationDetail.title}</h1>
-              <p>{infomationDetail.overview}</p>
+              <h2>여행지 정보</h2>
+              <div
+                dangerouslySetInnerHTML={{ __html: infomationDetail.overview }}
+              ></div>
               <br />
-              <Grid container>
-                <InfoIcon></InfoIcon>
-                <p> {infomationDetail.addr1}</p>
-              </Grid>
+              <div>
+                <h2>홈페이지</h2>
+                <p
+                  dangerouslySetInnerHTML={{
+                    __html: infomationDetail.homepage,
+                  }}
+                ></p>
+              </div>
+              <br />
+              <div>
+                <h2>주소</h2>
+                <p>
+                  {infomationDetail.addr1} {infomationDetail.addr2}
+                </p>
+              </div>
+              <br />
+              <div>
+                <h2>무장애 정보</h2>
+                <p>{barriers}</p>
+              </div>
+              <div>
+                <h2>지도</h2>
+                <div
+                  id="myMap"
+                  style={{ width: '100%', height: '500px', marginTop: '2rem' }}
+                ></div>
+                <div
+                  id="roadview"
+                  style={{
+                    width: '100%',
+                    height: '500px',
+                    marginTop: '0.5rem',
+                  }}
+                ></div>
+              </div>
+              <div>
+                <h2>{infomationDetail.title}에 대한 게시글</h2>
+                <ReviewCardList itemList={posts}></ReviewCardList>
+              </div>
             </div>
           </div>
         </div>

@@ -15,11 +15,14 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import Badge from '@mui/material/Badge';
 import NotificationsIcon from '@mui/icons-material/Notifications';
+import { useDispatch, useSelector } from 'react-redux';
+import { logout } from '../../_actions/user_actions';
+import BarrierFreeLogo from '../images/barrierfreelogo.png';
 
 const HeaderBlock = styled.div`
   position: fixed;
   z-index: 100;
-  font-family: 'BMHANNAAir';
+  font-family: 'KoddiUDOnGothic-Regular';
   width: 100%;
   background: white;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.08);
@@ -56,6 +59,7 @@ const Spacer = styled.div`
 `;
 
 const Header = ({ user, onLogout }) => {
+  const dispatch = useDispatch();
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const handleOpenNavMenu = (event) => {
@@ -78,14 +82,14 @@ const Header = ({ user, onLogout }) => {
     <>
       <HeaderBlock>
         <Wrapper>
-          <div
+          <img
+            src={BarrierFreeLogo}
+            width="120"
             className="logo"
             onClick={() => {
               navigate('/');
             }}
-          >
-            베리어프리
-          </div>
+          ></img>
           <div
             onClick={() => {
               navigate('/');
@@ -95,13 +99,16 @@ const Header = ({ user, onLogout }) => {
           </div>
           <div
             onClick={() => {
-              if (user) {
-                navigate('/recommend');
-              } else {
-                alert('로그인이 필요합니다!🤗');
-                navigate('/loginpage');
-              }
+              navigate('/recommend');
             }}
+            // onClick={() => {
+            //   if (user) {
+            //     navigate('/recommend');
+            //   } else {
+            //     alert('로그인이 필요합니다!🤗');
+            //     navigate('/loginpage');
+            //   }
+            // }}
           >
             <h4>여행추천</h4>
           </div>
@@ -128,20 +135,26 @@ const Header = ({ user, onLogout }) => {
           {user ? (
             // 1. 로그인 되어 있을 때
             <div className="right">
-              <Link to="/">
+              {/* <Link to="/">
                 <MyButton onClick={onLogout}>로그아웃</MyButton>
               </Link>
+              &nbsp; */}
               <Box sx={{ flexGrow: 0 }}>
                 <Tooltip title="Open settings">
                   <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                    <span style={{ color: 'black', fontfamily: 'BMHANNAAir' }}>
+                    <p
+                      style={{
+                        color: 'black',
+                        fontfamily: 'KoddiUDOnGothic-Regular',
+                      }}
+                    >
                       {user.userNickname}님
-                    </span>
+                    </p>
                     <Avatar alt="Remy Sharp" src={user.userPhoto} />
                   </IconButton>
                 </Tooltip>
                 <Menu
-                  style={{ fontFamily: 'BMHANNAAir' }}
+                  style={{ fontFamily: 'KoddiUDOnGothic-Regular' }}
                   // style={{ background: "red" }}
                   sx={{ mt: '45px' }}
                   id="menu-appbar"
@@ -161,7 +174,7 @@ const Header = ({ user, onLogout }) => {
                 >
                   <MenuItem
                     onClick={() => {
-                      navigate('/user');
+                      navigate(`/user/${user.userSeq}`);
                       handleCloseUserMenu();
                     }}
                   >
@@ -191,6 +204,7 @@ const Header = ({ user, onLogout }) => {
                   <MenuItem
                     onClick={() => {
                       navigate('/');
+                      dispatch(logout());
                       handleCloseUserMenu();
                     }}
                   >

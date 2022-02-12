@@ -7,7 +7,7 @@ import { Link, useNavigate } from 'react-router-dom';
 
 const ReviewCard = ({ item }) => {
   const myuser = useSelector((state) => state.user.userData);
-  console.log('item in reviewCard', item);
+  // console.log('item in reviewCard', item);
   const navigate = useNavigate();
   const { postPhoto, postLocation, postTitle } = item;
   const barriers = item.impairment;
@@ -32,6 +32,7 @@ const ReviewCard = ({ item }) => {
         onClick={onClickCard}
         reviewCard={reviewCard}
         sx={{ maxWidth: 250 }}
+        style={{ cursor: 'pointer' }}
       >
         <CardMedia
           component="img"
