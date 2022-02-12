@@ -24,6 +24,7 @@ const initialState = {
   postPoint: 0,
   writeUserSeq: '',
   postPhoto: '',
+  postAlt: '',
 };
 
 function write(state = initialState, action) {

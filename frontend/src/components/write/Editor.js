@@ -128,7 +128,10 @@ const Editor = ({
     // setImageFile(file);
     setImagePreview(URL.createObjectURL(file));
   };
-
+  const tempClick = () => {
+    console.log(imageName);
+    console.log('didi');
+  };
   const uploadImageWithAdtData = async () => {
     // 전송 보내기 전에 새로운 이름 붙이기
     // 이 부분은 imageData에 붙이지 말고 state값에 alt로 넘겨주기
@@ -147,6 +150,7 @@ const Editor = ({
         // console.log(response);
         // alert('사진 등록이 완료되었습니다!😋');
         await dispatch(changeField({ key: 'postPhoto', value: response.data }));
+        await dispatch(changeField({ key: 'postAlt', value: imageName }));
         console.log(imageName);
         // await dispatch(changeField({ key: 'postAlt', value: response.data }));
         setImageData(null);
@@ -167,6 +171,7 @@ const Editor = ({
             postLat,
             postLng,
             postPhoto: response.data,
+            postAlt: imageName,
           }),
         );
         alert('글이 등록되었습니다! 인클루시브에 한발짝 다가가셨습니다 😊');
@@ -223,6 +228,7 @@ const Editor = ({
                   />
                 </CardActionArea>
               </Card>
+              <button onClick={tempClick}>temp alt</button>
 
               <input
                 type="file"
