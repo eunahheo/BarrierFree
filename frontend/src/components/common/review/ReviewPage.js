@@ -94,7 +94,12 @@ const ReviewPage = () => {
       <Button order onClick={orderbybf}>
         베프만
       </Button>
-      {myitemList && <ReviewCardList itemList={myitemList}></ReviewCardList>}
+      {myitemList && (
+        <ReviewCardList
+          itemList={myitemList}
+          style={{ cursor: 'pointer' }}
+        ></ReviewCardList>
+      )}
     </div>
   );
 };

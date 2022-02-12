@@ -32,6 +32,7 @@ const ReviewCard = ({ item }) => {
         onClick={onClickCard}
         reviewCard={reviewCard}
         sx={{ maxWidth: 250 }}
+        style={{ cursor: 'pointer' }}
       >
         <CardMedia
           component="img"
