@@ -173,7 +173,7 @@ const Header = ({ user, onLogout }) => {
                     >
                       {user.userNickname}님
                     </p>
-                    <img src={user.userPhoto} className="toggle"></img>
+                    {/* <img src={user.userPhoto} className="toggle"></img> */}
                     <img src={user.userPhoto}></img>
                   </IconButton>
                 </Tooltip>
