@@ -150,6 +150,7 @@ input:focus {
   border: 0;
   background-color: rgb(45, 64, 89);
   border-radius: 5px;
+  cursor: pointer;
 }
 
 .delete-button {
@@ -161,6 +162,7 @@ input:focus {
   border: 0;
   background-color: #ea5455;
   border-radius: 5px;
+  cursor: pointer;
 }
 
 /*    여기서부터는 리뷰 내용 자리    */
