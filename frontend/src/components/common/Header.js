@@ -158,7 +158,7 @@ const Header = ({ user, onLogout }) => {
                   // style={{ background: "red" }}
                   sx={{ mt: '45px' }}
                   id="menu-appbar"
-                  // src={user.userPhoto}
+                  src={user.userPhoto}
                   anchorEl={anchorElUser}
                   anchorOrigin={{
                     vertical: 'top',
@@ -179,15 +179,6 @@ const Header = ({ user, onLogout }) => {
                     }}
                   >
                     <Typography textAlign="center">내 계정 보기</Typography>
-                  </MenuItem>
-
-                  <MenuItem
-                    onClick={() => {
-                      navigate('/userpost');
-                      handleCloseUserMenu();
-                    }}
-                  >
-                    <Typography textAlign="center">내 스크랩 보기</Typography>
                   </MenuItem>
 
                   <MenuItem
