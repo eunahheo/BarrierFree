@@ -98,6 +98,7 @@ const Header = ({ user, onLogout }) => {
   };
   const navigate = useNavigate();
   console.log('header', user.userPhoto);
+  console.log('headeruser', user);
   return (
     <>
       <HeaderBlock>
@@ -152,7 +153,7 @@ const Header = ({ user, onLogout }) => {
             <h4>About</h4>
           </div>
           {/* 로그인 유무에 따른 헤더 버튼 변경 */}
-          <img className="toggle" alt="Remy Sharp" src={user.userPhoto} />
+          {/* <img className="toggle" alt="Remy Sharp" src={user.userPhoto} /> */}
           {user ? (
             // 1. 로그인 되어 있을 때
             <div className="right">
