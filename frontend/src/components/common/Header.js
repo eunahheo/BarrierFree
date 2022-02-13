@@ -19,7 +19,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../_actions/user_actions';
 import BarrierFreeLogo from '../images/barrierfreelogo.png';
 
-const ReviewBox = styled.div`
+const HeaderBox = styled.div`
   display: flex;
   flex-dirextion: row;
   align-items: center;
@@ -173,8 +173,10 @@ const Header = ({ user, onLogout }) => {
                     >
                       {user.userNickname}님
                     </p>
-                    {/* <img src={user.userPhoto} className="toggle"></img> */}
-                    <img src={user.userPhoto}></img>
+                    <HeaderBox>
+                      {/* <img src={user.userPhoto} className="toggle"></img> */}
+                      <img src={user.userPhoto} className="toggle"></img>
+                    </HeaderBox>
                   </IconButton>
                 </Tooltip>
                 <Menu
