@@ -30,12 +30,13 @@ function Search() {
 
   const onSubmitHandler = (event) => {
     event.preventDefault();
-    // setSearchUserList([]);
-    // setSearchLocationList([]);
-    // setSearchFoodList([]);
-    // setSearchReivewList([]);
-    // setSearchHomeList([]);
-    // setSearchPartyList([]);
+    setFindSearch(false)
+    setSearchUserList([]);
+    setSearchLocationList([]);
+    setSearchFoodList([]);
+    setSearchReivewList([]);
+    setSearchHomeList([]);
+    setSearchPartyList([]);
     if (searchItem) {
       setHandsearch(true);
       axios({
