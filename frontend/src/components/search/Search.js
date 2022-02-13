@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Container } from '@material-ui/core';
-import { useNavigate } from '../../../node_modules/react-router/index.js';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import './Search.css';
@@ -9,7 +8,6 @@ import Button from '../common/Button';
 import SearchDetail from './SearchDetail';
 
 function Search() {
-  const navigate = useNavigate();
   const myuser = useSelector((state) => state.user.userData);
   const [findSearch, setFindSearch] = useState(false);
   const [searchItem, setSearchItem] = useState('');
@@ -44,7 +42,7 @@ function Search() {
         url: '/search/post',
         params: {
           keyword: searchItem,
-          page: 0,
+          page: 1,
           size: 4,
           userSeq: myuser.userSeq,
         },
@@ -57,7 +55,7 @@ function Search() {
         url: '/search/user',
         params: {
           keyword: searchItem,
-          page: 0,
+          page: 1,
           size: 4,
           userSeq: myuser.userSeq,
         },
@@ -79,7 +77,7 @@ function Search() {
           params: {
             contentTypeId: impairmentNums[i],
             keyword: searchItem,
-            page: 0,
+            page: 1,
             size: 4,
             userSeq: myuser.userSeq,
           },

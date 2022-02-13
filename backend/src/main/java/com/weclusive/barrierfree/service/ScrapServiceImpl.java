@@ -95,7 +95,7 @@ public class ScrapServiceImpl implements ScrapService {
 		Map<String, Integer> result = new HashMap<>();
 		Scrap deleteScrap = scrapRepository.findByUserSeqAndScrapDataAndScrapTypeAndDelYn(user_seq, scrap_data, scrap_type, 'n');
 
-		if (deleteScrap != null) {
+		if (deleteScrap!=null) {
 			String curTime = TimeUtils.curTime();
 			deleteScrap.setDelYn('y');
 			deleteScrap.setModDt(curTime);

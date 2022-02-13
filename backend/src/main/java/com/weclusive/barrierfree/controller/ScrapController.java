@@ -96,5 +96,4 @@ public class ScrapController {
 		else
 			return new ResponseEntity<>(SUCCESS, HttpStatus.OK);
 	}
-	
 }
