@@ -73,7 +73,7 @@ public class PostServiceImpl implements PostService {
 	public Optional<Post> deleteByPostSeq(long postSeq, int userSeq) {
 		Optional<Post> deletePost = postRepository.findByPostSeq(postSeq);
 
-		if (deletePost != null) {
+		if (deletePost.isPresent()) {
 			String curTime = TimeUtils.curTime();
 
 			deletePost.get().setDelYn('y');
