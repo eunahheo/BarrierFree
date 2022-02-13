@@ -62,12 +62,12 @@ public class ScrapServiceImpl implements ScrapService {
 		return result;
 	}
 
-	// 게시글 삭제하기 (del_yn을 y로 변경)
+	// 스크랩 삭제하기 (del_yn을 y로 변경)
 	@Override
-	public Optional<Scrap> deleteByScrapSeq(long scrapSeq, int userSeq) {
-		Optional<Scrap> deleteScrap = scrapRepository.findByScrapSeqAndDelYn(scrapSeq, 'n');
+	public Optional<Scrap> deleteScrap(char scrapType, long scrapData, int userSeq) {
+		Optional<Scrap> deleteScrap = scrapRepository.findByUserSeqAndScrapTypeAndScrapDataAndDelYn(userSeq, scrapType, scrapData, 'n');
 
-		if (deleteScrap != null) {
+		if (deleteScrap.isPresent()) {
 			String curTime = TimeUtils.curTime();
 
 			deleteScrap.get().setDelYn('y');
