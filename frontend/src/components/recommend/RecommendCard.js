@@ -45,7 +45,6 @@ const RecommendCard = ({ item }) => {
       setBarrier(array);
     });
   };
-  console.log(barriers);
   // 카드를 눌렀을 때 이동
   const onClickCard = () => {
     if (myuser) {

@@ -144,22 +144,12 @@ function Search() {
     setNumber(15);
     setTitle('행사');
   };
-<<<<<<< HEAD
 
-  const changeFindSearch = (res) => {
+  const changeFindSearch = () => {
     setFindSearch(true);
-    console.log(res);
     setNumber(15);
     setTitle('행사');
   };
-=======
-  
-  const changeFindSearch = () => {
-    setFindSearch(true)
-    setNumber(15)
-    setTitle('행사')
-  }
->>>>>>> 86e1d49af121de4497a0f0b5c1439e9d3c22ae08
 
   return (
     <Container maxWidth="md">
@@ -200,17 +190,6 @@ function Search() {
       ) : (
         <div>
           <div>
-<<<<<<< HEAD
-            <Button onClick={onClickTotal}>전체</Button>
-            <Button onClick={onClickLocation}>명소</Button>
-            <Button onClick={onClickFood}>음식점</Button>
-            <Button onClick={onClickHome}>숙박시설</Button>
-            <Button onClick={onClickParty}>행사</Button>
-            <Button>여행 후기</Button>
-            <Button>사용자</Button>
-          </div>
-          <SearchList
-=======
             <div>
               <Button onClick={onClickTotal}>전체</Button>
               <Button onClick={onClickLocation}>명소</Button>
@@ -220,33 +199,21 @@ function Search() {
               <Button>여행 후기</Button>
               <Button>사용자</Button>
             </div>
-            <h2 class="title">{title}</h2>
-            <SearchDetail number={number} searchItem={searchItem} noresult={noresult} ></SearchDetail> </div> : 
-            <div>
-              <div>
-                <Button onClick={onClickTotal}>전체</Button>
-                <Button onClick={onClickLocation}>명소</Button>
-                <Button onClick={onClickFood}>음식점</Button>
-                <Button onClick={onClickHome}>숙박시설</Button>
-                <Button onClick={onClickParty}>행사</Button>
-                <Button>여행 후기</Button>
-                <Button>사용자</Button>
-              </div>
             <SearchList
->>>>>>> 86e1d49af121de4497a0f0b5c1439e9d3c22ae08
-            class="card-list"
-            searchLocationList={searchLocationList}
-            searchItem={searchItem}
-            noresult={noresult}
-            searchFoodList={searchFoodList}
-            searchHomeList={searchHomeList}
-            searchPartyList={searchPartyList}
-            searchReivewList={searchReivewList}
-            searchUserList={searchUserList}
-            changeFindSearch={changeFindSearch}
-            setNumber={setNumber}
-            setTitle={setTitle}
-          ></SearchList>
+              class="card-list"
+              searchLocationList={searchLocationList}
+              searchItem={searchItem}
+              noresult={noresult}
+              searchFoodList={searchFoodList}
+              searchHomeList={searchHomeList}
+              searchPartyList={searchPartyList}
+              searchReivewList={searchReivewList}
+              searchUserList={searchUserList}
+              changeFindSearch={changeFindSearch}
+              setNumber={setNumber}
+              setTitle={setTitle}
+            ></SearchList>
+          </div>
         </div>
       )}
     </Container>
