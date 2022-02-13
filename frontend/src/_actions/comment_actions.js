@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { COMMENT_SAVE, COMMENT_DELETE } from './types';
+import { COMMENT_SAVE, COMMENT_DELETE, COMMENT_UPDATE } from './types';
 
 export function commentSave(dataTosubmit) {
   console.log(dataTosubmit);
@@ -25,6 +25,19 @@ export function commentDelete(dataTosubmit) {
 
   return {
     type: COMMENT_DELETE,
+    data: request,
+  };
+}
+
+export function commentUpdate(dataTosubmit) {
+  const request = axios({
+    method: 'PUT',
+    url: '/post/comment/update',
+    params: dataTosubmit,
+  }).then((res) => res.data);
+
+  return {
+    type: COMMENT_UPDATE,
     data: request,
   };
 }

@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import 'quill/dist/quill.bubble.css';
 import styled from 'styled-components';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import FavoriteIcon from '@mui/icons-material/Star';
+import FavoriteBorderIcon from '@mui/icons-material/StarBorder';
 import axios from '../../../node_modules/axios/index';
 import PlaceBoxContainer from '../../containers/write/PlaceBoxContainer';
 import { useDispatch } from 'react-redux';
@@ -99,12 +99,12 @@ const Editor = ({
   };
 
   const onChangeBody = (e) => {
-    console.log('changebody', e);
+    // console.log('changebody', e);
     onChangeField({ key: 'postContent', value: e.target.value });
   };
 
   const onChangePostPoint = (e) => {
-    console.log('changepostpoint', e);
+    // console.log('changepostpoint', e);
     onChangeField({ key: 'postPoint', value: e.target.value });
   };
 
@@ -125,20 +125,20 @@ const Editor = ({
     }
 
     const file = event.target.files[0];
-    console.log(file);
+    // console.log(file);
     // const imageData = new FormData();
     // imageData.append('photo', file);
     setImageData(file);
     setLoading(true);
-    console.log(imageData);
+    // console.log(imageData);
     // setImageData(imageData);
     // setImageFile(file);
     setImagePreview(URL.createObjectURL(file));
   };
-  const tempClick = () => {
-    console.log(imageName);
-    console.log('didi');
-  };
+  // const tempClick = () => {
+  //   console.log(imageName);
+  //   console.log('didi');
+  // };
   const uploadImageWithAdtData = async () => {
     // 전송 보내기 전에 새로운 이름 붙이기
     // 이 부분은 imageData에 붙이지 말고 state값에 alt로 넘겨주기
@@ -158,7 +158,7 @@ const Editor = ({
         // alert('사진 등록이 완료되었습니다!😋');
         await dispatch(changeField({ key: 'postPhoto', value: response.data }));
         await dispatch(changeField({ key: 'postAlt', value: imageName }));
-        console.log(imageName);
+        // console.log(imageName);
         // await dispatch(changeField({ key: 'postAlt', value: response.data }));
         setImageData(null);
         setImagePreview(null);
@@ -186,7 +186,7 @@ const Editor = ({
         dispatch(initialize());
         navigate('/');
       } catch (error) {
-        console.log(error);
+        // console.log(error);
       } finally {
         setLoading(false);
       }
@@ -223,7 +223,7 @@ const Editor = ({
       <Box>
         <Grid container spacing={4}>
           <Grid item xs={1}></Grid>
-          <Grid item xs={4}>
+          <Grid item xs={5}>
             <div className="lefteditor">
               <Card sx={{ maxHeiht: 600 }}>
                 <CardActionArea>
@@ -280,13 +280,13 @@ const Editor = ({
               /> */}
             </div>
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={5}>
             <div className="righteditor">
               <div>
                 <TextField
                   // width="60"
                   inputProps={{ style: { fontSize: 30, fontWeight: 'bold' } }}
-                  placeholder="제목 추가"
+                  placeholder="제목"
                   onChange={onChangeTitle}
                   value={postTitle}
                   variant="standard"
@@ -315,11 +315,10 @@ const Editor = ({
                 id="standard-multiline-static"
                 multiline
                 rows={8}
-                maxRows={8}
                 variant="standard"
                 onChange={onChangeBody}
                 fullWidth
-                placeholder="여행 후기와 장소에 대한 설명을 작성해주세요😊"
+                placeholder="여행 후기와 장소에 대한 설명을 작성해주세요"
               />
 
               <WriteBarrierIconContainer></WriteBarrierIconContainer>
