@@ -3,9 +3,11 @@ import { Container } from '@material-ui/core';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import './Search.css';
-import SearchList from './SearchList';
 import Button from '../common/Button';
+import SearchList from './SearchList';
 import SearchDetail from './SearchDetail';
+import SearchReviewDetail from './SearchReviewDetail';
+import SearchUserDetail from './SearchUserDetail';
 
 function Search() {
   const myuser = useSelector((state) => state.user.userData);
@@ -60,7 +62,7 @@ function Search() {
           userSeq: myuser.userSeq,
         },
       }).then((res) => {
-        console.log(res.data);
+        // console.log(res.data);
         if (res.data.length > 0) {
           setSearchUserList(res.data);
         } else {
@@ -142,6 +144,14 @@ function Search() {
     setNumber(15);
     setTitle('행사');
   };
+  const onClickReview = () => {
+    setFindSearch(true);
+    setTitle('여행 후기');
+  };
+  const onClickUser = () => {
+    setFindSearch(true);
+    setTitle('사용자');
+  };
 
   const changeFindSearch = () => {
     setFindSearch(true);
@@ -176,14 +186,20 @@ function Search() {
             <Button onClick={onClickFood}>음식점</Button>
             <Button onClick={onClickHome}>숙박시설</Button>
             <Button onClick={onClickParty}>행사</Button>
-            <Button>여행 후기</Button>
-            <Button>사용자</Button>
+            <Button onClick={onClickReview}>여행 후기</Button>
+            <Button onClick={onClickUser}>사용자</Button>
           </div>
           <h2 class="title">{title}</h2>
-          <SearchDetail
-            number={number}
-            searchItem={searchItem}
-          ></SearchDetail>{' '}
+          {title === '여행 후기' ? (
+            <SearchReviewDetail searchItem={searchItem}></SearchReviewDetail>
+          ) : title === '사용자' ? (
+            <SearchUserDetail searchItem={searchItem}></SearchUserDetail>
+          ) : (
+            <SearchDetail
+              number={number}
+              searchItem={searchItem}
+            ></SearchDetail>
+          )}
         </div>
       ) : (
         <div>
@@ -194,8 +210,8 @@ function Search() {
               <Button onClick={onClickFood}>음식점</Button>
               <Button onClick={onClickHome}>숙박시설</Button>
               <Button onClick={onClickParty}>행사</Button>
-              <Button>여행 후기</Button>
-              <Button>사용자</Button>
+              <Button onClick={onClickReview}>여행 후기</Button>
+              <Button onClick={onClickUser}>사용자</Button>
             </div>
             <SearchList
               class="card-list"
