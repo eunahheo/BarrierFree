@@ -1,14 +1,17 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Container } from '@material-ui/core';
-import SearchCardList from './SearchCardList.js';
+import { useNavigate } from '../../../node_modules/react-router/index.js';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import './Search.css';
-import { useNavigate } from '../../../node_modules/react-router/index.js';
+import SearchList from './SearchList';
+import Button from '../common/Button';
+import SearchDetail from './SearchDetail';
 
 function Search() {
+  const navigate = useNavigate();
   const myuser = useSelector((state) => state.user.userData);
-  const [itemList, setItemList] = useState([]);
+  const [findSearch, setFindSearch] = useState(false);
   const [searchItem, setSearchItem] = useState('');
   const [searchReivewList, setSearchReivewList] = useState([]);
   const [searchUserList, setSearchUserList] = useState([]);
@@ -19,7 +22,7 @@ function Search() {
   const [noresult, setNoresult] = useState('');
   const [handsearch, setHandsearch] = useState(false);
   const [number, setNumber] = useState(0);
-  const navigate = useNavigate();
+  const [title, setTitle] = useState('');
 
   const onSearchHandler = (event) => {
     setSearchItem(event.target.value);
@@ -112,45 +115,61 @@ function Search() {
     }
   };
 
+  const onClickTotal = () => {
+    setFindSearch(false);
+    setNumber(0)
+  };
+
   const onClickLocation = () => {
-    navigate(`/search/tour`, {
-      state: {
-        number: 12,
-        searchItem: searchItem,
-      },
-    });
+    setTitle('명소')
+    setFindSearch(true);
+    setNumber(12)
+    // navigate(`/search/tour`, {
+    //   state: {
+    //     number: 12,
+    //     searchItem: searchItem,
+    //   },
+    // });
   };
 
   const onClickFood = () => {
-    navigate(`/search/tour`, {
-      state: {
-        number: 39,
-        searchItem: searchItem,
-      },
-    });
+    setFindSearch(true);
+    setNumber(39)
+    setTitle('음식점')
+    // navigate(`/search/tour`, {
+    //   state: {
+    //     number: 39,
+    //     searchItem: searchItem,
+    //   },
+    // });
   };
 
   const onClickHome = () => {
-    navigate(`/search/tour`, {
-      state: {
-        number: 32,
-        searchItem: searchItem,
-      },
-    });
+    setFindSearch(true);
+    setNumber(32)
+    setTitle('숙박시설')
+    // navigate(`/search/tour`, {
+    //   state: {
+    //     number: 32,
+    //     searchItem: searchItem,
+    //   },
+    // });
   };
 
   const onClickParty = () => {
-    navigate(`/search/tour`, {
-      state: {
-        number: 15,
-        searchItem: searchItem,
-      },
-    });
+    setFindSearch(true);
+    setNumber(15)
+    setTitle('행사')
+    // navigate(`/search/tour`, {
+    //   state: {
+    //     number: 15,
+    //     searchItem: searchItem,
+    //   },
+    // });
   };
-
+  
 
   return (
-    
       <Container maxWidth="md">
           <div>
             <h2>여행지 검색하기</h2>
@@ -167,102 +186,43 @@ function Search() {
               </form>
             </div>
           </div>
-        {handsearch === true ? (
+        {handsearch === false ? 
+          <div></div>
+         : (findSearch === true ? 
           <div>
             <div>
-              {searchLocationList.length >= 1 ? (
-                <div>
-                  <h2 class="title">명소 <p class="more" id={12} onClick={(e) => {
-                    setNumber(e.target.id)
-                  },
-                  onClickLocation
-                  }>+더보기</p></h2>
-                  
-                  <SearchCardList
-                    itemList={searchLocationList}
-                  ></SearchCardList>
-                </div>
-              ) : (
-                <div>
-                  <h2 class="title">명소</h2>
-                  <p>{noresult}</p>
-                </div>
-              )}
+              <Button onClick={onClickTotal}>전체</Button>
+              <Button onClick={onClickLocation}>명소</Button>
+              <Button onClick={onClickFood}>음식점</Button>
+              <Button onClick={onClickHome}>숙박시설</Button>
+              <Button onClick={onClickParty}>행사</Button>
+              <Button>여행 후기</Button>
+              <Button>사용자</Button>
             </div>
+            <h2 class="title">{title}</h2>
+            <SearchDetail number={number} searchItem={searchItem}></SearchDetail> </div> : 
             <div>
-              {searchFoodList.length >= 1 ? (
-                <div>
-                  <h2 class="title">음식점 <p class="more" onClick={onClickFood}>+더보기</p></h2>
-                  
-                  <SearchCardList itemList={searchFoodList}></SearchCardList>
-                </div>
-              ) : (
-                <div>
-                  <h2 class="title">음식점</h2>
-                  <p>{noresult}</p>
-                </div>
-              )}
-            </div>
-            <div>
-              {searchHomeList.length >= 1 ? (
-                <div>
-                  <h2 class="title">숙박시설 <p class="more" onClick={onClickHome}>+더보기</p></h2>
-                  
-                  <SearchCardList itemList={searchHomeList}></SearchCardList>
-                </div>
-              ) : (
-                <div>
-                  <h2 class="title">숙박시설</h2>
-                  <p>{noresult}</p>
-                </div>
-              )}
-            </div>
-            <div>
-              {searchPartyList.length >= 1 ? (
-                <div>
-                  <h2 class="title">행사 <p class="more" onClick={onClickParty}>+더보기</p></h2>
-                  
-                  <SearchCardList itemList={searchPartyList}></SearchCardList>
-                </div>
-              ) : (
-                <div>
-                  <h2 class="title">행사</h2>
-                  <p>{noresult}</p>
-                </div>
-              )}
-            </div>
-            <div>
-              {searchReivewList.length >= 2 ? (
-                <div>
-                  <h2 class="title">여행 후기</h2>
-                  {searchReivewList.map((review) => (
-                    <p key={review.post_seq}>{review.post_title}</p>
-                  ))}
-                </div>
-              ) : (
-                <div>
-                  <h2 class="title">여행 후기</h2>
-                  <p>{noresult}</p>
-                </div>
-              )}
-            </div>
-            <div>
-              {searchUserList.length >= 1 ? (
-                <div>
-                  <h2 class="title">사용자</h2>
-                  {searchUserList.map((result) => (
-                    <p key={result.userSeq}>{result.userNickname}</p>
-                  ))}
-                </div>
-              ) : (
-                <div>
-                  <h2 class="title">사용자</h2>
-                  <p>{noresult}</p>
-                </div>
-              )}
-            </div>
+          <div>
+            <Button onClick={onClickTotal}>전체</Button>
+            <Button onClick={onClickLocation}>명소</Button>
+            <Button onClick={onClickFood}>음식점</Button>
+            <Button onClick={onClickHome}>숙박시설</Button>
+            <Button onClick={onClickParty}>행사</Button>
+            <Button>여행 후기</Button>
+            <Button>사용자</Button>
           </div>
-        ) : <div></div>}
+         <SearchList
+         class="card-list"
+         searchLocationList={searchLocationList} 
+         searchItem={searchItem} 
+         noresult={noresult} 
+         searchFoodList={searchFoodList} 
+         searchHomeList={searchHomeList} 
+         searchPartyList={searchPartyList}
+         searchReivewList={searchReivewList}
+         searchUserList={searchUserList}></SearchList>
+        </div>
+        )}
       </Container>
   );
 }
