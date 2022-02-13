@@ -4,12 +4,7 @@ import Auditory from '../images/Auditory.png';
 import Pregnant from '../images/Pregnant.png';
 import Senior from '../images/Senior.png';
 import Visual from '../images/Visual.png';
-import {
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-} from '@mui/material';
+import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import axios from 'axios';
 import RecommendCardList from './RecommendCardList.js';
 import { Container } from '@material-ui/core';
@@ -42,20 +37,18 @@ const Recommend = () => {
   const [number, setNumber] = useState(0);
   const [title, setTitle] = useState('');
 
-
   useEffect(() => {
     findMyLocation();
     setCityDropdown();
     if (barrier.length > 0) {
-      for (let i = 0; barrier.length > i; i++ ) {
+      for (let i = 0; barrier.length > i; i++) {
         let current = document.getElementById(barrier[i]);
-        current.style.border= "3px solid";
-        current.style.borderColor = "rgb(234, 84, 85)";
-        current.style.borderRadius = "100%";
+        current.style.border = '3px solid';
+        current.style.borderColor = 'rgb(234, 84, 85)';
+        current.style.borderRadius = '100%';
       }
     }
   }, [barrier]);
-
 
   // 내 위치 받아오기
   const findMyLocation = () => {
@@ -100,7 +93,6 @@ const Recommend = () => {
   };
 
   const handleChangeCity = (event) => {
-
     if (town) {
       setTown('');
     }
@@ -123,27 +115,26 @@ const Recommend = () => {
   const handleChangeTown = (event) => {
     console.log(event);
     setTown(event.target.value);
-    
   };
 
   // 장애 정보 선택하기
   const onClickBarrier = (res) => {
     if (search === true) {
       if (barrier.length > 0) {
-        for (let i = 0; barrier.length > i; i++ ) {
+        for (let i = 0; barrier.length > i; i++) {
           let current = document.getElementById(barrier[i]);
-          current.style.border= null;
+          current.style.border = null;
         }
       }
     }
     if (barrier.includes(res.target.id)) {
       let current = document.getElementById(res.target.id);
       current.style.border = null;
-      setBarrier(barrier.filter(info => info !== res.target.id))
+      setBarrier(barrier.filter((info) => info !== res.target.id));
     } else {
       setBarrier(barrier.concat(res.target.id));
     }
-    
+
     console.log(barrier);
   };
 
@@ -159,25 +150,24 @@ const Recommend = () => {
     const townNum = Number(town);
     const impairmentNums = [0, 12, 39, 32, 15];
     for (var i = 0; i < impairmentNums.length; i++)
-    if (city && town && barrier) {
-      let data = {
-        sidoCode: cityNum,
-        sigunguCode: townNum,
-        userSeq: myuser.userSeq,
-        contentTypeId: impairmentNums[i],
-        impairments: barrier,
-        page: 1,
-        size: 4,
-      };
-      axios({
-        method: 'GET',
-        url: '/recommend/search',
-        params: data,
-        paramsSerializer: params => {
-          return qs.stringify(params, { arrayFormat: 'repeat' })
-        }
-      })
-        .then((res) => {
+      if (city && town && barrier) {
+        let data = {
+          sidoCode: cityNum,
+          sigunguCode: townNum,
+          userSeq: myuser.userSeq,
+          contentTypeId: impairmentNums[i],
+          impairments: barrier,
+          page: 1,
+          size: 4,
+        };
+        axios({
+          method: 'GET',
+          url: '/recommend/search',
+          params: data,
+          paramsSerializer: (params) => {
+            return qs.stringify(params, { arrayFormat: 'repeat' });
+          },
+        }).then((res) => {
           if (res.config.params.contentTypeId === 0) {
             if (res.data.length > 0) {
               setItemList(res.data);
@@ -189,7 +179,7 @@ const Recommend = () => {
               setSearchLocationList(res.data);
             } else {
               setNoresult('검색 내용이 없습니다 😥');
-            } 
+            }
           } else if (res.config.params.contentTypeId === 39) {
             if (res.data.length > 0) {
               setSearchFoodList(res.data);
@@ -212,71 +202,23 @@ const Recommend = () => {
           setFindSearch(false);
         });
       } else if (barrier) {
-      let data = {
-        userSeq: myuser.userSeq,
-        contentTypeId: impairmentNums[i],
-        impairments: barrier,
-        page: 1,
-        size: 4,
-      };
-      axios({
-        method: 'GET',
-        url: '/recommend/search',
-        params: data,
-        paramsSerializer: params => {
-          return qs.stringify(params, { arrayFormat: 'repeat' })
-        }
-      }).then((res) => {
-        console.log(res)
-        if (res.config.params.contentTypeId == 0) {
-          if (res.data.length > 0) {
-            setItemList(res.data);
-          } else {
-            setNoresult('검색 내용이 없습니다 😥');
-          }
-        } else if (res.config.params.contentTypeId === 12) {
-          if (res.data.length > 0) {
-            setSearchLocationList(res.data);
-          } else {
-            setNoresult('검색 내용이 없습니다 😥');
-          } 
-        } else if (res.config.params.contentTypeId === 39) {
-          if (res.data.length > 0) {
-            setSearchFoodList(res.data);
-          } else {
-            setNoresult('검색 내용이 없습니다 😥');
-          }
-        } else if (res.config.params.contentTypeId === 32) {
-          if (res.data.length > 0) {
-            setSearchHomeList(res.data);
-          } else {
-            setNoresult('검색 내용이 없습니다 😥');
-          }
-        } else if (res.config.params.contentTypeId === 15) {
-          if (res.data.length > 0) {
-            setSearchPartyList(res.data);
-          } else {
-            setNoresult('검색 내용이 없습니다 😥');
-          }
-        }
-        setFindSearch(false);
-      });
-    } else if (city && town) {
-      let data = {
-        sidoCode: cityNum,
-        sigunguCode: townNum,
-        userSeq: myuser.userSeq,
-        contentTypeId: impairmentNums[i],
-        page: 1,
-        size: 4,
-      };
-      axios({
-        method: 'GET',
-        url: '/recommend/search',
-        params: data,
-      })
-        .then((res) => {
-          if (res.config.params.contentTypeId === 0) {
+        let data = {
+          userSeq: myuser.userSeq,
+          contentTypeId: impairmentNums[i],
+          impairments: barrier,
+          page: 1,
+          size: 4,
+        };
+        axios({
+          method: 'GET',
+          url: '/recommend/search',
+          params: data,
+          paramsSerializer: (params) => {
+            return qs.stringify(params, { arrayFormat: 'repeat' });
+          },
+        }).then((res) => {
+          console.log(res);
+          if (res.config.params.contentTypeId == 0) {
             if (res.data.length > 0) {
               setItemList(res.data);
             } else {
@@ -287,7 +229,7 @@ const Recommend = () => {
               setSearchLocationList(res.data);
             } else {
               setNoresult('검색 내용이 없습니다 😥');
-            } 
+            }
           } else if (res.config.params.contentTypeId === 39) {
             if (res.data.length > 0) {
               setSearchFoodList(res.data);
@@ -308,60 +250,107 @@ const Recommend = () => {
             }
           }
           setFindSearch(false);
-        })
-    } else if (city) {
-      alert('시군구 정보가 필요합니다.')
-    } else if (city && barrier) {
-      alert('시군구 정보가 필요합니다.')
-    }
+        });
+      } else if (city && town) {
+        let data = {
+          sidoCode: cityNum,
+          sigunguCode: townNum,
+          userSeq: myuser.userSeq,
+          contentTypeId: impairmentNums[i],
+          page: 1,
+          size: 4,
+        };
+        axios({
+          method: 'GET',
+          url: '/recommend/search',
+          params: data,
+        }).then((res) => {
+          if (res.config.params.contentTypeId === 0) {
+            if (res.data.length > 0) {
+              setItemList(res.data);
+            } else {
+              setNoresult('검색 내용이 없습니다 😥');
+            }
+          } else if (res.config.params.contentTypeId === 12) {
+            if (res.data.length > 0) {
+              setSearchLocationList(res.data);
+            } else {
+              setNoresult('검색 내용이 없습니다 😥');
+            }
+          } else if (res.config.params.contentTypeId === 39) {
+            if (res.data.length > 0) {
+              setSearchFoodList(res.data);
+            } else {
+              setNoresult('검색 내용이 없습니다 😥');
+            }
+          } else if (res.config.params.contentTypeId === 32) {
+            if (res.data.length > 0) {
+              setSearchHomeList(res.data);
+            } else {
+              setNoresult('검색 내용이 없습니다 😥');
+            }
+          } else if (res.config.params.contentTypeId === 15) {
+            if (res.data.length > 0) {
+              setSearchPartyList(res.data);
+            } else {
+              setNoresult('검색 내용이 없습니다 😥');
+            }
+          }
+          setFindSearch(false);
+        });
+      } else if (city) {
+        alert('시군구 정보가 필요합니다.');
+      } else if (city && barrier) {
+        alert('시군구 정보가 필요합니다.');
+      }
   };
 
   const onClickTotal = () => {
     setFindSearch(false);
-    setNumber(0)
+    setNumber(0);
   };
 
   const onClickLocation = () => {
-    setTitle('명소')
+    setTitle('명소');
     setFindSearch(true);
-    setNumber(12)
+    setNumber(12);
   };
 
   const onClickFood = () => {
     setFindSearch(true);
-    setNumber(39)
-    setTitle('음식점')
+    setNumber(39);
+    setTitle('음식점');
   };
 
   const onClickHome = () => {
     setFindSearch(true);
-    setNumber(32)
-    setTitle('숙박시설')
+    setNumber(32);
+    setTitle('숙박시설');
   };
 
   const onClickParty = () => {
     setFindSearch(true);
-    setNumber(15)
-    setTitle('행사')
+    setNumber(15);
+    setTitle('행사');
   };
 
   const changeFindSearch = () => {
-    setFindSearch(true)
-    setNumber(15)
-    setTitle('행사')
-  }
+    setFindSearch(true);
+    setNumber(15);
+    setTitle('행사');
+  };
 
   const onClickReset = () => {
     if (barrier.length > 0) {
-      for (let i = 0; barrier.length > i; i++ ) {
+      for (let i = 0; barrier.length > i; i++) {
         let current = document.getElementById(barrier[i]);
-        current.style.border= null;
+        current.style.border = null;
       }
     }
     setCity('');
     setTown('');
     setBarrier([]);
-  }
+  };
   return (
     <div>
       {/* <Header /> */}
@@ -370,11 +359,36 @@ const Recommend = () => {
         <div class="selete-box">
           <h3>무장애 선택하기</h3>
           <div>
-            <img class="barrier-icon" id="physical" onClick={onClickBarrier} src={Physical}></img>
-            <img class="barrier-icon" id="visibility" onClick={onClickBarrier} src={Visual}></img>
-            <img class="barrier-icon" id="deaf" onClick={onClickBarrier} src={Auditory}></img>
-            <img class="barrier-icon" id="infant" onClick={onClickBarrier} src={Pregnant}></img>
-            <img class="barrier-icon" id="senior" onClick={onClickBarrier} src={Senior}></img>
+            <img
+              class="barrier-icon"
+              id="physical"
+              onClick={onClickBarrier}
+              src={Physical}
+            ></img>
+            <img
+              class="barrier-icon"
+              id="visibility"
+              onClick={onClickBarrier}
+              src={Visual}
+            ></img>
+            <img
+              class="barrier-icon"
+              id="deaf"
+              onClick={onClickBarrier}
+              src={Auditory}
+            ></img>
+            <img
+              class="barrier-icon"
+              id="infant"
+              onClick={onClickBarrier}
+              src={Pregnant}
+            ></img>
+            <img
+              class="barrier-icon"
+              id="senior"
+              onClick={onClickBarrier}
+              src={Senior}
+            ></img>
           </div>
           <h3>무장애 여행지역</h3>
           <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
@@ -419,16 +433,17 @@ const Recommend = () => {
           </div>
         </div>
         <div>
-          {search === false ? 
+          {search === false ? (
             <div>
-              {itemList.length > 0 ?
+              {itemList.length > 0 ? (
                 <div>
-                  <RecommendCardList
-                    itemList={itemList}
-                  ></RecommendCardList>
+                  <RecommendCardList itemList={itemList}></RecommendCardList>
                 </div>
-              : <div>{noresult}</div>}
-            </div> : (findSearch === false ?
+              ) : (
+                <div>{noresult}</div>
+              )}
+            </div>
+          ) : findSearch === false ? (
             <div>
               <div>
                 <Button onClick={onClickTotal}>전체</Button>
@@ -438,28 +453,36 @@ const Recommend = () => {
                 <Button onClick={onClickParty}>행사</Button>
               </div>
               <RecommendList
-              class="card-list"
-              changeFindSearch={changeFindSearch}
-              setNumber={setNumber}
-              setTitle={setTitle}
-              searchLocationList={searchLocationList} 
-              noresult={noresult} 
-              searchFoodList={searchFoodList} 
-              searchHomeList={searchHomeList} 
-              searchPartyList={searchPartyList}>
-              </RecommendList>
-
-            </div> : <div>
+                class="card-list"
+                changeFindSearch={changeFindSearch}
+                setNumber={setNumber}
+                setTitle={setTitle}
+                searchLocationList={searchLocationList}
+                noresult={noresult}
+                searchFoodList={searchFoodList}
+                searchHomeList={searchHomeList}
+                searchPartyList={searchPartyList}
+              ></RecommendList>
+            </div>
+          ) : (
             <div>
-              <Button onClick={onClickTotal}>전체</Button>
-              <Button onClick={onClickLocation}>명소</Button>
-              <Button onClick={onClickFood}>음식점</Button>
-              <Button onClick={onClickHome}>숙박시설</Button>
-              <Button onClick={onClickParty}>행사</Button>
+              <div>
+                <Button onClick={onClickTotal}>전체</Button>
+                <Button onClick={onClickLocation}>명소</Button>
+                <Button onClick={onClickFood}>음식점</Button>
+                <Button onClick={onClickHome}>숙박시설</Button>
+                <Button onClick={onClickParty}>행사</Button>
               </div>
               <h2 class="title">{title}</h2>
-            <RecommendDetail noresult={noresult} number={number} city={city} town={town} barrier={barrier}></RecommendDetail>
-            </div>)}
+              <RecommendDetail
+                noresult={noresult}
+                number={number}
+                city={city}
+                town={town}
+                barrier={barrier}
+              ></RecommendDetail>
+            </div>
+          )}
         </div>
       </Container>
     </div>
@@ -470,4 +493,3 @@ const Recommend = () => {
 //               setNumber={setNumber}
 //               setTitle={setTitle}
 export default Recommend;
-
