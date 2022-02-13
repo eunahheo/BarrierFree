@@ -9,7 +9,7 @@ import SeniorHide from '../images/Senior60.png';
 import Visual from '../images/VisualCheck.png';
 import VisualHide from '../images/Visual60.png';
 import styled from 'styled-components';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const AuthBarrierIconBlock = styled.div`
   img {
@@ -31,6 +31,7 @@ const WriteBarrierIcon = ({
   physical,
   senior,
   visibility,
+  impairment,
 }) => {
   const [barrierIcon, setBarrierIcon] = useState({
     physicalFlag: false,
@@ -88,6 +89,35 @@ const WriteBarrierIcon = ({
     }
   };
 
+  useEffect(() => {
+    if (impairment) {
+      impairment.forEach((type) => {
+        if (type === 'physical') {
+          console.log(type);
+          setBarrierIcon({ ...barrierIcon, physicalFlag: true });
+          onClickField({ key: 'physical', value: 1 });
+        } else if (type === 'visibility') {
+          console.log(type);
+          setBarrierIcon({ ...barrierIcon, visibilityFlag: true });
+          onClickField({ key: 'visibility', value: 1 });
+        } else if (type === 'deaf') {
+          console.log(type);
+          setBarrierIcon({ ...barrierIcon, deafFlag: true });
+          onClickField({ key: 'deaf', value: 1 });
+        } else if (type === 'infant') {
+          console.log(type);
+          setBarrierIcon({ ...barrierIcon, infantFlag: true });
+          onClickField({ key: 'infant', value: 1 });
+        } else if (type === 'senior') {
+          console.log(type);
+          setBarrierIcon({ ...barrierIcon, seniorFlag: true });
+          onClickField({ key: 'senior', value: 1 });
+        }
+        console.log('type', type);
+      });
+    }
+  }, []);
+  console.log(barrierIcon);
   return (
     <AuthBarrierIconBlock>
       <div align="center" className="barriericon">
@@ -95,31 +125,31 @@ const WriteBarrierIcon = ({
 
         <img
           name="physical"
-          src={physicalFlag ? Physical : PhysicalHide}
+          src={physical ? Physical : PhysicalHide}
           width="35"
           onClick={onClickPhysical}
         ></img>
         <img
           name="visibility"
-          src={visibilityFlag ? Visual : VisualHide}
+          src={visibility ? Visual : VisualHide}
           width="35"
           onClick={onClickVisibility}
         ></img>
         <img
           name="deaf"
-          src={deafFlag ? Auditory : AuditoryHide}
+          src={deaf ? Auditory : AuditoryHide}
           width="35"
           onClick={onClickDeaf}
         ></img>
         <img
           name="infant"
-          src={infantFlag ? Pregnant : PregnantHide}
+          src={infant ? Pregnant : PregnantHide}
           width="35"
           onClick={onClickInfant}
         ></img>
         <img
           name="senior"
-          src={seniorFlag ? Senior : SeniorHide}
+          src={senior ? Senior : SeniorHide}
           width="35"
           onClick={onClickSenior}
         ></img>
