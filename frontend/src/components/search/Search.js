@@ -30,12 +30,12 @@ function Search() {
 
   const onSubmitHandler = (event) => {
     event.preventDefault();
-    setSearchUserList([]);
-    setSearchLocationList([]);
-    setSearchFoodList([]);
-    setSearchReivewList([]);
-    setSearchHomeList([]);
-    setSearchPartyList([]);
+    // setSearchUserList([]);
+    // setSearchLocationList([]);
+    // setSearchFoodList([]);
+    // setSearchReivewList([]);
+    // setSearchHomeList([]);
+    // setSearchPartyList([]);
     if (searchItem) {
       setHandsearch(true);
       axios({
@@ -124,50 +124,32 @@ function Search() {
     setTitle('명소')
     setFindSearch(true);
     setNumber(12)
-    // navigate(`/search/tour`, {
-    //   state: {
-    //     number: 12,
-    //     searchItem: searchItem,
-    //   },
-    // });
   };
 
   const onClickFood = () => {
     setFindSearch(true);
     setNumber(39)
     setTitle('음식점')
-    // navigate(`/search/tour`, {
-    //   state: {
-    //     number: 39,
-    //     searchItem: searchItem,
-    //   },
-    // });
   };
 
   const onClickHome = () => {
     setFindSearch(true);
     setNumber(32)
     setTitle('숙박시설')
-    // navigate(`/search/tour`, {
-    //   state: {
-    //     number: 32,
-    //     searchItem: searchItem,
-    //   },
-    // });
   };
 
   const onClickParty = () => {
     setFindSearch(true);
     setNumber(15)
     setTitle('행사')
-    // navigate(`/search/tour`, {
-    //   state: {
-    //     number: 15,
-    //     searchItem: searchItem,
-    //   },
-    // });
   };
   
+  const changeFindSearch = (res) => {
+    setFindSearch(true)
+    console.log(res)
+    setNumber(15)
+    setTitle('행사')
+  }
 
   return (
       <Container maxWidth="md">
@@ -202,26 +184,29 @@ function Search() {
             <h2 class="title">{title}</h2>
             <SearchDetail number={number} searchItem={searchItem}></SearchDetail> </div> : 
             <div>
-          <div>
-            <Button onClick={onClickTotal}>전체</Button>
-            <Button onClick={onClickLocation}>명소</Button>
-            <Button onClick={onClickFood}>음식점</Button>
-            <Button onClick={onClickHome}>숙박시설</Button>
-            <Button onClick={onClickParty}>행사</Button>
-            <Button>여행 후기</Button>
-            <Button>사용자</Button>
-          </div>
-         <SearchList
-         class="card-list"
-         searchLocationList={searchLocationList} 
-         searchItem={searchItem} 
-         noresult={noresult} 
-         searchFoodList={searchFoodList} 
-         searchHomeList={searchHomeList} 
-         searchPartyList={searchPartyList}
-         searchReivewList={searchReivewList}
-         searchUserList={searchUserList}></SearchList>
-        </div>
+              <div>
+                <Button onClick={onClickTotal}>전체</Button>
+                <Button onClick={onClickLocation}>명소</Button>
+                <Button onClick={onClickFood}>음식점</Button>
+                <Button onClick={onClickHome}>숙박시설</Button>
+                <Button onClick={onClickParty}>행사</Button>
+                <Button>여행 후기</Button>
+                <Button>사용자</Button>
+              </div>
+            <SearchList
+            class="card-list"
+            searchLocationList={searchLocationList} 
+            searchItem={searchItem} 
+            noresult={noresult} 
+            searchFoodList={searchFoodList} 
+            searchHomeList={searchHomeList} 
+            searchPartyList={searchPartyList}
+            searchReivewList={searchReivewList}
+            searchUserList={searchUserList}
+            changeFindSearch={changeFindSearch}
+            setNumber={setNumber}
+            setTitle={setTitle}></SearchList>
+            </div>
         )}
       </Container>
   );
