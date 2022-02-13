@@ -17,7 +17,6 @@ import SearchIcon from '@mui/icons-material/Search';
 const PlaceBoxBlock = styled.div`
   width: 100%;
   border-top: 1px solid ${palette.gray[0]};
-  padding-top: 1rem;
 `;
 
 const PlaceForm = styled.form`
@@ -174,7 +173,7 @@ const PlaceBox = ({ onChangePlace, onChangeField, postLocation }) => {
       <div>
         <PlaceForm onSubmit={onSubmit}>
           <Paper
-            // component="form"
+            component="form"
             sx={{
               p: '2px 4px',
               display: 'flex',

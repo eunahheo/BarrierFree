@@ -1,19 +1,19 @@
-import Physical from '../images/Physical.png';
-import PhysicalHide from '../images/PhysicalHide.png';
-import Auditory from '../images/Auditory.png';
-import AuditoryHide from '../images/AuditoryHide.png';
-import Pregnant from '../images/Pregnant.png';
-import PregnantHide from '../images/PregnantHide.png';
-import Senior from '../images/Senior.png';
-import SeniorHide from '../images/SeniorHide.png';
-import Visual from '../images/Visual.png';
-import VisualHide from '../images/VisualHide.png';
+import Physical from '../images/PhysicalCheck.png';
+import PhysicalHide from '../images/Physical60.png';
+import Auditory from '../images/AuditoryCheck.png';
+import AuditoryHide from '../images/Auditory60.png';
+import Pregnant from '../images/PregnantCheck.png';
+import PregnantHide from '../images/Pregnant60.png';
+import Senior from '../images/SeniorCheck.png';
+import SeniorHide from '../images/Senior60.png';
+import Visual from '../images/VisualCheck.png';
+import VisualHide from '../images/Visual60.png';
 import styled from 'styled-components';
 import { useState } from 'react';
 
 const AuthBarrierIconBlock = styled.div`
   img {
-    margin: 1.5rem 0.75rem 0;
+    margin: 1rem 0.5rem 0;
     cursor: pointer;
     width: 33;
   }
@@ -91,6 +91,8 @@ const WriteBarrierIcon = ({
   return (
     <AuthBarrierIconBlock>
       <div align="center" className="barriericon">
+        <span style={{ fontWeight: 'bold', color: '#2D4059' }}>불편사항</span>
+
         <img
           name="physical"
           src={physicalFlag ? Physical : PhysicalHide}
