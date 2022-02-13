@@ -5,6 +5,8 @@ import ReviewBarrierIcon from './ReviewBarrierIcon';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import palette from '../../../lib/styles/palette';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 
 const ReviewCard = ({ item }) => {
   const myuser = useSelector((state) => state.user.userData);
@@ -70,35 +72,51 @@ const ReviewCard = ({ item }) => {
       <Card
         reviewCard={reviewCard}
         sx={{ maxWidth: 250 }}
-        style={{ cursor: 'pointer' }}
+        style={{ cursor: 'pointer', position: 'relative' }}
       >
+        {/* <span style={{ position: 'absolute', top: '235', float: 'right' }} > */}
         {heart ? (
-          <h3 style={{ color: `${palette.pink[0]}`, cursor: 'pointer' }}>❤</h3>
-        ) : (
-          <h3
-            onClick={onClickHeart}
-            style={{ color: `${palette.pink[0]}`, cursor: 'pointer' }}
-          >
-            ♡
-          </h3>
-        )}
-        <div onClick={onClickCard}>
-          <CardMedia
-            component="img"
-            height="300"
-            image={postPhoto}
-            alt="Dog Picture"
+          <FavoriteIcon
+            style={{
+              color: `${palette.pink[0]}`,
+              cursor: 'pointer',
+              position: 'absolute',
+              top: '10',
+              right: '10',
+            }}
           />
+        ) : (
+          <FavoriteBorderIcon
+            onClick={onClickHeart}
+            style={{
+              color: `${palette.pink[0]}`,
+              cursor: 'pointer',
+              position: 'absolute',
+              top: '10',
+              right: '10',
+            }}
+          />
+        )}
 
-          <CardContent align="left">
-            <Typography variant="body2" color="text.secondary">
-              {postLocation}
-            </Typography>
-            {postTitle}
+        <CardMedia
+          component="img"
+          height="300"
+          image={postPhoto}
+          alt="Dog Picture"
+          // style={{ position: 'relative' }}
+          onClick={onClickCard}
+        />
 
+        <CardContent align="left">
+          <Typography variant="body2" color="text.secondary">
+            {postLocation}
+          </Typography>
+          {postTitle}
+          <div>
+            {' '}
             <ReviewBarrierIcon barriers={barriers}></ReviewBarrierIcon>
-          </CardContent>
-        </div>
+          </div>
+        </CardContent>
       </Card>
     </div>
   );
