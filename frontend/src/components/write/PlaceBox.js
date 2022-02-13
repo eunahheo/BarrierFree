@@ -12,9 +12,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Paper from '@mui/material/Paper';
 import InputBase from '@mui/material/InputBase';
 import IconButton from '@mui/material/IconButton';
-import Icon from '@mui/material/Icon';
 import SearchIcon from '@mui/icons-material/Search';
-import Divider from '@mui/material/Divider';
 
 const PlaceBoxBlock = styled.div`
   width: 100%;
@@ -44,25 +42,26 @@ const PlaceForm = styled.form`
   }
 `;
 
-const PlaceItemBlock = styled.div`
-  display: flex;
-  margin-top: 0.5rem;
-  border-bottom: 1px solid ${palette.gray[0]};
-  padding-bottom: 0.5rem;
-`;
+// const PlaceItemBlock = styled.div`
+//   display: flex;
+//   margin-top: 0.5rem;
+//   border-bottom: 1px solid ${palette.gray[0]};
+//   padding-bottom: 0.5rem;
+// `;
 
-const PlaceItem = React.memo(({ place, onRemove }) => (
-  <div onClick={() => onRemove(place)}>
-    <LocationOnIcon />
-    {place}
-  </div>
-));
+// const PlaceItem = React.memo(({ place, onRemove }) => (
+//   <div onClick={() => onRemove(place)}>
+//     <LocationOnIcon />
+//     {place}
+//   </div>
+// ));
 
 const PlaceBox = ({ onChangePlace, onChangeField, postLocation }) => {
   const [input, setInput] = useState('');
   const [localPlace, setLocalPlace] = useState([]);
   const [searchPlaces, setSearchPlaces] = useState([]);
   const [kakaoMap, setKakaoMap] = useState(false);
+
   const insertPlace = useCallback(
     (postLocation) => {
       if (!postLocation.trim()) return;
@@ -82,46 +81,49 @@ const PlaceBox = ({ onChangePlace, onChangeField, postLocation }) => {
     setInput(e.target.value);
     onChangeField({ key: 'postLocation', value: e.target.value });
   }, []);
-  const onClickPlace = (searchPlace) => {
-    onChangeField({ key: 'postLocation', value: searchPlace.postLocation });
-    onChangeField({ key: 'postAddress', value: searchPlace.postAddress });
-  };
+
+  // const onClickPlace = (searchPlace) => {
+  //   onChangeField({ key: 'postLocation', value: searchPlace.postLocation });
+  //   onChangeField({ key: 'postAddress', value: searchPlace.postAddress });
+  // };
+
   const onSubmit = useCallback(
     (e) => {
       e.preventDefault();
       insertPlace(input.trim());
       setInput('');
-      console.log('장소 등록::', input);
+      // console.log('장소 등록::', input);
     },
     [input, insertPlace],
   );
-  const onClick = async () => {
-    try {
-      const response = await axios({
-        method: 'get',
-        url: '/post/searchLocation',
-        params: { postLocation: postLocation },
-      });
-      console.log(response.data);
-      setSearchPlaces(response.data);
-    } catch (e) {
-      console.log(e.response.data);
-      // fail로 반환
-      // 여기서 카카오 지도 검색으로 넘어가도록 함
-    }
-  };
+  // const onClick = async () => {
+  //   try {
+  //     const response = await axios({
+  //       method: 'get',
+  //       url: '/post/searchLocation',
+  //       params: { postLocation: postLocation },
+  //     });
+  //     console.log(response.data);
+  //     setSearchPlaces(response.data);
+  //   } catch (e) {
+  //     console.log(e.response.data);
+  //     // fail로 반환
+  //     // 여기서 카카오 지도 검색으로 넘어가도록 함
+  //   }
+  // };
+
   useEffect(() => {
     setLocalPlace(postLocation);
   }, [postLocation]);
   useEffect(() => {
     setLocalPlace([]);
   }, []);
-  const [myLocation, setMyLocation] = useState('');
+  // const [myLocation, setMyLocation] = useState('');
 
-  const onLocationClick = (postLocation) => {
-    setMyLocation(postLocation);
-  };
-  const [mystyle, setStyle] = useState("display : 'none'");
+  // const onLocationClick = (postLocation) => {
+  //   setMyLocation(postLocation);
+  // };
+  // const [mystyle, setStyle] = useState("display : 'none'");
 
   // dialog
 
@@ -135,11 +137,11 @@ const PlaceBox = ({ onChangePlace, onChangeField, postLocation }) => {
         url: '/post/searchLocation',
         params: { postLocation: postLocation },
       });
-      console.log(response.data);
+      // console.log(response.data);
       setSearchPlaces(response.data);
       setKakaoMap(false);
     } catch (e) {
-      console.log(e.response.data);
+      // console.log(e.response.data);
       if (e.response.data === 'fail') {
         setKakaoMap(true);
       }
@@ -172,7 +174,7 @@ const PlaceBox = ({ onChangePlace, onChangeField, postLocation }) => {
       <div>
         <PlaceForm onSubmit={onSubmit}>
           <Paper
-            component="form"
+            // component="form"
             sx={{
               p: '2px 4px',
               display: 'flex',
@@ -187,6 +189,7 @@ const PlaceBox = ({ onChangePlace, onChangeField, postLocation }) => {
               placeholder="장소를 입력하세요"
               value={input}
               onChange={onChange}
+              onKeyPress={handleClickOpen('paper')}
             />
             <IconButton
               onClick={handleClickOpen('paper')}
@@ -195,7 +198,6 @@ const PlaceBox = ({ onChangePlace, onChangeField, postLocation }) => {
             >
               <SearchIcon />
             </IconButton>
-            <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
           </Paper>
         </PlaceForm>
         <div>

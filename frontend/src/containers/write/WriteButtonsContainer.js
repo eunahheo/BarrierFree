@@ -1,28 +1,26 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import React from 'react';
 import WriteButtons from '../../components/write/WriteButtons';
-import { initialize, writePost } from '../../_actions/write_actions';
+import { useSelector } from 'react-redux';
 
 const WriteButtonsContainer = ({ uploadImageWithAdtData }) => {
   const myuserData = useSelector((state) => state.user.userData);
-  const writeUserSeq = myuserData.userSeq;
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
+  // const writeUserSeq = myuserData.userSeq;
+  // const navigate = useNavigate();
+  // const dispatch = useDispatch();
   const {
     postTitle,
-    postContent,
-    postLocation,
-    postPoint,
-    deaf,
-    infant,
-    physical,
-    visibility,
-    senior,
-    postAddress,
-    postLat,
-    postLng,
-    postPhoto,
+    // postContent,
+    // postLocation,
+    // postPoint,
+    // deaf,
+    // infant,
+    // physical,
+    // visibility,
+    // senior,
+    // postAddress,
+    // postLat,
+    // postLng,
+    // postPhoto,
   } = useSelector(({ write }) => ({
     postTitle: write.postTitle,
     postContent: write.postContent,

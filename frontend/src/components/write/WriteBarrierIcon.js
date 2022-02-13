@@ -15,9 +15,11 @@ const AuthBarrierIconBlock = styled.div`
   img {
     margin: 1.5rem 0.75rem 0;
     cursor: pointer;
+    width: 33;
   }
   img.active {
     border: 2px solid red;
+    width: 33;
   }
 `;
 
@@ -92,31 +94,31 @@ const WriteBarrierIcon = ({
         <img
           name="physical"
           src={physicalFlag ? Physical : PhysicalHide}
-          width="30"
+          width="35"
           onClick={onClickPhysical}
         ></img>
         <img
           name="visibility"
           src={visibilityFlag ? Visual : VisualHide}
-          width="30"
+          width="35"
           onClick={onClickVisibility}
         ></img>
         <img
           name="deaf"
           src={deafFlag ? Auditory : AuditoryHide}
-          width="30"
+          width="35"
           onClick={onClickDeaf}
         ></img>
         <img
           name="infant"
           src={infantFlag ? Pregnant : PregnantHide}
-          width="30"
+          width="35"
           onClick={onClickInfant}
         ></img>
         <img
           name="senior"
           src={seniorFlag ? Senior : SeniorHide}
-          width="30"
+          width="35"
           onClick={onClickSenior}
         ></img>
       </div>
