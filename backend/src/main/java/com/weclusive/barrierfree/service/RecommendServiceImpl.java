@@ -252,7 +252,7 @@ public class RecommendServiceImpl implements RecommendService {
 				}
 			}
 			
-			System.out.println(pageTours);
+//			System.out.println(pageTours);
 			for(Tourapi t : pageTours) {
 				Map<String, Object> obj = new HashMap<>();
 				obj.put("title", t.getTourapiTitle());
@@ -264,9 +264,13 @@ public class RecommendServiceImpl implements RecommendService {
 				if (scrapRepository.countByDelYnAndScrapTypeAndUserSeqAndScrapData('n', '1', userSeq, t.getContentId()) > 0)
 					scrap_yn = 'y';
 				obj.put("scrap_yn", scrap_yn);
+				obj.put("pageable", pageTours.getPageable());
+				obj.put("totalPages", pageTours.getTotalPages());
+				obj.put("numberOfElements", pageTours.getNumberOfElements());
+				obj.put("totalElements", pageTours.getTotalElements());
+				
 				result.add(obj);
 			}
-			
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new Exception();

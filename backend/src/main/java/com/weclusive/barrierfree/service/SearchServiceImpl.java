@@ -68,14 +68,14 @@ public class SearchServiceImpl implements SearchService {
 			Follow follow = followRepository.findByUserSeqAndFollowingSeqAndDelYn(userSeq, user.getUserSeq(), 'n');
 			if(follow == null) obj.put("isfollow", 'n');
 			else obj.put("isfollow", 'y');
+			obj.put("pageable", pageResult.getPageable());
+			obj.put("totalPages", pageResult.getTotalPages());
+			obj.put("numberOfElements", pageResult.getNumberOfElements());
+			obj.put("totalElements", pageResult.getTotalElements());
 			
 			result.add(obj);
 		});
-		Map<String, Object> paging = new HashMap<>();
-		paging.put("pageable", pageResult.getPageable());
-		paging.put("totalPages", pageResult.getTotalPages());
-		paging.put("numberOfElements", pageResult.getNumberOfElements());
-		
+		 
 		return result;
 	}
 
@@ -104,15 +104,14 @@ public class SearchServiceImpl implements SearchService {
 			if (scrapRepository.countByDelYnAndScrapTypeAndUserSeqAndScrapData('n', '0', userSeq,
 					post.getPostSeq()) > 0)
 				scrap_yn = 'y';
-			obj.put("scrap_yn", scrap_yn);
+			obj.put("scrap_yn", scrap_yn); 
+			obj.put("pageable", pageResult.getPageable());
+			obj.put("totalPages", pageResult.getTotalPages());
+			obj.put("numberOfElements", pageResult.getNumberOfElements());
+			obj.put("totalElements", pageResult.getTotalElements());
+			
 			result.add(obj);
 		});
-		Map<String, Object> paging = new HashMap<>();
-		paging.put("pageable", pageResult.getPageable());
-		paging.put("totalPages", pageResult.getTotalPages());
-		paging.put("numberOfElements", pageResult.getNumberOfElements());
-		result.add(paging);
-		
 		return result;
 	}
 
@@ -123,7 +122,6 @@ public class SearchServiceImpl implements SearchService {
 		List<JSONObject> result = new ArrayList<>();
 		PageRequest pageRequest = PageRequest.of(page, size);
 		Page<Tourapi> pageTours = tourapiRepository.findByTourapiTitleContainingAndTourapiContenttypeid(keyword, contentTypeId, pageRequest);
-		
 		List<Tourapi> tours = pageTours.getContent();
 		for (int i = 0; i < tours.size(); i++) {
 
@@ -139,7 +137,7 @@ public class SearchServiceImpl implements SearchService {
 			for (String imp : impairments) {
 				impairment.add(imp);
 			}
-			
+			 
 			obj.put("contentid", contentid);
 			obj.put("title", tourapi.getTourapiTitle());
 			obj.put("firstimage", tourapi.getTourapiImage());
@@ -151,10 +149,10 @@ public class SearchServiceImpl implements SearchService {
 			obj.put("pageable", pageTours.getPageable());
 			obj.put("totalPages", pageTours.getTotalPages());
 			obj.put("numberOfElements", pageTours.getNumberOfElements());
+			obj.put("totalElements", pageTours.getTotalElements());
 
 			result.add(obj);
 		}
 		return result;
 	}
-
 }
