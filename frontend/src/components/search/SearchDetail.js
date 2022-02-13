@@ -6,7 +6,7 @@ import SearchCardList from './SearchCardList.js';
 import { useNavigate } from '../../../node_modules/react-router/index.js';
 import { Container } from '@material-ui/core';
 
-const SearchDetail = ( {number, searchItem } ) => {
+const SearchDetail = ( {number, searchItem, noresult } ) => {
   const [searchList, setSearchList] = useState([]);
   const myuser = useSelector((state) => state.user.userData);
   const location = useLocation();
@@ -43,8 +43,12 @@ const SearchDetail = ( {number, searchItem } ) => {
   return (
     <Container maxWidth="md">
     <div>
-      {/* <p onClick={onClickToSearch}>검색창으로 돌아가기</p> */}
-      <SearchCardList itemList={searchList}></SearchCardList>
+      {searchList.length > 0? 
+      <SearchCardList itemList={searchList}></SearchCardList>:
+      <div>
+      <p>{noresult}</p>
+    </div>
+      }
     </div>
     </Container>
   );

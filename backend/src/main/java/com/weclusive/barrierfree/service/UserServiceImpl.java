@@ -414,9 +414,9 @@ public class UserServiceImpl implements UserService {
 	public boolean modifyUser(User user) throws Exception{
 		try {
 			User newUser = userRepository.findByUserSeq(user.getUserSeq());
-			newUser.setUserNickname(user.getUserNickname());
-			newUser.setUserPwd(passwordEncoder.encode(user.getUserPwd()));
-			newUser.setUserPhoto(user.getUserPhoto());
+			if(user.getUserNickname()!=null) newUser.setUserNickname(user.getUserNickname());
+			if(user.getUserPwd()!=null)  newUser.setUserPwd(passwordEncoder.encode(user.getUserPwd()));
+			if(user.getUserPhoto()!=null) newUser.setUserPhoto(user.getUserPhoto());
 			newUser.setModDt(TimeUtils.curTime());
 			newUser.setModId(userRepository.findByUserSeq(user.getUserSeq()).getUserId());
 			
