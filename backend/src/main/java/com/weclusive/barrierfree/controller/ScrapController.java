@@ -87,9 +87,9 @@ public class ScrapController {
 	}
 	
 	@PutMapping(value = "/delete")
-	@ApiOperation(value = "스크랩 취소하기", response = List.class)
-	public ResponseEntity<Object> deleteScrap(@RequestParam long scrapSeq, @RequestParam int userSeq) throws Exception {
-		Optional<Scrap> result = scrapService.deleteByScrapSeq(scrapSeq, userSeq);
+	@ApiOperation(value = "스크랩 취소하기", response = Map.class)
+	public ResponseEntity<Object> deleteScrap(@RequestParam char scrap_type, @RequestParam long scrap_data, @RequestParam int user_seq) throws Exception {
+		Map<String,Integer> result = scrapService.deleteByScrapSeq(scrap_type, scrap_data, user_seq);
 
 		if (result == null)
 			return new ResponseEntity<>(FAIL, HttpStatus.BAD_REQUEST);

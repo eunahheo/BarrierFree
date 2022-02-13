@@ -26,6 +26,7 @@ public interface UserService {
 	public Map<String, Object> userInfo(String userId);
 	public void logoutUser(String accessToken);
 	public boolean modifyUser(User user) throws Exception;
+	public int updateUserImpairmentByUserSeq(int userSeq, Impairment impairment) throws Exception;
 	public boolean withdrawUser(int userSeq) throws Exception;
 	
 	// Token

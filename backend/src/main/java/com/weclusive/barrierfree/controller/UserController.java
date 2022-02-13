@@ -1,6 +1,7 @@
 package com.weclusive.barrierfree.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.mail.MessagingException;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.weclusive.barrierfree.dto.Impairment;
 import com.weclusive.barrierfree.dto.UserFind;
 import com.weclusive.barrierfree.dto.UserJoin;
 import com.weclusive.barrierfree.dto.UserJoinKakao;
@@ -256,5 +258,24 @@ public class UserController {
 			result.put("result", FAIL);
 			return new ResponseEntity<Map<String, Object>>(result, HttpStatus.BAD_REQUEST);
 		}
+	}
+	
+	@PutMapping(value = "/updateImpairment")
+	@ApiOperation(value = "사용자 장애 정보 수정하기", response = List.class)
+	public ResponseEntity<String> updatePostImpairment(@RequestParam int userSeq, @RequestBody Impairment impairment) {
+		int res;
+		try {
+			res = userService.updateUserImpairmentByUserSeq(userSeq, impairment);
+			if (res == 1)
+				return new ResponseEntity<String>(SUCCESS + " : 수정", HttpStatus.OK);
+			else
+				return new ResponseEntity<String>(SUCCESS + " : 수정 사항 없음", HttpStatus.OK);
+				
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<String>(FAIL, HttpStatus.BAD_REQUEST);
+		}
+
+		
 	}
 }
