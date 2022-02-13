@@ -73,6 +73,9 @@ const Review = () => {
   const onCommentHandler = (event) => {
     setNewComment(event.target.value);
   };
+  const onCommentReset = () => {
+    setNewComment('');
+  };
 
   const [loading, setLoading] = useState(false);
   const [checkFw, setCheckFw] = useState(false);
@@ -80,12 +83,12 @@ const Review = () => {
   // review 창이 뜨자 마자 불러와져야할 것들
   useEffect(() => {
     getDetailFn();
-    getCommentList();
   }, []);
 
-  // useEffect(() => {
-  //   getCommentList();
-  // }, []);
+  useEffect(() => {
+    getCommentList();
+  }, [comments]);
+
   async function getDetailFn() {
     setLoading(true);
     try {
@@ -149,10 +152,11 @@ const Review = () => {
         userSeq: myuser.userSeq,
       };
       dispatch(commentSave(body));
+      alert('댓글 작성이 완료되었습니다. 😉');
     } else {
       alert('댓글을 입력해주세요 😉');
     }
-    getCommentList();
+    onCommentReset();
   };
 
   const onRemove = (id) => {
@@ -218,7 +222,7 @@ const Review = () => {
                   <p>사진을 누르시면 사진 설명을 들으실 수 있어요 🎧</p>
                 </div>
                 <div class="review-content">
-                  {reviewDetail.userSeq == myuser.userSeq? (
+                  {reviewDetail.userSeq == myuser.userSeq ? (
                     <div class="button-top">
                       <button variant="contained" id="update">
                         수정
@@ -227,7 +231,9 @@ const Review = () => {
                         삭제
                       </button>
                     </div>
-                  ): <span></span>}
+                  ) : (
+                    <span></span>
+                  )}
                   <h1>{reviewDetail.postTitle}</h1>
                   <div>
                     <div style={{ cursor: 'pointer' }}>
