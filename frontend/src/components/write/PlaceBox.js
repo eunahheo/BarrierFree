@@ -77,6 +77,7 @@ const PlaceBox = ({ onChangePlace, onChangeField, postLocation }) => {
   const [kakaoMap, setKakaoMap] = useState(false);
   const [places, setPlaces] = useState([]);
   const [value, setValue] = useState('');
+
   const insertPlace = useCallback(
     (postLocation) => {
       if (!postLocation.trim()) return;
@@ -341,23 +342,23 @@ const PlaceBox = ({ onChangePlace, onChangeField, postLocation }) => {
                   <div
                     onClick={() => {
                       onChangeField({
-                        key: 'postLocation',
+                        key: 'post_location',
                         value: searchPlace.postLocation,
                       });
                       onChangeField({
-                        key: 'postAddress',
+                        key: 'post_address',
                         value: searchPlace.postAddress,
                       });
                       onChangeField({
-                        key: 'postLat',
+                        key: 'post_lat',
                         value: searchPlace.postLat,
                       });
                       onChangeField({
-                        key: 'postLng',
+                        key: 'post_lng',
                         value: searchPlace.postLng,
                       });
                       onChangeField({
-                        key: 'contentId',
+                        key: 'content_id',
                         value: searchPlace.contentId,
                       });
                       setInput(searchPlace.postLocation);
