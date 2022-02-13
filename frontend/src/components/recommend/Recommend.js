@@ -1,11 +1,10 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState } from 'react';
 import Physical from '../images/Physical.png';
 import Auditory from '../images/Auditory.png';
 import Pregnant from '../images/Pregnant.png';
 import Senior from '../images/Senior.png';
 import Visual from '../images/Visual.png';
 import {
-  Button,
   FormControl,
   InputLabel,
   MenuItem,
@@ -14,18 +13,15 @@ import {
 import axios from 'axios';
 import RecommendCardList from './RecommendCardList.js';
 import { Container } from '@material-ui/core';
-import RecommendCategories from './RecommendCategories';
 import { useSelector } from 'react-redux';
 import './Recommend.css';
-import qs from 'qs'
+import qs from 'qs';
+import Button from '../common/Button';
+import RecommendList from './RecommendList';
+import RecommendDetail from './RecommendDetail';
 
 const Recommend = () => {
   const myuser = useSelector((state) => state.user.userData);
-  const [category, setCategory] = useState('all');
-  const onSelect = useCallback(
-    (category) => (setCategory(category), console.log(category)),
-    [],
-  );
 
   // 시도 설정
   const [cityList, setCityList] = useState([]);
@@ -42,7 +38,9 @@ const Recommend = () => {
   const [searchPartyList, setSearchPartyList] = useState([]);
   const [noresult, setNoresult] = useState('');
   const [search, setSearch] = useState(false);
-  const [click, setClick] = useState(false);
+  const [findSearch, setFindSearch] = useState(false);
+  const [number, setNumber] = useState(0);
+  const [title, setTitle] = useState('');
 
 
   useEffect(() => {
@@ -75,7 +73,7 @@ const Recommend = () => {
             radius: 5000,
             userSeq: myuser.userSeq,
             page: 1,
-            size: 20,
+            size: 4,
           },
         }).then(function (res) {
           if (res.data === '검색결과가 없습니다.') {
@@ -168,8 +166,8 @@ const Recommend = () => {
         userSeq: myuser.userSeq,
         contentTypeId: impairmentNums[i],
         impairments: barrier,
-        page: 0,
-        size: 12,
+        page: 1,
+        size: 4,
       };
       axios({
         method: 'GET',
@@ -211,48 +209,15 @@ const Recommend = () => {
               setNoresult('검색 내용이 없습니다 😥');
             }
           }
+          setFindSearch(false);
         });
-        // if (barrier.length > 0) {
-        //   for (let i = 0; barrier.length > i; i++ ) {
-        //     let current = document.getElementById(barrier[i]);
-        //     current.style.border= null;
-        //   }
-        // }
-        // setCity('');
-        // setTown('');
-        // setBarrier([]);
-      } else if ((city, town)) {
-        let data = {
-          sidoCode: cityNum,
-          sigunguCode: townNum,
-          userSeq: myuser.userSeq,
-          contentTypeId: impairmentNums[i],
-          page: 0,
-          size: 10,
-        };
-        axios({
-          method: 'GET',
-          url: '/recommend/search',
-          params: data,
-        })
-        .catch('hey');
-      // if (barrier.length > 0) {
-      //   for (let i = 0; barrier.length > i; i++ ) {
-      //     let current = document.getElementById(barrier[i]);
-      //     current.style.border= null;
-      //   }
-      // }
-
-      // setCity('');
-      // setTown('');
-      // setBarrier([]);
-    } else if (barrier) {
+      } else if (barrier) {
       let data = {
         userSeq: myuser.userSeq,
         contentTypeId: impairmentNums[i],
         impairments: barrier,
-        page: 0,
-        size: 12,
+        page: 1,
+        size: 4,
       };
       axios({
         method: 'GET',
@@ -294,26 +259,16 @@ const Recommend = () => {
             setNoresult('검색 내용이 없습니다 😥');
           }
         }
+        setFindSearch(false);
       });
-
-      // if (barrier.length > 0) {
-      //   for (let i = 0; barrier.length > i; i++ ) {
-      //     let current = document.getElementById(barrier[i]);
-      //     current.style.border= null;
-      //   }
-      // }
-
-      // setCity('');
-      // setTown('');
-      // setBarrier([]);
-    } else if ((city, town)) {
+    } else if (city && town) {
       let data = {
         sidoCode: cityNum,
         sigunguCode: townNum,
         userSeq: myuser.userSeq,
         contentTypeId: impairmentNums[i],
-        page: 0,
-        size: 12,
+        page: 1,
+        size: 4,
       };
       axios({
         method: 'GET',
@@ -352,13 +307,49 @@ const Recommend = () => {
               setNoresult('검색 내용이 없습니다 😥');
             }
           }
+          setFindSearch(false);
         })
-        .catch('hey');
-
-      // setCity('');
-      // setTown('');
+    } else if (city) {
+      alert('시군구 정보가 필요합니다.')
+    } else if (city && barrier) {
+      alert('시군구 정보가 필요합니다.')
     }
   };
+
+  const onClickTotal = () => {
+    setFindSearch(false);
+    setNumber(0)
+  };
+
+  const onClickLocation = () => {
+    setTitle('명소')
+    setFindSearch(true);
+    setNumber(12)
+  };
+
+  const onClickFood = () => {
+    setFindSearch(true);
+    setNumber(39)
+    setTitle('음식점')
+  };
+
+  const onClickHome = () => {
+    setFindSearch(true);
+    setNumber(32)
+    setTitle('숙박시설')
+  };
+
+  const onClickParty = () => {
+    setFindSearch(true);
+    setNumber(15)
+    setTitle('행사')
+  };
+
+  const changeFindSearch = () => {
+    setFindSearch(true)
+    setNumber(15)
+    setTitle('행사')
+  }
 
   const onClickReset = () => {
     if (barrier.length > 0) {
@@ -427,75 +418,56 @@ const Recommend = () => {
             </Button>
           </div>
         </div>
-        <RecommendCategories
-          category={category}
-          onClick={onSelect}
-        ></RecommendCategories>
+        <div>
+          {search === false ? 
+            <div>
+              {itemList.length > 0 ?
+                <div>
+                  <RecommendCardList
+                    itemList={itemList}
+                  ></RecommendCardList>
+                </div>
+              : <div>{noresult}</div>}
+            </div> : (findSearch === false ?
+            <div>
+              <div>
+                <Button onClick={onClickTotal}>전체</Button>
+                <Button onClick={onClickLocation}>명소</Button>
+                <Button onClick={onClickFood}>음식점</Button>
+                <Button onClick={onClickHome}>숙박시설</Button>
+                <Button onClick={onClickParty}>행사</Button>
+              </div>
+              <RecommendList
+              class="card-list"
+              changeFindSearch={changeFindSearch}
+              setNumber={setNumber}
+              setTitle={setTitle}
+              searchLocationList={searchLocationList} 
+              noresult={noresult} 
+              searchFoodList={searchFoodList} 
+              searchHomeList={searchHomeList} 
+              searchPartyList={searchPartyList}>
+              </RecommendList>
 
-        {search == false ? (
-          <div>
-            {itemList.length > 0 ? (
-              <div>
-                <RecommendCardList
-                  itemList={itemList}
-                  category={category}
-                ></RecommendCardList>
+            </div> : <div>
+            <div>
+              <Button onClick={onClickTotal}>전체</Button>
+              <Button onClick={onClickLocation}>명소</Button>
+              <Button onClick={onClickFood}>음식점</Button>
+              <Button onClick={onClickHome}>숙박시설</Button>
+              <Button onClick={onClickParty}>행사</Button>
               </div>
-            ) : (
-              <div>{noresult}</div>
-            )}
-          </div>
-        ) : (
-          <div>
-            <h2>명소</h2>
-            {searchLocationList.length > 0 ? (
-              <div>
-                <RecommendCardList
-                  itemList={searchLocationList}
-                  category={category}
-                ></RecommendCardList>
-              </div>
-            ) : (
-              <div>{noresult}</div>
-            )}
-            <h2>음식점</h2>
-            {searchFoodList.length > 0 ? (
-              <div>
-                <RecommendCardList
-                  itemList={searchFoodList}
-                  category={category}
-                ></RecommendCardList>
-              </div>
-            ) : (
-              <div>{noresult}</div>
-            )}
-            <h2>숙박시설</h2>
-            {searchHomeList.length > 0 ? (
-              <div>
-                <RecommendCardList
-                  itemList={searchHomeList}
-                  category={category}
-                ></RecommendCardList>
-              </div>
-            ) : (
-              <div>{noresult}</div>
-            )}
-            <h2>행사</h2>
-            {searchPartyList.length > 0 ? (
-              <div>
-                <RecommendCardList
-                  itemList={searchPartyList}
-                  category={category}
-                ></RecommendCardList>
-              </div>
-            ) : (
-              <div>{noresult}</div>
-            )}
-          </div>
-        )}
+              <h2 class="title">{title}</h2>
+            <RecommendDetail noresult={noresult} number={number} city={city} town={town} barrier={barrier}></RecommendDetail>
+            </div>)}
+        </div>
       </Container>
     </div>
   );
 };
 
+// changeFindSearch={changeFindSearch}
+//               setNumber={setNumber}
+//               setTitle={setTitle}
 export default Recommend;
+

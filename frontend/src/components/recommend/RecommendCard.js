@@ -12,21 +12,39 @@ const RecommendCard = ({ item }) => {
   const { addr1, contentid, firstimage, scrap_yn, title } = item;
   const myuser = useSelector((state) => state.user.userData);
   const infomationCard = item.contentid;
-  
+
   useEffect(() => {
-    onGetBarriers()
-  }, [])
-  
+    onGetBarriers();
+  }, []);
+
   const onGetBarriers = () => {
     axios({
       method: 'GET',
       url: 'recommend/impairment',
-      params: {contentid: contentid}
+      params: { contentid: contentid },
     }).then(function (res) {
-      setBarrier(res.data)
-    })
-  }
-  
+      var i = 0;
+      // console.log(res.data.infant);
+      var array = [];
+      if (res.data.physical != null) {
+        array[i++] = 'physical';
+      }
+      if (res.data.visibility != null) {
+        array[i++] = 'visibility';
+      }
+      if (res.data.deaf != null) {
+        array[i++] = 'deaf';
+      }
+      if (res.data.infant != null) {
+        array[i++] = 'infant';
+      }
+      if (res.data.senior != null) {
+        array[i++] = 'senior';
+      }
+      // console.log(array);
+      setBarrier(array);
+    });
+  };
   // 카드를 눌렀을 때 이동
   const onClickCard = () => {
     if (myuser) {
@@ -64,7 +82,8 @@ const RecommendCard = ({ item }) => {
             {title}
           </Typography>
           {title}
-          {/* <RecommendBarrierIcon barriers={barriers}></RecommendBarrierIcon> */}
+
+          <RecommendBarrierIcon barriers={barriers}></RecommendBarrierIcon>
         </CardContent>
       </Card>
       {/* </Link> */}

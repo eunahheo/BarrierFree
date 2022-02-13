@@ -1,19 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import axios from '../../../node_modules/axios/index';
 import { useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom';
 import SearchCardList from './SearchCardList.js';
-import { useNavigate } from '../../../node_modules/react-router/index.js';
 import { Container } from '@material-ui/core';
+import Pagination from "react-js-pagination";
+import "./SearchDetail.css"
 
-const SearchDetail = ( {number, searchItem } ) => {
+const SearchDetail = ( {number, searchItem, noresult } ) => {
   const [searchList, setSearchList] = useState([]);
   const myuser = useSelector((state) => state.user.userData);
-  const location = useLocation();
-  // console.log(location);
-  // const number = location.state.number;
-  // const searchItem = location.state.searchItem;
-  const navigate = useNavigate();
+  const [page, setPage] = useState(1);
+  const [lastpage, setLastpage] = useState(1);
+  const [totalItem, setTotalItem] = useState(0);
 
   const getSearchDetail = () => {
     axios({
@@ -22,31 +20,48 @@ const SearchDetail = ( {number, searchItem } ) => {
       params: {
         contentTypeId: number,
         keyword: searchItem,
-        page: 0,
+        page: page,
         size: 12,
         userSeq: myuser.userSeq,
       },
     }).then((res) => {
-      console.log(res);
       setSearchList(res.data);
+      setLastpage(res.data[0].totalPages)
+      setTotalItem(res.data[0].totalElements)
     });
   };
 
   useEffect(() => {
     getSearchDetail();
-  }, [number]);
+  }, [number, page]);
 
-  // const onClickToSearch = () => {
-  //   navigate('/search');
-  // };
+  const handlePageChange = (page) => {
+    setPage(page);
+    console.log(page);
+  };
 
   return (
-    <Container maxWidth="md">
     <div>
-      {/* <p onClick={onClickToSearch}>검색창으로 돌아가기</p> */}
-      <SearchCardList itemList={searchList}></SearchCardList>
+      {searchList.length > 0? 
+      <div>
+        <SearchCardList itemList={searchList}></SearchCardList>
+        <Pagination
+          activePage={page}
+          itemsCountPerPage={12}
+          totalItemsCount={totalItem}
+          pageRangeDisplayed={5}
+          prevPageText={"<"}
+          nextPageText={">"}
+          onChange={handlePageChange}
+        ></Pagination>
+      </div>
+      
+      :
+      <div>
+      <p>{noresult}</p>
     </div>
-    </Container>
+      }
+    </div>
   );
 };
 

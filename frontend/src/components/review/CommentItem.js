@@ -78,7 +78,7 @@ const CommentItem = ({ comment, onRemove }) => {
       </div>
       <div class="comment-info">
         <div>
-          <p class="comment-userid">{comment.comment.regId}</p>
+          <p class="comment-userid">{comment.userInfo[0]}</p>
           {check == true ? (
             <div class="modifyt-box">
               <form onSubmit={onUpdateHandler}>

@@ -112,7 +112,7 @@ const UserHeader = ({ onPost, onFollowing, onFollower, onScrap }) => {
   useEffect(() => {
     getUserHeader();
   }, [currentUser, checkrelation]);
-
+  console.log(userHeaderInfo);
   return (
     <UserHeaderBox>
       <div>

@@ -19,6 +19,26 @@ import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../_actions/user_actions';
 import BarrierFreeLogo from '../images/barrierfreelogo.png';
 
+const HeaderBox = styled.div`
+  display: flex;
+  flex-dirextion: row;
+  align-items: center;
+  justify-content: flex-start;
+
+  .toggle {
+    text-align: center;
+    margin: auto;
+    width: 50px;
+    height: 50px;
+    border-radius: 100px;
+    box-sizing: border-box;
+    &:hover {
+      color: white;
+      cursor: pointer;
+    }
+  }
+`;
+
 const HeaderBlock = styled.div`
   position: fixed;
   z-index: 100;
@@ -77,7 +97,8 @@ const Header = ({ user, onLogout }) => {
     setAnchorElUser(null);
   };
   const navigate = useNavigate();
-
+  // console.log('header', user.userPhoto);
+  console.log('headeruser', user);
   return (
     <>
       <HeaderBlock>
@@ -101,14 +122,14 @@ const Header = ({ user, onLogout }) => {
             onClick={() => {
               navigate('/recommend');
             }}
-            // onClick={() => {
-            //   if (user) {
-            //     navigate('/recommend');
-            //   } else {
-            //     alert('로그인이 필요합니다!🤗');
-            //     navigate('/loginpage');
-            //   }
-            // }}
+            onClick={() => {
+              if (user) {
+                navigate('/recommend');
+              } else {
+                alert('로그인이 필요합니다!🤗');
+                navigate('/loginpage');
+              }
+            }}
           >
             <h4>여행추천</h4>
           </div>
@@ -132,6 +153,7 @@ const Header = ({ user, onLogout }) => {
             <h4>About</h4>
           </div>
           {/* 로그인 유무에 따른 헤더 버튼 변경 */}
+          {/* <img className="toggle" alt="Remy Sharp" src={user.userPhoto} /> */}
           {user ? (
             // 1. 로그인 되어 있을 때
             <div className="right">
@@ -139,6 +161,7 @@ const Header = ({ user, onLogout }) => {
                 <MyButton onClick={onLogout}>로그아웃</MyButton>
               </Link>
               &nbsp; */}
+              {/* <img src={user.userPhoto}></img> */}
               <Box sx={{ flexGrow: 0 }}>
                 <Tooltip title="Open settings">
                   <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
@@ -150,7 +173,10 @@ const Header = ({ user, onLogout }) => {
                     >
                       {user.userNickname}님
                     </p>
-                    <Avatar alt="Remy Sharp" src={user.userPhoto} />
+                    <HeaderBox>
+                      {/* <img src={user.userPhoto} className="toggle"></img> */}
+                      <img src={user.userPhoto} className="toggle"></img>
+                    </HeaderBox>
                   </IconButton>
                 </Tooltip>
                 <Menu
@@ -158,7 +184,7 @@ const Header = ({ user, onLogout }) => {
                   // style={{ background: "red" }}
                   sx={{ mt: '45px' }}
                   id="menu-appbar"
-                  // src={user.userPhoto}
+                  src={user.userPhoto}
                   anchorEl={anchorElUser}
                   anchorOrigin={{
                     vertical: 'top',
@@ -179,15 +205,6 @@ const Header = ({ user, onLogout }) => {
                     }}
                   >
                     <Typography textAlign="center">내 계정 보기</Typography>
-                  </MenuItem>
-
-                  <MenuItem
-                    onClick={() => {
-                      navigate('/userpost');
-                      handleCloseUserMenu();
-                    }}
-                  >
-                    <Typography textAlign="center">내 스크랩 보기</Typography>
                   </MenuItem>
 
                   <MenuItem

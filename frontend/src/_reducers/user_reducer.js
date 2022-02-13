@@ -18,6 +18,8 @@ export default function reducer(state = initialState, action) {
     case LOGOUT:
       localStorage.removeItem('persist:root');
       localStorage.removeItem('accessToken');
+      // 로그아웃하면 화면 자동 새로고침
+      window.location.replace('/');
       return { ...state, userData: null, loginSuccess: null };
 
     default:

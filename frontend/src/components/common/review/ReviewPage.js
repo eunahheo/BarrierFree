@@ -75,26 +75,44 @@ const ReviewPage = () => {
   useEffect(() => {
     if (myuser) {
       setCurrentUser(myuser.userSeq);
+      console.log('myuserseq', myuser.userSeq);
+    } else {
+      setCurrentUser(0);
+      console.log('myuserseq', myuser);
     }
     const tmp = () => {
-      axios({
-        method: 'get',
-        url: '/main/recently',
-        params: {
-          userSeq: currentUser,
-        },
-      })
-        .then(function (res) {
-          mysetItemList(res.data);
+      if (myuser) {
+        axios({
+          method: 'get',
+          url: '/main/recently',
+          params: {
+            userSeq: myuser.userSeq,
+          },
         })
-        .catch((error) => console.log(error));
+          .then(function (res) {
+            mysetItemList(res.data);
+          })
+          .catch((error) => console.log(error));
+      } else {
+        axios({
+          method: 'get',
+          url: '/main/recently',
+          params: {
+            userSeq: 0,
+          },
+        })
+          .then(function (res) {
+            mysetItemList(res.data);
+          })
+          .catch((error) => console.log(error));
+      }
     };
     tmp();
-  }, []);
+  }, [myuser]);
 
   return (
     <div class="box">
-      <h1>Review in here</h1>
+      <h1> </h1>
       <Button order onClick={orderbylatest}>
         최신순
       </Button>
