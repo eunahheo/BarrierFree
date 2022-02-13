@@ -19,6 +19,26 @@ import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../_actions/user_actions';
 import BarrierFreeLogo from '../images/barrierfreelogo.png';
 
+const ReviewBox = styled.div`
+  display: flex;
+  flex-dirextion: row;
+  align-items: center;
+  justify-content: flex-start;
+
+  .toggle {
+    text-align: center;
+    margin: auto;
+    width: 50px;
+    height: 50px;
+    border-radius: 100px;
+    box-sizing: border-box;
+    &:hover {
+      color: white;
+      cursor: pointer;
+    }
+  }
+`;
+
 const HeaderBlock = styled.div`
   position: fixed;
   z-index: 100;
@@ -150,7 +170,11 @@ const Header = ({ user, onLogout }) => {
                     >
                       {user.userNickname}님
                     </p>
-                    <Avatar alt="Remy Sharp" src={user.userPhoto} />
+                    <img
+                      className="toggle"
+                      alt="Remy Sharp"
+                      src={user.userPhoto}
+                    />
                   </IconButton>
                 </Tooltip>
                 <Menu
