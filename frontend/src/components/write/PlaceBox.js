@@ -131,9 +131,9 @@ const PlaceBox = ({ onChangePlace, onChangeField, postLocation }) => {
   }, []);
   const [myLocation, setMyLocation] = useState('');
 
-  const onLocationClick = (postLocation) => {
-    setMyLocation(postLocation);
-  };
+  // const onLocationClick = (postLocation) => {
+  //   setMyLocation(postLocation);
+  // };
   // const [mystyle, setStyle] = useState("display : 'none'");
 
   // dialog
