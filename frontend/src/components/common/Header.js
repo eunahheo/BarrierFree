@@ -152,6 +152,7 @@ const Header = ({ user, onLogout }) => {
             <h4>About</h4>
           </div>
           {/* 로그인 유무에 따른 헤더 버튼 변경 */}
+          <img className="toggle" alt="Remy Sharp" src={user.userPhoto} />
           {user ? (
             // 1. 로그인 되어 있을 때
             <div className="right">
@@ -171,11 +172,6 @@ const Header = ({ user, onLogout }) => {
                     >
                       {user.userNickname}님
                     </p>
-                    <img
-                      className="toggle"
-                      alt="Remy Sharp"
-                      src={user.userPhoto}
-                    />
                   </IconButton>
                 </Tooltip>
                 <Menu
