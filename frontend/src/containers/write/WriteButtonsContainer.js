@@ -1,25 +1,27 @@
 import React from 'react';
 import WriteButtons from '../../components/write/WriteButtons';
 import { useSelector } from 'react-redux';
-
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 const WriteButtonsContainer = ({ uploadImageWithAdtData }) => {
-  const myuserData = useSelector((state) => state.user.userData);
+  const myuser = useSelector((state) => state.user.userData);
   // const writeUserSeq = myuserData.userSeq;
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   // const dispatch = useDispatch();
   const {
     postTitle,
     postContent,
     postLocation,
-    // postPoint,
+    postSeq,
+    postPoint,
+    postAddress,
+    postLat,
+    postLng,
     // deaf,
     // infant,
     // physical,
     // visibility,
     // senior,
-    // postAddress,
-    // postLat,
-    // postLng,
     // postPhoto,
   } = useSelector(({ write }) => ({
     postTitle: write.postTitle,
@@ -35,9 +37,34 @@ const WriteButtonsContainer = ({ uploadImageWithAdtData }) => {
     postLat: write.postLat,
     postLng: write.postLng,
     postPhoto: write.postPhoto,
+    postSeq: write.postSeq,
   }));
 
   const onPublish = () => {
+    if (postSeq) {
+      axios({
+        method: 'put',
+        url: '/post/update',
+        data: {
+          contentId: 0,
+          postAddress,
+          postContent,
+          postLat,
+          postLng,
+          postLocation,
+          postPoint,
+          postTitle,
+          userSeq: myuser.userSeq,
+        },
+        params: {
+          postSeq,
+          userSeq: myuser.userSeq,
+        },
+      }).then(alert('수정이 완료되었습니다!'), navigate('/'));
+
+      // .catch(console.log(error));
+      return;
+    }
     if (!postTitle) {
       alert('글을 작성해주세요!😉');
       return;
@@ -47,7 +74,11 @@ const WriteButtonsContainer = ({ uploadImageWithAdtData }) => {
       return;
     }
     if (!postLocation) {
-      alert('장소를 검색하거나 입력해주세요!😉');
+      alert('장소를 검색하여 클릭해 주세요!😉');
+      return;
+    }
+    if (!postAddress) {
+      alert('장소를 검색하여 클릭해 주세요!😉');
       return;
     }
     uploadImageWithAdtData();

@@ -57,7 +57,7 @@ const Review = () => {
   const pageNum = useParams();
   const reviewNum = Number(pageNum.reviewCard);
   const myuser = useSelector((state) => state.user.userData);
-
+  const [postInfo, setPostInfo] = useState(null);
   // review 내용 불러오기 위한 const
   // debugger;
   const [reviewDetail, setReviewDetail] = useState([]);
@@ -96,7 +96,7 @@ const Review = () => {
       if (res.data.scarp_yn === 'y') {
         setHeart(true);
       }
-      console.log(res.data.scrap_yn);
+      // console.log(res.data.scrap_yn);
     });
     //     }),
     // catch (e) {
@@ -117,6 +117,8 @@ const Review = () => {
         url: '/post/detail',
         params: { postSeq: reviewNum },
       });
+      console.log(res.data[0]);
+      setPostInfo(res.data[0]);
       setReviewDetail(res.data[0].post);
       setBarriers(res.data[0].impairment);
       setReviewPoint(res.data[0].post.postPoint);
@@ -257,7 +259,7 @@ const Review = () => {
   // 게시글 수정
   // console.log('reviewDeatil', reviewDetail);
   const onEdit = () => {
-    dispatch(setPostContent(reviewDetail));
+    dispatch(setPostContent(postInfo));
     navigate('/write');
   };
   return (

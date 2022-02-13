@@ -185,7 +185,7 @@ const PlaceBox = ({ onChangePlace, onChangeField, postLocation }) => {
             <InputBase
               sx={{ ml: 1, flex: 1 }}
               placeholder="장소를 입력하세요"
-              value={input}
+              value={postLocation}
               onChange={onChange}
             />
             {/* <IconButton

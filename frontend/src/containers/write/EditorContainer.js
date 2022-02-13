@@ -6,7 +6,7 @@ import { initialize, changeField } from '../../_actions/write_actions';
 const EditorContainer = () => {
   const dispatch = useDispatch();
   const myuserData = useSelector((state) => state.user.userData);
-  const writeUserSeq = myuserData.userSeq;
+  const userSeq = myuserData.userSeq;
   // 리덕스 스토어에서 title과 body를 불러옴
   // write라는 state를 찾고, 그것의 title과 body를 찾음
   // const { postTitle, postContent, postPoint } = useSelector(({ write }) => ({
@@ -71,7 +71,7 @@ const EditorContainer = () => {
       postContent={postContent}
       postPoint={postPoint}
       postLocation={postLocation}
-      writeUserSeq={writeUserSeq}
+      userSeq={userSeq}
       deaf={deaf}
       infant={infant}
       physical={physical}
