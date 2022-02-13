@@ -84,6 +84,7 @@ const Editor = ({
   postPhoto,
   onChangeField,
   contentId,
+  postAlt,
 }) => {
   // const [files, setFiles] = useState('');
   // const [point, setPoint] = useState(0);
@@ -112,7 +113,7 @@ const Editor = ({
   const dispatch = useDispatch();
   const [imagePreview, setImagePreview] = useState(null);
   const [imageData, setImageData] = useState(null);
-  const [imageName, setImageName] = useState('');
+  const [imageName, setImageName] = useState(postAlt);
   // const [imageFile, setImageFile] = useState(null);
   // const image = useSelector((state) => state.upload.image);
   // handleuploadclick;
@@ -231,7 +232,14 @@ const Editor = ({
                     <CardMedia
                       height="400"
                       component="img"
-                      image={imagePreview != null ? imagePreview : UploadImage}
+                      image={
+                        postPhoto
+                          ? postPhoto
+                          : imagePreview != null
+                          ? imagePreview
+                          : UploadImage
+                      }
+                      // image={imagePreview != null ? imagePreview : UploadImage}
                     />
                   </label>
                 </CardActionArea>
@@ -317,6 +325,7 @@ const Editor = ({
                 rows={8}
                 variant="standard"
                 onChange={onChangeBody}
+                value={postContent}
                 fullWidth
                 placeholder="여행 후기와 장소에 대한 설명을 작성해주세요"
               />

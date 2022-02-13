@@ -9,8 +9,8 @@ const WriteButtonsContainer = ({ uploadImageWithAdtData }) => {
   // const dispatch = useDispatch();
   const {
     postTitle,
-    // postContent,
-    // postLocation,
+    postContent,
+    postLocation,
     // postPoint,
     // deaf,
     // infant,
@@ -40,6 +40,14 @@ const WriteButtonsContainer = ({ uploadImageWithAdtData }) => {
   const onPublish = () => {
     if (!postTitle) {
       alert('글을 작성해주세요!😉');
+      return;
+    }
+    if (!postContent) {
+      alert('후기를 적어주세요!😉');
+      return;
+    }
+    if (!postLocation) {
+      alert('장소를 검색하거나 입력해주세요!😉');
       return;
     }
     uploadImageWithAdtData();

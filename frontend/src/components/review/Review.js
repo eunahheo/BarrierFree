@@ -17,6 +17,7 @@ import {
   unfollow,
 } from '../../_actions/relationship_actions.js';
 import ReviewBarrierIcon from '../common/review/ReviewBarrierIcon.js';
+import { setPostContent } from '../../_actions/write_actions.js';
 
 const ReviewBox = styled.div`
   display: flex;
@@ -195,6 +196,8 @@ const Review = () => {
     dispatch(resetRelationship());
   };
   const plusScrap = reviewDetail.postScrap + 1;
+
+  // 스크랩(하트)
   const onClickHeart = () => {
     setHeart(true);
     axios({
@@ -251,7 +254,12 @@ const Review = () => {
       console.error(e.message);
     }
   };
-
+  // 게시글 수정
+  // console.log('reviewDeatil', reviewDetail);
+  const onEdit = () => {
+    dispatch(setPostContent(reviewDetail));
+    navigate('/write');
+  };
   return (
     <div>
       <ReviewBox>
@@ -268,7 +276,12 @@ const Review = () => {
                 <div class="review-content">
                   {reviewDetail.userSeq == myuser.userSeq ? (
                     <div class="button-top">
-                      <button variant="contained" id="update">
+                      <button
+                        variant="contained"
+                        id="update"
+                        onClick={onEdit}
+                        style={{ cursor: 'pointer' }}
+                      >
                         수정
                       </button>
                       <button variant="contained" id="delete">
