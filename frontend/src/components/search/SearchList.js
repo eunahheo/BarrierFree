@@ -1,59 +1,39 @@
 import SearchCardList from './SearchCardList.js';
 import { useState } from 'react';
 import { useNavigate } from '../../../node_modules/react-router/index.js';
-const SearchList = ({searchLocationList, searchItem, noresult, searchFoodList, searchHomeList, searchPartyList, searchReivewList, searchUserList}) => {
-  const navigate = useNavigate();
-  const [number, setNumber] = useState(0);
-  
+const SearchList = ({searchLocationList, searchItem, noresult, searchFoodList, searchHomeList, searchPartyList, searchReivewList, searchUserList, changeFindSearch, setNumber, setTitle}) => {
 
   const onClickLocation = () => {
-    navigate(`/search/tour`, {
-      state: {
-        number: 12,
-        searchItem: searchItem,
-      },
-    });
+    changeFindSearch()
+    setTitle('명소')
+    setNumber(12)
   };
 
   const onClickFood = () => {
-    navigate(`/search/tour`, {
-      state: {
-        number: 39,
-        searchItem: searchItem,
-      },
-    });
+    changeFindSearch()
+    setNumber(39)
+    setTitle('음식점')
   };
 
   const onClickHome = () => {
-    navigate(`/search/tour`, {
-      state: {
-        number: 32,
-        searchItem: searchItem,
-      },
-    });
+    changeFindSearch()
+    setNumber(32)
+    setTitle('숙박시설')
   };
 
   const onClickParty = () => {
-    navigate(`/search/tour`, {
-      state: {
-        number: 15,
-        searchItem: searchItem,
-      },
-    });
+    changeFindSearch()
+    setNumber(15)
+    setTitle('행사')
   };
-
+  
 
   return (
     <div>
     <div>
       {searchLocationList.length >= 1 ? (
         <div>
-          <h2 class="title">명소 <p class="more" id={12} onClick={(e) => {
-            setNumber(e.target.id)
-          },
-          onClickLocation
-          }>+더보기</p></h2>
-          
+          <h2 class="title">명소<p class="more" onClick={onClickLocation}>+더보기</p></h2>
           <SearchCardList
             itemList={searchLocationList}
           ></SearchCardList>
