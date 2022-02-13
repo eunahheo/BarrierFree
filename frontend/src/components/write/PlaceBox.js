@@ -306,19 +306,19 @@ const PlaceBox = ({ onChangePlace, onChangeField, postLocation }) => {
                       onClick={() => {
                         onChangeField({
                           key: 'postLocation',
-                          value: place.postLocation,
+                          value: place.place_name,
                         });
                         onChangeField({
                           key: 'postAddress',
-                          value: place.postAddress,
+                          value: place.road_address_name,
                         });
                         onChangeField({
                           key: 'postLat',
-                          value: place.postLat,
+                          value: place.y,
                         });
                         onChangeField({
                           key: 'postLng',
-                          value: place.postLng,
+                          value: place.x,
                         });
                         onChangeField({
                           key: 'contentId',
@@ -342,23 +342,23 @@ const PlaceBox = ({ onChangePlace, onChangeField, postLocation }) => {
                   <div
                     onClick={() => {
                       onChangeField({
-                        key: 'post_location',
+                        key: 'postLocation',
                         value: searchPlace.postLocation,
                       });
                       onChangeField({
-                        key: 'post_address',
+                        key: 'postAddress',
                         value: searchPlace.postAddress,
                       });
                       onChangeField({
-                        key: 'post_lat',
+                        key: 'postLat',
                         value: searchPlace.postLat,
                       });
                       onChangeField({
-                        key: 'post_lng',
+                        key: 'postLng',
                         value: searchPlace.postLng,
                       });
                       onChangeField({
-                        key: 'content_id',
+                        key: 'contentId',
                         value: searchPlace.contentId,
                       });
                       setInput(searchPlace.postLocation);
