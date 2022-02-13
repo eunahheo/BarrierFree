@@ -9,10 +9,12 @@ import javax.persistence.Id;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @NoArgsConstructor
 @Getter
+@Setter
 public class Tourapi {
 
 	@Id
@@ -77,6 +79,9 @@ public class Tourapi {
 	@Column(name = "mod_id")
 	private String modId;
 	
+	@Column(name = "tourapi_scrap")
+	private int tourapiScrap = 0;
+
 	@Builder
 	public Tourapi(long contentId, String tourapiContentTypeId, String tourapiTitle, String sidoCode,
 			String sigunguCode, String tourapiAddr1, String tourapiAddr2, String tourapiZipcode, String tourapiLat,

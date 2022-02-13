@@ -262,7 +262,6 @@ public class PostServiceImpl implements PostService {
 		}
 
 		Optional<PostImpairment> pi = postImpairmentRepository.findOneByPostSeqCode(postSeq, type);
-		pi.get().setDelYn('y');
 		pi.get().setModDt(curTime);
 		pi.get().setModId(returnUserId(userSeq));
 		save(pi.get());
