@@ -2,20 +2,39 @@ import React, { useState } from 'react';
 import './CommentItemTest.css';
 import { commentUpdate, commentDelete } from '../../_actions/comment_actions';
 import { useDispatch, useSelector } from 'react-redux';
-import Button from '../common/Button.js';
+import styled from 'styled-components';
+
+const CommentItemBox = styled.div`
+  display: flex;
+  flex-dirextion: row;
+  align-items: center;
+  justify-content: flex-start;
+
+  .toggle {
+    text-align: center;
+    margin: auto;
+    width: 50px;
+    height: 50px;
+    border-radius: 100px;
+    box-sizing: border-box;
+    &:hover {
+      color: white;
+      cursor: pointer;
+    }
+  }
+`;
 
 const CommentItem = ({ comment, onRemove }) => {
   const CommentTime = comment.comment.regDt.substring(0, 10);
   const commentNum = comment.comment.cmtSeq;
   const [newComment, setNewComment] = useState('');
   const [check, setCheck] = useState(false);
+  const dispatch = useDispatch();
+  const myuser = useSelector((state) => state.user.userData);
+
   const onCommentHandler = (event) => {
     setNewComment(event.target.value);
   };
-  const dispatch = useDispatch();
-  const myuser = useSelector((state) => state.user.userData);
-  // console.log(myuser)
-
   const onDeleteHandler = (event) => {
     event.preventDefault();
     let params = {
@@ -53,7 +72,9 @@ const CommentItem = ({ comment, onRemove }) => {
   return (
     <div class="container">
       <div class="user-img">
-        <img src="https://dummyimage.com/50x50/ced4da/6c757d.jpg"></img>
+        <CommentItemBox>
+          <img className="toggle" src={comment.userInfo[1]}></img>
+        </CommentItemBox>
       </div>
       <div class="comment-info">
         <div>
@@ -86,7 +107,6 @@ const CommentItem = ({ comment, onRemove }) => {
       </div>
       <div class="comment-time">
         <p>{CommentTime}</p>
-
         {comment.comment.userSeq == myuser.userSeq && check == false ? (
           <p>
             <button class="update-button" onClick={checkHandler}>

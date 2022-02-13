@@ -7,11 +7,11 @@ import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import palette from '../../../lib/styles/palette';
 
-const MyCard = ({ item }) => {
+const MyCardCopy = ({ item }) => {
   const myuser = useSelector((state) => state.user.userData);
   const navigate = useNavigate();
-  const { post_photo, post_location, post_title, scrap_yn } = item;
-  const reviewCard = item.post_seq;
+  const { postPhoto, postLocation, postTitle, scrapYn } = item;
+  const reviewCard = item.postSeq;
   const [heart, setHeart] = useState(false);
 
   const onClickCard = () => {
@@ -48,7 +48,7 @@ const MyCard = ({ item }) => {
     });
   };
   useEffect(() => {
-    if (scrap_yn === 'y') {
+    if (scrapYn === 'y') {
       setHeart(true);
     }
   });
@@ -73,19 +73,19 @@ const MyCard = ({ item }) => {
           <CardMedia
             component="img"
             height="200"
-            image={post_photo}
-            alt={post_location}
+            image={postPhoto}
+            alt={postLocation}
             style={{ maxHeight: 250 }}
           />
           <CardContent align="left">
             <Typography variant="body2" color="text.secondary">
-              {post_location}
+              {postLocation}
             </Typography>
-            {post_title}
+            {postTitle}
           </CardContent>
         </div>
       </Card>
     </div>
   );
 };
-export default MyCard;
+export default MyCardCopy;

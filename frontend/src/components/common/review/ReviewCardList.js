@@ -30,9 +30,12 @@ const ReviewCardList = ({ itemList }) => {
       <div>
         <ImageList cols={4}>
           {itemList.length === 0 ? (
-            <span>0개</span>
+            <div>
+              <h1>로딩 중...</h1>
+            </div>
           ) : (
             itemList.map((item) => (
+              // 삭제된 게시글인지 확인
               <ReviewCard item={item} key={item.postSeq} />
             ))
           )}

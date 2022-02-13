@@ -37,13 +37,15 @@ function Home() {
             <ReviewPage></ReviewPage>
           </Grid>
           <Grid item xs={1}>
-            <AddCircleRoundedIcon
-              className="AddCircleRoundedIcon"
-              position="sticky"
-              fontSize="large"
-              sx={{ color: palette.pink[0] }}
-              onClick={navigate_wr}
-            />
+            <CustomIcon>
+              <AddCircleRoundedIcon
+                className="AddCircleRoundedIcon"
+                position="sticky"
+                fontSize="large"
+                sx={{ color: palette.pink[0] }}
+                onClick={navigate_wr}
+              />
+            </CustomIcon>
           </Grid>
         </Grid>
       </Container>

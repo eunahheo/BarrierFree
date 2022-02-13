@@ -102,6 +102,7 @@ const Recommend = () => {
   };
 
   const handleChangeCity = (event) => {
+
     if (town) {
       setTown('');
     }
@@ -129,6 +130,14 @@ const Recommend = () => {
 
   // 장애 정보 선택하기
   const onClickBarrier = (res) => {
+    if (search === true) {
+      if (barrier.length > 0) {
+        for (let i = 0; barrier.length > i; i++ ) {
+          let current = document.getElementById(barrier[i]);
+          current.style.border= null;
+        }
+      }
+    }
     if (barrier.includes(res.target.id)) {
       let current = document.getElementById(res.target.id);
       current.style.border = null;
@@ -203,15 +212,15 @@ const Recommend = () => {
             }
           }
         });
-        if (barrier.length > 0) {
-          for (let i = 0; barrier.length > i; i++ ) {
-            let current = document.getElementById(barrier[i]);
-            current.style.border= null;
-          }
-        }
-        setCity('');
-        setTown('');
-        setBarrier([]);
+        // if (barrier.length > 0) {
+        //   for (let i = 0; barrier.length > i; i++ ) {
+        //     let current = document.getElementById(barrier[i]);
+        //     current.style.border= null;
+        //   }
+        // }
+        // setCity('');
+        // setTown('');
+        // setBarrier([]);
       } else if ((city, town)) {
         let data = {
           sidoCode: cityNum,
@@ -227,16 +236,16 @@ const Recommend = () => {
           params: data,
         })
         .catch('hey');
-      if (barrier.length > 0) {
-        for (let i = 0; barrier.length > i; i++ ) {
-          let current = document.getElementById(barrier[i]);
-          current.style.border= null;
-        }
-      }
+      // if (barrier.length > 0) {
+      //   for (let i = 0; barrier.length > i; i++ ) {
+      //     let current = document.getElementById(barrier[i]);
+      //     current.style.border= null;
+      //   }
+      // }
 
-      setCity('');
-      setTown('');
-      setBarrier([]);
+      // setCity('');
+      // setTown('');
+      // setBarrier([]);
     } else if (barrier) {
       let data = {
         userSeq: myuser.userSeq,
@@ -287,16 +296,16 @@ const Recommend = () => {
         }
       });
 
-      if (barrier.length > 0) {
-        for (let i = 0; barrier.length > i; i++ ) {
-          let current = document.getElementById(barrier[i]);
-          current.style.border= null;
-        }
-      }
+      // if (barrier.length > 0) {
+      //   for (let i = 0; barrier.length > i; i++ ) {
+      //     let current = document.getElementById(barrier[i]);
+      //     current.style.border= null;
+      //   }
+      // }
 
-      setCity('');
-      setTown('');
-      setBarrier([]);
+      // setCity('');
+      // setTown('');
+      // setBarrier([]);
     } else if ((city, town)) {
       let data = {
         sidoCode: cityNum,
@@ -346,8 +355,8 @@ const Recommend = () => {
         })
         .catch('hey');
 
-      setCity('');
-      setTown('');
+      // setCity('');
+      // setTown('');
     }
   };
 

@@ -1,65 +1,71 @@
-import { useRef, useEffect, useState } from 'react';
-import Quill from 'quill';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import 'quill/dist/quill.bubble.css';
 import styled from 'styled-components';
-import palette from '../../lib/styles/palette';
-import Responsive from '../common/Responsive';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import axios from '../../../node_modules/axios/index';
-import PlaceBox from './PlaceBox';
-import WriteButtons from './WriteButtons';
 import PlaceBoxContainer from '../../containers/write/PlaceBoxContainer';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import WriteButtonsContainer from '../../containers/write/WriteButtonsContainer';
 import Button from '../common/Button';
 import * as React from 'react';
 import Rating from '@mui/material/Rating';
-import Stack from '@mui/material/Stack';
 import { changeField } from '../../_actions/write_actions';
-import { Card, Container, CardActionArea, CardMedia } from '@mui/material';
+import { Card, CardActionArea, CardMedia } from '@mui/material';
 import { writePost, initialize } from '../../_actions/write_actions';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import WriteBarrierIconContainer from '../../containers/write/WriteBarrierIconContainer';
+import TextField from '@mui/material/TextField';
+import RecordVoiceOverIcon from '@mui/icons-material/RecordVoiceOver';
+import UploadImage from '../images/uploadImage.png';
+// const EditorBlock = styled(Responsive)`
+//   padding-top: 5rem;
+//   padding-bottom: 5rem;
+// `;
+const StyledRating = styled(Rating)({
+  '& .MuiRating-iconFilled': {
+    color: '#ff6d75',
+  },
+  '& .MuiRating-iconHover': {
+    color: '#EA5455',
+  },
+});
+// const TitleInput = styled.input`
+//   font-size: 2.5rem;
+//   outline: none;
+//   padding-bottom: 0.5rem;
+//   border: none;
+//   border-bottom: 1px solid ${palette.gray[0]};
+//   margin-bottom: 2rem;
+//   width: 100%;
+// `;
 
-const EditorBlock = styled(Responsive)`
-  padding-top: 5rem;
-  padding-bottom: 5rem;
-`;
+// const BodyTextarea = styled.textarea`
+//   font-size: 1.125rem;
+//   outline: none;
+//   padding-bottom: 0.5rem;
+//   border: none;
+//   border-bottom: 1px solid ${palette.gray[0]};
+//   margin-bottom: 2rem;
+//   width: 100%;
+//   min-height: 300px;
+//   line-height: 2;
+//   text-align: left;
+//   padding-top: 0px;
+//   vertical-align: top;
+//   text-align: start;
+// `;
 
-const TitleInput = styled.input`
-  font-size: 2.5rem;
-  outline: none;
-  padding-bottom: 0.5rem;
-  border: none;
-  border-bottom: 1px solid ${palette.gray[0]};
-  margin-bottom: 2rem;
-  width: 100%;
-`;
-
-const BodyTextarea = styled.textarea`
-  font-size: 1.125rem;
-  outline: none;
-  padding-bottom: 0.5rem;
-  border: none;
-  border-bottom: 1px solid ${palette.gray[0]};
-  margin-bottom: 2rem;
-  width: 100%;
-  min-height: 300px;
-  line-height: 2;
-  text-align: left;
-  padding-top: 0px;
-  vertical-align: top;
-  text-align: start;
-`;
-
-const QuillWrapper = styled.div`
-  .ql-editor {
-    padding: 0;
-    min-height: 300px;
-    font-size: 1.125rem;
-    line-height: 2;
-  }
-`;
+// const QuillWrapper = styled.div`
+//   .ql-editor {
+//     padding: 0;
+//     min-height: 300px;
+//     font-size: 1.125rem;
+//     line-height: 2;
+//   }
+// `;
 
 const Editor = ({
   postTitle,
@@ -87,7 +93,7 @@ const Editor = ({
   //   setFiles(file);
   //   console.log(files);
   // };
-
+  const navigate = useNavigate();
   const onChangeTitle = (e) => {
     onChangeField({ key: 'postTitle', value: e.target.value });
   };
@@ -178,6 +184,7 @@ const Editor = ({
         );
         alert('글이 등록되었습니다! 인클루시브에 한발짝 다가가셨습니다 😊');
         dispatch(initialize());
+        navigate('/');
       } catch (error) {
         console.log(error);
       } finally {
@@ -214,23 +221,22 @@ const Editor = ({
   return (
     <div>
       <Box>
-        <Grid container spacing={12}>
+        <Grid container spacing={4}>
           <Grid item xs={1}></Grid>
-          <Grid item xs={5}>
+          <Grid item xs={4}>
             <div className="lefteditor">
-              <Card>
+              <Card sx={{ maxHeiht: 600 }}>
                 <CardActionArea>
-                  <CardMedia
-                    component="img"
-                    image={
-                      imagePreview != null
-                        ? imagePreview
-                        : 'https://www.leadershipmartialartsct.com/wp-content/uploads/2017/04/default-image-620x600.jpg'
-                    }
-                  />
+                  <label htmlFor="upload-profile-image">
+                    <CardMedia
+                      height="400"
+                      component="img"
+                      image={imagePreview != null ? imagePreview : UploadImage}
+                    />
+                  </label>
                 </CardActionArea>
               </Card>
-
+              <br />
               <input
                 type="file"
                 id="upload-profile-image"
@@ -249,46 +255,75 @@ const Editor = ({
                   파일 찾기
                 </Button>
               </label>
-
+              &nbsp;
               <Button onClick={onDelete}>올리기 취소</Button>
-
               {/* <Button component="span" onClick={uploadImageWithAdtData}>
           이미지 등록
         </Button> */}
-              <input
-                label="Image Name"
-                name="name"
-                onChange={onChange}
-                value={imageName}
-                placeholder="시각장애 분들을 위한 음성용 사진 설명을 적어주세요"
-              />
+              <br /> <br />
+              <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
+                <RecordVoiceOverIcon
+                  sx={{ color: 'action.active', mr: 1, my: 0.5 }}
+                />
+                <TextField
+                  name="name"
+                  onChange={onChange}
+                  value={imageName}
+                  placeholder="음성용 사진 설명을 적어주세요"
+                  id="input-with-sm"
+                  variant="standard"
+                  sx={{ width: '100%' }}
+                />
+              </Box>
+              {/* <TextField
+              // label="Image Name"
+              /> */}
             </div>
           </Grid>
-          <Grid item xs={5}>
+          <Grid item xs={6}>
             <div className="righteditor">
-              <hr></hr>
-              <TitleInput
-                placeholder="제목입력"
-                onChange={onChangeTitle}
-                value={postTitle}
-              ></TitleInput>
               <div>
-                <Rating
+                <TextField
+                  // width="60"
+                  inputProps={{ style: { fontSize: 30, fontWeight: 'bold' } }}
+                  placeholder="제목 추가"
+                  onChange={onChangeTitle}
+                  value={postTitle}
+                  variant="standard"
+                ></TextField>
+                <br></br>
+                <br></br>
+                <StyledRating
                   value={postPoint}
                   name="postPoint"
                   defaultValue={2.5}
+                  getLabelText={(value) =>
+                    `${value} Heart${value !== 1 ? 's' : ''}`
+                  }
+                  icon={<FavoriteIcon fontSize="inherit" />}
+                  emptyIcon={<FavoriteBorderIcon fontSize="inherit" />}
                   precision={1}
                   size="large"
                   onChange={onChangePostPoint}
                 />
 
-                <span>{postPoint}</span>
+                {/* <span>{postPoint}</span> */}
               </div>
-              <BodyTextarea
-                placeholder="input내용 작성"
+              <br />
+              <br />
+              <TextField
+                id="standard-multiline-static"
+                multiline
+                rows={8}
+                maxRows={8}
+                variant="standard"
                 onChange={onChangeBody}
-              ></BodyTextarea>
+                fullWidth
+                placeholder="여행 후기와 장소에 대한 설명을 작성해주세요😊"
+              />
+
               <WriteBarrierIconContainer></WriteBarrierIconContainer>
+              <br />
               <PlaceBoxContainer></PlaceBoxContainer>
               {/* {loadingWritePost && '등록 중입니다!'} */}
               {/* {!loadingWritePost && <WriteButtonsContainer></WriteButtonsContainer>} */}
