@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState } from 'react';
 import Physical from '../images/Physical.png';
 import Auditory from '../images/Auditory.png';
 import Pregnant from '../images/Pregnant.png';
@@ -13,7 +13,6 @@ import {
 import axios from 'axios';
 import RecommendCardList from './RecommendCardList.js';
 import { Container } from '@material-ui/core';
-import RecommendCategories from './RecommendCategories';
 import { useSelector } from 'react-redux';
 import './Recommend.css';
 import qs from 'qs';
@@ -23,11 +22,6 @@ import RecommendDetail from './RecommendDetail';
 
 const Recommend = () => {
   const myuser = useSelector((state) => state.user.userData);
-  const [category, setCategory] = useState('all');
-  const onSelect = useCallback(
-    (category) => (setCategory(category), console.log(category)),
-    [],
-  );
 
   // 시도 설정
   const [cityList, setCityList] = useState([]);
@@ -44,7 +38,6 @@ const Recommend = () => {
   const [searchPartyList, setSearchPartyList] = useState([]);
   const [noresult, setNoresult] = useState('');
   const [search, setSearch] = useState(false);
-  const [click, setClick] = useState(false);
   const [findSearch, setFindSearch] = useState(false);
   const [number, setNumber] = useState(0);
   const [title, setTitle] = useState('');
@@ -173,7 +166,7 @@ const Recommend = () => {
         userSeq: myuser.userSeq,
         contentTypeId: impairmentNums[i],
         impairments: barrier,
-        page: 0,
+        page: 1,
         size: 4,
       };
       axios({
@@ -216,47 +209,14 @@ const Recommend = () => {
               setNoresult('검색 내용이 없습니다 😥');
             }
           }
+          setFindSearch(false);
         });
-        // if (barrier.length > 0) {
-        //   for (let i = 0; barrier.length > i; i++ ) {
-        //     let current = document.getElementById(barrier[i]);
-        //     current.style.border= null;
-        //   }
-        // }
-        // setCity('');
-        // setTown('');
-        // setBarrier([]);
-      } else if ((city, town)) {
-        let data = {
-          sidoCode: cityNum,
-          sigunguCode: townNum,
-          userSeq: myuser.userSeq,
-          contentTypeId: impairmentNums[i],
-          page: 0,
-          size: 10,
-        };
-        axios({
-          method: 'GET',
-          url: '/recommend/search',
-          params: data,
-        })
-        .catch('hey');
-      // if (barrier.length > 0) {
-      //   for (let i = 0; barrier.length > i; i++ ) {
-      //     let current = document.getElementById(barrier[i]);
-      //     current.style.border= null;
-      //   }
-      // }
-
-      // setCity('');
-      // setTown('');
-      // setBarrier([]);
-    } else if (barrier) {
+      } else if (barrier) {
       let data = {
         userSeq: myuser.userSeq,
         contentTypeId: impairmentNums[i],
         impairments: barrier,
-        page: 0,
+        page: 1,
         size: 4,
       };
       axios({
@@ -299,25 +259,15 @@ const Recommend = () => {
             setNoresult('검색 내용이 없습니다 😥');
           }
         }
+        setFindSearch(false);
       });
-
-      // if (barrier.length > 0) {
-      //   for (let i = 0; barrier.length > i; i++ ) {
-      //     let current = document.getElementById(barrier[i]);
-      //     current.style.border= null;
-      //   }
-      // }
-
-      // setCity('');
-      // setTown('');
-      // setBarrier([]);
     } else if (city && town) {
       let data = {
         sidoCode: cityNum,
         sigunguCode: townNum,
         userSeq: myuser.userSeq,
         contentTypeId: impairmentNums[i],
-        page: 0,
+        page: 1,
         size: 4,
       };
       axios({
@@ -357,11 +307,8 @@ const Recommend = () => {
               setNoresult('검색 내용이 없습니다 😥');
             }
           }
+          setFindSearch(false);
         })
-        .catch('hey');
-
-      // setCity('');
-      // setTown('');
     } else if (city) {
       alert('시군구 정보가 필요합니다.')
     } else if (city && barrier) {
@@ -478,7 +425,6 @@ const Recommend = () => {
                 <div>
                   <RecommendCardList
                     itemList={itemList}
-                    category={category}
                   ></RecommendCardList>
                 </div>
               : <div>{noresult}</div>}

@@ -27,49 +27,61 @@ const RecommendList = ( {searchLocationList, searchFoodList, searchHomeList, sea
   
   return (
     <div>
-      <h2 class="title">명소<p class="more" onClick={onClickLocation}>+더보기</p></h2>
       {searchLocationList.length > 0 ? (
         <div>
+          <h2 class="title">명소<p class="more" onClick={onClickLocation}>+더보기</p></h2>
           <RecommendCardList
             itemList={searchLocationList}
             // category={category}
           ></RecommendCardList>
         </div>
       ) : (
-        <div>{noresult}</div>
+        <div>
+          <h2 class="title">명소</h2>
+          {noresult}
+        </div>
       )}
-      <h2 class="title">음식점<p class="more" onClick={onClickFood}>+더보기</p></h2>
       {searchFoodList.length > 0 ? (
         <div>
+          <h2 class="title">음식점<p class="more" onClick={onClickFood}>+더보기</p></h2>
           <RecommendCardList
             itemList={searchFoodList}
             // category={category}
           ></RecommendCardList>
         </div>
       ) : (
-        <div>{noresult}</div>
+        <div>
+          <h2 class="title">음식점</h2>
+          {noresult}
+          </div>
       )}
-      <h2 class="title">숙박시설<p class="more" onClick={onClickHome}>+더보기</p></h2>
       {searchHomeList.length > 0 ? (
         <div>
+          <h2 class="title">숙박시설<p class="more" onClick={onClickHome}>+더보기</p></h2>
           <RecommendCardList
             itemList={searchHomeList}
             // category={category}
           ></RecommendCardList>
         </div>
       ) : (
-        <div>{noresult}</div>
+        <div>
+          <h2 class="title">숙박시설</h2>
+        {noresult}
+        </div>
       )}
-      <h2 class="title">행사<p class="more" onClick={onClickParty}>+더보기</p></h2>
       {searchPartyList.length > 0 ? (
         <div>
+          <h2 class="title">행사<p class="more" onClick={onClickParty}>+더보기</p></h2>
           <RecommendCardList
             itemList={searchPartyList}
             // category={category}
           ></RecommendCardList>
         </div>
       ) : (
-        <div>{noresult}</div>
+        <div>
+          <h2 class="title">행사</h2>
+        {noresult}
+        </div>
       )}
     </div>
   )

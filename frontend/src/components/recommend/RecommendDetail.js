@@ -4,13 +4,15 @@ import { useSelector } from 'react-redux';
 import RecommendCardList from './RecommendCardList.js';
 import { Container } from '@material-ui/core';
 import qs from 'qs';
+import Pagination from "react-js-pagination";
+import "./RecommendDetail.css"
 
 const RecommendDetail = ( {number, city, town, barrier, noresult} ) => {
   const [searchList, setSearchList] = useState([]);
   const myuser = useSelector((state) => state.user.userData);
-  // console.log(location);
-  // const number = location.state.number;
-  // const searchItem = location.state.searchItem;
+  const [page, setPage] = useState(1);
+  const [lastpage, setLastpage] = useState(1);
+  const [totalItem, setTotalItem] = useState(0);
   
   const getSearchDetail = () => {
     const cityNum = Number(city);
@@ -22,7 +24,7 @@ const RecommendDetail = ( {number, city, town, barrier, noresult} ) => {
         userSeq: myuser.userSeq,
         contentTypeId: number,
         impairments: barrier,
-        page: 0,
+        page: page,
         size: 12,
       };
       axios({
@@ -34,13 +36,15 @@ const RecommendDetail = ( {number, city, town, barrier, noresult} ) => {
         }
       }).then((res) => {
         setSearchList(res.data);
+        setLastpage(res.data[0].totalPages)
+        setTotalItem(res.data[0].totalElements)
       }); 
     } else if (barrier) {
       let data = {
         userSeq: myuser.userSeq,
         contentTypeId: number,
         impairments: barrier,
-        page: 0,
+        page: page,
         size: 12,
       };
       axios({
@@ -52,6 +56,8 @@ const RecommendDetail = ( {number, city, town, barrier, noresult} ) => {
         }
       }).then((res) => {
         setSearchList(res.data);
+        setLastpage(res.data[0].totalPages)
+        setTotalItem(res.data[0].totalElements)
       }); 
     } else if (city, town) {
       let data = {
@@ -59,7 +65,7 @@ const RecommendDetail = ( {number, city, town, barrier, noresult} ) => {
         sigunguCode: townNum,
         userSeq: myuser.userSeq,
         contentTypeId: number,
-        page: 0,
+        page: page,
         size: 12,
       };
       axios({
@@ -71,14 +77,20 @@ const RecommendDetail = ( {number, city, town, barrier, noresult} ) => {
         }
       }).then((res) => {
         setSearchList(res.data);
+        setLastpage(res.data[0].totalPages)
+        setTotalItem(res.data[0].totalElements)
       }); 
     }
   };
 
   useEffect(() => {
     getSearchDetail();
-  }, [number]);
+  }, [number, page]);
 
+  const handlePageChange = (page) => {
+    setPage(page);
+    console.log(page);
+  };
   // const onClickToSearch = () => {
   //   navigate('/search');
   // };
@@ -88,7 +100,18 @@ const RecommendDetail = ( {number, city, town, barrier, noresult} ) => {
     <div>
       {/* <p onClick={onClickToSearch}>검색창으로 돌아가기</p> */}
       {searchList.length > 0? 
-      <RecommendCardList itemList={searchList}></RecommendCardList> :
+      <div>
+        <RecommendCardList itemList={searchList}></RecommendCardList>
+        <Pagination
+          activePage={page}
+          itemsCountPerPage={12}
+          totalItemsCount={totalItem}
+          pageRangeDisplayed={5}
+          prevPageText={"<"}
+          nextPageText={">"}
+          onChange={handlePageChange}
+        ></Pagination>
+      </div> :
       <div>
         <p>{noresult}</p>
       </div>
