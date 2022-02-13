@@ -67,7 +67,7 @@ const RecommendCard = ({ item }) => {
       <Card
         onClick={onClickCard}
         infomationCard={infomationCard}
-        sx={{ maxWidth: 250 }}
+        sx={{ maxWidth: 225 }}
       >
         {/* <Card onClick={onClickCard} pageNum={reviewCard} sx={{ maxWidth: 250 }}> */}
         <CardMedia
@@ -78,11 +78,12 @@ const RecommendCard = ({ item }) => {
         />
 
         <CardContent align="left">
-          <Typography variant="body2" color="text.secondary">
+          <Typography noWrap variant="body2" color="text.secondary">
+            {addr1}
+          </Typography>{' '}
+          <Typography noWrap variant="body1">
             {title}
           </Typography>
-          {title}
-
           <RecommendBarrierIcon barriers={barriers}></RecommendBarrierIcon>
         </CardContent>
       </Card>
