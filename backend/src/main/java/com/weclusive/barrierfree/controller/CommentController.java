@@ -61,7 +61,7 @@ public class CommentController {
 
 	@PutMapping(value = "/update")
 	@ApiOperation(value = "댓글 수정하기", response = List.class)
-	public ResponseEntity<String> updatePost(@RequestParam long cmtSeq, @RequestBody String cmtContent, @RequestParam int userSeq) throws Exception {
+	public ResponseEntity<String> updatePost(@RequestParam long cmtSeq, @RequestParam String cmtContent, @RequestParam int userSeq) throws Exception {
 		int res = commentService.updateByCmtSeq(cmtSeq, cmtContent, userSeq);
 
 		if (res == 1)

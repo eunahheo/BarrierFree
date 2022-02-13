@@ -3,26 +3,31 @@ import { Card, CardMedia, CardContent, Typography } from '@mui/material';
 import RecommendBarrierIcon from '../../recommend/RecommendBarrierIcon';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import ReviewBarrierIcon from '../../common/review/ReviewBarrierIcon';
 import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import palette from '../../../lib/styles/palette';
 
-const MyCard = ({ item }) => {
+const ScrapCard = ({ item }) => {
   const myuser = useSelector((state) => state.user.userData);
   const navigate = useNavigate();
-  const { post_photo, post_location, post_title, scrap_yn } = item;
-  const reviewCard = item.post_seq;
+  const { firstimage, title, addr1 } = item;
+  const reviewCard = item.postSeq;
+  const [image, setImage] = useState(item.firstimage);
+  const barriers = item.impairment;
   const [heart, setHeart] = useState(false);
 
+  console.log('item.firstimage', item.title);
+  console.log('what??');
   const onClickCard = () => {
-    // axios({
-    //   method: 'GET',
-    //   url: '/post/detail',
-    //   params: { postSeq: reviewCard },
-    // }).then(function (res) {
-    // });
-    navigate(`/post/detail/${reviewCard}`);
+    navigate(`/recommend/detail/${item.contentId}`);
   };
+  console.log(item);
+  useEffect(() => {
+    if (item.scrap_yn === 'y') {
+      setHeart(true);
+    }
+  });
   const onClickHeart = () => {
     setHeart(true);
     axios({
@@ -35,6 +40,7 @@ const MyCard = ({ item }) => {
       },
     });
   };
+
   const onRemoveHeart = () => {
     setHeart(false);
     axios({
@@ -47,15 +53,12 @@ const MyCard = ({ item }) => {
       },
     });
   };
-  useEffect(() => {
-    if (scrap_yn === 'y') {
-      setHeart(true);
-    }
-  });
   return (
     <div>
       <Card
+        onClick={onClickCard}
         style={{ cursor: 'pointer' }}
+        onClick={onClickCard}
         reviewCard={reviewCard}
         sx={{ maxWidth: 250 }}
       >
@@ -69,23 +72,22 @@ const MyCard = ({ item }) => {
             ♡
           </h3>
         )}
-        <div onClick={onClickCard}>
-          <CardMedia
-            component="img"
-            height="200"
-            image={post_photo}
-            alt={post_location}
-            style={{ maxHeight: 250 }}
-          />
-          <CardContent align="left">
-            <Typography variant="body2" color="text.secondary">
-              {post_location}
-            </Typography>
-            {post_title}
-          </CardContent>
-        </div>
+        <CardMedia
+          component="img"
+          height="200"
+          image={firstimage}
+          alt={item.title}
+          style={{ maxHeight: 250 }}
+        />
+        <CardContent align="left">
+          <Typography variant="body2" color="text.secondary">
+            {addr1}
+          </Typography>
+          {title}
+        </CardContent>
+        <ReviewBarrierIcon barriers={barriers}></ReviewBarrierIcon>
       </Card>
     </div>
   );
 };
-export default MyCard;
+export default ScrapCard;

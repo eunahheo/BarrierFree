@@ -10,11 +10,15 @@ const ReviewPage = () => {
   const myuser = useSelector((state) => state.user.userData);
   const navigate = useNavigate();
   const [myitemList, mysetItemList] = useState([]);
+  const [currentUser, setCurrentUser] = useState(0);
 
   const orderbylatest = async () => {
     axios({
       method: 'get',
-      url: 'main/recently?userSeq=0',
+      url: 'main/recently',
+      params: {
+        userSeq: currentUser,
+      },
     })
       .then(function (res) {
         mysetItemList(res.data);
@@ -25,7 +29,8 @@ const ReviewPage = () => {
 
   const orderbypopular = () => {
     axios({
-      url: '/main/scrap?userSeq=0',
+      url: '/main/scrap',
+      params: { userSeq: currentUser },
     })
       .then(function (res) {
         mysetItemList(res.data);
@@ -37,8 +42,9 @@ const ReviewPage = () => {
   };
   const orderbypopularweek = () => {
     axios({
-      url: '/main/weekscrap?userSeq=0',
+      url: '/main/weekscrap',
       method: 'get',
+      params: { userSeq: currentUser },
     })
       .then(function (res) {
         mysetItemList(res.data);
@@ -67,9 +73,16 @@ const ReviewPage = () => {
   };
 
   useEffect(() => {
+    if (myuser) {
+      setCurrentUser(myuser.userSeq);
+    }
     const tmp = () => {
       axios({
-        url: '/main/all?userSeq=0',
+        method: 'get',
+        url: '/main/recently',
+        params: {
+          userSeq: currentUser,
+        },
       })
         .then(function (res) {
           mysetItemList(res.data);
@@ -94,12 +107,7 @@ const ReviewPage = () => {
       <Button order onClick={orderbybf}>
         베프만
       </Button>
-      {myitemList && (
-        <ReviewCardList
-          itemList={myitemList}
-          style={{ cursor: 'pointer' }}
-        ></ReviewCardList>
-      )}
+      {myitemList && <ReviewCardList itemList={myitemList}></ReviewCardList>}
     </div>
   );
 };

@@ -10,23 +10,13 @@ const ReviewCard = ({ item }) => {
   // const pageNum = useState([]);
   const navigate = useNavigate();
 
-  const { postPhoto, postLocation, postTitle } = item;
+  const { postPhoto, postLocation, postTitle, postAlt } = item;
   const barriers = item.impairment;
   const reviewCard = item.postSeq;
+  console.log(item);
   // const state = { 'detailnum': reviewCard}
   const onClickCard = () => {
-    // console.log(e)
-    axios({
-      method: 'GET',
-      url: 'post/detail',
-      params: { postSeq: reviewCard },
-    }).then(function (res) {
-      // console.log(res.config.params.postSeq)
-      navigate(`/post/detail/${reviewCard}`);
-      // pageNum(res.config.params.postSeq)
-      // console.log(setCard)
-      // document.location.href = '/detail/'+ reviewCard
-    });
+    navigate(`/post/detail/${reviewCard}`);
 
     // document.location.href = '/detail/'+ reviewCard
   };
@@ -44,7 +34,7 @@ const ReviewCard = ({ item }) => {
           component="img"
           height="300"
           image={postPhoto}
-          alt="Dog Picture"
+          alt={postAlt}
         />
 
         <CardContent align="left">
