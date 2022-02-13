@@ -1,16 +1,20 @@
 package com.weclusive.barrierfree.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.weclusive.barrierfree.entity.Scrap;
 import com.weclusive.barrierfree.service.ScrapService;
 
 import io.swagger.annotations.Api;
@@ -23,6 +27,9 @@ import lombok.AllArgsConstructor;
 @RequestMapping("/scrap")
 @Api("스크랩 관련 API")
 public class ScrapController {
+	
+	private static final String SUCCESS = "success";
+	private static final String FAIL = "fail";
 	
 	@Autowired
 	private ScrapService scrapService;
@@ -44,7 +51,7 @@ public class ScrapController {
 	}
 	
 	@GetMapping("/time")
-	@ApiOperation(value="해당 게시글의 스크랩 회수를 반환하는 API", notes="사용자 작성 게시글이나 관광공사 API 상세 정보 게시글의 스크랩 수를 반환한다.", response=Integer.class)	
+	@ApiOperation(value="해당 게시글의 스크랩 횟수를 반환하는 API", notes="사용자 작성 게시글이나 관광공사 API 상세 정보 게시글의 스크랩 수를 반환한다.", response=Integer.class)	
 	public ResponseEntity<Object> loadScrapTime(@RequestParam @ApiParam(value="0 : 사용자 작성 게시글, 1 : 관광공사 API 상세 정보글")char scrap_type, 
 			@RequestParam @ApiParam(value="타입이 0이라면 post_seq, 1이라면 관광공사 API의 컨텐츠id")long scrap_data) {
 		int result = 0;
@@ -77,6 +84,17 @@ public class ScrapController {
 			return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
 		}
 		return new ResponseEntity<>(result,HttpStatus.OK);
+	}
+	
+	@PutMapping(value = "/delete")
+	@ApiOperation(value = "스크랩 취소하기", response = List.class)
+	public ResponseEntity<Object> deleteScrap(@RequestParam long scrapSeq, @RequestParam int userSeq) throws Exception {
+		Optional<Scrap> result = scrapService.deleteByScrapSeq(scrapSeq, userSeq);
+
+		if (result == null)
+			return new ResponseEntity<>(FAIL, HttpStatus.BAD_REQUEST);
+		else
+			return new ResponseEntity<>(SUCCESS, HttpStatus.OK);
 	}
 	
 }
