@@ -154,29 +154,30 @@ function Search() {
       <Container maxWidth="md">
           <div>
             <h2>여행지 검색하기</h2>
-
-            <form>
-              <input
-                class="input-search"
-                onChange={onSearchHandler}
-                placeholder="검색어를 입력해주세요."
-              ></input>
-              <button class="button-search" onClick={onSubmitHandler}>
-                검색
-              </button>
-            </form>
+            <div class="search-box">
+              <form>
+                <input
+                  class="input-search"
+                  onChange={onSearchHandler}
+                  placeholder="검색어를 입력해주세요."
+                ></input>
+                <button class="button-search" onClick={onSubmitHandler}>
+                  검색
+                </button>
+              </form>
+            </div>
           </div>
         {handsearch === true ? (
           <div>
             <div>
               {searchLocationList.length >= 1 ? (
                 <div>
-                  <h2 class="title">명소</h2>
-                  <p class="more" id={12} onClick={(e) => {
+                  <h2 class="title">명소 <p class="more" id={12} onClick={(e) => {
                     setNumber(e.target.id)
                   },
                   onClickLocation
-                  }>+더보기</p>
+                  }>+더보기</p></h2>
+                  
                   <SearchCardList
                     itemList={searchLocationList}
                   ></SearchCardList>
@@ -191,8 +192,8 @@ function Search() {
             <div>
               {searchFoodList.length >= 1 ? (
                 <div>
-                  <h2 class="title">음식점</h2>
-                  <p class="more" onClick={onClickFood}>+더보기</p>
+                  <h2 class="title">음식점 <p class="more" onClick={onClickFood}>+더보기</p></h2>
+                  
                   <SearchCardList itemList={searchFoodList}></SearchCardList>
                 </div>
               ) : (
@@ -205,8 +206,8 @@ function Search() {
             <div>
               {searchHomeList.length >= 1 ? (
                 <div>
-                  <h2 class="title">숙박시설</h2>
-                  <p class="more" onClick={onClickHome}>+더보기</p>
+                  <h2 class="title">숙박시설 <p class="more" onClick={onClickHome}>+더보기</p></h2>
+                  
                   <SearchCardList itemList={searchHomeList}></SearchCardList>
                 </div>
               ) : (
@@ -219,8 +220,8 @@ function Search() {
             <div>
               {searchPartyList.length >= 1 ? (
                 <div>
-                  <h2 class="title">행사</h2>
-                  <p class="more" onClick={onClickParty}>+더보기</p>
+                  <h2 class="title">행사 <p class="more" onClick={onClickParty}>+더보기</p></h2>
+                  
                   <SearchCardList itemList={searchPartyList}></SearchCardList>
                 </div>
               ) : (
