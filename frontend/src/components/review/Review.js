@@ -171,7 +171,6 @@ const Review = () => {
         userSeq: myuser.userSeq,
       };
       dispatch(commentSave(body));
-      alert('댓글 작성이 완료되었습니다. 😉');
     } else {
       alert('댓글을 입력해주세요 😉');
     }
