@@ -112,7 +112,7 @@ const ReviewPage = () => {
 
   return (
     <div class="box">
-      <h1>Review in here</h1>
+      <h1> </h1>
       <Button order onClick={orderbylatest}>
         최신순
       </Button>
