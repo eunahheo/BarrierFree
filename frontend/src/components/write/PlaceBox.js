@@ -387,13 +387,7 @@ const PlaceBox = ({ onChangePlace, onChangeField, postLocation }) => {
             </DialogActions>
           </Dialog>
         </div>
-<<<<<<< Updated upstream
-        {/* <PlaceItemBlock>
-          <PlaceItem place={localPlace} onRemove={onRemove} />
-        </PlaceItemBlock> */}
-=======
         <br />
->>>>>>> Stashed changes
       </div>
     </PlaceBoxBlock>
   );
