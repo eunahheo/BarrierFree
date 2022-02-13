@@ -88,13 +88,12 @@ public class ScrapController {
 	
 	@PutMapping(value = "/delete")
 	@ApiOperation(value = "스크랩 취소하기", response = List.class)
-	public ResponseEntity<Object> deleteScrap(@RequestParam long scrapSeq, @RequestParam int userSeq) throws Exception {
-		Optional<Scrap> result = scrapService.deleteByScrapSeq(scrapSeq, userSeq);
+	public ResponseEntity<Object> deleteScrap(@RequestParam char scrapType, @RequestParam long scrapData, @RequestParam int userSeq) throws Exception {
+		Optional<Scrap> result = scrapService.deleteScrap(scrapType, scrapData, userSeq);
 
 		if (result == null)
 			return new ResponseEntity<>(FAIL, HttpStatus.BAD_REQUEST);
 		else
 			return new ResponseEntity<>(SUCCESS, HttpStatus.OK);
 	}
-	
 }
