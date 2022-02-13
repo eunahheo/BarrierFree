@@ -145,9 +145,8 @@ function Search() {
     setTitle('행사')
   };
   
-  const changeFindSearch = (res) => {
+  const changeFindSearch = () => {
     setFindSearch(true)
-    console.log(res)
     setNumber(15)
     setTitle('행사')
   }
@@ -183,7 +182,7 @@ function Search() {
               <Button>사용자</Button>
             </div>
             <h2 class="title">{title}</h2>
-            <SearchDetail number={number} searchItem={searchItem}></SearchDetail> </div> : 
+            <SearchDetail number={number} searchItem={searchItem} noresult={noresult} ></SearchDetail> </div> : 
             <div>
               <div>
                 <Button onClick={onClickTotal}>전체</Button>
