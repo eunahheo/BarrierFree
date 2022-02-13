@@ -6,6 +6,8 @@ export const COMMENT_SAVE = 'comment_save';
 
 export const COMMENT_DELETE = 'comment_delete';
 
+export const COMMENT_UPDATE = 'comment_update';
+
 export const FIND_LOCATION = 'find_location';
 
 export const GETTING_ITEMS = 'getting/GETTING_ITEMS';
