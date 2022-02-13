@@ -18,7 +18,7 @@ const SearchDetail = ( {number, searchItem } ) => {
   const getSearchDetail = () => {
     axios({
       methods: 'GET',
-      url: '/search',
+      url: '/search/tour',
       params: {
         contentTypeId: number,
         keyword: searchItem,
