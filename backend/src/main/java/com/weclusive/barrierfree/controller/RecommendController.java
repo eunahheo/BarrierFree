@@ -90,7 +90,7 @@ public class RecommendController {
 			@RequestParam(value = "sigunguCode", required = false) @ApiParam(value = "시군구코드") String sigunguCode,
 			@RequestParam(value = "contentTypeId", required = true) @ApiParam(value = "관광 명소 : 12 / 음식점 : 39 / 숙박 : 32 / 행사 : 15 / 쇼핑 : 38 / 문화시설 : 14 / 레포츠 : 28, 입력안하면 전체", required = true) String contentTypeId,
 			@RequestParam(value = "impairments", required = false) @ApiParam(value = "무장애코드 : physical / visibility / deaf / infant / senior") List<String> impairments,
-			@RequestParam(value = "page", required = true) @ApiParam(value = "페이지 번호 (0번부터 시작)", required = true) int page,
+			@RequestParam(value = "page", required = true) @ApiParam(value = "페이지 번호 (1번부터 시작)", required = true) int page,
 			@RequestParam(value = "size", required = true) @ApiParam(value = "한 페이지에 보여줄 게시글 수", required = true) int size) {
 		List<Map<String, Object>> result;
 		try {
