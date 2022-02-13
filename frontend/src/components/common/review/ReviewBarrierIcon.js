@@ -33,8 +33,10 @@ const ReviewBarrierIcon = ({ barriers }) => {
   }
   // console.log(barrierList)
   const barrierIconList = barrierList.map((Icon, barrier) => (
-    <img src={Icon} alt={barrier} width="30"></img>
+    <span>
+      <img src={Icon} alt={barrier} width="30"></img>
+    </span>
   ));
-  return <div>{barrierIconList}</div>;
+  return <span>{barrierIconList}</span>;
 };
 export default ReviewBarrierIcon;
