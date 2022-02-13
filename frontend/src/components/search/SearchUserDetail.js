@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import axios from '../../../node_modules/axios/index';
 import { useSelector } from 'react-redux';
-import SearchCardList from './SearchCardList.js';
+import SearchUserCardList from './SearchUserCardList.js';
 import Pagination from 'react-js-pagination';
 import './SearchDetail.css';
 
-const SearchDetail = ({ number, searchItem, noresult }) => {
+const SearchDetail = ({ searchItem, noresult }) => {
   const [searchList, setSearchList] = useState([]);
   const myuser = useSelector((state) => state.user.userData);
   const [page, setPage] = useState(1);
@@ -15,9 +15,8 @@ const SearchDetail = ({ number, searchItem, noresult }) => {
   const getSearchDetail = () => {
     axios({
       methods: 'GET',
-      url: '/search/tour',
+      url: '/search/user',
       params: {
-        contentTypeId: number,
         keyword: searchItem,
         page: page,
         size: 12,
@@ -32,7 +31,7 @@ const SearchDetail = ({ number, searchItem, noresult }) => {
 
   useEffect(() => {
     getSearchDetail();
-  }, [number, page]);
+  }, [page]);
 
   const handlePageChange = (page) => {
     setPage(page);
@@ -43,7 +42,7 @@ const SearchDetail = ({ number, searchItem, noresult }) => {
     <div>
       {searchList.length > 0 ? (
         <div>
-          <SearchCardList itemList={searchList}></SearchCardList>
+          <SearchUserCardList itemList={searchList}></SearchUserCardList>
           <Pagination
             activePage={page}
             itemsCountPerPage={12}
