@@ -406,6 +406,7 @@ public class UserServiceImpl implements UserService {
 			userinfo.put("userSeq", user.getUserSeq());
 			userinfo.put("userPhoto", user.getUserPhoto());
 			userinfo.put("userEmail", user.getUserEmail());
+			userinfo.put("impairment", userImpairmentRepository.findImpairment(user.getUserSeq()));
 		}
 		return userinfo;
 	}
