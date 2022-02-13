@@ -30,7 +30,7 @@ function Home() {
 
   return (
     <div className="Home">
-      <h1>Home</h1>
+      {/* <h1>Home</h1> */}
       <Container fixed>
         <Grid container>
           <Grid item xs={11}>
