@@ -1,10 +1,6 @@
 import WriteBarrierIcon from '../../components/write/WriteBarrierIcon';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  initialize,
-  changeField,
-  clickField,
-} from '../../_actions/write_actions';
+import { changeField, clickField } from '../../_actions/write_actions';
 import { useCallback } from 'react';
 
 const WriteBarrierIconContainer = () => {

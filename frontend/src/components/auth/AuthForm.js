@@ -3,16 +3,16 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Button from '../common/Button';
 import palette from '../../lib/styles/palette';
-import Physical from '../images/Physical.png';
-import PhysicalHide from '../images/PhysicalHide.png';
-import Auditory from '../images/Auditory.png';
-import AuditoryHide from '../images/AuditoryHide.png';
-import Pregnant from '../images/Pregnant.png';
-import PregnantHide from '../images/PregnantHide.png';
-import Senior from '../images/Senior.png';
-import SeniorHide from '../images/SeniorHide.png';
-import Visual from '../images/Visual.png';
-import VisualHide from '../images/VisualHide.png';
+import Physical from '../images/PhysicalCheck.png';
+import PhysicalHide from '../images/Physical60.png';
+import Auditory from '../images/AuditoryCheck.png';
+import AuditoryHide from '../images/Auditory60.png';
+import Pregnant from '../images/PregnantCheck.png';
+import PregnantHide from '../images/Pregnant60.png';
+import Senior from '../images/SeniorCheck.png';
+import SeniorHide from '../images/Senior60.png';
+import Visual from '../images/VisualCheck.png';
+import VisualHide from '../images/Visual60.png';
 import axios from 'axios';
 import KakaoImage from '../images/kakao_login_large_wide.png';
 import TextField from '@material-ui/core/TextField';
@@ -277,7 +277,7 @@ const AuthForm = ({
               <img
                 name="physical"
                 src={physicalFlag ? Physical : PhysicalHide}
-                width="30"
+                width="35"
                 onClick={() => {
                   if (form.physical) {
                     setForm({ ...form, physical: 0 });
@@ -291,7 +291,7 @@ const AuthForm = ({
               <img
                 name="visibility"
                 src={visibilityFlag ? Visual : VisualHide}
-                width="30"
+                width="35"
                 onClick={() => {
                   if (form.visibility) {
                     setForm({ ...form, visibility: 0 });
@@ -305,7 +305,7 @@ const AuthForm = ({
               <img
                 name="deaf"
                 src={deafFlag ? Auditory : AuditoryHide}
-                width="30"
+                width="35"
                 onClick={() => {
                   if (form.deaf) {
                     setForm({ ...form, deaf: 0 });
@@ -319,7 +319,7 @@ const AuthForm = ({
               <img
                 name="infant"
                 src={infantFlag ? Pregnant : PregnantHide}
-                width="30"
+                width="35"
                 onClick={() => {
                   if (form.infant) {
                     setForm({ ...form, infant: 0 });
@@ -333,7 +333,7 @@ const AuthForm = ({
               <img
                 name="senior"
                 src={seniorFlag ? Senior : SeniorHide}
-                width="30"
+                width="35"
                 onClick={() => {
                   if (form.senior) {
                     setForm({ ...form, senior: 0 });

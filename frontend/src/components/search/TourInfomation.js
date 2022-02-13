@@ -108,11 +108,7 @@ const TourInfomation = () => {
       else if (data[i].code == 'infant')
         result.push(
           <div>
-            <img
-              class="icon"
-              src={Infant}
-              dangerouslySetInnerHTML={{ __html: data[i].tiOverview }}
-            />
+            <img class="icon" src={Infant} />
             <p dangerouslySetInnerHTML={{ __html: data[i].tiOverview }}></p>
           </div>,
         );
