@@ -21,14 +21,13 @@
   box-sizing: border-box;
 }
 
-.comment-userid{
+.comment-userid {
   font-weight: bold;
   /* border: 1px solid; */
-  padding-bottom: 5px
-  ;
+  padding-bottom: 5px;
 }
 
-.comment-time{
+.comment-time {
   text-align: right;
   /* border: 1px solid; */
   font-size: small;
@@ -42,4 +41,8 @@ p {
 
 .comment-content {
   width: 50%;
+}
+
+.modify-box {
+  width: 100%;
 }

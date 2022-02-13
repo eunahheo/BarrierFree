@@ -74,6 +74,9 @@ const Review = () => {
   const onCommentHandler = (event) => {
     setNewComment(event.target.value);
   };
+  const onCommentReset = () => {
+    setNewComment('');
+  };
 
   const [loading, setLoading] = useState(false);
   const [checkFw, setCheckFw] = useState(false);
@@ -99,12 +102,12 @@ const Review = () => {
     //   console.log(e);
     // }
     getDetailFn();
-    getCommentList();
   }, []);
 
-  // useEffect(() => {
-  //   getCommentList();
-  // }, []);
+  useEffect(() => {
+    getCommentList();
+  }, [comments]);
+
   async function getDetailFn() {
     setLoading(true);
     try {
@@ -168,10 +171,11 @@ const Review = () => {
         userSeq: myuser.userSeq,
       };
       dispatch(commentSave(body));
+      alert('댓글 작성이 완료되었습니다. 😉');
     } else {
       alert('댓글을 입력해주세요 😉');
     }
-    getCommentList();
+    onCommentReset();
   };
 
   const onRemove = (id) => {

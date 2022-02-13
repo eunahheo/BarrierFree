@@ -21,9 +21,8 @@
   font-size: medium;
   color: white;
   border: 0;
-  
+
   border-radius: 5px;
-  
 }
 
 .arrow {
@@ -67,9 +66,10 @@ input {
 
 input::placeholder {
   color: black;
-  
 }
-input:focus {outline:none;}
+input:focus {
+  outline: none;
+}
 
 .button {
   margin-left: 1rem;
@@ -83,13 +83,12 @@ input:focus {outline:none;}
 }
 
 .review-content {
-  
   position: absolute;
   left: 50%;
   box-sizing: border-box;
   right: 10%;
   /* border: 1px solid; */
-  
+
   /* width: 50%; */
   /* margin-left: 3rem; */
   text-align: left;
@@ -142,6 +141,28 @@ input:focus {outline:none;}
   text-align: left;
 }
 
+.update-button {
+  margin-left: 0.2rem;
+  height: 20px;
+  width: 40px;
+  font-size: small;
+  color: white;
+  border: 0;
+  background-color: rgb(45, 64, 89);
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.delete-button {
+  margin-left: 0.1rem;
+  height: 20px;
+  width: 40px;
+  font-size: small;
+  color: white;
+  border: 0;
+  background-color: #ea5455;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
 /*    여기서부터는 리뷰 내용 자리    */
-
-
