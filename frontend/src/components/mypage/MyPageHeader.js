@@ -82,6 +82,7 @@ const MyPageHeader = ({ user }) => {
         });
       } catch (error) {
         console.log(error);
+        alert('에러 발생!');
       }
     } else {
       alert('사진을 추가하세요😀');

@@ -25,27 +25,33 @@ const ReviewCard = ({ item }) => {
         navigate(`/post/detail/${reviewCard}`);
       });
     } else {
-      alert('로그인이 필요합니다!😀');
+      alert(`${postTitle}에 대한 리뷰를 보시려면 로그인이 필요합니다!😀`);
+      navigate('/loginpage');
     }
   };
   const onClickHeart = () => {
-    setHeart(true);
-    axios({
-      method: 'get',
-      url: '/scrap/insert',
-      params: {
-        scrap_data: reviewCard,
-        scrap_type: 0,
-        user_seq: myuser.userSeq,
-      },
-    });
+    if (myuser) {
+      setHeart(true);
+      axios({
+        method: 'get',
+        url: '/scrap/insert',
+        params: {
+          scrap_data: reviewCard,
+          scrap_type: 0,
+          user_seq: myuser.userSeq,
+        },
+      });
+    } else {
+      alert('좋아요는 BF 회원만 가능합니다! 로그인 페이지로 이동할게요!😀');
+      navigate('/loginpage');
+    }
   };
 
   const onRemoveHeart = () => {
     setHeart(false);
     axios({
       method: 'get',
-      url: '/scrap/insert',
+      url: '/scrap/delete',
       params: {
         scrap_data: reviewCard,
         scrap_type: 0,

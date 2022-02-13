@@ -23,25 +23,25 @@ const PlaceBoxBlock = styled.div`
 `;
 
 const PlaceForm = styled.form`
-  overflow: hidden;
-  display: flex;
-  width: 100%;
+  // overflow: hidden;
+  // display: flex;
+  // width: 100%;
 
-  input,
-  button {
-    outline: none;
-    border: none;
-    font-size: 1.125rem;
-  }
+  // input,
+  // button {
+  //   outline: none;
+  //   border: none;
+  //   font-size: 1.125rem;
+  // }
 
-  button {
-    // background: ${palette.blue[0]};
-    color: ${palette.blue[0]};
-    &:hover {
-      background: ${palette.gray[0]};
-      color: ${palette.blue[0]};
-    }
-  }
+  // button {
+  //   // background: ${palette.blue[0]};
+  //   color: ${palette.blue[0]};
+  //   &:hover {
+  //     background: ${palette.gray[0]};
+  //     color: ${palette.blue[0]};
+  //   }
+  // }
 `;
 
 const PlaceItemBlock = styled.div`
@@ -121,7 +121,7 @@ const PlaceBox = ({ onChangePlace, onChangeField, postLocation }) => {
   const onLocationClick = (postLocation) => {
     setMyLocation(postLocation);
   };
-  const [mystyle, setStyle] = useState("display : 'none'");
+  // const [mystyle, setStyle] = useState("display : 'none'");
 
   // dialog
 
@@ -172,7 +172,7 @@ const PlaceBox = ({ onChangePlace, onChangeField, postLocation }) => {
       <div>
         <PlaceForm onSubmit={onSubmit}>
           <Paper
-            component="form"
+            // component="form"
             sx={{
               p: '2px 4px',
               display: 'flex',
@@ -188,13 +188,14 @@ const PlaceBox = ({ onChangePlace, onChangeField, postLocation }) => {
               value={input}
               onChange={onChange}
             />
-            <IconButton
+            {/* <IconButton
               onClick={handleClickOpen('paper')}
               sx={{ p: '10px' }}
               aria-label="search"
             >
-              <SearchIcon />
-            </IconButton>
+            </IconButton> */}
+            {/* <SearchIcon onClick={handleClickOpen('paper')} /> */}
+            <Button onClick={handleClickOpen('paper')}>검색</Button>
             <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
           </Paper>
         </PlaceForm>
@@ -265,7 +266,6 @@ const PlaceBox = ({ onChangePlace, onChangeField, postLocation }) => {
             </DialogActions>
           </Dialog>
         </div>
-        <br />
         {/* <PlaceItemBlock>
           <PlaceItem place={localPlace} onRemove={onRemove} />
         </PlaceItemBlock> */}
