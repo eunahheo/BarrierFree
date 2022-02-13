@@ -161,7 +161,7 @@ const Header = ({ user, onLogout }) => {
                 <MyButton onClick={onLogout}>로그아웃</MyButton>
               </Link>
               &nbsp; */}
-              <img src={user.userPhoto}></img>
+              {/* <img src={user.userPhoto}></img> */}
               <Box sx={{ flexGrow: 0 }}>
                 <Tooltip title="Open settings">
                   <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
