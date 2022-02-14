@@ -28,5 +28,5 @@ public interface ScrapRepository extends JpaRepository<Scrap, Long> {
 	public Scrap findByUserSeqAndScrapSeqAndDelYn(int userSeq, long postSeq, char delYn);
 
 	// 스크랩 하나 전체 내용 가져오기
-	public Optional<Scrap> findByUserSeqAndScrapTypeAndScrapDataAndDelYn(int userSeq, char scarpType, long scrapData, char delYn);
+	public Scrap findByUserSeqAndScrapDataAndScrapTypeAndDelYn(int userSeq,long scrapData, char scrapType, char delYn);
 }
