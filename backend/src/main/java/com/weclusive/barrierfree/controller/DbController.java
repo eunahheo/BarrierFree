@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,6 +26,18 @@ public class DbController {
 		
 		try {
 			dbService.searchContentId(pageNo, serviceKey, numOfRows);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return new ResponseEntity<String>("db", HttpStatus.OK);
+	}
+	
+	@PostMapping("/image")
+	public ResponseEntity<String> tourdb( ) {
+		
+		try {
+			dbService.updateImage();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
