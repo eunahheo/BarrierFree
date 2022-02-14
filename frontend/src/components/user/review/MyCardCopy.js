@@ -15,12 +15,6 @@ const MyCardCopy = ({ item }) => {
   const [heart, setHeart] = useState(false);
 
   const onClickCard = () => {
-    // axios({
-    //   method: 'GET',
-    //   url: '/post/detail',
-    //   params: { postSeq: reviewCard },
-    // }).then(function (res) {
-    // });
     navigate(`/post/detail/${reviewCard}`);
   };
   const onClickHeart = () => {
@@ -38,8 +32,8 @@ const MyCardCopy = ({ item }) => {
   const onRemoveHeart = () => {
     setHeart(false);
     axios({
-      method: 'get',
-      url: '/scrap/insert',
+      method: 'put',
+      url: '/scrap/delete',
       params: {
         scrap_data: reviewCard,
         scrap_type: 0,
@@ -60,7 +54,12 @@ const MyCardCopy = ({ item }) => {
         sx={{ maxWidth: 250 }}
       >
         {heart ? (
-          <h3 style={{ color: `${palette.pink[0]}`, cursor: 'pointer' }}>❤</h3>
+          <h3
+            style={{ color: `${palette.pink[0]}`, cursor: 'pointer' }}
+            onClick={onRemoveHeart}
+          >
+            ❤
+          </h3>
         ) : (
           <h3
             onClick={onClickHeart}

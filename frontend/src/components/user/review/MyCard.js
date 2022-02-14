@@ -38,8 +38,8 @@ const MyCard = ({ item }) => {
   const onRemoveHeart = () => {
     setHeart(false);
     axios({
-      method: 'get',
-      url: '/scrap/insert',
+      method: 'put',
+      url: '/scrap/delete',
       params: {
         scrap_data: reviewCard,
         scrap_type: 0,
@@ -60,7 +60,12 @@ const MyCard = ({ item }) => {
         sx={{ maxWidth: 250 }}
       >
         {heart ? (
-          <h3 style={{ color: `${palette.pink[0]}`, cursor: 'pointer' }}>❤</h3>
+          <h3
+            style={{ color: `${palette.pink[0]}`, cursor: 'pointer' }}
+            onClick={onRemoveHeart}
+          >
+            ❤
+          </h3>
         ) : (
           <h3
             onClick={onClickHeart}
