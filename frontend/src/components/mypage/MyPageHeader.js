@@ -80,8 +80,9 @@ const MyPageHeader = ({ user }) => {
             Authorization: `Bearer ${token}`,
           },
         });
-        alert('프로필 사진 변경 완료!😉');
         setImagePreview(null);
+        await dispatch(changeField({ key: 'postPhoto', value: response.data }));
+        alert('프로필 사진 변경 완료!😉');
       } catch (error) {
         console.log(error);
         alert('에러 발생');
