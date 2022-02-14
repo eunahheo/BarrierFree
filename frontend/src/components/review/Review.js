@@ -77,7 +77,7 @@ const Review = () => {
   const [heart, setHeart] = useState(false);
   const [scraptimes, setScraptimes] = useState([]);
   const [newComment, setNewComment] = useState('');
-
+  const { kakao } = window;
   const onCommentHandler = (event) => {
     setNewComment(event.target.value);
   };
@@ -123,6 +123,7 @@ const Review = () => {
       setReviewImage(res.data[0].post.postPhoto);
       setImgAlt(res.data[0].post.postAlt);
       setScraptimes(res.data[0].post.postScrap);
+      kakaomap_rendering(res.data[0].post);
       const response = await axios({
         method: 'get',
         url: '/othersFeed/main',
@@ -305,156 +306,206 @@ const Review = () => {
     setPassOpen(false);
   };
 
+  const kakaomap_rendering = (data) => {
+    const container = document.getElementById('myMap');
+    const options = {
+      center: new kakao.maps.LatLng(data.postLat, data.postLng),
+      level: 3,
+    };
+    const map = new kakao.maps.Map(container, options);
+    const markerPosition = new kakao.maps.LatLng(data.postLat, data.postLng);
+
+    const marker = new kakao.maps.Marker({
+      position: markerPosition,
+    });
+
+    marker.setMap(map);
+
+    var mapTypeControl = new kakao.maps.MapTypeControl();
+
+    map.addControl(mapTypeControl, kakao.maps.ControlPosition.TOPRIGHT);
+
+    var zoomControl = new kakao.maps.ZoomControl();
+    map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
+
+    map.addOverlayMapTypeId(kakao.maps.MapTypeId.TRAFFIC);
+
+    const roadviewContainer = document.getElementById('roadview');
+    const roadview = new kakao.maps.Roadview(roadviewContainer);
+    const roadviewClient = new kakao.maps.RoadviewClient();
+
+    const position = new kakao.maps.LatLng(data.postLat, data.postLng);
+
+    roadviewClient.getNearestPanoId(position, 50, function (panoId) {
+      roadview.setPanoId(panoId, position);
+    });
+  };
+
   return (
     <div>
       <ReviewBox>
-        {loading ? (
+        {/* {loading ? (
           <h1>Loading...</h1>
-        ) : (
-          <div class="review-box">
-            <div>
-              <div class="review">
-                <div class="review-img" onClick={TTS}>
-                  <img src={reviewImage} class="review-img-size" />
-                  <p>사진을 누르시면 사진 설명을 들으실 수 있어요 🎧</p>
+        ) : ( */}
+        <div class="review-box">
+          <div>
+            <div class="review">
+              <div class="review-img" onClick={TTS}>
+                <img src={reviewImage} class="review-img-size" />
+                <p>사진을 누르시면 사진 설명을 들으실 수 있어요 🎧</p>
+              </div>
+              <div class="review-content">
+                {reviewDetail.userSeq == myuser.userSeq ? (
+                  <div class="button-top">
+                    <button
+                      variant="contained"
+                      id="update"
+                      onClick={onEdit}
+                      style={{ cursor: 'pointer' }}
+                    >
+                      수정
+                    </button>
+                    <button
+                      variant="contained"
+                      id="delete"
+                      impact
+                      onClick={handleClickOpen}
+                      style={{ cursor: 'pointer' }}
+                    >
+                      삭제
+                    </button>
+                  </div>
+                ) : (
+                  <span></span>
+                )}
+                <h2>
+                  {heart ? (
+                    <span
+                      style={{
+                        color: `${palette.pink[0]}`,
+                        cursor: 'pointer',
+                      }}
+                      onClick={onRemoveHeart}
+                    >
+                      ❤
+                    </span>
+                  ) : (
+                    <span
+                      style={{
+                        color: `${palette.pink[0]}`,
+                        cursor: 'pointer',
+                      }}
+                      onClick={onClickHeart}
+                    >
+                      ♡
+                    </span>
+                  )}
+                  <span> {scraptimes}</span>
+                  {/* {review} */}
+                </h2>
+                <h1>{reviewDetail.postTitle}</h1>
+                <div>
+                  <div style={{ cursor: 'pointer' }}>
+                    <img
+                      className="toggle"
+                      src={otherUser.userPhoto}
+                      onClick={() => {
+                        navigate(`/user/${reviewDetail.userSeq}`);
+                      }}
+                    ></img>
+                    <span
+                      onClick={() => {
+                        navigate(`/user/${reviewDetail.userSeq}`);
+                        console.log('선택시 seq', reviewDetail.userSeq);
+                      }}
+                    >
+                      작성자 : {otherUser.userNickname}
+                    </span>
+
+                    {checkFw ? (
+                      <Button onClick={onUnfollow}>팔로잉</Button>
+                    ) : // ) : (reviewDetail.userSeq = myuser.userSeq) ? (
+                    reviewDetail.userSeq === myuser.userSeq ? (
+                      <></>
+                    ) : (
+                      <Button onClick={onFollow}>팔로우</Button>
+                    )}
+                  </div>
                 </div>
-                <div class="review-content">
-                  {reviewDetail.userSeq == myuser.userSeq ? (
-                    <div class="button-top">
-                      <button
-                        variant="contained"
-                        id="update"
-                        onClick={onEdit}
-                        style={{ cursor: 'pointer' }}
-                      >
-                        수정
-                      </button>
-                      <button
-                        variant="contained"
-                        id="delete"
-                        impact
-                        onClick={handleClickOpen}
-                        style={{ cursor: 'pointer' }}
-                      >
-                        삭제
-                      </button>
+                <br></br>
+                <p id="time">{reviewTime}</p>
+                <br></br>
+                <Rating name="read-only" value={reviewPoint} readOnly></Rating>
+                <div>
+                  <h3>{reviewDetail.postLocation}</h3>
+                </div>
+                <div>
+                  <span>{reviewDetail.postAddress}</span>
+                </div>
+                <h4>{reviewDetail.postContent}</h4>
+                {/* <p>{barriers}</p> */}
+                <div>
+                  <h2>지도</h2>
+                  <div
+                    id="myMap"
+                    style={{
+                      width: '100%',
+                      height: '350px',
+                      marginTop: '2rem',
+                    }}
+                  ></div>
+                  <div
+                    id="roadview"
+                    style={{
+                      width: '100%',
+                      height: '350px',
+                      marginTop: '0.5rem',
+                    }}
+                  ></div>
+                </div>
+                <ReviewBarrierIcon barriers={barriers}></ReviewBarrierIcon>
+                {/* <p class="text-content">{reviewDetail.postContent}</p> */}
+                <InfoIcon></InfoIcon>
+                {/* <span class="location-name">{reviewDetail.postLocation}</span> */}
+
+                <div class="comment-box">
+                  <form onSubmit={onSubmitHandler}>
+                    <input
+                      class="comment-input"
+                      placeholder="댓글을 입력하세요"
+                      onChange={onCommentHandler}
+                    ></input>
+                    <button
+                      class="button"
+                      onClick={onSubmitHandler}
+                      variant="contained"
+                      type="submit"
+                    >
+                      작성
+                    </button>
+                  </form>
+                  <p class="comment">댓글보기({commentCnt})</p>
+                  <hr class="hr-comment"></hr>
+                  {commentCnt >= 1 ? (
+                    <div class="comment-list">
+                      {comments.map((comment) => (
+                        <CommentItem
+                          comment={comment}
+                          key={comment.cmtSeq}
+                          onRemove={onRemove}
+                          getCommentList={getCommentList}
+                        />
+                      ))}
                     </div>
                   ) : (
-                    <span></span>
+                    <p class="no-comment">아직 댓글이 없어요 😉</p>
                   )}
-                  <h2>
-                    {heart ? (
-                      <span
-                        style={{
-                          color: `${palette.pink[0]}`,
-                          cursor: 'pointer',
-                        }}
-                        onClick={onRemoveHeart}
-                      >
-                        ❤
-                      </span>
-                    ) : (
-                      <span
-                        style={{
-                          color: `${palette.pink[0]}`,
-                          cursor: 'pointer',
-                        }}
-                        onClick={onClickHeart}
-                      >
-                        ♡
-                      </span>
-                    )}
-                    <span> {scraptimes}</span>
-                    {/* {review} */}
-                  </h2>
-                  <h1>{reviewDetail.postTitle}</h1>
-                  <div>
-                    <div style={{ cursor: 'pointer' }}>
-                      <img
-                        className="toggle"
-                        src={otherUser.userPhoto}
-                        onClick={() => {
-                          navigate(`/user/${reviewDetail.userSeq}`);
-                        }}
-                      ></img>
-                      <span
-                        onClick={() => {
-                          navigate(`/user/${reviewDetail.userSeq}`);
-                          console.log('선택시 seq', reviewDetail.userSeq);
-                        }}
-                      >
-                        작성자 : {otherUser.userNickname}
-                      </span>
-
-                      {checkFw ? (
-                        <Button onClick={onUnfollow}>팔로잉</Button>
-                      ) : // ) : (reviewDetail.userSeq = myuser.userSeq) ? (
-                      reviewDetail.userSeq === myuser.userSeq ? (
-                        <></>
-                      ) : (
-                        <Button onClick={onFollow}>팔로우</Button>
-                      )}
-                    </div>
-                  </div>
-                  <br></br>
-                  <p id="time">{reviewTime}</p>
-                  <br></br>
-                  <Rating
-                    name="read-only"
-                    value={reviewPoint}
-                    readOnly
-                  ></Rating>
-                  <div>
-                    <h3>{reviewDetail.postLocation}</h3>
-                  </div>
-                  <div>
-                    <span>{reviewDetail.postAddress}</span>
-                  </div>
-                  <h4>{reviewDetail.postContent}</h4>
-                  {/* <p>{barriers}</p> */}
-
-                  <ReviewBarrierIcon barriers={barriers}></ReviewBarrierIcon>
-                  {/* <p class="text-content">{reviewDetail.postContent}</p> */}
-                  <InfoIcon></InfoIcon>
-                  {/* <span class="location-name">{reviewDetail.postLocation}</span> */}
-                  <div class="comment-box">
-                    <form onSubmit={onSubmitHandler}>
-                      <input
-                        class="comment-input"
-                        placeholder="댓글을 입력하세요"
-                        onChange={onCommentHandler}
-                      ></input>
-                      <button
-                        class="button"
-                        onClick={onSubmitHandler}
-                        variant="contained"
-                        type="submit"
-                      >
-                        작성
-                      </button>
-                    </form>
-                    <p class="comment">댓글보기({commentCnt})</p>
-                    <hr class="hr-comment"></hr>
-                    {commentCnt >= 1 ? (
-                      <div class="comment-list">
-                        {comments.map((comment) => (
-                          <CommentItem
-                            comment={comment}
-                            key={comment.cmtSeq}
-                            onRemove={onRemove}
-                            getCommentList={getCommentList}
-                          />
-                        ))}
-                      </div>
-                    ) : (
-                      <p class="no-comment">아직 댓글이 없어요 😉</p>
-                    )}
-                  </div>
                 </div>
               </div>
             </div>
           </div>
-        )}
+        </div>
+        {/* )} */}
         <Dialog
           maxWidth="md"
           open={open}
