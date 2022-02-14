@@ -2,6 +2,7 @@ import WriteBarrierIcon from '../../components/write/WriteBarrierIcon';
 import { useDispatch, useSelector } from 'react-redux';
 import { changeField, clickField } from '../../_actions/write_actions';
 import { useCallback } from 'react';
+import write from '../../_reducers/write_reducer';
 
 const WriteBarrierIconContainer = () => {
   const dispatch = useDispatch();
@@ -14,6 +15,7 @@ const WriteBarrierIconContainer = () => {
       visibility: write.visibility,
     }),
   );
+  const impairment = useSelector((state) => state.write.impairment);
   const onClickField = useCallback(
     (payload) => {
       dispatch(clickField(payload));
@@ -29,12 +31,13 @@ const WriteBarrierIconContainer = () => {
   return (
     <WriteBarrierIcon
       onClickField={onClickField}
+      onChangeField={onChangeField}
       deaf={deaf}
       infant={infant}
       physical={physical}
       senior={senior}
       visibility={visibility}
-      onChangeField={onChangeField}
+      impairment={impairment}
     ></WriteBarrierIcon>
   );
 };

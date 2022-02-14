@@ -8,6 +8,7 @@ export const CLICK_FIELD = 'write/CLICK_FIELD';
 
 export const [WRITE_POST, WRITE_POST_SUCCESS, WRITE_POST_FAILURE] =
   createRequestActionTypes('write/WRITE_POST');
+export const SET_POST_CONTENT = 'write/SET_POST_CONTENT';
 
 export const initialize = createAction(INITIALIZE);
 export const changeField = createAction(CHANGE_FIELD, ({ key, value }) => ({
@@ -24,7 +25,7 @@ export const writePostAPI = ({
   postContent,
   postLocation,
   postPoint,
-  writeUserSeq,
+  userSeq,
   deaf,
   infant,
   physical,
@@ -45,7 +46,7 @@ export const writePostAPI = ({
     postLat,
     postLng,
     postLocation,
-    userSeq: writeUserSeq,
+    userSeq: userSeq,
     visibility,
     postAlt,
     postPoint: postPoint,
@@ -61,7 +62,7 @@ export const writePost = ({
   postTitle,
   postContent,
   postLocation,
-  writeUserSeq,
+  userSeq,
   postPoint,
   deaf,
   infant,
@@ -80,7 +81,7 @@ export const writePost = ({
     postContent,
     postLocation,
     postPoint,
-    writeUserSeq,
+    userSeq,
     deaf,
     infant,
     physical,
@@ -100,7 +101,7 @@ export const writePost = ({
       postContent,
       postLocation,
       postPoint,
-      writeUserSeq,
+      userSeq,
       deaf,
       infant,
       physical,
@@ -115,3 +116,5 @@ export const writePost = ({
     },
   };
 };
+
+export const setPostContent = createAction(SET_POST_CONTENT, (post) => post);
