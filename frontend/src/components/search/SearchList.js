@@ -9,6 +9,7 @@ const SearchList = ({
   searchPartyList,
   searchReivewList,
   searchUserList,
+  searchCultureList,
   changeFindSearch,
   setNumber,
   setTitle,
@@ -29,6 +30,12 @@ const SearchList = ({
     changeFindSearch();
     setNumber(32);
     setTitle('숙박시설');
+  };
+
+  const onClickCulture = () => {
+    changeFindSearch();
+    setNumber(14);
+    setTitle('문화');
   };
 
   const onClickParty = () => {
@@ -101,6 +108,25 @@ const SearchList = ({
         ) : (
           <div>
             <h2 class="title">숙박시설</h2>
+            <p>{noresult}</p>
+          </div>
+        )}
+      </div>
+      <div>
+        {searchCultureList.length >= 1 ? (
+          <div>
+            <h2 class="title">
+              문화
+              <p class="more" onClick={onClickCulture}>
+                +더보기
+              </p>
+            </h2>
+
+            <SearchCardList itemList={searchCultureList}></SearchCardList>
+          </div>
+        ) : (
+          <div>
+            <h2 class="title">문화</h2>
             <p>{noresult}</p>
           </div>
         )}

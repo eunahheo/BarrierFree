@@ -7,6 +7,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import palette from '../../../lib/styles/palette';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import LocationIcon from '@mui/icons-material/LocationOn';
 
 const ReviewCard = ({ item }) => {
   const myuser = useSelector((state) => state.user.userData);
@@ -110,7 +111,7 @@ const ReviewCard = ({ item }) => {
 
         <CardContent align="left">
           <Typography variant="body2" color="text.secondary">
-            {postLocation}
+            <LocationIcon sx={{ fontSize: 15 }} /> {postLocation}
           </Typography>
           {postTitle}
           <div>

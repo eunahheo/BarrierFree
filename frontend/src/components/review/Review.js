@@ -104,10 +104,6 @@ const Review = () => {
         setHeart(true);
       }
     });
-    //     }),
-    // catch (e) {
-    //   console.log(e);
-    // }
     getDetailFn();
     getCommentList();
   }, []);
@@ -438,6 +434,7 @@ const Review = () => {
                             comment={comment}
                             key={comment.cmtSeq}
                             onRemove={onRemove}
+                            getCommentList={getCommentList}
                           />
                         ))}
                       </div>

@@ -1,7 +1,7 @@
-import React from "react";
-import { Card, CardMedia, CardContent, Typography } from "@mui/material";
-import BarrierIcon from "./BarrierIcon";
-
+import React from 'react';
+import { Card, CardMedia, CardContent, Typography } from '@mui/material';
+import BarrierIcon from './BarrierIcon';
+import LocationIcon from '@mui/icons-material/LocationOn';
 
 function MainCard(post_photo, post_location, post_title, impairment) {
   return (
@@ -13,19 +13,18 @@ function MainCard(post_photo, post_location, post_title, impairment) {
           image={post_photo}
           alt="Dog Picture"
         />
-        
+
         <CardContent align="left">
           <Typography variant="body2" color="text.secondary">
-            {post_location}
+            <LocationIcon sx={{ fontSize: 15 }} /> {post_location}
           </Typography>
-            {post_title}
-            {impairment}
+          {post_title}
+          {impairment}
           <BarrierIcon></BarrierIcon>
         </CardContent>
-
       </Card>
     </div>
-  )
+  );
 }
 // function textAxios() {
 //   axios(
@@ -52,7 +51,6 @@ function MainCard(post_photo, post_location, post_title, impairment) {
 //     });
 //   })
 
-
 //   // function testAxios(){
 //   //     axios(
 //   //         {
@@ -67,7 +65,7 @@ function MainCard(post_photo, post_location, post_title, impairment) {
 //   //         }
 //   //       ).then(function (response) {
 //   //         console.log(response.data)
-//   //       });   
+//   //       });
 
 //   return (
 //     <div>
@@ -87,7 +85,7 @@ function MainCard(post_photo, post_location, post_title, impairment) {
 //       </CardContent>
 //     </Card>
 //   </div>
-      
+
 //   );
 //   }
 export default MainCard;
