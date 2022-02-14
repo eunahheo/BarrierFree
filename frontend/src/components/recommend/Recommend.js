@@ -14,6 +14,7 @@ import qs from 'qs';
 import Button from '../common/Button';
 import RecommendList from './RecommendList';
 import RecommendDetail from './RecommendDetail';
+import MyLocationIcon from '@mui/icons-material/MyLocation';
 
 const Recommend = () => {
   const myuser = useSelector((state) => state.user.userData);
@@ -56,6 +57,7 @@ const Recommend = () => {
     if (navigator.geolocation) {
       //위치 정보를 얻기
       navigator.geolocation.getCurrentPosition(function (res) {
+        console.log(res)
         axios({
           method: 'GET',
           url: '/recommend/myloc',
@@ -66,12 +68,14 @@ const Recommend = () => {
             radius: 5000,
             userSeq: myuser.userSeq,
             page: 1,
-            size: 4,
+            size: 20,
           },
         }).then(function (res) {
           if (res.data === '검색결과가 없습니다.') {
+            console.log('hey')
             setItemList([]);
           } else {
+            console.log(res.data)
             setItemList(res.data);
           }
         });
@@ -355,7 +359,6 @@ const Recommend = () => {
     <div>
       {/* <Header /> */}
       <Container maxWidth="md">
-        <h2>내 주변 무장애 여행지</h2>
         <div class="selete-box">
           <h3>무장애 선택하기</h3>
           <div>
@@ -364,31 +367,31 @@ const Recommend = () => {
               id="physical"
               onClick={onClickBarrier}
               src={Physical}
-            ></img>
+              ></img>
             <img
               class="barrier-icon"
               id="visibility"
               onClick={onClickBarrier}
               src={Visual}
-            ></img>
+              ></img>
             <img
               class="barrier-icon"
               id="deaf"
               onClick={onClickBarrier}
               src={Auditory}
-            ></img>
+              ></img>
             <img
               class="barrier-icon"
               id="infant"
               onClick={onClickBarrier}
               src={Pregnant}
-            ></img>
+              ></img>
             <img
               class="barrier-icon"
               id="senior"
               onClick={onClickBarrier}
               src={Senior}
-            ></img>
+              ></img>
           </div>
           <h3>무장애 여행지역</h3>
           <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
@@ -399,7 +402,7 @@ const Recommend = () => {
               value={city}
               onChange={handleChangeCity}
               label="시도"
-            >
+              >
               {cityList.map((city) => (
                 <MenuItem name={city.name} value={city.code} key={city.code}>
                   {city.name}
@@ -415,7 +418,7 @@ const Recommend = () => {
               value={town}
               onChange={handleChangeTown}
               label="시도"
-            >
+              >
               {townList.map((town) => (
                 <MenuItem value={town.code} key={town.rnum}>
                   {town.name}
@@ -435,13 +438,15 @@ const Recommend = () => {
         <div>
           {search === false ? (
             <div>
+              <h2>내 주변 무장애 여행지</h2>
+              <span onClick={findMyLocation}><MyLocationIcon fontSize="small"></MyLocationIcon>내 위치 가져오기</span>
               {itemList.length > 0 ? (
                 <div>
                   <RecommendCardList itemList={itemList}></RecommendCardList>
                 </div>
               ) : (
                 <div>{noresult}</div>
-              )}
+                )}
             </div>
           ) : findSearch === false ? (
             <div>
