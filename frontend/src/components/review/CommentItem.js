@@ -24,7 +24,7 @@ const CommentItemBox = styled.div`
   }
 `;
 
-const CommentItem = ({ comment, onRemove }) => {
+const CommentItem = ({ comment, onRemove, getCommentList }) => {
   const CommentTime = comment.comment.regDt.substring(0, 10);
   const commentNum = comment.comment.cmtSeq;
   const [newComment, setNewComment] = useState('');
@@ -44,6 +44,7 @@ const CommentItem = ({ comment, onRemove }) => {
     onRemove(commentNum);
     dispatch(commentDelete(params));
     alert('댓글 삭제가 완료되었습니다. 😉');
+    getCommentList();
   };
 
   const onUpdateHandler = (event) => {
