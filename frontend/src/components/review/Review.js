@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { commentSave } from '../../_actions/comment_actions';
 import styled from 'styled-components';
 import palette from '../../lib/styles/palette.js';
-import { useNavigate } from '../../../node_modules/react-router/index.js';
+import { useNavigate } from 'react-router-dom';
 import Button from '../common/Button.js';
 import {
   follow,
@@ -18,6 +18,10 @@ import {
 } from '../../_actions/relationship_actions.js';
 import ReviewBarrierIcon from '../common/review/ReviewBarrierIcon.js';
 import { setPostContent } from '../../_actions/write_actions.js';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import TextField from '@mui/material/TextField';
 
 const ReviewBox = styled.div`
   display: flex;
@@ -261,6 +265,50 @@ const Review = () => {
     dispatch(setPostContent(postInfo));
     navigate('/write');
   };
+
+  // 게시글 삭제
+  const [open, setOpen] = React.useState(false);
+  const [passOpen, setPassOpen] = React.useState(false);
+
+  const onDelete = () => {
+    axios({
+      method: 'put',
+      url: '/post/delete',
+      params: {
+        postSeq: reviewNum,
+        userSeq: myuser.userSeq,
+      },
+    }).then(alert('삭제가 완료되었습니다!'), navigate(-1));
+  };
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handlePassOpen = () => {
+    setPassOpen(true);
+  };
+  const updatePass = () => {
+    const token = localStorage.getItem('accessToken');
+    setPassOpen(true);
+    axios({});
+    handlePassClose();
+  };
+
+  const handlePassClose = () => {
+    // setUserPwd('');
+    // setUserConfirmPwd('');
+    // setErrorMessage({
+    //   ...errorMessage,
+    //   confirmPwdError: '',
+    //   pwdError: '',
+    // });
+    setPassOpen(false);
+  };
+
   return (
     <div>
       <ReviewBox>
@@ -285,7 +333,13 @@ const Review = () => {
                       >
                         수정
                       </button>
-                      <button variant="contained" id="delete">
+                      <button
+                        variant="contained"
+                        id="delete"
+                        impact
+                        onClick={handleClickOpen}
+                        style={{ cursor: 'pointer' }}
+                      >
                         삭제
                       </button>
                     </div>
@@ -404,6 +458,28 @@ const Review = () => {
             </div>
           </div>
         )}
+        <Dialog
+          maxWidth="md"
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          {/* <DialogTitle id="alert-dialog-title">
+          베리어 프리를 탈퇴하실 건가요?
+        </DialogTitle> */}
+          <DialogContent style={{ margin: 'auto' }}>
+            <h3> 게시글을 삭제하실 건가요?</h3> <span>😢</span>
+            <br></br>
+            <br></br>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose}>잘못 눌렀어요</Button>
+            <Button impact autoFocus onClick={onDelete}>
+              삭제
+            </Button>
+          </DialogActions>
+        </Dialog>
       </ReviewBox>
     </div>
   );
