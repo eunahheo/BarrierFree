@@ -3,7 +3,7 @@ import palette from '../../lib/styles/palette';
 import Button from '../common/Button';
 import MyPageContent from '../../components/mypage/MyPageContent';
 import Grid from '@material-ui/core/Grid';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
 
@@ -80,9 +80,11 @@ const MyPageHeader = ({ user }) => {
             Authorization: `Bearer ${token}`,
           },
         });
+        alert('프로필 사진 변경 완료!😉');
+        setImagePreview(null);
       } catch (error) {
         console.log(error);
-        alert('에러 발생!');
+        alert('에러 발생');
       }
     } else {
       alert('사진을 추가하세요😀');

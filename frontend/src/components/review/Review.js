@@ -17,14 +17,11 @@ import {
   unfollow,
 } from '../../_actions/relationship_actions.js';
 import ReviewBarrierIcon from '../common/review/ReviewBarrierIcon.js';
-<<<<<<< HEAD
-=======
 import { setPostContent } from '../../_actions/write_actions.js';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import TextField from '@mui/material/TextField';
->>>>>>> feat/fe-146-postUD
 
 const ReviewBox = styled.div`
   display: flex;
@@ -64,7 +61,7 @@ const Review = () => {
   const pageNum = useParams();
   const reviewNum = Number(pageNum.reviewCard);
   const myuser = useSelector((state) => state.user.userData);
-
+  const [postInfo, setPostInfo] = useState(null);
   // review 내용 불러오기 위한 const
   // debugger;
   const [reviewDetail, setReviewDetail] = useState([]);
@@ -116,6 +113,7 @@ const Review = () => {
         url: '/post/detail',
         params: { postSeq: reviewNum },
       });
+      setPostInfo(res.data[0]);
       setReviewDetail(res.data[0].post);
       setBarriers(res.data[0].impairment);
       setReviewPoint(res.data[0].post.postPoint);
@@ -318,7 +316,12 @@ const Review = () => {
                 <div class="review-content">
                   {reviewDetail.userSeq == myuser.userSeq ? (
                     <div class="button-top">
-                      <button variant="contained" id="update">
+                      <button
+                        variant="contained"
+                        id="update"
+                        onClick={onEdit}
+                        style={{ cursor: 'pointer' }}
+                      >
                         수정
                       </button>
                       <button
