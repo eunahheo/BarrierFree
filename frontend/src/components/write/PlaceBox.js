@@ -357,10 +357,6 @@ const PlaceBox = ({ onChangePlace, onChangeField, postLocation }) => {
                         key: 'postLng',
                         value: searchPlace.postLng,
                       });
-                      onChangeField({
-                        key: 'contentId',
-                        value: searchPlace.contentId,
-                      });
                       setInput(searchPlace.postLocation);
                       setOpen(false);
                     }}

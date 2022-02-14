@@ -8,8 +8,10 @@ import { useParams } from 'react-router';
 function UserPage({ type }) {
   return (
     <div>
-      <h1>userpage</h1>
-
+      <br></br>
+      <br></br>
+      <br></br>
+      <br></br>
       {type === 'post' && (
         <UserReview>
           <h2>userpage-myreviewpage</h2>

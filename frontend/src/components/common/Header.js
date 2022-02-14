@@ -18,6 +18,7 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../_actions/user_actions';
 import BarrierFreeLogo from '../images/barrierfreelogo.png';
+import { initialize } from '../../_actions/write_actions';
 
 const HeaderBox = styled.div`
   display: flex;
@@ -108,7 +109,9 @@ const Header = ({ user, onLogout }) => {
             width="120"
             className="logo"
             onClick={() => {
-              window.location.replace('/');
+              // dispatch(initialize());
+              // window.location.replace('/');
+              navigate('/');
             }}
           ></img>
           <div

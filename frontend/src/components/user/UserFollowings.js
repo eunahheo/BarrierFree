@@ -156,7 +156,7 @@ const UserFollowings = () => {
   }, []);
 
   if (loading) return <div>로딩중..</div>;
-  if (error) return <div>에러가 발생했습니다</div>;
+  // if (error) return <div>에러가 발생했습니다</div>;
   if (!userfollowings) return null;
 
   const onRemove = (id) => {
@@ -167,7 +167,6 @@ const UserFollowings = () => {
 
   return (
     <div>
-      <h2>UserFollowings</h2>
       {userfollowings &&
         userfollowings.map((userfollowing) => (
           <UserFollowing
