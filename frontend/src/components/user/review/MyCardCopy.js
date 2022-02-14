@@ -6,11 +6,14 @@ import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import palette from '../../../lib/styles/palette';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import LocationIcon from '@mui/icons-material/LocationOn';
 
 const MyCardCopy = ({ item }) => {
   const myuser = useSelector((state) => state.user.userData);
   const navigate = useNavigate();
-  const { postPhoto, postLocation, postTitle, scrapYn } = item;
+  const { postPhoto, postLocation, postTitle, scrapYn, impairment } = item;
   const reviewCard = item.postSeq;
   const [heart, setHeart] = useState(false);
 
@@ -38,8 +41,8 @@ const MyCardCopy = ({ item }) => {
   const onRemoveHeart = () => {
     setHeart(false);
     axios({
-      method: 'get',
-      url: '/scrap/insert',
+      method: 'put',
+      url: '/scrap/delete',
       params: {
         scrap_data: reviewCard,
         scrap_type: 0,
@@ -55,20 +58,34 @@ const MyCardCopy = ({ item }) => {
   return (
     <div>
       <Card
-        style={{ cursor: 'pointer' }}
+        style={{ cursor: 'pointer', position: 'relative' }}
         reviewCard={reviewCard}
         sx={{ maxWidth: 250 }}
       >
         {heart ? (
-          <h3 style={{ color: `${palette.pink[0]}`, cursor: 'pointer' }}>❤</h3>
+          <FavoriteIcon
+            onClick={onRemoveHeart}
+            style={{
+              color: `${palette.pink[0]}`,
+              cursor: 'pointer',
+              position: 'absolute',
+              top: '10',
+              right: '10',
+            }}
+          />
         ) : (
-          <h3
+          <FavoriteBorderIcon
             onClick={onClickHeart}
-            style={{ color: `${palette.pink[0]}`, cursor: 'pointer' }}
-          >
-            ♡
-          </h3>
+            style={{
+              color: `${palette.pink[0]}`,
+              cursor: 'pointer',
+              position: 'absolute',
+              top: '10',
+              right: '10',
+            }}
+          />
         )}
+
         <div onClick={onClickCard}>
           <CardMedia
             component="img"
@@ -79,9 +96,10 @@ const MyCardCopy = ({ item }) => {
           />
           <CardContent align="left">
             <Typography variant="body2" color="text.secondary">
-              {postLocation}
+              <LocationIcon sx={{ fontSize: 15 }} /> {postLocation}
             </Typography>
             {postTitle}
+            {/* <RecommendBarrierIcon barriers={impairment}></RecommendBarrierIcon> */}
           </CardContent>
         </div>
       </Card>
