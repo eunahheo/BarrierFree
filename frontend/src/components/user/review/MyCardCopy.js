@@ -18,12 +18,6 @@ const MyCardCopy = ({ item }) => {
   const [heart, setHeart] = useState(false);
 
   const onClickCard = () => {
-    // axios({
-    //   method: 'GET',
-    //   url: '/post/detail',
-    //   params: { postSeq: reviewCard },
-    // }).then(function (res) {
-    // });
     navigate(`/post/detail/${reviewCard}`);
   };
   const onClickHeart = () => {
@@ -63,6 +57,7 @@ const MyCardCopy = ({ item }) => {
         sx={{ maxWidth: 250 }}
       >
         {heart ? (
+<<<<<<< HEAD
           <FavoriteIcon
             onClick={onRemoveHeart}
             style={{
@@ -73,6 +68,14 @@ const MyCardCopy = ({ item }) => {
               right: '10',
             }}
           />
+=======
+          <h3
+            style={{ color: `${palette.pink[0]}`, cursor: 'pointer' }}
+            onClick={onRemoveHeart}
+          >
+            ❤
+          </h3>
+>>>>>>> 08469813a04d33e75fb6e5240e05a369b8d170d7
         ) : (
           <FavoriteBorderIcon
             onClick={onClickHeart}

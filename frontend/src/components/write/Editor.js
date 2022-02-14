@@ -248,7 +248,7 @@ const Editor = ({
               <input
                 type="file"
                 id="upload-profile-image"
-                capture="user"
+                // capture="user"
                 accept="image/*"
                 onChange={onUpload}
                 ref={(refParam) => (inputRef = refParam)}

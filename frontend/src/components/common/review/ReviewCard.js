@@ -53,7 +53,7 @@ const ReviewCard = ({ item }) => {
   const onRemoveHeart = () => {
     setHeart(false);
     axios({
-      method: 'get',
+      method: 'put',
       url: '/scrap/delete',
       params: {
         scrap_data: reviewCard,
@@ -85,6 +85,7 @@ const ReviewCard = ({ item }) => {
               top: '10',
               right: '10',
             }}
+            onClick={{ onRemoveHeart }}
           />
         ) : (
           <FavoriteBorderIcon
