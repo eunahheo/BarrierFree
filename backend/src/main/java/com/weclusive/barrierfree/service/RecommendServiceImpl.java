@@ -165,7 +165,7 @@ public class RecommendServiceImpl implements RecommendService {
 	}
 
 	@Override
-	public List<Map<String, Object>> search(int userSeq, String sidoCode, String sigunguCode, String contentTypeId,
+	public List<Map<String, Object>> search(int userSeq, String sidoCode, String sigunguCode, String[] contentTypeId,
 			List<String> impairments, int page, int size) throws Exception {
 		List<Map<String, Object>> result = new LinkedList<>();
 		PageRequest pageRequest = PageRequest.of(page, size);
@@ -188,12 +188,12 @@ public class RecommendServiceImpl implements RecommendService {
 					if(impairments==null) {
 						//컨텐츠타입id만 입력한 검색결과
 						System.out.println("컨텐츠타입id만 입력한 검색결과");
-						pageTours = tRepository.findByDelYnAndTourapiContenttypeid('n', contentTypeId, pageRequest);
+						pageTours = tRepository.findByDelYnAndTourapiContenttypeidIn('n', contentTypeId, pageRequest);
 					}
 					else {
 						//컨텐츠타입id와 무장애정보를 입력한 검색결과
 						System.out.println("컨텐츠타입id와 무장애정보를 입력한 검색결과");
-						pageTours = tRepository.findByTourapiContenttypeidAndImpariments('n', contentTypeId, impairments, pageRequest);
+						pageTours = tRepository.findByTourapiContenttypeidInAndImpariments('n', contentTypeId, impairments, pageRequest);
 					}
 				}
 			}
@@ -215,7 +215,7 @@ public class RecommendServiceImpl implements RecommendService {
 						if(impairments == null) {
 							//시도와 컨텐츠타입id를 입력한 검색결과
 							System.out.println("시도와 컨텐츠타입id를 입력한 검색결과");
-							pageTours = tRepository.findByDelYnAndSidoCodeAndTourapiContenttypeid('n', sidoCode, contentTypeId, pageRequest);
+							pageTours = tRepository.findByDelYnAndSidoCodeAndTourapiContenttypeidIn('n', sidoCode, contentTypeId, pageRequest);
 						}
 						else {
 							//시도,컨텐츠타입id,무장애정보를 입력한 검색결과
@@ -241,7 +241,7 @@ public class RecommendServiceImpl implements RecommendService {
 						if(impairments == null) {
 							//시도,시군구,컨텐츠타입id를 입력한 검색결과
 							System.out.println("시도,시군구,컨텐츠타입id를 입력한 검색결과");
-							pageTours =  tRepository.findByDelYnAndSidoCodeAndSigunguCodeAndTourapiContenttypeid('n', sidoCode, sigunguCode, contentTypeId, pageRequest);
+							pageTours =  tRepository.findByDelYnAndSidoCodeAndSigunguCodeAndTourapiContenttypeidIn('n', sidoCode, sigunguCode, contentTypeId, pageRequest);
 						}
 						else {
 							//시도,시군구,컨텐츠타입id,무장애정보를 입력한 검색결과
@@ -258,6 +258,7 @@ public class RecommendServiceImpl implements RecommendService {
 				obj.put("title", t.getTourapiTitle());
 				obj.put("addr1", t.getTourapiAddr1());
 				obj.put("contentid", t.getContentId());
+				obj.put("contenttypeid", t.getTourapiContenttypeid());
 				obj.put("firstimage", t.getTourapiImage());
 				char scrap_yn = 'n';
 				// 현재 사용자의 seq를 가져오는 api 필요
