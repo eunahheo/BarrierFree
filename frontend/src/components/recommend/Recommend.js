@@ -20,6 +20,15 @@ import Button from '../common/Button';
 import RecommendList from './RecommendList';
 import RecommendDetail from './RecommendDetail';
 import MyLocationIcon from '@mui/icons-material/MyLocation';
+import styled from 'styled-components';
+
+const AuthBarrierIconBlock = styled.div`
+  img {
+    margin: 1rem 0.5rem 0;
+    cursor: pointer;
+    width: 33;
+  }
+`;
 
 const Recommend = () => {
   const myuser = useSelector((state) => state.user.userData);
@@ -415,7 +424,7 @@ const Recommend = () => {
       <Container maxWidth="md">
         <div class="selete-box">
           <h3>무장애 선택하기</h3>
-          <div>
+          <AuthBarrierIconBlock>
             <img
               class="barrier-icon"
               id="physical"
@@ -486,7 +495,7 @@ const Recommend = () => {
               }}
               src={seniorFlag ? Senior : SeniorHide}
             ></img>
-          </div>
+          </AuthBarrierIconBlock>
           <h3>무장애 여행지역</h3>
           <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
             <InputLabel id="find-city">시도 검색</InputLabel>
