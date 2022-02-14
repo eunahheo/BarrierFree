@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
-import { changeField } from '../../_actions/write_actions';
+import { changeField } from '../../_actions/user_actions';
 
 const MyPageHeaderBlock = styled.div`
   display: flex;
@@ -52,7 +52,7 @@ const MyPageHeader = ({ user }) => {
   // console.log(token);
   // const [postPhoto, setPostPhoto] = useState('');
   const dispatch = useDispatch();
-  const userPhoto = useSelector((state) => state.user.userData);
+  // const userPhoto = useSelector((state) => state.user.userData);
   const onUpload = (event) => {
     event.preventDefault();
     const file = event.target.files[0];
@@ -84,7 +84,7 @@ const MyPageHeader = ({ user }) => {
           },
         });
         setImagePreview(null);
-        await dispatch(changeField({ key: 'postPhoto', value: response.data }));
+        await dispatch(changeField({ key: 'userPhoto', value: response.data }));
         alert('프로필 사진 변경 완료!😉');
       } catch (error) {
         console.log(error);
@@ -119,7 +119,7 @@ const MyPageHeader = ({ user }) => {
             {imagePreview != null ? (
               <img className="toggle" src={imagePreview} />
             ) : (
-              <img className="toggle" src={userPhoto} />
+              <img className="toggle" src={myuser.userPhoto} />
             )}
             {/* <img className="toggle" 
             src={user.userPhoto} /> */}
