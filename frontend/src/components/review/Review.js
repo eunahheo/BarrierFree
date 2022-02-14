@@ -17,14 +17,11 @@ import {
   unfollow,
 } from '../../_actions/relationship_actions.js';
 import ReviewBarrierIcon from '../common/review/ReviewBarrierIcon.js';
-<<<<<<< HEAD
-=======
 import { setPostContent } from '../../_actions/write_actions.js';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import TextField from '@mui/material/TextField';
->>>>>>> feat/fe-146-postUD
 
 const ReviewBox = styled.div`
   display: flex;
