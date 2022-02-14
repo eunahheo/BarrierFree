@@ -56,7 +56,7 @@ public class SearchController {
 	}
 
 	@GetMapping("/tour")
-	@ApiOperation(value = "키워드로 관광 명소 검색", notes = "contentTypeId - 전체 : 0 / 관광 명소 : 12 / 음식점 : 39 / 숙박 : 32 / 행사 : 15 / 쇼핑 : 38 / 문화시설 : 14 / 레포츠 : 28")
+	@ApiOperation(value = "키워드로 관광 명소 검색", notes = "contentTypeId - 전체 : 0 / 관광 명소 : 12 / 음식점 : 39 / 숙박 : 32 / 행사 : 15 / 문화시설, 쇼핑, 레포츠 : 14 / 레포츠 : 28")
 	public ResponseEntity<Object> searchTour(@ApiParam(value = "검색 키워드") @RequestParam String keyword,
 			@ApiParam(value = "컨텐트 타입 번호") @RequestParam String contentTypeId, @RequestParam int userSeq,
 			@ApiParam(value = "페이지 번호") @RequestParam int page,
