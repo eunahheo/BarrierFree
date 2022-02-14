@@ -49,7 +49,7 @@ const MyPageHeader = ({ user }) => {
   const token = localStorage.getItem('accessToken');
   // console.log(token);
   // const [postPhoto, setPostPhoto] = useState('');
-
+  const userPhoto = useSelector((state) => state.user.userData);
   const onUpload = (event) => {
     event.preventDefault();
     const file = event.target.files[0];
@@ -115,7 +115,7 @@ const MyPageHeader = ({ user }) => {
             {imagePreview != null ? (
               <img className="toggle" src={imagePreview} />
             ) : (
-              <img className="toggle" src={user.userPhoto} />
+              <img className="toggle" src={userPhoto} />
             )}
             {/* <img className="toggle" 
             src={user.userPhoto} /> */}
