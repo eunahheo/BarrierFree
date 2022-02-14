@@ -11,6 +11,7 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import TextField from '@mui/material/TextField';
 import { userInfo } from '../../_actions/user_actions';
+import MypageBarriers from './MypageBarriers';
 
 const MyPageContentBlock = styled.div``;
 
@@ -172,7 +173,7 @@ const MyPageContent = ({ user }) => {
           비밀번호 :{' '}
           <span>
             <Button onClick={handlePassOpen}>비밀번호 변경</Button>
-            <WriteBarrierIcon></WriteBarrierIcon>
+            <MypageBarriers></MypageBarriers>
           </span>
         </h3>
         <Button impact onClick={handleClickOpen}>
