@@ -11,6 +11,8 @@ import Infant from '../images/Pregnant.png';
 import Senior from '../images/Senior.png';
 import Visibility from '../images/Visual.png';
 import ReviewCardList from '../user/review/ReviewCardList';
+import { Container } from '@material-ui/core';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
 
 const TourInfomation = () => {
   const pageNum = useParams();
@@ -29,6 +31,7 @@ const TourInfomation = () => {
   }, []);
 
   const getPostDetail = () => {
+    console.log(contentid)
     axios({
       method: 'GET',
       url: '/recommend/detail',
@@ -38,6 +41,7 @@ const TourInfomation = () => {
       },
     })
       .then((res) => {
+        console.log(res)
         setInfomationDetail(res.data);
         imp_rendering(res.data.impairments);
         setPosts(res.data.posts);
@@ -126,11 +130,13 @@ const TourInfomation = () => {
 
   return (
     <div>
+      <Container>
       <div class="infomation-box">
         <div>
           <div class="infomation">
             <div class="info-scrap">스크랩 : {infomationDetail.scraptimes}</div>
-            <div class="info-title">{infomationDetail.title}</div>
+            <h1><LocationOnIcon></LocationOnIcon>  {infomationDetail.title}</h1>
+            <hr></hr>
             <div class="info-img">
               <img src={infomationDetail.firstimage}></img>
             </div>
@@ -175,14 +181,18 @@ const TourInfomation = () => {
                   }}
                 ></div>
               </div>
-              <div>
-                <h2>{infomationDetail.title}에 대한 게시글</h2>
+              
+            </div>
+            <div>
+              <br></br>
+                <h2>{infomationDetail.title}을 다녀간 친구들의 게시글</h2>
                 <ReviewCardList itemList={posts}></ReviewCardList>
               </div>
-            </div>
           </div>
         </div>
       </div>
+
+      </Container>
     </div>
   );
 };
