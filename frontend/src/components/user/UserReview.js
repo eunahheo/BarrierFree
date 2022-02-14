@@ -15,7 +15,7 @@ const UserReview = () => {
 
   useEffect(() => {
     getUserReview();
-  }, []);
+  }, [currentUser]);
 
   const getUserReview = async () => {
     try {

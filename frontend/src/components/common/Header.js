@@ -108,7 +108,7 @@ const Header = ({ user, onLogout }) => {
             width="120"
             className="logo"
             onClick={() => {
-              navigate('/');
+              window.location.replace('/');
             }}
           ></img>
           <div
