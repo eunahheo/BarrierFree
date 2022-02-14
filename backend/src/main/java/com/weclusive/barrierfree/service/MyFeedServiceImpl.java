@@ -42,7 +42,7 @@ public class MyFeedServiceImpl implements MyFeedService {
 
 	@Autowired
 	PostImpairmentRepository postImpairmentRepository;
-	
+
 	@Autowired
 	private TourapiRepository tourRepository;
 
@@ -65,8 +65,9 @@ public class MyFeedServiceImpl implements MyFeedService {
 			obj.put("writePost", postRepository.countByUserSeq(userSeq));
 			obj.put("following", followRepository.countFollowing(userSeq));
 			obj.put("follower", followRepository.countFollower(userSeq));
-			obj.put("totalScarp", scrapRepository.countByDelYnAndScrapTypeAndUserSeq('n', '0', userSeq) + scrapRepository.countByDelYnAndScrapTypeAndUserSeq('n', '1', userSeq));
-			
+			obj.put("totalScarp", scrapRepository.countByDelYnAndScrapTypeAndUserSeq('n', '0', userSeq)
+					+ scrapRepository.countByDelYnAndScrapTypeAndUserSeq('n', '1', userSeq));
+
 			result.add(obj);
 			return result;
 		}
@@ -134,23 +135,25 @@ public class MyFeedServiceImpl implements MyFeedService {
 
 	// 작성 게시글 조회하기
 	@Override
-	public List<Post> readPost(int userSeq) {
-		Optional<User> user = userRepository.findAllByUserSeq(userSeq);
-
-		// 사용자가 있으면
-		if (user.isPresent()) {
-			int count = postRepository.countByUserSeq(userSeq);
-			List<Post> result = new LinkedList<Post>();
-
-			// 게시글이 있으면
-			if (count != 0)
-				result = postRepository.findByAllPosts(userSeq);
-
-			return result;
-
-		}
-		return null;
-
+	public List<Map<String, Object>> readPost(int userSeq) {
+		List<Map<String, Object>> result = new LinkedList<>();
+		List<Post> posts = postRepository.findByUserSeq(userSeq);
+		
+		posts.forEach(post -> {
+			Map<String, Object> obj = new HashMap<>();
+			obj.put("post", post);
+			
+			List<String> list = postImpairmentRepository.findImpairment(post.getPostSeq());
+			obj.put("impairment", list);
+			
+			if (scrapRepository.countByDelYnAndScrapTypeAndUserSeqAndScrapData('n', '0', userSeq,
+					post.getPostSeq()) > 0) {
+				obj.put("scrap_yn", 'y');
+			} else
+				obj.put("scrap_yn", 'n');
+			result.add(obj);
+		});
+		return result;
 	}
 
 	// 스크랩한 게시글
@@ -209,7 +212,7 @@ public class MyFeedServiceImpl implements MyFeedService {
 						obj.put("title", info.getTourapiTitle());
 						obj.put("firstimage", info.getTourapiImage());
 						obj.put("addr1", info.getTourapiAddr1());
-						
+
 						// 장애정보 JSONArray
 						String[] impairments = tiRepository.selectConentImpairment(contentId);
 						JSONArray impairment = new JSONArray();
@@ -218,7 +221,7 @@ public class MyFeedServiceImpl implements MyFeedService {
 						}
 						obj.put("impairment", impairment);
 						obj.put("scrap_yn", 'y');
-						
+
 						result.add(obj);
 					} catch (Exception e) {
 						e.printStackTrace();

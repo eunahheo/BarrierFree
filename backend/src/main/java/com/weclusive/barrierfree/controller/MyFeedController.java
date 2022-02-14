@@ -7,15 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.weclusive.barrierfree.dto.FollowDto;
-import com.weclusive.barrierfree.entity.Post;
-import com.weclusive.barrierfree.service.FollowService;
 import com.weclusive.barrierfree.service.MyFeedService;
 
 import io.swagger.annotations.Api;
@@ -27,14 +22,11 @@ import lombok.AllArgsConstructor;
 @RequestMapping("/myFeed")
 @Api("내 피드 보기")
 public class MyFeedController {
-	private static final String SUCCESS = "success";
+//	private static final String SUCCESS = "success";
 	private static final String FAIL = "fail";
 	
 	@Autowired
 	private MyFeedService myFeedService;
-	
-	@Autowired
-	private FollowService followService;
 	
 	// 피드 보기
 	@GetMapping("/main")
@@ -72,38 +64,11 @@ public class MyFeedController {
 		}
 	}
 	
-	
-	// 팔로워(팔로우 하기) / 팔로잉(팔로우 취소하기)
-	@PostMapping("/follow")
-	@ApiOperation(value = "사용자 팔로우", notes = "사용자를 팔로우 하는 기능")
-	public ResponseEntity<String> follow(@RequestBody FollowDto followDto) {
-		try {
-			followService.follow(followDto);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return new ResponseEntity<String>(FAIL, HttpStatus.BAD_REQUEST);
-		}
-
-		return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
-	}
-
-	@PostMapping("/unfollow")
-	@ApiOperation(value = "사용자 언팔로우", notes = "사용자를 언팔로우 하는 기능")
-	public ResponseEntity<String> unfollow(@RequestBody FollowDto followDto) {
-		try {
-			followService.unfollow(followDto);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return new ResponseEntity<String>(FAIL, HttpStatus.BAD_REQUEST);
-		}
-		return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
-	}
-	
 	// 회원 작성 게시글 조회하기
-	@GetMapping("/post")
+	@GetMapping("/postAll")
 	@ApiOperation(value = "작성한 게시글", notes = "작성한 게시글 조회하는 기능")
 	public ResponseEntity<Object> readUserPosts(@RequestParam int userSeq) {
-		List<Post> result = myFeedService.readPost(userSeq);
+		List<Map<String, Object>> result = myFeedService.readPost(userSeq);
 		
 		if (result != null) {
 			return new ResponseEntity<>(result, HttpStatus.OK);
