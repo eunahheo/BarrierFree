@@ -7,6 +7,8 @@ import ReviewBarrierIcon from '../../common/review/ReviewBarrierIcon';
 import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import palette from '../../../lib/styles/palette';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 
 const ScrapCard = ({ item }) => {
   const myuser = useSelector((state) => state.user.userData);
@@ -17,12 +19,12 @@ const ScrapCard = ({ item }) => {
   const barriers = item.impairment;
   const [heart, setHeart] = useState(false);
 
-  console.log('item.firstimage', item.title);
-  console.log('what??');
+  // console.log('item.firstimage', item.title);
+  // console.log('what??');
   const onClickCard = () => {
     navigate(`/recommend/detail/${item.contentId}`);
   };
-  console.log(item);
+  // console.log(item);
   useEffect(() => {
     if (item.scrap_yn === 'y') {
       setHeart(true);
@@ -53,6 +55,11 @@ const ScrapCard = ({ item }) => {
       },
     });
   };
+  useEffect(() => {
+    if (item.scrapYn === 'y') {
+      setHeart(true);
+    }
+  });
   return (
     <div>
       <Card
@@ -63,19 +70,27 @@ const ScrapCard = ({ item }) => {
         sx={{ maxWidth: 250 }}
       >
         {heart ? (
-          <h3
-            style={{ color: `${palette.pink[0]}`, cursor: 'pointer' }}
+          <FavoriteIcon
             onClick={onRemoveHeart}
-          >
-            ❤
-          </h3>
+            style={{
+              color: `${palette.pink[0]}`,
+              cursor: 'pointer',
+              position: 'absolute',
+              top: '10',
+              right: '10',
+            }}
+          />
         ) : (
-          <h3
+          <FavoriteBorderIcon
             onClick={onClickHeart}
-            style={{ color: `${palette.pink[0]}`, cursor: 'pointer' }}
-          >
-            ♡
-          </h3>
+            style={{
+              color: `${palette.pink[0]}`,
+              cursor: 'pointer',
+              position: 'absolute',
+              top: '10',
+              right: '10',
+            }}
+          />
         )}
         <CardMedia
           component="img"
