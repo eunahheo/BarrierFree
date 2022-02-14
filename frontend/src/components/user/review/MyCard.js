@@ -18,12 +18,6 @@ const MyCard = ({ item, onRemove }) => {
   const [heart, setHeart] = useState(false);
   console.log(item);
   const onClickCard = () => {
-    // axios({
-    //   method: 'GET',
-    //   url: '/post/detail',
-    //   params: { postSeq: reviewCard },
-    // }).then(function (res) {
-    // });
     navigate(`/post/detail/${reviewCard}`);
   };
   const onClickHeart = () => {
@@ -49,8 +43,6 @@ const MyCard = ({ item, onRemove }) => {
         user_seq: myuser.userSeq,
       },
     }).then(function (res) {
-      console.log(res);
-      console.log(typeof item.post_seq);
       onRemove(item.post_seq);
     });
   };
