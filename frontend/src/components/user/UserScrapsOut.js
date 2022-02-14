@@ -14,7 +14,7 @@ const UserScrapsOut = () => {
   const [itemList, setItemList] = useState([]);
   const [newItemList, setNewItemList] = useState([]);
   const onRemove = (id) => {
-    const newItemList = itemList.filter((item) => item.post_seq != id);
+    const newItemList = itemList.filter((item) => item.contentId != id);
     setItemList(newItemList);
   };
 
