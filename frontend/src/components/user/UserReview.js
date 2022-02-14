@@ -15,13 +15,13 @@ const UserReview = () => {
 
   useEffect(() => {
     getUserReview();
-  }, []);
+  }, [currentUser]);
 
   const getUserReview = async () => {
     try {
       if (currentUser === myuser) {
         const response = await axios({
-          url: '/myFeed/post',
+          url: '/myFeed/postAll',
           method: 'get',
           params: { userSeq: myuser },
         });
@@ -43,7 +43,6 @@ const UserReview = () => {
 
   return (
     <div>
-      <h1>userSeq={currentUser}의 게시물</h1>
       {itemList.length > 0 && <MyCardList itemList={itemList}></MyCardList>}
       {itemList.length === 0 && <h1>게시물 없음</h1>}
     </div>

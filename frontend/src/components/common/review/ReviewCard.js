@@ -35,6 +35,7 @@ const ReviewCard = ({ item }) => {
   const onClickHeart = () => {
     if (myuser) {
       setHeart(true);
+      item.scrapYn = 'y';
       axios({
         method: 'get',
         url: '/scrap/insert',
@@ -52,6 +53,7 @@ const ReviewCard = ({ item }) => {
 
   const onRemoveHeart = () => {
     setHeart(false);
+    item.scrapYn = 'n';
     axios({
       method: 'put',
       url: '/scrap/delete',
@@ -63,9 +65,8 @@ const ReviewCard = ({ item }) => {
     });
   };
   useEffect(() => {
-    if (item.scrapYn === 'y') {
-      setHeart(true);
-    }
+    if (item.scrapYn === 'y') setHeart(true);
+    else setHeart(false);
   });
 
   return (

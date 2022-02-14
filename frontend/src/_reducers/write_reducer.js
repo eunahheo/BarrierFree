@@ -26,7 +26,6 @@ const initialState = {
   userSeq: '',
   postPhoto: '',
   postAlt: '',
-  contentId: 0,
   postSeq: null,
   postLat: '',
   postLng: '',

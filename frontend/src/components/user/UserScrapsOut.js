@@ -12,6 +12,11 @@ const UserScrapsOut = () => {
 
   const [loading, setLoading] = useState(false);
   const [itemList, setItemList] = useState([]);
+  const [newItemList, setNewItemList] = useState([]);
+  const onRemove = (id) => {
+    const newItemList = itemList.filter((item) => item.contentId != id);
+    setItemList(newItemList);
+  };
 
   useEffect(() => {
     getUserFeed();
@@ -51,8 +56,13 @@ const UserScrapsOut = () => {
 
   return (
     <div>
-      <div>My Scraps Out</div>
-      <ScrapCardList itemList={itemList}></ScrapCardList>
+      <h4>추천글 스크랩</h4>
+      <hr></hr>
+      {itemList.length ? (
+        <ScrapCardList itemList={itemList} onRemove={onRemove}></ScrapCardList>
+      ) : (
+        <h3>스크랩한 추천글이 없습니다</h3>
+      )}
     </div>
   );
 };

@@ -83,7 +83,6 @@ const Editor = ({
   postLng,
   postPhoto,
   onChangeField,
-  contentId,
   postAlt,
 }) => {
   // const [files, setFiles] = useState('');
@@ -180,7 +179,6 @@ const Editor = ({
             postLng,
             postPhoto: response.data,
             postAlt: imageName,
-            contentId,
           }),
         );
         alert('글이 등록되었습니다! 인클루시브에 한발짝 다가가셨습니다 😊');
@@ -304,7 +302,7 @@ const Editor = ({
                 <StyledRating
                   value={postPoint}
                   name="postPoint"
-                  defaultValue={2.5}
+                  defaultValue={0}
                   getLabelText={(value) =>
                     `${value} Heart${value !== 1 ? 's' : ''}`
                   }
@@ -314,8 +312,6 @@ const Editor = ({
                   size="large"
                   onChange={onChangePostPoint}
                 />
-
-                {/* <span>{postPoint}</span> */}
               </div>
               <br />
               <br />
@@ -333,8 +329,6 @@ const Editor = ({
               <WriteBarrierIconContainer></WriteBarrierIconContainer>
               <br />
               <PlaceBoxContainer></PlaceBoxContainer>
-              {/* {loadingWritePost && '등록 중입니다!'} */}
-              {/* {!loadingWritePost && <WriteButtonsContainer></WriteButtonsContainer>} */}
               <WriteButtonsContainer
                 uploadImageWithAdtData={uploadImageWithAdtData}
               ></WriteButtonsContainer>

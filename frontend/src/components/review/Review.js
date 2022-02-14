@@ -75,7 +75,9 @@ const Review = () => {
   const commentCnt = comments.length;
   // 댓글 작성을 위한 const
   const [heart, setHeart] = useState(false);
+  const [scraptimes, setScraptimes] = useState([]);
   const [newComment, setNewComment] = useState('');
+
   const onCommentHandler = (event) => {
     setNewComment(event.target.value);
   };
@@ -120,7 +122,7 @@ const Review = () => {
       setReviewTime(res.data[0].post.regDt.substring(0, 10));
       setReviewImage(res.data[0].post.postPhoto);
       setImgAlt(res.data[0].post.postAlt);
-
+      setScraptimes(res.data[0].post.postScrap);
       const response = await axios({
         method: 'get',
         url: '/othersFeed/main',
@@ -130,7 +132,7 @@ const Review = () => {
         },
       });
       setOtherUser(response.data);
-      console.log('otheruser', otherUser);
+      // console.log('otheruser', otherUser);
       const response2 = await axios({
         method: 'get',
         url: '/sns/isfollow',
@@ -143,7 +145,7 @@ const Review = () => {
         setCheckFw(true);
       }
     } catch (e) {
-      console.log(e);
+      // console.log(e);
     } finally {
       setLoading(false);
     }
@@ -156,6 +158,7 @@ const Review = () => {
     })
       .then((res) => {
         setComments(res.data);
+        setNewComment('');
       })
       .catch('yes');
   };
@@ -169,10 +172,12 @@ const Review = () => {
         userSeq: myuser.userSeq,
       };
       dispatch(commentSave(body));
+
       alert('댓글 작성이 완료되었습니다. 😉');
     } else {
       alert('댓글을 입력해주세요 😉');
     }
+    setNewComment('');
     getCommentList();
   };
 
@@ -194,8 +199,10 @@ const Review = () => {
     dispatch(resetRelationship());
   };
   const plusScrap = reviewDetail.postScrap + 1;
+
   const onClickHeart = () => {
     setHeart(true);
+    setScraptimes(scraptimes + 1);
     axios({
       method: 'get',
       url: '/scrap/insert',
@@ -210,6 +217,7 @@ const Review = () => {
 
   const onRemoveHeart = () => {
     setHeart(false);
+    setScraptimes(scraptimes - 1);
     axios({
       method: 'put',
       url: '/scrap/delete',
@@ -359,7 +367,7 @@ const Review = () => {
                         ♡
                       </span>
                     )}
-                    <span> {reviewDetail.postScrap}</span>
+                    <span> {scraptimes}</span>
                     {/* {review} */}
                   </h2>
                   <h1>{reviewDetail.postTitle}</h1>
@@ -375,7 +383,7 @@ const Review = () => {
                       <span
                         onClick={() => {
                           navigate(`/user/${reviewDetail.userSeq}`);
-                          console.log('선택시 seq', reviewDetail.userSeq);
+                          // console.log('선택시 seq', reviewDetail.userSeq);
                         }}
                       >
                         작성자 : {otherUser.userNickname}
@@ -418,6 +426,7 @@ const Review = () => {
                         class="comment-input"
                         placeholder="댓글을 입력하세요"
                         onChange={onCommentHandler}
+                        value={newComment}
                       ></input>
                       <button
                         class="button"

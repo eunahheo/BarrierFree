@@ -104,6 +104,8 @@ const ReviewPage = () => {
           url: '/main/recently',
           params: {
             userSeq: 0,
+            page: 1,
+            size: 200,
           },
         })
           .then(function (res) {
