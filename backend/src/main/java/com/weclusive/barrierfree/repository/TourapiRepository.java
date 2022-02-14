@@ -76,4 +76,7 @@ public interface TourapiRepository extends JpaRepository<Tourapi, Long> {
 	// 장소 이름으로 검색
 	@Query(value = "SELECT t FROM Tourapi t WHERE t.tourapiTitle like %?1% AND t.delYn = 'n'")
 	public List<Tourapi> findTourapiTitle(String title);
+
+	@Query(value = "SELECT t FROM Tourapi t WHERE t.tourapiImage Is NULL")
+	public List<Tourapi> findByTourapiImage();
 }
