@@ -6,6 +6,8 @@ import Grid from '@material-ui/core/Grid';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { changeField } from '../../_actions/write_actions';
 
 const MyPageHeaderBlock = styled.div`
   display: flex;
@@ -49,6 +51,7 @@ const MyPageHeader = ({ user }) => {
   const token = localStorage.getItem('accessToken');
   // console.log(token);
   // const [postPhoto, setPostPhoto] = useState('');
+  const dispatch = useDispatch();
   const userPhoto = useSelector((state) => state.user.userData);
   const onUpload = (event) => {
     event.preventDefault();
