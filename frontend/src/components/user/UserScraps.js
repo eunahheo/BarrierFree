@@ -6,6 +6,8 @@ const UserScraps = () => {
     <div>
       <div>UserScraps</div>
       <UserScrapsIn></UserScrapsIn>
+      <br></br>
+      <br></br>
       <UserScrapsOut></UserScrapsOut>
     </div>
   );

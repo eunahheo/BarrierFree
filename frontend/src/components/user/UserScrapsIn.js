@@ -7,8 +7,12 @@ import { useSelector } from 'react-redux';
 const UserScrapsIn = () => {
   const myuser = useSelector((state) => state.user.userData);
   const [itemList, setItemList] = useState([]);
+  const [newItemList, setNewItemList] = useState([]);
   console.log('myuser', myuser);
-
+  const onRemove = (id) => {
+    const newItemList = itemList.filter((item) => item.post_seq != id);
+    setItemList(newItemList);
+  };
   useEffect(() => {
     axios({
       url: `/myFeed/scrap/post`,
@@ -16,10 +20,8 @@ const UserScrapsIn = () => {
       params: { userSeq: myuser.userSeq },
     })
       .then(function (res) {
-        // console.log(res);
         setItemList(res.data);
-        console.log(itemList);
-        // console.log(res.data[0]);
+        console.log('here', typeof itemList[0].post_seq);
       })
       .catch(function (error) {
         console.log(error);
@@ -28,8 +30,16 @@ const UserScrapsIn = () => {
 
   return (
     <div>
-      <div>My Scraps In</div>
-      <MyCardListCopy itemList={itemList}></MyCardListCopy>
+      <h4>소식함 스크랩</h4>
+      <hr></hr>
+      {itemList.length ? (
+        <MyCardListCopy
+          itemList={itemList}
+          onRemove={onRemove}
+        ></MyCardListCopy>
+      ) : (
+        <h3>스크랩한 소식함이 없습니다</h3>
+      )}
     </div>
   );
 };

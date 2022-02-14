@@ -10,13 +10,13 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import LocationIcon from '@mui/icons-material/LocationOn';
 
-const MyCard = ({ item }) => {
+const MyCard = ({ item, onRemove }) => {
   const myuser = useSelector((state) => state.user.userData);
   const navigate = useNavigate();
   const { post_photo, post_location, post_title, scrap_yn } = item;
   const reviewCard = item.post_seq;
   const [heart, setHeart] = useState(false);
-
+  console.log(item);
   const onClickCard = () => {
     // axios({
     //   method: 'GET',
@@ -48,15 +48,20 @@ const MyCard = ({ item }) => {
         scrap_type: 0,
         user_seq: myuser.userSeq,
       },
+    }).then(function (res) {
+      console.log(res);
+      console.log(typeof item.post_seq);
+      onRemove(item.post_seq);
     });
   };
   useEffect(() => {
     if (scrap_yn === 'y') {
       setHeart(true);
     }
-  });
+  }, []);
   return (
     <div>
+      <span>here</span>
       <Card
         style={{ cursor: 'pointer', position: 'relative' }}
         reviewCard={reviewCard}

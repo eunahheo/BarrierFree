@@ -2,15 +2,14 @@ import { ImageList } from '@mui/material';
 import React from 'react';
 import MyCard from './MyCard';
 
-const MyCardCopyList = ({ itemList }) => {
-  console.log(itemList);
+const MyCardCopyList = ({ itemList, onRemove }) => {
   return (
     <div className="MyCardList">
       <div>
-        <span>my card lisdddt</span>
+        <span>here</span>
         <ImageList cols={4}>
           {itemList.map((item) => (
-            <MyCard key={item.postSeq} item={item} />
+            <MyCard key={item.post_seq} item={item} onRemove={onRemove} />
           ))}
         </ImageList>
       </div>

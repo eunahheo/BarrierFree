@@ -8,7 +8,7 @@ import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import palette from '../../../lib/styles/palette';
 
-const ScrapCard = ({ item }) => {
+const ScrapCard = ({ item, onRemove }) => {
   const myuser = useSelector((state) => state.user.userData);
   const navigate = useNavigate();
   const { firstimage, title, addr1 } = item;
@@ -17,8 +17,6 @@ const ScrapCard = ({ item }) => {
   const barriers = item.impairment;
   const [heart, setHeart] = useState(false);
 
-  console.log('item.firstimage', item.title);
-  console.log('what??');
   const onClickCard = () => {
     navigate(`/recommend/detail/${item.contentId}`);
   };
@@ -51,7 +49,7 @@ const ScrapCard = ({ item }) => {
         scrap_type: 0,
         user_seq: myuser.userSeq,
       },
-    });
+    }).then(onRemove(item.post_seq));
   };
   return (
     <div>

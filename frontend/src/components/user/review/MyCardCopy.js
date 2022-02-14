@@ -10,13 +10,13 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import LocationIcon from '@mui/icons-material/LocationOn';
 
-const MyCardCopy = ({ item }) => {
+const MyCardCopy = ({ item, onRemove }) => {
   const myuser = useSelector((state) => state.user.userData);
   const navigate = useNavigate();
   const { postPhoto, postLocation, postTitle, scrapYn, impairment } = item;
   const reviewCard = item.postSeq;
   const [heart, setHeart] = useState(false);
-
+  console.log('mycardcpopy,', item);
   const onClickCard = () => {
     navigate(`/post/detail/${reviewCard}`);
   };
