@@ -78,7 +78,7 @@ public class RecommendServiceImpl implements RecommendService {
 			result.put("addr2", info.getTourapiAddr2());
 			result.put("homepage", info.getTourapiHomepage());
 			result.put("zipcode", info.getTourapiZipcode());
-			result.put("scraptimes", scrapRepository.countByDelYnAndScrapTypeAndScrapData('n', '1', contentId));
+			result.put("scraptimes", info.getTourapiScrap());
 			char scrap_yn = 'n';
 			if (scrapRepository.countByDelYnAndScrapTypeAndUserSeqAndScrapData('n', '1', userSeq, contentId) > 0)
 				scrap_yn = 'y';
