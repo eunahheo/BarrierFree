@@ -61,7 +61,7 @@ const Review = () => {
   const pageNum = useParams();
   const reviewNum = Number(pageNum.reviewCard);
   const myuser = useSelector((state) => state.user.userData);
-
+  const [postInfo, setPostInfo] = useState(null);
   // review 내용 불러오기 위한 const
   // debugger;
   const [reviewDetail, setReviewDetail] = useState([]);
@@ -113,6 +113,7 @@ const Review = () => {
         url: '/post/detail',
         params: { postSeq: reviewNum },
       });
+      setPostInfo(res.data[0]);
       setReviewDetail(res.data[0].post);
       setBarriers(res.data[0].impairment);
       setReviewPoint(res.data[0].post.postPoint);
@@ -315,7 +316,12 @@ const Review = () => {
                 <div class="review-content">
                   {reviewDetail.userSeq == myuser.userSeq ? (
                     <div class="button-top">
-                      <button variant="contained" id="update">
+                      <button
+                        variant="contained"
+                        id="update"
+                        onClick={onEdit}
+                        style={{ cursor: 'pointer' }}
+                      >
                         수정
                       </button>
                       <button
