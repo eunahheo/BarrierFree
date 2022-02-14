@@ -7,7 +7,6 @@ const buttonStyle = css`
   font-family: 'KoddiUDOnGothic-Regular';
   border-radius: 4px;
   font-size: 1rem;
-  font-weight: bold;
   padding: 0.25rem 1rem;
   // outline: none;
   cursor: pointer;

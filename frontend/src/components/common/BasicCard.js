@@ -1,6 +1,7 @@
-import React from "react";
-import { Card, CardMedia, CardContent, Typography } from "@mui/material";
-import RecommendBarrierIcon from "../recommend/RecommendBarrierIcon";
+import React from 'react';
+import { Card, CardMedia, CardContent, Typography } from '@mui/material';
+import RecommendBarrierIcon from '../recommend/RecommendBarrierIcon';
+import LocationIcon from '@mui/icons-material/LocationOn';
 
 const BasicCard = ({ item }) => {
   const { post_photo, post_location, post_title } = item;
@@ -18,7 +19,7 @@ const BasicCard = ({ item }) => {
 
         <CardContent align="left">
           <Typography variant="body2" color="text.secondary">
-            {post_location}
+            <LocationIcon sx={{ fontSize: 15 }} /> {post_location}
           </Typography>
           {post_title}
           <RecommendBarrierIcon barriers={barriers}></RecommendBarrierIcon>
