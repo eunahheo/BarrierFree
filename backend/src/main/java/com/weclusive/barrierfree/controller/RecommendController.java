@@ -118,7 +118,7 @@ public class RecommendController {
 			@RequestParam(value = "size", required = true) @ApiParam(value = "한 페이지에 보여줄 게시글 수", required = true) int size) {
 		List<Map<String, Object>> result;
 		try {
-			result = recommendService.getNearMyLocation(userSeq, lat, lng, radius, contentTypeId, page - 1, size);
+			result = recommendService.getNearMyLocation(userSeq, lat, lng, radius, contentTypeId, page, size);
 		} catch (ClassCastException e) {
 			e.printStackTrace();
 			return new ResponseEntity<>("검색결과가 없습니다.", HttpStatus.OK);
