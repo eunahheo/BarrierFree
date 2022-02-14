@@ -10,7 +10,7 @@ import palette from '../../../lib/styles/palette';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 
-const ScrapCard = ({ item }) => {
+const ScrapCard = ({ item, onRemove }) => {
   const myuser = useSelector((state) => state.user.userData);
   const navigate = useNavigate();
   const { firstimage, title, addr1 } = item;
@@ -19,8 +19,6 @@ const ScrapCard = ({ item }) => {
   const barriers = item.impairment;
   const [heart, setHeart] = useState(false);
 
-  // console.log('item.firstimage', item.title);
-  // console.log('what??');
   const onClickCard = () => {
     navigate(`/recommend/detail/${item.contentId}`);
   };
@@ -53,7 +51,7 @@ const ScrapCard = ({ item }) => {
         scrap_type: 0,
         user_seq: myuser.userSeq,
       },
-    });
+    }).then(onRemove(item.post_seq));
   };
   useEffect(() => {
     if (item.scrapYn === 'y') {

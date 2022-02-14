@@ -13,10 +13,11 @@ import LocationIcon from '@mui/icons-material/LocationOn';
 const MyCardCopy = ({ item }) => {
   const myuser = useSelector((state) => state.user.userData);
   const navigate = useNavigate();
-  const { postPhoto, postLocation, postTitle, scrapYn, impairment } = item;
-  const reviewCard = item.postSeq;
+  const { postPhoto, postLocation, postTitle } = item.post;
+  const scrap_yn = item.scrap_yn;
+  const impairment = item.impairment;
+  const reviewCard = item.post.postSeq;
   const [heart, setHeart] = useState(false);
-
   const onClickCard = () => {
     navigate(`/post/detail/${reviewCard}`);
   };
@@ -45,10 +46,10 @@ const MyCardCopy = ({ item }) => {
     });
   };
   useEffect(() => {
-    if (scrapYn === 'y') {
+    if (scrap_yn === 'y') {
       setHeart(true);
     }
-  });
+  }, []);
   return (
     <div>
       <Card
@@ -93,7 +94,7 @@ const MyCardCopy = ({ item }) => {
               <LocationIcon sx={{ fontSize: 15 }} /> {postLocation}
             </Typography>
             {postTitle}
-            {/* <RecommendBarrierIcon barriers={impairment}></RecommendBarrierIcon> */}
+            <RecommendBarrierIcon barriers={impairment}></RecommendBarrierIcon>
           </CardContent>
         </div>
       </Card>

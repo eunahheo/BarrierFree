@@ -163,11 +163,16 @@ const MyPageContent = ({ user }) => {
   return (
     <MyPageContentBlock>
       <div>
-        {/* <h2>| 회원정보 수정 |</h2> */}
         <br />
         <br />
         <h3>아이디 : {user.userId}</h3>
-        <h3>닉네임: {user.userNickname}</h3>
+        <h3>
+          닉네임: {user.userNickname}{' '}
+          <span>
+            <Button onClick={handlePassOpen}>닉네임 변경</Button>
+            <MypageBarriers></MypageBarriers>
+          </span>
+        </h3>
         <h3>이메일: {user.userEmail}</h3>
         <h3>
           비밀번호 :{' '}

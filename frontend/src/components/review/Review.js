@@ -75,7 +75,9 @@ const Review = () => {
   const commentCnt = comments.length;
   // 댓글 작성을 위한 const
   const [heart, setHeart] = useState(false);
+  const [scraptimes, setScraptimes] = useState([]);
   const [newComment, setNewComment] = useState('');
+
   const onCommentHandler = (event) => {
     setNewComment(event.target.value);
   };
@@ -120,7 +122,7 @@ const Review = () => {
       setReviewTime(res.data[0].post.regDt.substring(0, 10));
       setReviewImage(res.data[0].post.postPhoto);
       setImgAlt(res.data[0].post.postAlt);
-
+      setScraptimes(res.data[0].post.postScrap);
       const response = await axios({
         method: 'get',
         url: '/othersFeed/main',
@@ -197,8 +199,10 @@ const Review = () => {
     dispatch(resetRelationship());
   };
   const plusScrap = reviewDetail.postScrap + 1;
+
   const onClickHeart = () => {
     setHeart(true);
+    setScraptimes(scraptimes + 1);
     axios({
       method: 'get',
       url: '/scrap/insert',
@@ -213,6 +217,7 @@ const Review = () => {
 
   const onRemoveHeart = () => {
     setHeart(false);
+    setScraptimes(scraptimes - 1);
     axios({
       method: 'put',
       url: '/scrap/delete',
@@ -362,7 +367,7 @@ const Review = () => {
                         ♡
                       </span>
                     )}
-                    <span> {reviewDetail.postScrap}</span>
+                    <span> {scraptimes}</span>
                     {/* {review} */}
                   </h2>
                   <h1>{reviewDetail.postTitle}</h1>
