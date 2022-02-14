@@ -16,6 +16,7 @@ function Search() {
   const [searchReivewList, setSearchReivewList] = useState([]);
   const [searchUserList, setSearchUserList] = useState([]);
   const [searchLocationList, setSearchLocationList] = useState([]);
+  const [searchCultureList, setSearchCultureList] = useState([]);
   const [searchFoodList, setSearchFoodList] = useState([]);
   const [searchHomeList, setSearchHomeList] = useState([]);
   const [searchPartyList, setSearchPartyList] = useState([]);
@@ -37,6 +38,8 @@ function Search() {
     setSearchReivewList([]);
     setSearchHomeList([]);
     setSearchPartyList([]);
+    setSearchCultureList([]);
+
     if (searchItem) {
       setHandsearch(true);
       axios({
@@ -70,7 +73,7 @@ function Search() {
         }
       });
 
-      const impairmentNums = [12, 39, 32, 15];
+      const impairmentNums = [12, 39, 14, 32, 15];
 
       for (var i = 0; i < impairmentNums.length; i++)
         axios({
@@ -109,6 +112,12 @@ function Search() {
             } else {
               setNoresult('검색 내용이 없습니다 😥');
             }
+          } else if (res.config.params.contentTypeId === 14) {
+            if (res.data.length > 0) {
+              setSearchCultureList(res.data);
+            } else {
+              setNoresult('검색 내용이 없습니다 😥');
+            }
           }
         });
     } else {
@@ -138,7 +147,11 @@ function Search() {
     setNumber(32);
     setTitle('숙박시설');
   };
-
+  const onClickCulture = () => {
+    setFindSearch(true);
+    setNumber(14);
+    setTitle('문화');
+  };
   const onClickParty = () => {
     setFindSearch(true);
     setNumber(15);
@@ -185,6 +198,7 @@ function Search() {
             <Button onClick={onClickLocation}>명소</Button>
             <Button onClick={onClickFood}>음식점</Button>
             <Button onClick={onClickHome}>숙박시설</Button>
+            <Button onClick={onClickCulture}>문화</Button>
             <Button onClick={onClickParty}>행사</Button>
             <Button onClick={onClickReview}>여행 후기</Button>
             <Button onClick={onClickUser}>사용자</Button>
@@ -209,6 +223,7 @@ function Search() {
               <Button onClick={onClickLocation}>명소</Button>
               <Button onClick={onClickFood}>음식점</Button>
               <Button onClick={onClickHome}>숙박시설</Button>
+              <Button onClick={onClickCulture}>문화</Button>
               <Button onClick={onClickParty}>행사</Button>
               <Button onClick={onClickReview}>여행 후기</Button>
               <Button onClick={onClickUser}>사용자</Button>
@@ -220,6 +235,7 @@ function Search() {
               noresult={noresult}
               searchFoodList={searchFoodList}
               searchHomeList={searchHomeList}
+              searchCultureList={searchCultureList}
               searchPartyList={searchPartyList}
               searchReivewList={searchReivewList}
               searchUserList={searchUserList}

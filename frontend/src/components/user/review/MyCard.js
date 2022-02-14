@@ -6,6 +6,9 @@ import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import palette from '../../../lib/styles/palette';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import LocationIcon from '@mui/icons-material/LocationOn';
 
 const MyCard = ({ item }) => {
   const myuser = useSelector((state) => state.user.userData);
@@ -55,25 +58,34 @@ const MyCard = ({ item }) => {
   return (
     <div>
       <Card
-        style={{ cursor: 'pointer' }}
+        style={{ cursor: 'pointer', position: 'relative' }}
         reviewCard={reviewCard}
         sx={{ maxWidth: 250 }}
       >
         {heart ? (
-          <h3
-            style={{ color: `${palette.pink[0]}`, cursor: 'pointer' }}
+          <FavoriteIcon
             onClick={onRemoveHeart}
-          >
-            ❤
-          </h3>
+            style={{
+              color: `${palette.pink[0]}`,
+              cursor: 'pointer',
+              position: 'absolute',
+              top: '10',
+              right: '10',
+            }}
+          />
         ) : (
-          <h3
+          <FavoriteBorderIcon
             onClick={onClickHeart}
-            style={{ color: `${palette.pink[0]}`, cursor: 'pointer' }}
-          >
-            ♡
-          </h3>
+            style={{
+              color: `${palette.pink[0]}`,
+              cursor: 'pointer',
+              position: 'absolute',
+              top: '10',
+              right: '10',
+            }}
+          />
         )}
+
         <div onClick={onClickCard}>
           <CardMedia
             component="img"
@@ -84,7 +96,7 @@ const MyCard = ({ item }) => {
           />
           <CardContent align="left">
             <Typography variant="body2" color="text.secondary">
-              {post_location}
+              <LocationIcon sx={{ fontSize: 15 }} /> {post_location}
             </Typography>
             {post_title}
           </CardContent>
