@@ -1,9 +1,15 @@
 import { handleActions } from 'redux-actions';
 // import { LOGIN_USER, USER_INFO, LOGOUT } from '../_actions/types';
-import { LOGIN_USER, USER_INFO, LOGOUT } from '../_actions/user_actions';
+import {
+  LOGIN_USER,
+  USER_INFO,
+  LOGOUT,
+  CHANGE_FIELD,
+} from '../_actions/user_actions';
 
 const initialState = {
   loginSuccess: null,
+  userData: null,
 };
 
 export default function reducer(state = initialState, action) {
@@ -14,7 +20,14 @@ export default function reducer(state = initialState, action) {
 
     case USER_INFO:
       return { ...state, userData: payload };
-
+    case CHANGE_FIELD:
+      return {
+        ...state,
+        userData: {
+          ...state.userData,
+          [action.payload.key]: action.payload.value,
+        },
+      };
     case LOGOUT:
       localStorage.removeItem('persist:root');
       localStorage.removeItem('accessToken');

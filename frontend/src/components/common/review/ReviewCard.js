@@ -85,7 +85,7 @@ const ReviewCard = ({ item }) => {
               top: '10',
               right: '10',
             }}
-            onClick={{ onRemoveHeart }}
+            onClick={onRemoveHeart}
           />
         ) : (
           <FavoriteBorderIcon

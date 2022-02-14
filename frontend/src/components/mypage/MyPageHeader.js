@@ -3,9 +3,11 @@ import palette from '../../lib/styles/palette';
 import Button from '../common/Button';
 import MyPageContent from '../../components/mypage/MyPageContent';
 import Grid from '@material-ui/core/Grid';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { changeField } from '../../_actions/user_actions';
 
 const MyPageHeaderBlock = styled.div`
   display: flex;
@@ -49,7 +51,8 @@ const MyPageHeader = ({ user }) => {
   const token = localStorage.getItem('accessToken');
   // console.log(token);
   // const [postPhoto, setPostPhoto] = useState('');
-
+  const dispatch = useDispatch();
+  // const userPhoto = useSelector((state) => state.user.userData);
   const onUpload = (event) => {
     event.preventDefault();
     const file = event.target.files[0];
@@ -80,9 +83,12 @@ const MyPageHeader = ({ user }) => {
             Authorization: `Bearer ${token}`,
           },
         });
+        setImagePreview(null);
+        await dispatch(changeField({ key: 'userPhoto', value: response.data }));
+        alert('프로필 사진 변경 완료!😉');
       } catch (error) {
         console.log(error);
-        alert('에러 발생!');
+        alert('에러 발생');
       }
     } else {
       alert('사진을 추가하세요😀');
@@ -113,7 +119,7 @@ const MyPageHeader = ({ user }) => {
             {imagePreview != null ? (
               <img className="toggle" src={imagePreview} />
             ) : (
-              <img className="toggle" src={user.userPhoto} />
+              <img className="toggle" src={myuser.userPhoto} />
             )}
             {/* <img className="toggle" 
             src={user.userPhoto} /> */}

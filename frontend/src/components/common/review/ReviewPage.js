@@ -2,13 +2,12 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import ReviewCardList from './ReviewCardList';
 import Button from '../../common/Button';
-import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { useInView } from 'react-intersection-observer';
 import './ReviewPage.css';
 
 const ReviewPage = () => {
   const myuser = useSelector((state) => state.user.userData);
-  const navigate = useNavigate();
   const [myitemList, mysetItemList] = useState([]);
   const [currentUser, setCurrentUser] = useState(0);
 
@@ -18,6 +17,8 @@ const ReviewPage = () => {
       url: 'main/recently',
       params: {
         userSeq: currentUser,
+        page: 1,
+        size: 200,
       },
     })
       .then(function (res) {
@@ -30,7 +31,7 @@ const ReviewPage = () => {
   const orderbypopular = () => {
     axios({
       url: '/main/scrap',
-      params: { userSeq: currentUser },
+      params: { userSeq: currentUser, page: 1, size: 200 },
     })
       .then(function (res) {
         mysetItemList(res.data);
@@ -44,7 +45,7 @@ const ReviewPage = () => {
     axios({
       url: '/main/weekscrap',
       method: 'get',
-      params: { userSeq: currentUser },
+      params: { userSeq: currentUser, page: 1, size: 200 },
     })
       .then(function (res) {
         mysetItemList(res.data);
@@ -61,6 +62,8 @@ const ReviewPage = () => {
         method: 'get',
         params: {
           userSeq: myuser.userSeq,
+          page: 1,
+          size: 200,
         },
       }).then(function (res) {
         mysetItemList(res.data);
@@ -87,6 +90,8 @@ const ReviewPage = () => {
           url: '/main/recently',
           params: {
             userSeq: myuser.userSeq,
+            page: 1,
+            size: 200,
           },
         })
           .then(function (res) {
