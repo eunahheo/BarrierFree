@@ -2,13 +2,12 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import ReviewCardList from './ReviewCardList';
 import Button from '../../common/Button';
-import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { useInView } from "react-intersection-observer"
 import './ReviewPage.css';
 
 const ReviewPage = () => {
   const myuser = useSelector((state) => state.user.userData);
-  const navigate = useNavigate();
   const [myitemList, mysetItemList] = useState([]);
   const [currentUser, setCurrentUser] = useState(0);
 
