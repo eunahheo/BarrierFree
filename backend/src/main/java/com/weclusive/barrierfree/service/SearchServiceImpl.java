@@ -32,7 +32,7 @@ public class SearchServiceImpl implements SearchService {
 
 	@Autowired
 	FollowRepository followRepository;
-	
+
 	@Autowired
 	private PostRepository postRepository;
 
@@ -47,7 +47,7 @@ public class SearchServiceImpl implements SearchService {
 
 	@Autowired
 	private TourapiRepository tourapiRepository;
-	
+
 	@Autowired
 	private TourapiImpairmentRepository tourapiImpairmentRepository;
 
@@ -64,18 +64,20 @@ public class SearchServiceImpl implements SearchService {
 			obj.put("userSeq", user.getUserSeq());
 			obj.put("userNickname", user.getUserNickname());
 			obj.put("userPhoto", user.getUserPhoto());
-			
+
 			Follow follow = followRepository.findByUserSeqAndFollowingSeqAndDelYn(userSeq, user.getUserSeq(), 'n');
-			if(follow == null) obj.put("isfollow", 'n');
-			else obj.put("isfollow", 'y');
+			if (follow == null)
+				obj.put("isfollow", 'n');
+			else
+				obj.put("isfollow", 'y');
 			obj.put("pageable", pageResult.getPageable());
 			obj.put("totalPages", pageResult.getTotalPages());
 			obj.put("numberOfElements", pageResult.getNumberOfElements());
 			obj.put("totalElements", pageResult.getTotalElements());
-			
+
 			result.add(obj);
 		});
-		 
+
 		return result;
 	}
 
@@ -85,8 +87,10 @@ public class SearchServiceImpl implements SearchService {
 		List<Map<String, Object>> result = new ArrayList<>();
 
 		PageRequest pageRequest = PageRequest.of(page, size);
-		Page<Post> pageResult = postRepository.findByDelYnAndPostTitleContainingOrPostContentContainingOrPostLocationContaining('n', keyword, keyword, keyword, pageRequest);
-		
+		Page<Post> pageResult = postRepository
+				.findByDelYnAndPostTitleContainingOrPostContentContainingOrPostLocationContaining('n', keyword, keyword,
+						keyword, pageRequest);
+
 		List<Post> posts = pageResult.getContent();
 		posts.forEach(post -> {
 			Map<String, Object> obj = new HashMap<>();
@@ -98,18 +102,18 @@ public class SearchServiceImpl implements SearchService {
 			obj.put("post_location", post.getPostLocation());
 			List<String> list = postImpairmentRepository.findImpairment(post.getPostSeq());
 			obj.put("impairment", list);
-			
+
 			char scrap_yn = 'n';
 			// 현재 사용자의 seq를 가져오는 api 필요
 			if (scrapRepository.countByDelYnAndScrapTypeAndUserSeqAndScrapData('n', '0', userSeq,
 					post.getPostSeq()) > 0)
 				scrap_yn = 'y';
-			obj.put("scrap_yn", scrap_yn); 
+			obj.put("scrap_yn", scrap_yn);
 			obj.put("pageable", pageResult.getPageable());
 			obj.put("totalPages", pageResult.getTotalPages());
 			obj.put("numberOfElements", pageResult.getNumberOfElements());
 			obj.put("totalElements", pageResult.getTotalElements());
-			
+
 			result.add(obj);
 		});
 		return result;
@@ -121,7 +125,15 @@ public class SearchServiceImpl implements SearchService {
 			throws Exception {
 		List<JSONObject> result = new ArrayList<>();
 		PageRequest pageRequest = PageRequest.of(page, size);
-		Page<Tourapi> pageTours = tourapiRepository.findByTourapiTitleContainingAndTourapiContenttypeid(keyword, contentTypeId, pageRequest);
+		Page<Tourapi> pageTours = null;
+		if (contentTypeId.equals("14")) {
+			pageTours = tourapiRepository
+					.findByTourapiTitleContainingAndTourapiContenttypeidIn(
+							keyword, new String[] {"14", "28", "38"}, pageRequest);
+		} else {
+			pageTours = tourapiRepository.findByTourapiTitleContainingAndTourapiContenttypeid(keyword, contentTypeId,
+					pageRequest);
+		}
 		List<Tourapi> tours = pageTours.getContent();
 		for (int i = 0; i < tours.size(); i++) {
 
@@ -131,13 +143,13 @@ public class SearchServiceImpl implements SearchService {
 			// 해당 contentid에 해당하는 장애정보 Code들
 			long contentid = tourapi.getContentId();
 			String[] impairments = tourapiImpairmentRepository.selectConentImpairment(contentid);
-			
+
 			// 장애정보 JSONArray
 			JSONArray impairment = new JSONArray();
 			for (String imp : impairments) {
 				impairment.add(imp);
 			}
-			 
+
 			obj.put("contentid", contentid);
 			obj.put("title", tourapi.getTourapiTitle());
 			obj.put("firstimage", tourapi.getTourapiImage());
