@@ -2,56 +2,72 @@ import React from 'react';
 import ScrollPlayground from '../components/write/Scroll';
 import Uploader from './Uploader';
 import axios from 'axios';
+import styled from 'styled-components';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import PlaceDialog from '../components/write/PlaceDialog';
+// import { Image } from './image';
+
+const AboutBox = styled.div`
+  width: 100%;
+  padding: 20px;
+  width: 111%;
+`;
 function About() {
-  const [searchPlaces, setSearchPlaces] = useState([]);
+  const [content, setContent] = useState([]);
+  const [feature, setFeature] = useState([]);
   useEffect(() => {
-    const response = axios({
-      method: 'get',
-      url: '/post/searchLocation',
-      params: { postLocation: '서울' },
-    });
-    console.log(response.data);
-    setSearchPlaces(response.data);
+    setContent('우리는 위 클루시브, 우리의 프로젝트는 베리어프리');
+    setFeature(['한국관광 공사 데이터', '실 사용자의 후기', '편의 시설 정보']);
   }, []);
+
+  const site = [
+    {
+      title: '공공서비스 예약',
+      content: 'https://yeyak.seoul.go.kr/web/main.do',
+    },
+    {
+      title: '대한민국 구석구석',
+      content: 'https://korean.visitkorea.or.kr/main/main.do#home',
+    },
+  ];
   return (
     <div>
-      <Uploader></Uploader>
-      <PlaceDialog></PlaceDialog>
-      <ScrollPlayground searchPlaces={searchPlaces}></ScrollPlayground>
-      <h1>Third test</h1>
-      <h4>/images/20220212_90aadf91-4f73-4957-b42a-ca6ca9999e67_test222.png</h4>
-      <img src="/images/20220212_90aadf91-4f73-4957-b42a-ca6ca9999e67_test222.png"></img>
-      <h4>
-        /images/20220212_1bd6e013-5c36-4992-9b9b-1dd878cbf5f9_barrierfreelogo.png
-      </h4>
-      <img src="/images/20220212_1bd6e013-5c36-4992-9b9b-1dd878cbf5f9_barrierfreelogo.png"></img>
-      <span>About weclusive</span>
-      <h1>second test</h1>
-      <h4>/20220211_cb015e45-1646-4c7b-9e1a-4abdcd97d3db_alin.png</h4>
-      <img src="/20220211_cb015e45-1646-4c7b-9e1a-4abdcd97d3db_alin.png"></img>
-      <h4>/app/20220211_cb015e45-1646-4c7b-9e1a-4abdcd97d3db_alin.png</h4>
-      <img src="/app/20220211_cb015e45-1646-4c7b-9e1a-4abdcd97d3db_alin.png"></img>
-      <h4>/images/20220211_cb015e45-1646-4c7b-9e1a-4abdcd97d3db_alin.png</h4>
-      <img src="/images/20220211_cb015e45-1646-4c7b-9e1a-4abdcd97d3db_alin.png"></img>
-      <br></br>
-      <span>About weclusive</span>;
-      <h4>/app/2022/02/09/896bda0b-b73a-4b38-8ee2-397e44301f78_1help.jpg</h4>
-      <img src="/app/2022/02/09/896bda0b-b73a-4b38-8ee2-397e44301f78_1help.jpg"></img>
-      <h4>/app/build/logo192.png</h4>
-      <img src="/app/build/logo192.png"></img>
-      <h4>/build/logo192.png</h4>
-      <img src="/build/logo192.png"></img>
-      <h4>/logo192.png</h4>
-      <img src="/logo192.png"></img>
-      <h4>/static/media/barrierfreelogo.32148029a2f50fe67a4a.png</h4>
-      <img src="/static/media/barrierfreelogo.32148029a2f50fe67a4a.png"></img>
-      <h4>/barrierfreelogo.32148029a2f50fe67a4a.png</h4>
-      <img src="/barrierfreelogo.32148029a2f50fe67a4a.png"></img>
-      <h4>/home/ubuntu/images/picture.png</h4>
-      <img src="/home/ubuntu/images/picture.png"></img>
+      <div id="about">
+        <div className="container">
+          <div className="row">
+            <div className="col-xs-12 col-md-6">
+              {' '}
+              <img
+                src="static/media/barrierfreelogo.32148029a2f50fe67a4a.png"
+                className="img-responsive"
+                alt=""
+                width="50%"
+              />{' '}
+            </div>
+            <div className="col-xs-12 col-md-6">
+              <div className="about-text">
+                <h2>About Us</h2>
+                <p>{content ? content : 'loading...'}</p>
+                <h3>Why Choose Us?</h3>
+                <div className="list-style">
+                  <div className="col-lg-6 col-sm-6 col-xs-12">
+                    <ul>
+                      {feature
+                        ? feature.map((d, i) => <li key={`${d}-${i}`}>{d}</li>)
+                        : 'loading'}
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <h1>어려워요@.@</h1>
+        이거 진짜 엉망진창 코드
+      </div>
     </div>
   );
 }

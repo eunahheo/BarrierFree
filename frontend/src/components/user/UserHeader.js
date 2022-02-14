@@ -53,6 +53,14 @@ const UserHeaderBox = styled.div`
     border-radius: 100px;
     box-sizing: border-box;
   }
+  .text {
+    z-index: 10;
+    position: relative;
+    color: #2d4059;
+    font-size: 24px;
+    font-weight: bold;
+    top: 50px;
+  }
 `;
 
 const UserHeaderText = css`
@@ -129,20 +137,41 @@ const UserHeader = ({ onPost, onFollowing, onFollower, onScrap }) => {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
+                zIndex: '10',
+                // position: 'relative',
+                color: 'black',
+                fontSize: '13px',
+                fontWeight: 'bold',
+                // top: '90px',
               }}
             >
-              게시글: {userHeaderInfo.writePost}
+              <div>게시글: {userHeaderInfo.writePost}</div>
             </span>
           </div>
         </div>
         <div onClick={onScrap}>
-          <div className="toggle smc">스크랩: {userHeaderInfo.totalScarp}</div>
+          <div className="toggle smc">
+            <div className="text">
+              스크랩<br></br>
+              {userHeaderInfo.totalScarp}
+            </div>
+          </div>
         </div>
         <div onClick={onFollowing}>
-          <div className="toggle smc">팔로잉: {userHeaderInfo.following}</div>
+          <div className="toggle smc">
+            <div className="text">
+              팔로잉<br></br>
+              {userHeaderInfo.following}
+            </div>
+          </div>
         </div>
         <div onClick={onFollower}>
-          <div className="toggle smc">팔로워: {userHeaderInfo.follower}</div>
+          <div className="toggle smc">
+            <div className="text">
+              팔로워<br></br>
+              {userHeaderInfo.follower}
+            </div>
+          </div>
         </div>
       </div>
     </UserHeaderBox>
