@@ -27,7 +27,7 @@ const CommentItemBox = styled.div`
 const CommentItem = ({ comment, onRemove, getCommentList }) => {
   const CommentTime = comment.comment.regDt.substring(0, 10);
   const commentNum = comment.comment.cmtSeq;
-  const [newComment, setNewComment] = useState('');
+  const [newComment, setNewComment] = useState(comment.comment.cmtContent);
   const [check, setCheck] = useState(false);
   const dispatch = useDispatch();
   const myuser = useSelector((state) => state.user.userData);
@@ -43,13 +43,13 @@ const CommentItem = ({ comment, onRemove, getCommentList }) => {
     };
     onRemove(commentNum);
     dispatch(commentDelete(params));
-    alert('댓글 삭제가 완료되었습니다. 😉');
+    // alert('댓글 삭제가 완료되었습니다. 😉');
     getCommentList();
   };
 
   const onUpdateHandler = (event) => {
     event.preventDefault();
-    console.log(newComment);
+    // console.log(newComment);
     if (newComment) {
       let params = {
         cmtSeq: commentNum,
@@ -57,7 +57,7 @@ const CommentItem = ({ comment, onRemove, getCommentList }) => {
         userSeq: myuser.userSeq,
       };
       dispatch(commentUpdate(params));
-      alert('댓글 수정이 완료되었습니다. 😉');
+      // alert('댓글 수정이 완료되었습니다. 😉');
       setCheck(false);
     } else {
       alert('댓글을 입력해주세요 😉');
@@ -67,7 +67,7 @@ const CommentItem = ({ comment, onRemove, getCommentList }) => {
   const checkHandler = () => {
     if (check == true) setCheck(false);
     else setCheck(true);
-    console.log(check);
+    // console.log(check);
   };
 
   return (
@@ -87,6 +87,7 @@ const CommentItem = ({ comment, onRemove, getCommentList }) => {
                   class="comment-input"
                   placeholder="댓글을 입력하세요"
                   onChange={onCommentHandler}
+                  value={newComment}
                 ></input>
                 <button
                   class="update-button"
