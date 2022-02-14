@@ -18,6 +18,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { useNavigate } from 'react-router-dom';
 import { Card } from '@mui/material';
+
 const TourInfomation = () => {
   const pageNum = useParams();
   const contentid = Number(pageNum.infomationCard);
@@ -50,8 +51,6 @@ const TourInfomation = () => {
     getPostDetail();
     setScraptimes(scraptimes);
   }, []);
-
-  console.log(infomationDetail);
 
   const onClickHeart = () => {
     if (myuser) {
@@ -99,7 +98,6 @@ const TourInfomation = () => {
       },
     })
       .then((res) => {
-        console.log(res);
         setInfomationDetail(res.data);
         imp_rendering(res.data.impairments);
         setPosts(res.data.posts);
@@ -197,7 +195,6 @@ const TourInfomation = () => {
     setBarriers(result);
   };
 
-  console.log(scraptimes);
   return (
     <div>
       <div class="infomation-box">
