@@ -10,6 +10,7 @@ import Visual from '../images/VisualCheck.png';
 import VisualHide from '../images/Visual60.png';
 import styled from 'styled-components';
 import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 
 const AuthBarrierIconBlock = styled.div`
   img {
@@ -42,7 +43,7 @@ const WriteBarrierIcon = ({
   });
   const { physicalFlag, visibilityFlag, deafFlag, infantFlag, seniorFlag } =
     barrierIcon;
-
+  const mybarriers = useSelector((state) => state.user.userData.impairment);
   const onClickPhysical = (e) => {
     if (physical) {
       onClickField({ key: 'physical', value: 0 });
@@ -92,6 +93,31 @@ const WriteBarrierIcon = ({
   useEffect(() => {
     if (impairment) {
       impairment.forEach((type) => {
+        if (type === 'physical') {
+          console.log(type);
+          setBarrierIcon({ ...barrierIcon, physicalFlag: true });
+          onClickField({ key: 'physical', value: 1 });
+        } else if (type === 'visibility') {
+          console.log(type);
+          setBarrierIcon({ ...barrierIcon, visibilityFlag: true });
+          onClickField({ key: 'visibility', value: 1 });
+        } else if (type === 'deaf') {
+          console.log(type);
+          setBarrierIcon({ ...barrierIcon, deafFlag: true });
+          onClickField({ key: 'deaf', value: 1 });
+        } else if (type === 'infant') {
+          console.log(type);
+          setBarrierIcon({ ...barrierIcon, infantFlag: true });
+          onClickField({ key: 'infant', value: 1 });
+        } else if (type === 'senior') {
+          console.log(type);
+          setBarrierIcon({ ...barrierIcon, seniorFlag: true });
+          onClickField({ key: 'senior', value: 1 });
+        }
+        console.log('type', type);
+      });
+    } else if (mybarriers) {
+      mybarriers.forEach((type) => {
         if (type === 'physical') {
           console.log(type);
           setBarrierIcon({ ...barrierIcon, physicalFlag: true });
