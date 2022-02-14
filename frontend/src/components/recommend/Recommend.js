@@ -1,9 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import Physical from '../images/Physical.png';
-import Auditory from '../images/Auditory.png';
-import Pregnant from '../images/Pregnant.png';
-import Senior from '../images/Senior.png';
-import Visual from '../images/Visual.png';
+import Physical from '../images/PhysicalCheck.png';
+import PhysicalHide from '../images/Physical60.png';
+import Auditory from '../images/AuditoryCheck.png';
+import AuditoryHide from '../images/Auditory60.png';
+import Pregnant from '../images/PregnantCheck.png';
+import PregnantHide from '../images/Pregnant60.png';
+import Senior from '../images/SeniorCheck.png';
+import SeniorHide from '../images/Senior60.png';
+import Visual from '../images/VisualCheck.png';
+import VisualHide from '../images/Visual60.png';
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import axios from 'axios';
 import RecommendCardList from './RecommendCardList.js';
@@ -15,6 +20,15 @@ import Button from '../common/Button';
 import RecommendList from './RecommendList';
 import RecommendDetail from './RecommendDetail';
 import MyLocationIcon from '@mui/icons-material/MyLocation';
+import styled from 'styled-components';
+
+const AuthBarrierIconBlock = styled.div`
+  img {
+    margin: 1rem 0.5rem 0;
+    cursor: pointer;
+    width: 33;
+  }
+`;
 
 const Recommend = () => {
   const myuser = useSelector((state) => state.user.userData);
@@ -42,14 +56,14 @@ const Recommend = () => {
   useEffect(() => {
     findMyLocation();
     setCityDropdown();
-    if (barrier.length > 0) {
-      for (let i = 0; barrier.length > i; i++) {
-        let current = document.getElementById(barrier[i]);
-        current.style.border = '3px solid';
-        current.style.borderColor = 'rgb(234, 84, 85)';
-        current.style.borderRadius = '100%';
-      }
-    }
+    // if (barrier.length > 0) {
+    //   for (let i = 0; barrier.length > i; i++) {
+    //     let current = document.getElementById(barrier[i]);
+    //     current.style.border = '3px solid';
+    //     current.style.borderColor = 'rgb(234, 84, 85)';
+    //     current.style.borderRadius = '100%';
+    //   }
+    // }
   }, [barrier]);
 
   // 내 위치 받아오기
@@ -58,7 +72,7 @@ const Recommend = () => {
     if (navigator.geolocation) {
       //위치 정보를 얻기
       navigator.geolocation.getCurrentPosition(function (res) {
-        console.log(res);
+        // console.log(res);
         axios({
           method: 'GET',
           url: '/recommend/myloc',
@@ -73,10 +87,10 @@ const Recommend = () => {
           },
         }).then(function (res) {
           if (res.data === '검색결과가 없습니다.') {
-            console.log('hey');
+            // console.log('hey');
             setItemList([]);
           } else {
-            console.log(res.data);
+            // console.log(res.data);
             setItemList(res.data);
           }
         });
@@ -92,7 +106,7 @@ const Recommend = () => {
       method: 'GET',
       url: 'recommend/sido',
     }).then(function (res) {
-      console.log(res);
+      // console.log(res);
       setCityList(res.data);
     });
   };
@@ -118,30 +132,34 @@ const Recommend = () => {
   };
 
   const handleChangeTown = (event) => {
-    console.log(event);
+    // console.log(event);
     setTown(event.target.value);
   };
 
   // 장애 정보 선택하기
-  const onClickBarrier = (res) => {
-    if (search === true) {
-      if (barrier.length > 0) {
-        for (let i = 0; barrier.length > i; i++) {
-          let current = document.getElementById(barrier[i]);
-          current.style.border = null;
-        }
-      }
-    }
-    if (barrier.includes(res.target.id)) {
-      let current = document.getElementById(res.target.id);
-      current.style.border = null;
-      setBarrier(barrier.filter((info) => info !== res.target.id));
-    } else {
-      setBarrier(barrier.concat(res.target.id));
-    }
+  // const onClickBarrier = (res) => {
+  //   // if (search === true) {
+  //   //   if (barrier.length > 0) {
+  //   //     for (let i = 0; barrier.length > i; i++) {
+  //   //       if (barrier[i] === 'physical')
+  //   //         setBarrierIcon({ ...barrierIcon, deafFlag: true });
+  //   //     }
+  //   //   }
+  //   // }
+  //   // if (barrier.includes(res.target.id)) {
+  //   //   let current = document.getElementById(res.target.id);
+  //   //   console.log('current2', current);
+  //   //   current.style.border = null;
+  //   //   setBarrier(barrier.filter((info) => info !== res.target.id));
+  //   // } else {
+  //   //   setBarrier(barrier.concat(res.target.id));
+  //   // }
+  //   if (barrier.includes(res.target.id)) {
 
-    console.log(barrier);
-  };
+  //   }
+
+  //   // console.log(barrier);
+  // };
 
   // 검색
   const onClickSearch = () => {
@@ -229,7 +247,7 @@ const Recommend = () => {
             return qs.stringify(params, { arrayFormat: 'repeat' });
           },
         }).then((res) => {
-          console.log(res);
+          // console.log(res);
           if (res.config.params.contentTypeId == 0) {
             if (res.data.length > 0) {
               setItemList(res.data);
@@ -371,54 +389,113 @@ const Recommend = () => {
   };
 
   const onClickReset = () => {
-    if (barrier.length > 0) {
-      for (let i = 0; barrier.length > i; i++) {
-        let current = document.getElementById(barrier[i]);
-        current.style.border = null;
-      }
-    }
+    // if (barrier.length > 0) {
+    //   for (let i = 0; barrier.length > i; i++) {
+    //     let current = document.getElementById(barrier[i]);
+    //     current.style.border = null;
+    //   }
+    // }
+    setBarrierIcon({
+      ...barrierIcon,
+      physicalFlag: false,
+      visibilityFlag: false,
+      deafFlag: false,
+      infantFlag: false,
+      seniorFlag: false,
+    });
     setCity('');
     setTown('');
     setBarrier([]);
   };
+
+  const [barrierIcon, setBarrierIcon] = useState({
+    physicalFlag: false,
+    visibilityFlag: false,
+    deafFlag: false,
+    infantFlag: false,
+    seniorFlag: false,
+  });
+  const { physicalFlag, visibilityFlag, deafFlag, infantFlag, seniorFlag } =
+    barrierIcon;
+
   return (
     <div>
       {/* <Header /> */}
       <Container maxWidth="md">
         <div class="selete-box">
           <h3>무장애 선택하기</h3>
-          <div>
+          <AuthBarrierIconBlock>
             <img
               class="barrier-icon"
               id="physical"
-              onClick={onClickBarrier}
-              src={Physical}
+              onClick={() => {
+                if (barrier.includes('physical')) {
+                  barrier.splice('physical');
+                  setBarrierIcon({ ...barrierIcon, physicalFlag: false });
+                } else {
+                  barrier.push('physical');
+                  setBarrierIcon({ ...barrierIcon, physicalFlag: true });
+                }
+              }}
+              src={physicalFlag ? Physical : PhysicalHide}
             ></img>
             <img
               class="barrier-icon"
               id="visibility"
-              onClick={onClickBarrier}
-              src={Visual}
+              onClick={() => {
+                if (barrier.includes('visibility')) {
+                  barrier.splice('visibility');
+                  setBarrierIcon({ ...barrierIcon, visibilityFlag: false });
+                } else {
+                  barrier.push('visibility');
+                  setBarrierIcon({ ...barrierIcon, visibilityFlag: true });
+                }
+              }}
+              src={visibilityFlag ? Visual : VisualHide}
             ></img>
             <img
               class="barrier-icon"
               id="deaf"
-              onClick={onClickBarrier}
-              src={Auditory}
+              onClick={() => {
+                if (barrier.includes('deaf')) {
+                  barrier.splice('deaf');
+                  setBarrierIcon({ ...barrierIcon, deafFlag: false });
+                } else {
+                  barrier.push('deaf');
+                  setBarrierIcon({ ...barrierIcon, deafFlag: true });
+                }
+              }}
+              src={deafFlag ? Auditory : AuditoryHide}
             ></img>
             <img
               class="barrier-icon"
               id="infant"
-              onClick={onClickBarrier}
-              src={Pregnant}
+              onClick={() => {
+                if (barrier.includes('infant')) {
+                  barrier.splice('infant');
+                  setBarrierIcon({ ...barrierIcon, infantFlag: false });
+                } else {
+                  barrier.push('infant');
+                  setBarrierIcon({ ...barrierIcon, infantFlag: true });
+                }
+              }}
+              src={infantFlag ? Pregnant : PregnantHide}
             ></img>
             <img
               class="barrier-icon"
               id="senior"
-              onClick={onClickBarrier}
-              src={Senior}
+              onClick={() => {
+                if (barrier.includes('senior')) {
+                  barrier.splice('senior');
+                  setBarrierIcon({ ...barrierIcon, seniorFlag: false });
+                } else {
+                  barrier.push('senior');
+                  setBarrierIcon({ ...barrierIcon, seniorFlag: true });
+                }
+              }}
+              src={seniorFlag ? Senior : SeniorHide}
             ></img>
-          </div>
+          </AuthBarrierIconBlock>
           <h3>무장애 여행지역</h3>
           <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
             <InputLabel id="find-city">시도 검색</InputLabel>

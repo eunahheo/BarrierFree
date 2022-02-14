@@ -133,7 +133,7 @@ const Review = () => {
         },
       });
       setOtherUser(response.data);
-      console.log('otheruser', otherUser);
+      // console.log('otheruser', otherUser);
       const response2 = await axios({
         method: 'get',
         url: '/sns/isfollow',
@@ -146,7 +146,7 @@ const Review = () => {
         setCheckFw(true);
       }
     } catch (e) {
-      console.log(e);
+      // console.log(e);
     } finally {
       setLoading(false);
     }
@@ -159,6 +159,7 @@ const Review = () => {
     })
       .then((res) => {
         setComments(res.data);
+        setNewComment('');
       })
       .catch('yes');
   };
@@ -172,10 +173,12 @@ const Review = () => {
         userSeq: myuser.userSeq,
       };
       dispatch(commentSave(body));
+
       alert('댓글 작성이 완료되었습니다. 😉');
     } else {
       alert('댓글을 입력해주세요 😉');
     }
+    setNewComment('');
     getCommentList();
   };
 
@@ -416,7 +419,7 @@ const Review = () => {
                     <span
                       onClick={() => {
                         navigate(`/user/${reviewDetail.userSeq}`);
-                        console.log('선택시 seq', reviewDetail.userSeq);
+                        // console.log('선택시 seq', reviewDetail.userSeq);
                       }}
                     >
                       작성자 : {otherUser.userNickname}
@@ -463,17 +466,18 @@ const Review = () => {
                     }}
                   ></div>
                 </div>
+
                 <ReviewBarrierIcon barriers={barriers}></ReviewBarrierIcon>
                 {/* <p class="text-content">{reviewDetail.postContent}</p> */}
                 <InfoIcon></InfoIcon>
                 {/* <span class="location-name">{reviewDetail.postLocation}</span> */}
-
                 <div class="comment-box">
                   <form onSubmit={onSubmitHandler}>
                     <input
                       class="comment-input"
                       placeholder="댓글을 입력하세요"
                       onChange={onCommentHandler}
+                      value={newComment}
                     ></input>
                     <button
                       class="button"
