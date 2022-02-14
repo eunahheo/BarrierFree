@@ -93,10 +93,9 @@ const Review = () => {
         user_seq: myuser.userSeq,
       },
     }).then(function (res) {
-      if (res.data.scarp_yn === 'y') {
+      if (res.data.scrap_yn == 'y') {
         setHeart(true);
       }
-      // console.log(res.data.scrap_yn);
     });
     //     }),
     // catch (e) {
@@ -107,7 +106,7 @@ const Review = () => {
 
   useEffect(() => {
     getCommentList();
-  }, [comments]);
+  }, []);
 
   async function getDetailFn() {
     setLoading(true);
@@ -216,15 +215,15 @@ const Review = () => {
 
   const onRemoveHeart = () => {
     setHeart(false);
-    // axios({
-    //   method: 'get',
-    //   url: '/scrap/insert',
-    //   params: {
-    //     scrap_data: reviewNum,
-    //     scrap_type: 0,
-    //     user_seq: myuser.userSeq,
-    //   },
-    // });
+    axios({
+      method: 'put',
+      url: '/scrap/delete',
+      params: {
+        scrap_data: reviewNum,
+        scrap_type: 0,
+        user_seq: myuser.userSeq,
+      },
+    });
   };
   const TTS = () => {
     const API_KEY = process.env.REACT_APP_KAKAO_API_KEY;
@@ -300,6 +299,7 @@ const Review = () => {
                           color: `${palette.pink[0]}`,
                           cursor: 'pointer',
                         }}
+                        onClick={onRemoveHeart}
                       >
                         ❤
                       </span>
