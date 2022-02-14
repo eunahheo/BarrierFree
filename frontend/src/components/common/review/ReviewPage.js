@@ -3,7 +3,7 @@ import axios from 'axios';
 import ReviewCardList from './ReviewCardList';
 import Button from '../../common/Button';
 import { useSelector } from 'react-redux';
-import { useInView } from "react-intersection-observer"
+import { useInView } from 'react-intersection-observer';
 import './ReviewPage.css';
 
 const ReviewPage = () => {
@@ -17,6 +17,8 @@ const ReviewPage = () => {
       url: 'main/recently',
       params: {
         userSeq: currentUser,
+        page: 1,
+        size: 200,
       },
     })
       .then(function (res) {
@@ -29,7 +31,7 @@ const ReviewPage = () => {
   const orderbypopular = () => {
     axios({
       url: '/main/scrap',
-      params: { userSeq: currentUser },
+      params: { userSeq: currentUser, page: 1, size: 200 },
     })
       .then(function (res) {
         mysetItemList(res.data);
@@ -43,7 +45,7 @@ const ReviewPage = () => {
     axios({
       url: '/main/weekscrap',
       method: 'get',
-      params: { userSeq: currentUser },
+      params: { userSeq: currentUser, page: 1, size: 200 },
     })
       .then(function (res) {
         mysetItemList(res.data);
@@ -60,6 +62,8 @@ const ReviewPage = () => {
         method: 'get',
         params: {
           userSeq: myuser.userSeq,
+          page: 1,
+          size: 200,
         },
       }).then(function (res) {
         mysetItemList(res.data);
@@ -86,6 +90,8 @@ const ReviewPage = () => {
           url: '/main/recently',
           params: {
             userSeq: myuser.userSeq,
+            page: 1,
+            size: 200,
           },
         })
           .then(function (res) {
