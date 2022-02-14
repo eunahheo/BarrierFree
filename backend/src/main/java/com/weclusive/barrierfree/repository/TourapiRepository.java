@@ -40,7 +40,7 @@ public interface TourapiRepository extends JpaRepository<Tourapi, Long> {
 	public Page<Tourapi> findBySidoCodeAndImpariments(char delYn, String sidoCode, List<String> impairments, Pageable pageable);
 
 	// 컨텐츠타입,장애정보로 검색한 결과
-	@Query("select t from Tourapi t where t.delYn=:delYn and t.tourapiContenttypeid = :contentTypeId and t.contentId in (select ti.contentId from TourapiImpairment ti where ti.code in :impairments)")
+	@Query("select t from Tourapi t where t.delYn=:delYn and t.tourapiContenttypeid in :contentTypeId and t.contentId in (select ti.contentId from TourapiImpairment ti where ti.code in :impairments)")
 	public Page<Tourapi> findByTourapiContenttypeidInAndImpariments(char delYn, String[] contentTypeId, List<String> impairments, Pageable pageable);
 
 	// 시도,시군구,컨텐츠타입으로 검색한 결과
