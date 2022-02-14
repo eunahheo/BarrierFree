@@ -17,12 +17,12 @@ const WriteButtonsContainer = ({ uploadImageWithAdtData }) => {
     postAddress,
     postLat,
     postLng,
-    // deaf,
-    // infant,
-    // physical,
-    // visibility,
-    // senior,
-    // postPhoto,
+    deaf,
+    infant,
+    physical,
+    visibility,
+    senior,
+    postPhoto,
   } = useSelector(({ write }) => ({
     postTitle: write.postTitle,
     postContent: write.postContent,
@@ -40,29 +40,42 @@ const WriteButtonsContainer = ({ uploadImageWithAdtData }) => {
     postSeq: write.postSeq,
   }));
 
-  const onPublish = () => {
+  const onPublish = async () => {
     if (postSeq) {
-      axios({
-        method: 'put',
-        url: '/post/update',
-        data: {
-          contentId: 0,
-          postAddress,
-          postContent,
-          postLat,
-          postLng,
-          postLocation,
-          postPoint,
-          postTitle,
-          userSeq: myuser.userSeq,
-        },
-        params: {
-          postSeq,
-          userSeq: myuser.userSeq,
-        },
-      }).then(alert('수정이 완료되었습니다!'), navigate('/'));
-
-      // .catch(console.log(error));
+      try {
+        const response = await axios({
+          method: 'put',
+          url: '/post/update',
+          data: {
+            contentId: 0,
+            postAddress,
+            postContent,
+            postLat,
+            postLng,
+            postLocation,
+            postPoint,
+            postTitle,
+            userSeq: myuser.userSeq,
+          },
+          params: {
+            postSeq,
+            userSeq: myuser.userSeq,
+          },
+        });
+        if (response.data === 'success') {
+          const response2 = await axios({
+            method: 'put',
+            url: '/post/updateImpairment',
+            data: { deaf, infant, physical, visibility, senior },
+            params: {
+              postSeq,
+              userSeq: myuser.userSeq,
+            },
+          }).then(alert('수정이 완료되었습니다!'), navigate('/'));
+        }
+      } catch (e) {
+        console.log(e);
+      }
       return;
     }
     if (!postTitle) {
