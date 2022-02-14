@@ -17,7 +17,6 @@ import {
   unfollow,
 } from '../../_actions/relationship_actions.js';
 import ReviewBarrierIcon from '../common/review/ReviewBarrierIcon.js';
-import { setPostContent } from '../../_actions/write_actions.js';
 
 const ReviewBox = styled.div`
   display: flex;
@@ -57,7 +56,7 @@ const Review = () => {
   const pageNum = useParams();
   const reviewNum = Number(pageNum.reviewCard);
   const myuser = useSelector((state) => state.user.userData);
-  const [postInfo, setPostInfo] = useState(null);
+
   // review 내용 불러오기 위한 const
   // debugger;
   const [reviewDetail, setReviewDetail] = useState([]);
@@ -96,18 +95,15 @@ const Review = () => {
       if (res.data.scarp_yn === 'y') {
         setHeart(true);
       }
-      // console.log(res.data.scrap_yn);
+      console.log(res.data.scrap_yn);
     });
     //     }),
     // catch (e) {
     //   console.log(e);
     // }
     getDetailFn();
-  }, []);
-
-  useEffect(() => {
     getCommentList();
-  }, [comments]);
+  }, []);
 
   async function getDetailFn() {
     setLoading(true);
@@ -117,8 +113,6 @@ const Review = () => {
         url: '/post/detail',
         params: { postSeq: reviewNum },
       });
-      console.log(res.data[0]);
-      setPostInfo(res.data[0]);
       setReviewDetail(res.data[0].post);
       setBarriers(res.data[0].impairment);
       setReviewPoint(res.data[0].post.postPoint);
@@ -174,10 +168,11 @@ const Review = () => {
         userSeq: myuser.userSeq,
       };
       dispatch(commentSave(body));
+      alert('댓글 작성이 완료되었습니다. 😉');
     } else {
       alert('댓글을 입력해주세요 😉');
     }
-    onCommentReset();
+    getCommentList();
   };
 
   const onRemove = (id) => {
@@ -198,8 +193,6 @@ const Review = () => {
     dispatch(resetRelationship());
   };
   const plusScrap = reviewDetail.postScrap + 1;
-
-  // 스크랩(하트)
   const onClickHeart = () => {
     setHeart(true);
     axios({
@@ -256,12 +249,7 @@ const Review = () => {
       console.error(e.message);
     }
   };
-  // 게시글 수정
-  // console.log('reviewDeatil', reviewDetail);
-  const onEdit = () => {
-    dispatch(setPostContent(postInfo));
-    navigate('/write');
-  };
+
   return (
     <div>
       <ReviewBox>
@@ -278,12 +266,7 @@ const Review = () => {
                 <div class="review-content">
                   {reviewDetail.userSeq == myuser.userSeq ? (
                     <div class="button-top">
-                      <button
-                        variant="contained"
-                        id="update"
-                        onClick={onEdit}
-                        style={{ cursor: 'pointer' }}
-                      >
+                      <button variant="contained" id="update">
                         수정
                       </button>
                       <button variant="contained" id="delete">
