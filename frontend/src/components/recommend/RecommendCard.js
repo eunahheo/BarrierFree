@@ -8,6 +8,7 @@ import { useSelector } from 'react-redux';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import palette from '../../lib/styles/palette';
+import LocationIcon from '@mui/icons-material/LocationOn';
 
 const RecommendCard = ({ item }) => {
   const [barriers, setBarrier] = useState([]);
@@ -141,8 +142,8 @@ const RecommendCard = ({ item }) => {
         />
         <CardContent align="left">
           <Typography noWrap variant="body2" color="text.secondary">
-            {addr1}
-          </Typography>{' '}
+            <LocationIcon sx={{ fontSize: 15 }} /> {addr1}
+          </Typography>
           <Typography noWrap variant="body1">
             {title}
           </Typography>
