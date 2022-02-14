@@ -7,8 +7,12 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import com.weclusive.barrierfree.entity.Post;
+import com.weclusive.barrierfree.entity.Tourapi;
 import com.weclusive.barrierfree.repository.PostImpairmentRepository;
 import com.weclusive.barrierfree.repository.PostRepository;
 import com.weclusive.barrierfree.repository.ScrapRepository;
@@ -69,9 +73,12 @@ public class MainServiceImpl implements MainService {
 	}
 
 	@Override
-	public List<Map<String, Object>> readPostlatest(int userSeq) {
+	public List<Map<String, Object>> readPostlatest(int userSeq, int page, int size) {
 		List<Map<String, Object>> result = new LinkedList<>();
-		postRepository.findTop100ByDelYnOrderByRegDtDesc('n').forEach(post -> {
+		PageRequest pageRequest = PageRequest.of(page-1, size);
+		Page<Post> pagePosts = null;
+		pagePosts = postRepository.findByDelYnOrderByRegDtDesc('n', pageRequest);
+		pagePosts.forEach(post -> {
 			Map<String, Object> obj = new HashMap<>();
 			obj.put("postSeq", post.getPostSeq());
 			obj.put("UserSeq", post.getUserSeq());
@@ -83,7 +90,7 @@ public class MainServiceImpl implements MainService {
 			obj.put("postLocation", post.getPostLocation());
 			List<String> list = postImpairmentRepository.findImpairment(post.getPostSeq());
 			obj.put("impairment", list);
-
+			obj.put("totalElements", postRepository.countByDelYn('n'));
 			char scrapYn = 'n';
 			// 현재 사용자의 seq를 가져오는 api 필요
 			if (scrapRepository.countByDelYnAndScrapTypeAndUserSeqAndScrapData('n', '0', userSeq,
@@ -98,9 +105,12 @@ public class MainServiceImpl implements MainService {
 
 	// 스크랩 많은 순
 	@Override
-	public List<Map<String, Object>> readPostScrap(int userSeq) {
+	public List<Map<String, Object>> readPostScrap(int userSeq, int page, int size) {
 		List<Map<String, Object>> result = new LinkedList<>();
-		postRepository.findTop100ByDelYnOrderByPostScrapDesc('n').forEach(post -> {
+		PageRequest pageRequest = PageRequest.of(page-1, size);
+		Page<Post> pagePosts = null;
+		pagePosts = postRepository.findByDelYnOrderByPostScrapDesc('n',pageRequest);
+		pagePosts.forEach(post -> {
 			Map<String, Object> obj = new HashMap<>();
 			obj.put("postSeq", post.getPostSeq());
 			obj.put("UserSeq", post.getUserSeq());
@@ -112,7 +122,7 @@ public class MainServiceImpl implements MainService {
 			obj.put("postLocation", post.getPostLocation());
 			List<String> list = postImpairmentRepository.findImpairment(post.getPostSeq());
 			obj.put("impairment", list);
-
+			obj.put("totalElements", postRepository.countByDelYn('n'));
 			char scrapYn = 'n';
 			// 현재 사용자의 seq를 가져오는 api 필요
 			if (scrapRepository.countByDelYnAndScrapTypeAndUserSeqAndScrapData('n', '0', userSeq,
@@ -127,11 +137,13 @@ public class MainServiceImpl implements MainService {
 
 	// 이번주 스크랩 순
 	@Override
-	public List<Map<String, Object>> readPostWeek(int userSeq) {
+	public List<Map<String, Object>> readPostWeek(int userSeq, int page, int size) {
 		List<Map<String, Object>> result = new LinkedList<>();
 		String startTime = LocalDateTime.now().minusDays(7).toString().replace("T", " ").substring(0, 19);
 		String endTime = TimeUtils.curTime();
-		postRepository.findTop100ByDelYnAndRegDtBetweenOrderByPostScrapDesc('n', startTime, endTime).forEach(post -> {
+		PageRequest pageRequest = PageRequest.of(page-1, size);
+		Page<Post> pagePosts = postRepository.findByDelYnAndRegDtBetweenOrderByPostScrapDesc('n', startTime, endTime, pageRequest);
+		pagePosts.forEach(post -> {
 			Map<String, Object> obj = new HashMap<>();
 			obj.put("postSeq", post.getPostSeq());
 			obj.put("UserSeq", post.getUserSeq());
@@ -143,7 +155,7 @@ public class MainServiceImpl implements MainService {
 			obj.put("postLocation", post.getPostLocation());
 			List<String> list = postImpairmentRepository.findImpairment(post.getPostSeq());
 			obj.put("impairment", list);
-
+			obj.put("totalElements", postRepository.countByDelYnAndRegDtBetweenOrderByPostScrapDesc('n',startTime, endTime));
 			char scrapYn = 'n';
 			// 현재 사용자의 seq를 가져오는 api 필요
 			if (scrapRepository.countByDelYnAndScrapTypeAndUserSeqAndScrapData('n', '0', userSeq,
@@ -158,9 +170,11 @@ public class MainServiceImpl implements MainService {
 
 	// 팔로워 게시글
 	@Override
-	public List<Map<String, Object>> readPostFollowing(int userSeq) {
+	public List<Map<String, Object>> readPostFollowing(int userSeq, int page, int size) {
 		List<Map<String, Object>> result = new LinkedList<>();
-		postRepository.findFollowPost(userSeq).forEach(post -> {
+		PageRequest pageRequest = PageRequest.of(page-1, size);
+		Page<Post> pagePosts = postRepository.findFollowPost(userSeq, pageRequest);
+		pagePosts.forEach(post -> {
 			Map<String, Object> obj = new HashMap<>();
 			obj.put("postSeq", post.getPostSeq());
 			obj.put("UserSeq", post.getUserSeq());
@@ -172,7 +186,7 @@ public class MainServiceImpl implements MainService {
 			obj.put("postLocation", post.getPostLocation());
 			List<String> list = postImpairmentRepository.findImpairment(post.getPostSeq());
 			obj.put("impairment", list);
-
+			obj.put("totalElements", postRepository.countFollowPost(userSeq));
 			char scrapYn = 'n';
 			// 현재 사용자의 seq를 가져오는 api 필요
 			if (scrapRepository.countByDelYnAndScrapTypeAndUserSeqAndScrapData('n', '0', userSeq,
