@@ -9,34 +9,34 @@ import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import SwipeableViews from 'react-swipeable-views';
 import { autoPlay } from 'react-swipeable-views-utils';
+import { useEffect } from 'react';
+import { useState } from 'react';
 
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
 function SwipeableTextMobileStepper({ myWeeklyList }) {
-  console.log(myWeeklyList[0].postPhoto);
-  const images = [
+  const theme = useTheme();
+  const [activeStep, setActiveStep] = React.useState(0);
+  const [images, setImages] = useState([
     {
       label: 'San Francisco – Oakland Bay Bridge, United States',
-      imgPath: 'https://i6a504.p.ssafy.io/' + myWeeklyList[0].postPhoto,
+      imgPath: 'https://t1.daumcdn.net/cfile/tistory/2513B53E55DB206927',
     },
     {
       label: 'Bird',
-      imgPath: 'https://i6a504.p.ssafy.io/' + myWeeklyList[1].postPhoto,
+      imgPath: 'https://t1.daumcdn.net/cfile/tistory/2513B53E55DB206927',
     },
     {
       label: 'Bali, Indonesia',
-      imgPath: 'https://i6a504.p.ssafy.io/' + myWeeklyList[2].postPhoto,
+      imgPath: 'https://t1.daumcdn.net/cfile/tistory/2513B53E55DB206927',
     },
     {
       label: 'Goč, Serbia',
-      imgPath: 'https://i6a504.p.ssafy.io/' + myWeeklyList[3].postPhoto,
+      imgPath: 'https://t1.daumcdn.net/cfile/tistory/2513B53E55DB206927',
     },
-  ];
+  ]);
 
-  const theme = useTheme();
-  const [activeStep, setActiveStep] = React.useState(0);
   const maxSteps = images.length;
-
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
@@ -48,15 +48,35 @@ function SwipeableTextMobileStepper({ myWeeklyList }) {
   const handleStepChange = (step) => {
     setActiveStep(step);
   };
-  React.useEffect(() => {
-    console.log('여기', myWeeklyList);
-  });
+  useEffect(() => {
+    // console.log('여기', myWeeklyList);
+    if (myWeeklyList) {
+      setImages([
+        {
+          label: 'San Francisco – Oakland Bay Bridge, United States',
+          imgPath: 'https://i6a504.p.ssafy.io/' + myWeeklyList[0].postPhoto,
+        },
+        {
+          label: 'Bird',
+          imgPath: 'https://i6a504.p.ssafy.io/' + myWeeklyList[1].postPhoto,
+        },
+        {
+          label: 'Bali, Indonesia',
+          imgPath: 'https://i6a504.p.ssafy.io/' + myWeeklyList[2].postPhoto,
+        },
+        {
+          label: 'Goč, Serbia',
+          imgPath: 'https://i6a504.p.ssafy.io/' + myWeeklyList[3].postPhoto,
+        },
+      ]);
+    }
+  }, []);
   return (
     <Box sx={{ maxWidth: 400, flexGrow: 1 }}>
-      <h1>{myWeeklyList[0].postPhoto}</h1>
+      {/* <h1>{myWeeklyList[0].postPhoto}</h1>
       <h1>{myWeeklyList[1].postPhoto}</h1>
       <h1>{myWeeklyList[2].postPhoto}</h1>
-      <h1>{myWeeklyList[3].postPhoto}</h1>
+      <h1>{myWeeklyList[3].postPhoto}</h1> */}
       <Paper
         square
         elevation={0}

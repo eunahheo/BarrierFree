@@ -9,7 +9,7 @@ import Carousel from './Carousel';
 const ReviewPage = () => {
   const myuser = useSelector((state) => state.user.userData);
   const [myitemList, mysetItemList] = useState([]);
-  const [myWeeklyList, setMyWeeklyList] = useState([]);
+  const [myWeeklyList, setMyWeeklyList] = useState(null);
   const [currentUser, setCurrentUser] = useState(0);
 
   const orderbylatest = async () => {
@@ -99,7 +99,7 @@ const ReviewPage = () => {
           // })
           // .catch((error) => console.log(error));
 
-          console.log('here', response);
+          // console.log('here', response);
 
           // if (response) {
           // }
@@ -114,7 +114,6 @@ const ReviewPage = () => {
           // .catch(function (error) {
           // console.log(error);
           // });
-          console.log('here', myWeeklyList);
         } catch (e) {
           console.log(e);
         }
@@ -154,37 +153,10 @@ const ReviewPage = () => {
           console.log(e);
         }
       }
-
-      //   axios({
-      //     method: 'get',
-      //     url: '/main/recently',
-      //     params: {
-      //       userSeq: 0,
-      //       page: 1,
-      //       size: 200,
-      //     },
-      //   })
-      //     .then(function (res) {
-      //       mysetItemList(res.data);
-      //     })
-      //     .catch((error) => console.log(error));
-      // }
-      // axios({
-      //   url: '/main/weekscrap',
-      //   method: 'get',
-      //   params: { userSeq: 0, page: 1, size: 4 },
-      // })
-      //   .then(function (res) {
-      //     console.log(res);
-      //     setMyWeeklyList(res.data);
-      //   })
-      //   .catch(function (error) {
-      //     console.log(error);
-      //   });
     };
     tmp();
   }, [myuser]);
-
+  // console.log('here', myWeeklyList);
   return (
     <div class="box">
       <h1></h1>
