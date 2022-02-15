@@ -88,7 +88,7 @@ const CommentItem = ({ comment, onRemove, getCommentList }) => {
                   class="comment-input"
                   placeholder="댓글을 입력하세요"
                   onChange={onCommentHandler}
-                  value={newComment}
+                  value={comment.comment.cmtContent}
                 ></input>
                 <button
                   class="update-button"
