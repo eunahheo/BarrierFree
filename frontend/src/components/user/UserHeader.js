@@ -18,8 +18,8 @@ const UserHeaderBox = styled.div`
     color: ${palette.blue[0]};
     text-align: center;
     margin: auto;
-    width: 200px;
-    height: 200px;
+    width: 150px;
+    height: 150px;
     border-radius: 100px;
     box-sizing: border-box;
     &:hover {
@@ -33,8 +33,8 @@ const UserHeaderBox = styled.div`
     border: 1px solie ${palette.pink[0]};
   }
   .smc {
-    width: 150px;
-    height: 150px;
+    width: 100px;
+    height: 100px;
   }
   .span {
     display: flex;
@@ -48,28 +48,33 @@ const UserHeaderBox = styled.div`
     cursor: pointer;
     text-align: center;
     margin: auto;
-    width: 148px;
-    height: 148px;
-    border-radius: 100px;
+    width: 150px;
+    height: 150px;
+    border-radius: 80px;
     box-sizing: border-box;
   }
   .text {
     z-index: 10;
     position: relative;
     color: #2d4059;
-    font-size: 25px;
+    font-size: 15px;
     font-weight: bold;
     // top: 35px;
-    margin-top: 5px;
-    margin-bottom: 30px;
+    margin-top: 2px;
+    margin-bottom: 20px;
   }
   .count {
     z-index: 10;
     position: relative;
     color: #2d4059;
-    font-size: 50px;
+    font-size: 35px;
     font-weight: bold;
-    top: 45px;
+    top: 30px;
+  }
+  .feed {
+    font-size: 25px;
+    font-weight: bold;
+    padding: 10px;
   }
 `;
 
@@ -121,7 +126,7 @@ const UserHeader = ({ onPost, onFollowing, onFollower, onScrap }) => {
   return (
     <UserHeaderBox>
       <div>
-        <h1>{userHeaderInfo.userNickname}님의 피드</h1>
+        <div className="feed">{userHeaderInfo.userNickname}님의 피드</div>
         <div>
           <div>
             <img
