@@ -3,7 +3,6 @@ import axios from 'axios';
 import ReviewCardList from './ReviewCardList';
 import Button from '../../common/Button';
 import { useSelector } from 'react-redux';
-import { useInView } from 'react-intersection-observer';
 import './ReviewPage.css';
 
 const ReviewPage = () => {
@@ -132,6 +131,7 @@ const ReviewPage = () => {
       <Button order onClick={orderbybf}>
         베프만
       </Button>
+      
       {myitemList && <ReviewCardList itemList={myitemList}></ReviewCardList>}
     </div>
   );

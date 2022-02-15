@@ -82,3 +82,38 @@
 .recommend-title-first {
   margin-bottom: 10px;
 }
+
+.table-row {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+  
+}
+
+.table-col {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border: 5px solid white;
+  width: 250px;
+  background-color: rgb(229, 229, 229, 0.5);
+  color: black;
+  font-size: 25px;
+  font-weight: normal;
+}
+
+.table-col:hover {
+  width: 250px;
+  background-color: rgb(234, 84, 85);
+  color: white;
+}
+
+.table-active {
+  width: 250px;
+  background-color: rgb(234, 84, 85);
+  color: white;
+}
+
+.clicked {
+  color: gold;
+}
