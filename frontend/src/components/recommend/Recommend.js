@@ -183,7 +183,7 @@ const Recommend = () => {
           contentTypeId: impairmentNums[i],
           impairments: barrier,
           page: 1,
-          size: 4,
+          size: 5,
         };
         axios({
           method: 'GET',
@@ -238,7 +238,7 @@ const Recommend = () => {
           contentTypeId: impairmentNums[i],
           impairments: barrier,
           page: 1,
-          size: 4,
+          size: 5,
         };
         axios({
           method: 'GET',
@@ -295,7 +295,7 @@ const Recommend = () => {
           userSeq: myuser.userSeq,
           contentTypeId: impairmentNums[i],
           page: 1,
-          size: 4,
+          size: 5,
         };
         axios({
           method: 'GET',
@@ -418,6 +418,7 @@ const Recommend = () => {
   });
   const { physicalFlag, visibilityFlag, deafFlag, infantFlag, seniorFlag } =
     barrierIcon;
+
 
   return (
     <div>
@@ -563,12 +564,20 @@ const Recommend = () => {
           ) : findSearch === false ? (
             <div>
               <div>
-                <Button onClick={onClickTotal}>전체</Button>
+                <table class="table-row">
+                  <th class="table-col" onClick={onClickTotal}>전체</th>
+                  <th class="table-col" onClick={onClickLocation}>명소</th>
+                  <th class="table-col" onClick={onClickFood}>음식점</th>
+                  <th class="table-col" onClick={onClickHome}>숙박시설</th>
+                  <th class="table-col" onClick={onClickCulture}>문화</th>
+                  <th class="table-col" onClick={onClickParty}>행사</th>
+                </table>
+                {/* <Button onClick={onClickTotal}>전체</Button>
                 <Button onClick={onClickLocation}>명소</Button>
                 <Button onClick={onClickFood}>음식점</Button>
                 <Button onClick={onClickHome}>숙박시설</Button>
                 <Button onClick={onClickCulture}>문화</Button>
-                <Button onClick={onClickParty}>행사</Button>
+                <Button onClick={onClickParty}>행사</Button> */}
               </div>
               <RecommendList
                 class="card-list"
@@ -585,14 +594,22 @@ const Recommend = () => {
             </div>
           ) : (
             <div>
-              <div>
+              {/* <div>
                 <Button onClick={onClickTotal}>전체</Button>
                 <Button onClick={onClickLocation}>명소</Button>
                 <Button onClick={onClickFood}>음식점</Button>
                 <Button onClick={onClickHome}>숙박시설</Button>
                 <Button onClick={onClickCulture}>문화</Button>
                 <Button onClick={onClickParty}>행사</Button>
-              </div>
+              </div> */}
+              <table class="table-row">
+                  <th class="table-col" onClick={onClickTotal}>전체</th>
+                  <th class="table-col"onClick={onClickLocation}>명소</th>
+                  <th class="table-col" onClick={onClickFood}>음식점</th>
+                  <th class="table-col" onClick={onClickHome}>숙박시설</th>
+                  <th class="table-col" onClick={onClickCulture}>문화</th>
+                  <th class="table-col" onClick={onClickParty}>행사</th>
+                </table>
               <h2 class="title">{title}</h2>
               <RecommendDetail
                 noresult={noresult}

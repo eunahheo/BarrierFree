@@ -20,7 +20,7 @@ const SearchDetail = ({ number, searchItem, noresult }) => {
         contentTypeId: number,
         keyword: searchItem,
         page: page,
-        size: 12,
+        size: 15,
         userSeq: myuser.userSeq,
       },
     }).then((res) => {
@@ -46,7 +46,7 @@ const SearchDetail = ({ number, searchItem, noresult }) => {
           <SearchCardList itemList={searchList}></SearchCardList>
           <Pagination
             activePage={page}
-            itemsCountPerPage={12}
+            itemsCountPerPage={15}
             totalItemsCount={totalItem}
             pageRangeDisplayed={5}
             prevPageText={'<'}
