@@ -15,23 +15,23 @@ const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
 
 function SwipeableTextMobileStepper({myWeeklyList}) {
-
+  console.log(myWeeklyList[0].postPhoto)
   const images = [
     {
       label: 'San Francisco – Oakland Bay Bridge, United States',
-      imgPath: myWeeklyList[0].postPhoto,
+      imgPath: 'https://i6a504.p.ssafy.io/' + myWeeklyList[0].postPhoto,
     },
     {
       label: 'Bird',
-      imgPath: myWeeklyList[1].postPhoto,
+      imgPath: 'https://i6a504.p.ssafy.io/' + myWeeklyList[1].postPhoto,
     },
     {
       label: 'Bali, Indonesia',
-      imgPath: myWeeklyList[2].postPhoto,
+      imgPath: 'https://i6a504.p.ssafy.io/' + myWeeklyList[2].postPhoto,
     },
     {
       label: 'Goč, Serbia',
-      imgPath: myWeeklyList[3].postPhoto,
+      imgPath: 'https://i6a504.p.ssafy.io/' + myWeeklyList[3].postPhoto,
     },
   ];
 

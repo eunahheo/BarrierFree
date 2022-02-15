@@ -131,6 +131,7 @@ const ReviewPage = () => {
         params: { userSeq: 6, page: 1, size: 4 },
       })
         .then(function (res) {
+          console.log(res)
           setMyWeeklyList(res.data);
         })
         .catch(function (error) {
@@ -143,7 +144,9 @@ const ReviewPage = () => {
   return (
     <div class="box">
       <h1> </h1>
-      <Carousel myWeeklyList={myWeeklyList}></Carousel>
+      {myWeeklyList > 0 ? 
+        <Carousel myWeeklyList={myWeeklyList}></Carousel> :
+        <div></div>}
       <Button order onClick={orderbylatest}>
         최신순
       </Button>
