@@ -98,7 +98,7 @@ input:focus {
   right: 10%;
 
   width: 40%;
-  margin-left: 3rem;
+  margin-left: 4rem;
   text-align: left;
 }
 .content {
@@ -131,7 +131,7 @@ input:focus {
 }
 
 .comment-box {
-  margin-top: 30px;
+  margin-top: 10px;
   /* border: 1px solid; */
   /* margin-left: 10%; */
   /* margin-right: 10%; */
