@@ -68,5 +68,6 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 	public Page<Post> findByDelYnAndPostTitleContainingOrPostContentContainingOrPostLocationContaining(char delYn,
 			String keyword, String keyword2, String keyword3, Pageable pageable);
 
+	@Query(value = "SELECT p FROM Post p WHERE p.delYn = 'n' AND p.userSeq = ?1 ORDER BY p.regDt DESC")
 	public List<Post> findByUserSeq(int UserSeq);
 }
