@@ -26,7 +26,7 @@ const SearchCard = ({ item }) => {
 
   return (
     <div>
-      <Card sx={{ maxWidth: 225 }}>
+      <Card sx={{ maxWidth: 320 }}>
         <CardMedia
           onClick={() => {
             navigate(`/user/${userSeq}`);

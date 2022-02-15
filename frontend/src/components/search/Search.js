@@ -48,7 +48,7 @@ function Search() {
         params: {
           keyword: searchItem,
           page: 1,
-          size: 4,
+          size: 5,
           userSeq: myuser.userSeq,
         },
       }).then((res) => {
@@ -61,7 +61,7 @@ function Search() {
         params: {
           keyword: searchItem,
           page: 1,
-          size: 4,
+          size: 5,
           userSeq: myuser.userSeq,
         },
       }).then((res) => {
@@ -83,7 +83,7 @@ function Search() {
             contentTypeId: impairmentNums[i],
             keyword: searchItem,
             page: 1,
-            size: 4,
+            size: 5,
             userSeq: myuser.userSeq,
           },
         }).then((res) => {
@@ -173,7 +173,7 @@ function Search() {
   };
 
   return (
-    <Container maxWidth="md">
+    <div>  
       <div>
         <h2>여행지 검색하기</h2>
         <div class="search-box">
@@ -246,7 +246,7 @@ function Search() {
           </div>
         </div>
       )}
-    </Container>
+      </div>
   );
 }
 

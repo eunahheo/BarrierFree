@@ -68,7 +68,7 @@ const SearchCard = ({ item }) => {
   return (
     <div>
       <Card
-        sx={{ maxWidth: 225 }}
+        sx={{ maxWidth: 320 }}
         style={{ cursor: 'pointer', position: 'relative' }}
       >
         <CardMedia
