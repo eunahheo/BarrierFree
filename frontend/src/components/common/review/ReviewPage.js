@@ -194,8 +194,8 @@ const ReviewPage = () => {
           <Carousel myWeeklyList={myWeeklyList}></Carousel>
         </div>
       ) : (
-        <Carousel myWeeklyList={myWeeklyList}></Carousel>
-        // <></>
+        // <Carousel myWeeklyList={myWeeklyList}></Carousel>
+        <></>
       )}
       <Button order onClick={orderbylatest}>
         최신순
