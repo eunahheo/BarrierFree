@@ -332,16 +332,6 @@ const Review = () => {
     map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
 
     map.addOverlayMapTypeId(kakao.maps.MapTypeId.TRAFFIC);
-
-    const roadviewContainer = document.getElementById('roadview');
-    const roadview = new kakao.maps.Roadview(roadviewContainer);
-    const roadviewClient = new kakao.maps.RoadviewClient();
-
-    const position = new kakao.maps.LatLng(data.postLat, data.postLng);
-
-    roadviewClient.getNearestPanoId(position, 50, function (panoId) {
-      roadview.setPanoId(panoId, position);
-    });
   };
 
   return (
@@ -455,14 +445,6 @@ const Review = () => {
                       width: '100%',
                       height: '350px',
                       marginTop: '2rem',
-                    }}
-                  ></div>
-                  <div
-                    id="roadview"
-                    style={{
-                      width: '100%',
-                      height: '350px',
-                      marginTop: '0.5rem',
                     }}
                   ></div>
                 </div>
