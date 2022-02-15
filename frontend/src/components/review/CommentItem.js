@@ -3,6 +3,7 @@ import './CommentItemTest.css';
 import { commentUpdate, commentDelete } from '../../_actions/comment_actions';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 
 const CommentItemBox = styled.div`
   display: flex;
@@ -31,6 +32,7 @@ const CommentItem = ({ comment, onRemove, getCommentList }) => {
   const [check, setCheck] = useState(false);
   const dispatch = useDispatch();
   const myuser = useSelector((state) => state.user.userData);
+  const navigate = useNavigate();
 
   const onCommentHandler = (event) => {
     setNewComment(event.target.value);
@@ -75,7 +77,13 @@ const CommentItem = ({ comment, onRemove, getCommentList }) => {
     <div class="container">
       <div class="user-img">
         <CommentItemBox>
-          <img className="toggle" src={comment.userInfo[1]}></img>
+          <img
+            className="toggle"
+            src={comment.userInfo[1]}
+            onClick={() => {
+              navigate(`/user/${comment.comment.userSeq}`);
+            }}
+          ></img>
         </CommentItemBox>
       </div>
       <div class="comment-info">

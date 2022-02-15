@@ -12,10 +12,8 @@ import { autoPlay } from 'react-swipeable-views-utils';
 
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
-
-
-function SwipeableTextMobileStepper({myWeeklyList}) {
-  console.log(myWeeklyList[0].postPhoto)
+function SwipeableTextMobileStepper({ myWeeklyList }) {
+  console.log(myWeeklyList[0].postPhoto);
   const images = [
     {
       label: 'San Francisco – Oakland Bay Bridge, United States',
@@ -50,9 +48,15 @@ function SwipeableTextMobileStepper({myWeeklyList}) {
   const handleStepChange = (step) => {
     setActiveStep(step);
   };
-
+  React.useEffect(() => {
+    console.log('여기', myWeeklyList);
+  });
   return (
     <Box sx={{ maxWidth: 400, flexGrow: 1 }}>
+      <h1>{myWeeklyList[0].postPhoto}</h1>
+      <h1>{myWeeklyList[1].postPhoto}</h1>
+      <h1>{myWeeklyList[2].postPhoto}</h1>
+      <h1>{myWeeklyList[3].postPhoto}</h1>
       <Paper
         square
         elevation={0}
@@ -115,7 +119,6 @@ function SwipeableTextMobileStepper({myWeeklyList}) {
             ) : (
               <KeyboardArrowLeft />
             )}
-
           </Button>
         }
       />
