@@ -97,9 +97,10 @@ const Header = ({ user, onLogout }) => {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+  React.useEffect(() => {
+    dispatch(initialize());
+  });
   const navigate = useNavigate();
-  // console.log('header', user.userPhoto);
-  console.log('headeruser', user);
   return (
     <>
       <HeaderBlock>
@@ -109,9 +110,9 @@ const Header = ({ user, onLogout }) => {
             width="120"
             className="logo"
             onClick={() => {
-              // dispatch(initialize());
-              // window.location.replace('/');
-              navigate('/');
+              dispatch(initialize());
+              window.location.replace('/');
+              // navigate('/');
             }}
           ></img>
           <div
@@ -155,16 +156,9 @@ const Header = ({ user, onLogout }) => {
           >
             <h4>About</h4>
           </div>
-          {/* 로그인 유무에 따른 헤더 버튼 변경 */}
-          {/* <img className="toggle" alt="Remy Sharp" src={user.userPhoto} /> */}
           {user ? (
             // 1. 로그인 되어 있을 때
             <div className="right">
-              {/* <Link to="/">
-                <MyButton onClick={onLogout}>로그아웃</MyButton>
-              </Link>
-              &nbsp; */}
-              {/* <img src={user.userPhoto}></img> */}
               <Box sx={{ flexGrow: 0 }}>
                 <Tooltip title="Open settings">
                   <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
@@ -177,7 +171,6 @@ const Header = ({ user, onLogout }) => {
                       {user.userNickname}님
                     </p>
                     <HeaderBox>
-                      {/* <img src={user.userPhoto} className="toggle"></img> */}
                       <img src={user.userPhoto} className="toggle"></img>
                     </HeaderBox>
                   </IconButton>

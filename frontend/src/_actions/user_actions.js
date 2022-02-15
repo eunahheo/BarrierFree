@@ -5,6 +5,7 @@ export const LOGIN_USER = 'user/LOGIN_USER';
 export const USER_INFO = 'user/USER_INFO';
 export const LOGOUT = 'user/LOGOUT';
 export const CHANGE_FIELD = 'user/CHANGE_FIELD';
+
 export const loginUser = (dataTosubmit) => {
   const request = axios({
     method: 'POST',
