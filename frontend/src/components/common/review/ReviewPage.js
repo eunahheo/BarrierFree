@@ -131,6 +131,7 @@ const ReviewPage = () => {
         params: { userSeq: 6, page: 1, size: 4 },
       })
         .then(function (res) {
+          console.log(res)
           setMyWeeklyList(res.data);
         })
         .catch(function (error) {
