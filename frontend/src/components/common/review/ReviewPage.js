@@ -3,12 +3,13 @@ import axios from 'axios';
 import ReviewCardList from './ReviewCardList';
 import Button from '../../common/Button';
 import { useSelector } from 'react-redux';
-import { useInView } from 'react-intersection-observer';
 import './ReviewPage.css';
+import Carousel from './Carousel';
 
 const ReviewPage = () => {
   const myuser = useSelector((state) => state.user.userData);
   const [myitemList, mysetItemList] = useState([]);
+  const [myWeeklyList, setMyWeeklyList] = useState(null);
   const [currentUser, setCurrentUser] = useState(0);
 
   const orderbylatest = async () => {
@@ -78,48 +79,96 @@ const ReviewPage = () => {
   useEffect(() => {
     if (myuser) {
       setCurrentUser(myuser.userSeq);
-      console.log('myuserseq', myuser.userSeq);
     } else {
       setCurrentUser(0);
-      console.log('myuserseq', myuser);
     }
-    const tmp = () => {
+    const tmp = async () => {
       if (myuser) {
-        axios({
-          method: 'get',
-          url: '/main/recently',
-          params: {
-            userSeq: myuser.userSeq,
-            page: 1,
-            size: 200,
-          },
-        })
-          .then(function (res) {
-            mysetItemList(res.data);
-          })
-          .catch((error) => console.log(error));
+        try {
+          const response = await axios({
+            method: 'get',
+            url: '/main/recently',
+            params: {
+              userSeq: myuser.userSeq,
+              page: 1,
+              size: 200,
+            },
+          });
+          // .then(function (res) {
+          mysetItemList(response.data);
+          // })
+          // .catch((error) => console.log(error));
+
+          // console.log('here', response);
+
+          // if (response) {
+          // }
+          const response2 = await axios({
+            url: '/main/weekscrap',
+            method: 'get',
+            params: { userSeq: currentUser, page: 1, size: 4 },
+          });
+          setMyWeeklyList(response2.data);
+          // .then(function (res) {
+          // })
+          // .catch(function (error) {
+          // console.log(error);
+          // });
+        } catch (e) {
+          console.log(e);
+        }
       } else {
-        axios({
-          method: 'get',
-          url: '/main/recently',
-          params: {
-            userSeq: 0,
-            page: 1,
-            size: 200,
-          },
-        })
-          .then(function (res) {
-            mysetItemList(res.data);
-          })
-          .catch((error) => console.log(error));
+        try {
+          const response = await axios({
+            method: 'get',
+            url: '/main/recently',
+            params: {
+              userSeq: 0,
+              page: 1,
+              size: 200,
+            },
+          });
+          // .then(function (res) {
+          mysetItemList(response.data);
+          // })
+          // .catch((error) => console.log(error));
+
+          console.log('here', response);
+
+          // if (response) {
+          // }
+          const response2 = await axios({
+            url: '/main/weekscrap',
+            method: 'get',
+            params: { userSeq: 0, page: 1, size: 4 },
+          });
+          setMyWeeklyList(response2.data);
+          // .then(function (res) {
+          // })
+          // .catch(function (error) {
+          // console.log(error);
+          // });
+          console.log('here', myWeeklyList);
+        } catch (e) {
+          console.log(e);
+        }
       }
     };
     tmp();
   }, [myuser]);
-
+  // console.log('here', myWeeklyList);
   return (
     <div class="box">
-      <h1> </h1>
+      <h1></h1>
+      {myWeeklyList ? (
+        <div>
+          <h1>here</h1>
+          <Carousel myWeeklyList={myWeeklyList}></Carousel>
+        </div>
+      ) : (
+        // <Carousel myWeeklyList={myWeeklyList}></Carousel>
+        <></>
+      )}
       <Button order onClick={orderbylatest}>
         최신순
       </Button>
@@ -132,6 +181,7 @@ const ReviewPage = () => {
       <Button order onClick={orderbybf}>
         베프만
       </Button>
+
       {myitemList && <ReviewCardList itemList={myitemList}></ReviewCardList>}
     </div>
   );

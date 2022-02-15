@@ -79,7 +79,7 @@ const RegisterForm = () => {
       alert('닉네임은 한글,영어,숫자만 가능합니다.');
       return;
     }
-    if (userNickname.length < 2 || userNickname.length > 6) {
+    if (userNickname.length < 2 || userNickname.length > 8) {
       alert('닉네임은 2~8자까지만 가능합니다.');
       return;
     }

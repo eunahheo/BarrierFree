@@ -1,5 +1,6 @@
 import Button from '../common/Button';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 
 const WriteButtonsBlock = styled.div`
   // margin-top: 1rem;
@@ -16,10 +17,11 @@ const StyledButton = styled(Button)`
   }
 `;
 const WriteButtons = ({ onPublish }) => {
+  const navigate = useNavigate();
   return (
     <WriteButtonsBlock>
       <StyledButton onClick={onPublish}>등록</StyledButton>
-      <StyledButton>취소</StyledButton>
+      <StyledButton onClick={() => navigate('/')}>취소</StyledButton>
     </WriteButtonsBlock>
   );
 };

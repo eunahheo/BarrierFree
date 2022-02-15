@@ -2,12 +2,11 @@ import axios from 'axios';
 import React, { useState, Component } from 'react';
 import styled from 'styled-components';
 import Button from '../common/Button';
-import WriteBarrierIcon from '../write/WriteBarrierIcon';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import { logout } from '../../_actions/user_actions';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import TextField from '@mui/material/TextField';
 import { userInfo } from '../../_actions/user_actions';
@@ -20,6 +19,9 @@ import IconButton from '@mui/material/IconButton';
 import DialogContentText from '@mui/material/DialogContentText';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import MypageBarriersContainer from '../../containers/mypage/MypageBarriersContainer';
+import Input from '@mui/material/Input';
+import { changeField } from '../../_actions/user_actions';
 
 const MyPageContentBlock = styled.div``;
 
@@ -40,7 +42,7 @@ const MyPageContent = ({ user }) => {
   const [nickFlag, setNickFlag] = useState(false);
 
   const regExp = /^(?=.*[A-Za-z0-9])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d@$!%*#?&]/;
-
+  const nicknameExp = /^[A-Za-z0-9가-힣_]/;
   const onChange = (event) => {
     if (event.target.name == 'userPwd') {
       const pwd = event.target.value;
@@ -83,11 +85,16 @@ const MyPageContent = ({ user }) => {
       const userNickname = event.target.value;
       setUserNickname(userNickname);
 
-      if (userNickname.length < 2) {
+      if (userNickname.length < 2 || userNickname.length > 8) {
         setNickFlag(false);
         setErrorMessage({
           ...errorMessage,
-          nickError: '닉네임은 2글자 이상이여야합니다.',
+          nickError: '닉네임은 2~8자 까지만 가능합니다.',
+        });
+      } else if (nicknameExp.test(userNickname) === false) {
+        setErrorMessage({
+          ...errorMessage,
+          nickError: '닉네임은 한글,영어,숫자만 가능합니다.',
         });
       } else {
         axios({
@@ -122,7 +129,7 @@ const MyPageContent = ({ user }) => {
   const [open, setOpen] = React.useState(false);
   const [passOpen, setPassOpen] = React.useState(false);
   const [nickOpen, setNickOpen] = React.useState(false);
-
+  const token = localStorage.getItem('accessToken');
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -208,7 +215,6 @@ const MyPageContent = ({ user }) => {
   };
   const withdrawUser = () => {
     // 회원 탈퇴하기
-    const token = localStorage.getItem('accessToken');
 
     axios({
       method: 'PUT',
@@ -237,7 +243,30 @@ const MyPageContent = ({ user }) => {
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
-
+  // Barrier 변경
+  const { deaf, infant, physical, senior, visibility } = useSelector(
+    ({ write }) => ({
+      deaf: write.deaf,
+      infant: write.infant,
+      physical: write.physical,
+      senior: write.senior,
+      visibility: write.visibility,
+    }),
+  );
+  const changeBF = () => {
+    axios({
+      method: 'put',
+      url: '/user/updateImpairment',
+      data: {
+        deaf,
+        infant,
+        physical,
+        senior,
+        visibility,
+      },
+      params: { userSeq: user.userSeq },
+    }).then(alert('변경 완료!'));
+  };
   return (
     <MyPageContentBlock>
       <div>
@@ -245,7 +274,7 @@ const MyPageContent = ({ user }) => {
         <br />
         <h3>아이디 : {user.userId}</h3>
         <h3>
-          닉네임: {user.userNickname}{' '}
+          닉네임:
           <span>
             <Button onClick={handleNickOpen}>닉네임 변경</Button>
           </span>
@@ -255,7 +284,8 @@ const MyPageContent = ({ user }) => {
           비밀번호 :{' '}
           <span>
             <Button onClick={handlePassOpen}>비밀번호 변경</Button>
-            <MypageBarriers></MypageBarriers>
+            <MypageBarriersContainer></MypageBarriersContainer>
+            <Button onClick={changeBF}>베리어 변경</Button>
           </span>
         </h3>
         <Button impact onClick={handleClickOpen}>
@@ -270,9 +300,6 @@ const MyPageContent = ({ user }) => {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        {/* <DialogTitle id="alert-dialog-title">
-          베리어 프리를 탈퇴하실 건가요?
-        </DialogTitle> */}
         <DialogContent style={{ margin: 'auto' }}>
           <h3> 베리어 프리를</h3>
           <h3>탈퇴하실 건가요?</h3> 아쉬워요😢

@@ -27,8 +27,8 @@ const ReviewCardList = ({ itemList }) => {
 
   return (
     <div className="ReviewCardList">
-      <div>
-        <ImageList cols={4}>
+      <div >
+        <ImageList cols={5}>
           {itemList.length === 0 ? (
             <div>
               <h1>로딩 중...</h1>
