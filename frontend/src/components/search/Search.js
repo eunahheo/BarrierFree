@@ -8,6 +8,7 @@ import SearchList from './SearchList';
 import SearchDetail from './SearchDetail';
 import SearchReviewDetail from './SearchReviewDetail';
 import SearchUserDetail from './SearchUserDetail';
+import SearchIcon from '@mui/icons-material/Search';
 
 function Search() {
   const myuser = useSelector((state) => state.user.userData);
@@ -175,18 +176,21 @@ function Search() {
   return (
     <div>  
       <div>
-        <h2>여행지 검색하기</h2>
+        <div>
         <div class="search-box">
+        {/* <h2 class="search-title">여행지 검색하기</h2> */}
           <form>
             <input
               class="input-search"
               onChange={onSearchHandler}
               placeholder="검색어를 입력해주세요."
             ></input>
-            <button class="button-search" onClick={onSubmitHandler}>
-              검색
+            <SearchIcon style={{ color: 'white' }} onClick={onSubmitHandler}></SearchIcon>
+            <button class="mybutton" onClick={onSubmitHandler}>
+              {/* 검색 */}
             </button>
           </form>
+        </div>
         </div>
       </div>
       {handsearch === false ? (

@@ -12,7 +12,6 @@ import VisualHide from '../images/Visual60.png';
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import axios from 'axios';
 import RecommendCardList from './RecommendCardList.js';
-import { Container } from '@material-ui/core';
 import { useSelector } from 'react-redux';
 import './Recommend.css';
 import qs from 'qs';
@@ -21,6 +20,7 @@ import RecommendList from './RecommendList';
 import RecommendDetail from './RecommendDetail';
 import MyLocationIcon from '@mui/icons-material/MyLocation';
 import styled from 'styled-components';
+import { Card } from '@mui/material';
 
 const AuthBarrierIconBlock = styled.div`
   img {
@@ -72,7 +72,7 @@ const Recommend = () => {
     if (navigator.geolocation) {
       //위치 정보를 얻기
       navigator.geolocation.getCurrentPosition(function (res) {
-        // console.log(res);
+        console.log(res);
         axios({
           method: 'GET',
           url: '/recommend/myloc',
@@ -86,6 +86,7 @@ const Recommend = () => {
             size: 20,
           },
         }).then(function (res) {
+          console.log(res)
           if (res.data === '검색결과가 없습니다.') {
             // console.log('hey');
             setItemList([]);
@@ -423,120 +424,124 @@ const Recommend = () => {
       {/* <Header /> */}
       {/* <Container maxWidth="lg"> */}
         <div class="selete-box">
-          <h2>무장애 선택하기</h2>
-          <AuthBarrierIconBlock>
-            <img
-              class="barrier-icon"
-              id="physical"
-              onClick={() => {
-                if (barrier.includes('physical')) {
-                  barrier.splice('physical');
-                  setBarrierIcon({ ...barrierIcon, physicalFlag: false });
-                } else {
-                  barrier.push('physical');
-                  setBarrierIcon({ ...barrierIcon, physicalFlag: true });
-                }
-              }}
-              src={physicalFlag ? Physical : PhysicalHide}
-            ></img>
-            <img
-              class="barrier-icon"
-              id="visibility"
-              onClick={() => {
-                if (barrier.includes('visibility')) {
-                  barrier.splice('visibility');
-                  setBarrierIcon({ ...barrierIcon, visibilityFlag: false });
-                } else {
-                  barrier.push('visibility');
-                  setBarrierIcon({ ...barrierIcon, visibilityFlag: true });
-                }
-              }}
-              src={visibilityFlag ? Visual : VisualHide}
-            ></img>
-            <img
-              class="barrier-icon"
-              id="deaf"
-              onClick={() => {
-                if (barrier.includes('deaf')) {
-                  barrier.splice('deaf');
-                  setBarrierIcon({ ...barrierIcon, deafFlag: false });
-                } else {
-                  barrier.push('deaf');
-                  setBarrierIcon({ ...barrierIcon, deafFlag: true });
-                }
-              }}
-              src={deafFlag ? Auditory : AuditoryHide}
-            ></img>
-            <img
-              class="barrier-icon"
-              id="infant"
-              onClick={() => {
-                if (barrier.includes('infant')) {
-                  barrier.splice('infant');
-                  setBarrierIcon({ ...barrierIcon, infantFlag: false });
-                } else {
-                  barrier.push('infant');
-                  setBarrierIcon({ ...barrierIcon, infantFlag: true });
-                }
-              }}
-              src={infantFlag ? Pregnant : PregnantHide}
-            ></img>
-            <img
-              class="barrier-icon"
-              id="senior"
-              onClick={() => {
-                if (barrier.includes('senior')) {
-                  barrier.splice('senior');
-                  setBarrierIcon({ ...barrierIcon, seniorFlag: false });
-                } else {
-                  barrier.push('senior');
-                  setBarrierIcon({ ...barrierIcon, seniorFlag: true });
-                }
-              }}
-              src={seniorFlag ? Senior : SeniorHide}
-            ></img>
-          </AuthBarrierIconBlock>
-          <h2>무장애 여행지역</h2>
-          <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
-            <InputLabel id="find-city">시도 검색</InputLabel>
-            <Select
-              labelId="find-city"
-              id="find-city"
-              value={city}
-              onChange={handleChangeCity}
-              label="시도"
-            >
-              {cityList.map((city) => (
-                <MenuItem name={city.name} value={city.code} key={city.code}>
-                  {city.name}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-          <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
-            <InputLabel id="find-town">시구군 검색</InputLabel>
-            <Select
-              labelId="find-town"
-              id="find-town"
-              value={town}
-              onChange={handleChangeTown}
-              label="시도"
-            >
-              {townList.map((town) => (
-                <MenuItem value={town.code} key={town.rnum}>
-                  {town.name}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-          <div class="button-list">
-            <Button variant="contained" id="search" onClick={onClickSearch}>
-              검색
-            </Button>
-            <Button variant="contained" id="reset" onClick={onClickReset}>
-              초기화
-            </Button>
+          <Card sx={{ width: 550 }}>
+            <h2 class="recommend-title-first">무장애 선택하기</h2>
+            {/* <br></br> */}
+            <AuthBarrierIconBlock>
+              <img
+                class="barrier-icon"
+                id="physical"
+                onClick={() => {
+                  if (barrier.includes('physical')) {
+                    barrier.splice('physical');
+                    setBarrierIcon({ ...barrierIcon, physicalFlag: false });
+                  } else {
+                    barrier.push('physical');
+                    setBarrierIcon({ ...barrierIcon, physicalFlag: true });
+                  }
+                }}
+                src={physicalFlag ? Physical : PhysicalHide}
+              ></img>
+              <img
+                class="barrier-icon"
+                id="visibility"
+                onClick={() => {
+                  if (barrier.includes('visibility')) {
+                    barrier.splice('visibility');
+                    setBarrierIcon({ ...barrierIcon, visibilityFlag: false });
+                  } else {
+                    barrier.push('visibility');
+                    setBarrierIcon({ ...barrierIcon, visibilityFlag: true });
+                  }
+                }}
+                src={visibilityFlag ? Visual : VisualHide}
+              ></img>
+              <img
+                class="barrier-icon"
+                id="deaf"
+                onClick={() => {
+                  if (barrier.includes('deaf')) {
+                    barrier.splice('deaf');
+                    setBarrierIcon({ ...barrierIcon, deafFlag: false });
+                  } else {
+                    barrier.push('deaf');
+                    setBarrierIcon({ ...barrierIcon, deafFlag: true });
+                  }
+                }}
+                src={deafFlag ? Auditory : AuditoryHide}
+              ></img>
+              <img
+                class="barrier-icon"
+                id="infant"
+                onClick={() => {
+                  if (barrier.includes('infant')) {
+                    barrier.splice('infant');
+                    setBarrierIcon({ ...barrierIcon, infantFlag: false });
+                  } else {
+                    barrier.push('infant');
+                    setBarrierIcon({ ...barrierIcon, infantFlag: true });
+                  }
+                }}
+                src={infantFlag ? Pregnant : PregnantHide}
+              ></img>
+              <img
+                class="barrier-icon"
+                id="senior"
+                onClick={() => {
+                  if (barrier.includes('senior')) {
+                    barrier.splice('senior');
+                    setBarrierIcon({ ...barrierIcon, seniorFlag: false });
+                  } else {
+                    barrier.push('senior');
+                    setBarrierIcon({ ...barrierIcon, seniorFlag: true });
+                  }
+                }}
+                src={seniorFlag ? Senior : SeniorHide}
+              ></img>
+            </AuthBarrierIconBlock>
+            <h2 class="recommend-title">무장애 여행지역</h2>
+            <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
+              <InputLabel id="find-city">시도 검색</InputLabel>
+              <Select
+                labelId="find-city"
+                id="find-city"
+                value={city}
+                onChange={handleChangeCity}
+                label="시도"
+              >
+                {cityList.map((city) => (
+                  <MenuItem name={city.name} value={city.code} key={city.code}>
+                    {city.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+            <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
+              <InputLabel id="find-town">시구군 검색</InputLabel>
+              <Select
+                labelId="find-town"
+                id="find-town"
+                value={town}
+                onChange={handleChangeTown}
+                label="시도"
+              >
+                {townList.map((town) => (
+                  <MenuItem value={town.code} key={town.rnum}>
+                    {town.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+            <div class="button-list">
+              <Button variant="contained" id="search" onClick={onClickSearch}>
+                검색
+              </Button>
+              <Button variant="contained" id="reset" onClick={onClickReset}>
+                초기화
+              </Button>
+
           </div>
+          </Card>
         </div>
         <div>
           {search === false ? (
