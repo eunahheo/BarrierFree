@@ -6,11 +6,13 @@ const ReviewCardList = ({ itemList }) => {
   return (
     <div className="ReviewCardList">
       <div>
-        <ImageList cols={4}>
-          {itemList.map((item) => (
-            <ReviewCard item={item} key={item.postSeq} />
-          ))}
-        </ImageList>
+        <div>
+          <ImageList cols={4}>
+            {itemList.map((item) => (
+              <ReviewCard item={item} key={item.postSeq} />
+            ))}
+          </ImageList>
+        </div>
       </div>
     </div>
   );
