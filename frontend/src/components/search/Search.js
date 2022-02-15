@@ -198,14 +198,24 @@ function Search() {
       ) : findSearch === true ? (
         <div>
           <div>
-            <Button onClick={onClickTotal}>전체</Button>
+            {/* <Button onClick={onClickTotal}>전체</Button>
             <Button onClick={onClickLocation}>명소</Button>
             <Button onClick={onClickFood}>음식점</Button>
             <Button onClick={onClickHome}>숙박시설</Button>
             <Button onClick={onClickCulture}>문화</Button>
             <Button onClick={onClickParty}>행사</Button>
             <Button onClick={onClickReview}>여행 후기</Button>
-            <Button onClick={onClickUser}>사용자</Button>
+            <Button onClick={onClickUser}>사용자</Button> */}
+            <table class="table-row">
+            <th class="table-col-1" onClick={onClickTotal}>전체</th>
+              <th class="table-col-1" onClick={onClickLocation}>명소</th>
+              <th class="table-col-1" onClick={onClickFood}>음식점</th>
+              <th class="table-col-1" onClick={onClickHome}>숙박시설</th>
+              <th class="table-col-1" onClick={onClickCulture}>문화</th>
+              <th class="table-col-1" onClick={onClickParty}>행사</th>
+              <th class="table-col-1" onClick={onClickReview}>여행 후기</th>
+              <th class="table-col-1" onClick={onClickUser}>사용자</th>
+            </table>
           </div>
           <h2 class="title">{title}</h2>
           {title === '여행 후기' ? (
@@ -223,14 +233,24 @@ function Search() {
         <div>
           <div>
             <div>
-              <Button onClick={onClickTotal}>전체</Button>
+              {/* <Button onClick={onClickTotal}>전체</Button>
               <Button onClick={onClickLocation}>명소</Button>
               <Button onClick={onClickFood}>음식점</Button>
               <Button onClick={onClickHome}>숙박시설</Button>
               <Button onClick={onClickCulture}>문화</Button>
               <Button onClick={onClickParty}>행사</Button>
               <Button onClick={onClickReview}>여행 후기</Button>
-              <Button onClick={onClickUser}>사용자</Button>
+              <Button onClick={onClickUser}>사용자</Button> */}
+              <table class="table-row">
+                <th class="table-col-1" onClick={onClickTotal}>전체</th>
+                <th class="table-col-1" onClick={onClickLocation}>명소</th>
+                <th class="table-col-1" onClick={onClickFood}>음식점</th>
+                <th class="table-col-1" onClick={onClickHome}>숙박시설</th>
+                <th class="table-col-1" onClick={onClickCulture}>문화</th>
+                <th class="table-col-1" onClick={onClickParty}>행사</th>
+                <th class="table-col-1" onClick={onClickReview}>여행 후기</th>
+                <th class="table-col-1" onClick={onClickUser}>사용자</th>
+              </table>
             </div>
             <SearchList
               class="card-list"
