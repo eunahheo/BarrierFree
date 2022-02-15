@@ -53,6 +53,10 @@ function SwipeableTextMobileStepper({ myWeeklyList }) {
   });
   return (
     <Box sx={{ maxWidth: 400, flexGrow: 1 }}>
+      <h1>{myWeeklyList[0].postPhoto}</h1>
+      <h1>{myWeeklyList[1].postPhoto}</h1>
+      <h1>{myWeeklyList[2].postPhoto}</h1>
+      <h1>{myWeeklyList[3].postPhoto}</h1>
       <Paper
         square
         elevation={0}

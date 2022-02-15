@@ -114,47 +114,88 @@ const ReviewPage = () => {
           // .catch(function (error) {
           // console.log(error);
           // });
+          console.log('here', myWeeklyList);
         } catch (e) {
           console.log(e);
         }
       } else {
-        axios({
-          method: 'get',
-          url: '/main/recently',
-          params: {
-            userSeq: 0,
-            page: 1,
-            size: 200,
-          },
-        })
-          .then(function (res) {
-            mysetItemList(res.data);
-          })
-          .catch((error) => console.log(error));
+        try {
+          const response = await axios({
+            method: 'get',
+            url: '/main/recently',
+            params: {
+              userSeq: 0,
+              page: 1,
+              size: 200,
+            },
+          });
+          // .then(function (res) {
+          mysetItemList(response.data);
+          // })
+          // .catch((error) => console.log(error));
+
+          console.log('here', response);
+
+          // if (response) {
+          // }
+          const response2 = await axios({
+            url: '/main/weekscrap',
+            method: 'get',
+            params: { userSeq: 0, page: 1, size: 4 },
+          });
+          setMyWeeklyList(response2.data);
+          // .then(function (res) {
+          // })
+          // .catch(function (error) {
+          // console.log(error);
+          // });
+          console.log('here', myWeeklyList);
+        } catch (e) {
+          console.log(e);
+        }
       }
-      axios({
-        url: '/main/weekscrap',
-        method: 'get',
-        params: { userSeq: 6, page: 1, size: 4 },
-      })
-        .then(function (res) {
-          console.log(res);
-          setMyWeeklyList(res.data);
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
+
+      //   axios({
+      //     method: 'get',
+      //     url: '/main/recently',
+      //     params: {
+      //       userSeq: 0,
+      //       page: 1,
+      //       size: 200,
+      //     },
+      //   })
+      //     .then(function (res) {
+      //       mysetItemList(res.data);
+      //     })
+      //     .catch((error) => console.log(error));
+      // }
+      // axios({
+      //   url: '/main/weekscrap',
+      //   method: 'get',
+      //   params: { userSeq: 0, page: 1, size: 4 },
+      // })
+      //   .then(function (res) {
+      //     console.log(res);
+      //     setMyWeeklyList(res.data);
+      //   })
+      //   .catch(function (error) {
+      //     console.log(error);
+      //   });
     };
     tmp();
   }, [myuser]);
 
   return (
     <div class="box">
-      <h1> </h1>
-      {myWeeklyList > 0 ? (
-        <Carousel myWeeklyList={myWeeklyList}></Carousel>
+      <h1></h1>
+      {myWeeklyList ? (
+        <div>
+          <h1>here</h1>
+          <Carousel myWeeklyList={myWeeklyList}></Carousel>
+        </div>
       ) : (
         <Carousel myWeeklyList={myWeeklyList}></Carousel>
+        // <></>
       )}
       <Button order onClick={orderbylatest}>
         최신순
