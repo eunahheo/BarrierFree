@@ -376,13 +376,13 @@ const Review = () => {
     <ReviewBox>
       <Grid
         container
-        spacing={2}
-        sx={{ marginLeft: '8rem', marginRight: '15rem' }}
+        spacing={3}
+        sx={{ marginLeft: '8rem', marginRight: '14rem' }}
       >
-        <Grid item xs={6} md={6} sm={12}>
-          <div style={{}}>
+        <Grid item xs={12} md={6} sm={12}>
+          <div sx={{ width: '720px' }}>
             <img
-              style={{ maxWidth: '100%', height: '750px' }}
+              style={{ width: '100%', height: '720px' }}
               // srcSet={`${item.img}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
               alt="no image"
               src={reviewImage}
@@ -392,12 +392,13 @@ const Review = () => {
             <div>사진을 누르시면 사진 설명을 들으실 수 있어요 🎧</div>
           </div>
         </Grid>
+
         <Grid
           item
           xs={12}
           md={6}
           sm={12}
-          sx={{ height: '750px', overflow: 'auto' }}
+          sx={{ height: '720px', overflow: 'auto', float: 'right' }}
           className="content"
         >
           <Grid container spacing={2}>
@@ -529,7 +530,7 @@ const Review = () => {
             <div style={{ fontSize: '18px', textAlign: 'left' }}>
               {reviewDetail.postContent}
             </div>
-            <br /> <br /> <br /> <br />
+            <br /> <br />
             <Grid container spacing={2}>
               <Grid item xs={6} sx={{ textAlign: 'left' }}>
                 <div style={{ cursor: 'pointer' }}>
@@ -557,7 +558,6 @@ const Review = () => {
                 </div>
               </Grid>
             </Grid>
-            {/* <span class="location-name">{reviewDetail.postLocation}</span> */}
             <div class="comment-box">
               <form onSubmit={onSubmitHandler}>
                 <input
@@ -575,6 +575,7 @@ const Review = () => {
                   작성
                 </button>
               </form>
+              <br></br>
               <Typography
                 variant="body2"
                 color="text.secondary"
