@@ -57,15 +57,20 @@ const UserHeaderBox = styled.div`
     z-index: 10;
     position: relative;
     color: #2d4059;
-    font-size: 24px;
+    font-size: 25px;
     font-weight: bold;
-    top: 50px;
+    // top: 35px;
+    margin-top: 5px;
+    margin-bottom: 30px;
   }
-`;
-
-const UserHeaderText = css`
-  display: table-cell;
-  vertical-align: middle;
+  .count {
+    z-index: 10;
+    position: relative;
+    color: #2d4059;
+    font-size: 50px;
+    font-weight: bold;
+    top: 45px;
+  }
 `;
 
 const UserHeader = ({ onPost, onFollowing, onFollower, onScrap }) => {
@@ -73,13 +78,12 @@ const UserHeader = ({ onPost, onFollowing, onFollower, onScrap }) => {
   const myuser = myuserData.userSeq;
   const params = useParams();
   const currentUser = Number(params.userSeq);
-  const [style, setStyle] = useState('toggle');
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
   const [userHeaderInfo, setUserHeaderInfo] = useState([]);
   const getUserHeader = async () => {
     try {
-      console.log('checking:', currentUser, myuser);
+      // console.log('checking:', currentUser, myuser);
 
       if (currentUser === myuser) {
         const response = await axios({
@@ -109,18 +113,11 @@ const UserHeader = ({ onPost, onFollowing, onFollower, onScrap }) => {
     (state) => state.relationship.check_relationship,
   );
 
-  const currentFollowings = useSelector(
-    (state) => state.relationship.total_followings,
-  );
-
-  const currentFollowers = useSelector(
-    (state) => state.relationship.total_followers,
-  );
-  console.log(userHeaderInfo);
+  // console.log(userHeaderInfo);
   useEffect(() => {
     getUserHeader();
   }, [currentUser, checkrelation]);
-  console.log(userHeaderInfo);
+  // console.log(userHeaderInfo);
   return (
     <UserHeaderBox>
       <div>
@@ -138,40 +135,33 @@ const UserHeader = ({ onPost, onFollowing, onFollower, onScrap }) => {
                 alignItems: 'center',
                 justifyContent: 'center',
                 zIndex: '10',
-                // position: 'relative',
                 color: 'black',
-                fontSize: '13px',
+                fontSize: '20px',
                 fontWeight: 'bold',
-                // top: '90px',
+                marginBottom: '20px',
               }}
             >
-              <div>게시글: {userHeaderInfo.writePost}</div>
+              {userHeaderInfo.writePost}개의 게시글
             </span>
           </div>
         </div>
         <div onClick={onScrap}>
           <div className="toggle smc">
-            <div className="text">
-              스크랩<br></br>
-              {userHeaderInfo.totalScarp}
-            </div>
+            <div className="count">{userHeaderInfo.totalScarp}</div>
           </div>
+          <div className="text">스크랩</div>
         </div>
         <div onClick={onFollowing}>
           <div className="toggle smc">
-            <div className="text">
-              팔로잉<br></br>
-              {userHeaderInfo.following}
-            </div>
+            <div className="count">{userHeaderInfo.following}</div>
           </div>
+          <div className="text">팔로잉</div>
         </div>
         <div onClick={onFollower}>
           <div className="toggle smc">
-            <div className="text">
-              팔로워<br></br>
-              {userHeaderInfo.follower}
-            </div>
+            <div className="count">{userHeaderInfo.follower}</div>
           </div>
+          <div className="text">팔로워</div>
         </div>
       </div>
     </UserHeaderBox>
