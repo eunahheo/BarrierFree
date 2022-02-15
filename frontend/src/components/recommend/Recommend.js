@@ -183,7 +183,7 @@ const Recommend = () => {
           contentTypeId: impairmentNums[i],
           impairments: barrier,
           page: 1,
-          size: 4,
+          size: 5,
         };
         axios({
           method: 'GET',
@@ -238,7 +238,7 @@ const Recommend = () => {
           contentTypeId: impairmentNums[i],
           impairments: barrier,
           page: 1,
-          size: 4,
+          size: 5,
         };
         axios({
           method: 'GET',
@@ -295,7 +295,7 @@ const Recommend = () => {
           userSeq: myuser.userSeq,
           contentTypeId: impairmentNums[i],
           page: 1,
-          size: 4,
+          size: 5,
         };
         axios({
           method: 'GET',

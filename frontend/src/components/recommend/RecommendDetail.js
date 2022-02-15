@@ -24,7 +24,7 @@ const RecommendDetail = ({ number, city, town, barrier, noresult }) => {
         contentTypeId: number,
         impairments: barrier,
         page: page,
-        size: 12,
+        size: 15,
       };
       axios({
         methods: 'GET',
@@ -44,7 +44,7 @@ const RecommendDetail = ({ number, city, town, barrier, noresult }) => {
         contentTypeId: number,
         impairments: barrier,
         page: page,
-        size: 12,
+        size: 15,
       };
       axios({
         methods: 'GET',
@@ -65,7 +65,7 @@ const RecommendDetail = ({ number, city, town, barrier, noresult }) => {
         userSeq: myuser.userSeq,
         contentTypeId: number,
         page: page,
-        size: 12,
+        size: 15,
       };
       axios({
         methods: 'GET',
@@ -102,7 +102,7 @@ const RecommendDetail = ({ number, city, town, barrier, noresult }) => {
           <RecommendCardList itemList={searchList}></RecommendCardList>
           <Pagination
             activePage={page}
-            itemsCountPerPage={12}
+            itemsCountPerPage={15}
             totalItemsCount={totalItem}
             pageRangeDisplayed={5}
             prevPageText={'<'}
