@@ -1,7 +1,7 @@
 .selete-box {
-  border-top: 1px solid;
-  border-bottom: 1px solid;
-  background-color: rgba(222, 205, 195, 0.2);
+  /* border-top: 1px solid; */
+  /* border-bottom: 1px solid; */
+  background-color: rgba(229, 229, 229, 0.5);
 }
 
 .button-list {
@@ -41,4 +41,25 @@
 .card-list {
   margin-left: 24px;
   margin-right: 24px;
+}
+
+.barrier-icon {
+  max-width: 40px;
+}
+
+.my-loc {
+  display: flex;
+  box-sizing: border-box;
+  justify-content: center;
+  margin-top: 20px;
+  margin-bottom: 0px;
+}
+
+.find-myloc {
+  display: flex;
+  /* box-sizing: border-box; */
+  justify-content: end;
+  border-bottom: 1px solid;
+  margin-left: 150px;
+  margin-right: 150px;
 }
