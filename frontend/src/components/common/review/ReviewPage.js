@@ -4,10 +4,12 @@ import ReviewCardList from './ReviewCardList';
 import Button from '../../common/Button';
 import { useSelector } from 'react-redux';
 import './ReviewPage.css';
+import Carousel from './Carousel'
 
 const ReviewPage = () => {
   const myuser = useSelector((state) => state.user.userData);
   const [myitemList, mysetItemList] = useState([]);
+  const [myWeeklyList, setMyWeeklyList] = useState([]);
   const [currentUser, setCurrentUser] = useState(0);
 
   const orderbylatest = async () => {
@@ -97,6 +99,17 @@ const ReviewPage = () => {
             mysetItemList(res.data);
           })
           .catch((error) => console.log(error));
+          axios({
+            url: '/main/weekscrap',
+            method: 'get',
+            params: { userSeq: currentUser, page: 1, size: 4 },
+          })
+            .then(function (res) {
+              setMyWeeklyList(res.data);
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
       } else {
         axios({
           method: 'get',
@@ -112,6 +125,17 @@ const ReviewPage = () => {
           })
           .catch((error) => console.log(error));
       }
+      axios({
+        url: '/main/weekscrap',
+        method: 'get',
+        params: { userSeq: 6, page: 1, size: 4 },
+      })
+        .then(function (res) {
+          setMyWeeklyList(res.data);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
     };
     tmp();
   }, [myuser]);
@@ -119,6 +143,7 @@ const ReviewPage = () => {
   return (
     <div class="box">
       <h1> </h1>
+      <Carousel myWeeklyList={myWeeklyList}></Carousel>
       <Button order onClick={orderbylatest}>
         최신순
       </Button>
