@@ -4,7 +4,7 @@ import ReviewCardList from './ReviewCardList';
 import Button from '../../common/Button';
 import { useSelector } from 'react-redux';
 import './ReviewPage.css';
-import Carousel from './Carousel'
+import Carousel from './Carousel';
 
 const ReviewPage = () => {
   const myuser = useSelector((state) => state.user.userData);
@@ -79,37 +79,44 @@ const ReviewPage = () => {
   useEffect(() => {
     if (myuser) {
       setCurrentUser(myuser.userSeq);
-      console.log('myuserseq', myuser.userSeq);
     } else {
       setCurrentUser(0);
-      console.log('myuserseq', myuser);
     }
-    const tmp = () => {
+    const tmp = async () => {
       if (myuser) {
-        axios({
-          method: 'get',
-          url: '/main/recently',
-          params: {
-            userSeq: myuser.userSeq,
-            page: 1,
-            size: 200,
-          },
-        })
-          .then(function (res) {
-            mysetItemList(res.data);
-          })
-          .catch((error) => console.log(error));
-          axios({
+        try {
+          const response = await axios({
+            method: 'get',
+            url: '/main/recently',
+            params: {
+              userSeq: myuser.userSeq,
+              page: 1,
+              size: 200,
+            },
+          });
+          // .then(function (res) {
+          mysetItemList(response.data);
+          // })
+          // .catch((error) => console.log(error));
+
+          console.log('here', response);
+
+          // if (response) {
+          // }
+          const response2 = await axios({
             url: '/main/weekscrap',
             method: 'get',
             params: { userSeq: currentUser, page: 1, size: 4 },
-          })
-            .then(function (res) {
-              setMyWeeklyList(res.data);
-            })
-            .catch(function (error) {
-              console.log(error);
-            });
+          });
+          setMyWeeklyList(response2.data);
+          // .then(function (res) {
+          // })
+          // .catch(function (error) {
+          // console.log(error);
+          // });
+        } catch (e) {
+          console.log(e);
+        }
       } else {
         axios({
           method: 'get',
@@ -131,7 +138,7 @@ const ReviewPage = () => {
         params: { userSeq: 6, page: 1, size: 4 },
       })
         .then(function (res) {
-          console.log(res)
+          console.log(res);
           setMyWeeklyList(res.data);
         })
         .catch(function (error) {
@@ -144,9 +151,11 @@ const ReviewPage = () => {
   return (
     <div class="box">
       <h1> </h1>
-      {myWeeklyList > 0 ? 
-        <Carousel myWeeklyList={myWeeklyList}></Carousel> :
-        <div></div>}
+      {myWeeklyList > 0 ? (
+        <Carousel myWeeklyList={myWeeklyList}></Carousel>
+      ) : (
+        <Carousel myWeeklyList={myWeeklyList}></Carousel>
+      )}
       <Button order onClick={orderbylatest}>
         최신순
       </Button>
@@ -159,7 +168,7 @@ const ReviewPage = () => {
       <Button order onClick={orderbybf}>
         베프만
       </Button>
-      
+
       {myitemList && <ReviewCardList itemList={myitemList}></ReviewCardList>}
     </div>
   );
