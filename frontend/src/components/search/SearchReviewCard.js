@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import LocationIcon from '@mui/icons-material/LocationOn';
-const SearchCard = ({ item }) => {
+const SearchReviewCard = ({ item }) => {
   const {
     post_seq,
     post_photo,
@@ -57,8 +57,7 @@ const SearchCard = ({ item }) => {
   });
   return (
     <div>
-      <Card
-        sx={{ maxWidth: 225 }}
+      <Card sx={{ width: 320 }}
         style={{ cursor: 'pointer', position: 'relative' }}
       >
         <CardMedia
@@ -106,4 +105,4 @@ const SearchCard = ({ item }) => {
     </div>
   );
 };
-export default SearchCard;
+export default SearchReviewCard;

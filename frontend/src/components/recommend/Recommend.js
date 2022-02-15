@@ -421,9 +421,9 @@ const Recommend = () => {
   return (
     <div>
       {/* <Header /> */}
-      <Container maxWidth="md">
+      {/* <Container maxWidth="lg"> */}
         <div class="selete-box">
-          <h3>무장애 선택하기</h3>
+          <h2>무장애 선택하기</h2>
           <AuthBarrierIconBlock>
             <img
               class="barrier-icon"
@@ -496,7 +496,7 @@ const Recommend = () => {
               src={seniorFlag ? Senior : SeniorHide}
             ></img>
           </AuthBarrierIconBlock>
-          <h3>무장애 여행지역</h3>
+          <h2>무장애 여행지역</h2>
           <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
             <InputLabel id="find-city">시도 검색</InputLabel>
             <Select
@@ -541,11 +541,12 @@ const Recommend = () => {
         <div>
           {search === false ? (
             <div>
-              <h2>내 주변 무장애 여행지</h2>
-              <span onClick={findMyLocation}>
-                <MyLocationIcon fontSize="small"></MyLocationIcon>내 위치
-                가져오기
-              </span>
+              <div>
+                <h2 class="my-loc">내 주변 무장애 여행지</h2>
+                <span class="find-myloc" onClick={findMyLocation}>
+                  <MyLocationIcon fontSize="small"></MyLocationIcon>내 위치 가져오기
+                </span>
+              </div>
               {itemList.length > 0 ? (
                 <div>
                   <RecommendCardList itemList={itemList}></RecommendCardList>
@@ -598,7 +599,7 @@ const Recommend = () => {
             </div>
           )}
         </div>
-      </Container>
+      {/* </Container> */}
     </div>
   );
 };
