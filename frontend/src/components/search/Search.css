@@ -5,15 +5,28 @@
   border-bottom: 1px solid;
   border-radius: 0px;
   width: 300px;
+  color: white;
+  font-size:x-large;
+  /* font-weight: bold; */
 }
 .search-box {
-  /* border-top: 1px solid; */
-  /* border-bottom: 1px solid; */
-  background-color: rgba(222, 205, 195, 0.2);
+  justify-content: center;
+  padding-top: 200px;
+  padding-bottom: 200px;
+  background: url("../images/search10.png");
+  background-repeat : no-repeat;
+  background-size : cover;
 }
 
+.search-title {
+  color: white;
+}
 .input-search::placeholder {
-  color: black;
+  /* color: black; */
+  color: white;
+  font-size:x-large;
+  /* font-weight: bold; */
+  
 }
 .input-search:focus {
   outline: none;
@@ -52,4 +65,9 @@
 .card-list {
   margin-left: 24px;
   margin-right: 24px;
+}
+
+.mybutton {
+  background-color: rgb(45, 64, 89, 0.0);
+  border: none;
 }
