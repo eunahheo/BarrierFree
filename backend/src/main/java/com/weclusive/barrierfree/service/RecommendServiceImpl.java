@@ -323,7 +323,11 @@ public class RecommendServiceImpl implements RecommendService {
 				JSONObject temp = (JSONObject) o;
 				obj.put("contentid", temp.get("contentid"));
 				obj.put("title", temp.get("title"));
-				obj.put("firstimage", temp.get("firstimage"));
+				if (temp.get("firstimage") == null) {
+					obj.put("firstimage", tRepository.findByDelYnAndContentId('n', Long.parseLong(temp.get("contentid").toString())).getTourapiImage());
+				}else {
+					obj.put("firstimage", temp.get("firstimage"));
+				}
 				obj.put("addr1", temp.get("addr1"));
 
 				char scrap_yn = 'n';
