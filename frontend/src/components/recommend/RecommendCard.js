@@ -5,6 +5,10 @@ import axios from 'axios';
 import Review from '../review/Review';
 import { Link, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import palette from '../../lib/styles/palette';
+import LocationIcon from '@mui/icons-material/LocationOn';
 
 const RecommendCard = ({ item }) => {
   const [barriers, setBarrier] = useState([]);
@@ -12,10 +16,46 @@ const RecommendCard = ({ item }) => {
   const { addr1, contentid, firstimage, scrap_yn, title } = item;
   const myuser = useSelector((state) => state.user.userData);
   const infomationCard = item.contentid;
+  const [heart, setHeart] = useState(false);
 
   useEffect(() => {
     onGetBarriers();
+    if (item.scrap_yn === 'y') setHeart(true);
+    else setHeart(false);
   }, []);
+
+  const onClickHeart = () => {
+    if (myuser) {
+      setHeart(true);
+      item.scrapYn = 'y';
+      axios({
+        method: 'get',
+        url: '/scrap/insert',
+        params: {
+          scrap_data: infomationCard,
+          scrap_type: 1,
+          user_seq: myuser.userSeq,
+        },
+      });
+    } else {
+      alert('좋아요는 BF 회원만 가능합니다! 로그인 페이지로 이동할게요!😀');
+      navigate('/loginpage');
+    }
+  };
+
+  const onRemoveHeart = () => {
+    setHeart(false);
+    item.scrapYn = 'n';
+    axios({
+      method: 'put',
+      url: '/scrap/delete',
+      params: {
+        scrap_data: infomationCard,
+        scrap_type: 1,
+        user_seq: myuser.userSeq,
+      },
+    });
+  };
 
   const onGetBarriers = () => {
     axios({
@@ -65,22 +105,45 @@ const RecommendCard = ({ item }) => {
     <div>
       {/* <Link to={{ pathname: '/post/detail/:reviewCard', state: { detailnum : reviewCard}}}> */}
       <Card
-        onClick={onClickCard}
         infomationCard={infomationCard}
         sx={{ maxWidth: 225 }}
+        style={{ cursor: 'pointer', position: 'relative' }}
       >
+        {heart ? (
+          <FavoriteIcon
+            style={{
+              color: `${palette.pink[0]}`,
+              cursor: 'pointer',
+              position: 'absolute',
+              top: '10',
+              right: '10',
+            }}
+            onClick={onRemoveHeart}
+          />
+        ) : (
+          <FavoriteBorderIcon
+            onClick={onClickHeart}
+            style={{
+              color: `${palette.pink[0]}`,
+              cursor: 'pointer',
+              position: 'absolute',
+              top: '10',
+              right: '10',
+            }}
+          />
+        )}
         {/* <Card onClick={onClickCard} pageNum={reviewCard} sx={{ maxWidth: 250 }}> */}
         <CardMedia
+          onClick={onClickCard}
           component="img"
           height="300"
           image={firstimage}
           alt="Dog Picture"
         />
-
         <CardContent align="left">
           <Typography noWrap variant="body2" color="text.secondary">
-            {addr1}
-          </Typography>{' '}
+            <LocationIcon sx={{ fontSize: 15 }} /> {addr1}
+          </Typography>
           <Typography noWrap variant="body1">
             {title}
           </Typography>

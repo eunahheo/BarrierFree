@@ -4,6 +4,7 @@ import ReviewBarrierIcon from './ReviewBarrierIcon';
 import axios from 'axios';
 import Review from '../../review/Review';
 import { Link, useNavigate } from 'react-router-dom';
+import LocationIcon from '@mui/icons-material/LocationOn';
 
 const ReviewCard = ({ item }) => {
   // console.log(item)
@@ -39,7 +40,7 @@ const ReviewCard = ({ item }) => {
 
         <CardContent align="left">
           <Typography variant="body2" color="text.secondary">
-            {postLocation}
+            <LocationIcon sx={{ fontSize: 15 }} /> {postLocation}
           </Typography>
           {postTitle}
           <ReviewBarrierIcon barriers={barriers}></ReviewBarrierIcon>

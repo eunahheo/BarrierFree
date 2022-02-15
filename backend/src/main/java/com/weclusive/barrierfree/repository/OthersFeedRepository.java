@@ -13,5 +13,6 @@ public interface OthersFeedRepository extends JpaRepository<Post, Long> {
 	@Query(value = "SELECT COUNT(p) FROM Post p WHERE p.delYn = 'n' AND p.userSeq = ?1")
 	public int countByUserSeq(int userSeq);
 
+	@Query(value = "SELECT p FROM Post p WHERE p.delYn = 'n' AND p.userSeq = ?1 ORDER BY p.regDt DESC")
 	public List<Post> findByUserSeq(int otherUserSeq);
 }

@@ -20,6 +20,7 @@ axios.defaults.baseURL =
   process.env.NODE_ENV === 'development'
     ? 'https://i6a504.p.ssafy.io/api'
     : 'https://i6a504.p.ssafy.io/api';
+// process.env.NODE_ENV === 'http://localhost:3030/api';
 const persistConfig = {
   key: 'root',
   storage,
