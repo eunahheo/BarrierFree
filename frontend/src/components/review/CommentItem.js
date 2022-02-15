@@ -43,7 +43,7 @@ const CommentItem = ({ comment, onRemove, getCommentList }) => {
     };
     onRemove(commentNum);
     dispatch(commentDelete(params));
-    // alert('댓글 삭제가 완료되었습니다. 😉');
+    alert('댓글 삭제가 완료되었습니다. 😉');
     getCommentList();
   };
 
@@ -57,11 +57,12 @@ const CommentItem = ({ comment, onRemove, getCommentList }) => {
         userSeq: myuser.userSeq,
       };
       dispatch(commentUpdate(params));
-      // alert('댓글 수정이 완료되었습니다. 😉');
+      alert('댓글 수정이 완료되었습니다. 😉');
       setCheck(false);
     } else {
       alert('댓글을 입력해주세요 😉');
     }
+    getCommentList();
   };
 
   const checkHandler = () => {
