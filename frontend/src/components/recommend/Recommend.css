@@ -107,13 +107,3 @@
   background-color: rgb(234, 84, 85);
   color: white;
 }
-
-.table-active {
-  width: 250px;
-  background-color: rgb(234, 84, 85);
-  color: white;
-}
-
-.clicked {
-  color: gold;
-}
