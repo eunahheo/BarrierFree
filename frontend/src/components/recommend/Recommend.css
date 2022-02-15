@@ -1,7 +1,18 @@
 .selete-box {
   /* border-top: 1px solid; */
   /* border-bottom: 1px solid; */
-  background-color: rgba(229, 229, 229, 0.5);
+  display: flex;
+  justify-content: center;
+  padding-top: 110px;
+  padding-bottom: 110px;
+  background: url("../images/recommend2.png");
+}
+
+.selete-box-white {
+  background-color: white;
+  padding: 50px;
+  margin-left: 600px;
+  margin-right: 600px;
 }
 
 .button-list {
@@ -62,4 +73,12 @@
   border-bottom: 1px solid;
   margin-left: 150px;
   margin-right: 150px;
+}
+
+.recommend-title {
+  margin-bottom: 0px;
+}
+
+.recommend-title-first {
+  margin-bottom: 10px;
 }
