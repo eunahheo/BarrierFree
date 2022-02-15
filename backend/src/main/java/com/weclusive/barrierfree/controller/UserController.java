@@ -172,7 +172,7 @@ public class UserController {
 	}
 
 	// 사용자 닉네임 중복확인
-	@PostMapping("/check/nickname")
+	@GetMapping("/check/nickname")
 	@ApiOperation(value = "닉네임 중복 확인", notes = "닉네임 중복 여부를 반환한다.")
 	public ResponseEntity<String> checkNickname(@RequestParam String userNickname) {
 		User user = userService.findByUserNickname(userNickname);
@@ -180,7 +180,7 @@ public class UserController {
 		if (user == null) {
 			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 		} else
-			return new ResponseEntity<String>("닉네임 중복", HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<String>(FAIL, HttpStatus.OK);
 	}
 
 	@GetMapping("/find/id")
