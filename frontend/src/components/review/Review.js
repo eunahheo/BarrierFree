@@ -32,12 +32,13 @@ import Grid from '@mui/material/Grid';
 import { Typography } from '@mui/material';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
-
+import Box from '@mui/material/Box';
 const ReviewBox = styled.div`
   display: flex;
   flex-dirextion: row;
   align-items: center;
   justify-content: flex-start;
+  margin-top: 40px;
   .toggle {
     background: ${palette.gray[0]};
     color: ${palette.blue[0]};
@@ -373,27 +374,36 @@ const Review = () => {
 
   return (
     <ReviewBox>
-      <Grid container spacing={2}>
+      <Grid
+        container
+        spacing={2}
+        sx={{ marginLeft: '8rem', marginRight: '15rem' }}
+      >
         <Grid item xs={6} md={6} sm={12}>
-          <div class="review-img">
-            <ImageListItem>
-              <img
-                style={{ width: '750px', height: '620px' }}
-                // srcSet={`${item.img}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
-                alt="no image"
-                src={reviewImage}
-                onClick={TTS}
-                loading="베리어 프리에 오신 것을 환영합니다."
-              />
-            </ImageListItem>
+          <div style={{}}>
+            <img
+              style={{ maxWidth: '100%', height: '750px' }}
+              // srcSet={`${item.img}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
+              alt="no image"
+              src={reviewImage}
+              onClick={TTS}
+              loading="베리어 프리에 오신 것을 환영합니다."
+            />
             <div>사진을 누르시면 사진 설명을 들으실 수 있어요 🎧</div>
           </div>
         </Grid>
-        <Grid item xs={12} md={6} sm={12} sx={{ overflowY: 'auto' }}>
+        <Grid
+          item
+          xs={12}
+          md={6}
+          sm={12}
+          sx={{ height: '750px', overflow: 'auto' }}
+          className="content"
+        >
           <Grid container spacing={2}>
             <Grid item xs={6} sm={6}>
-              <br></br> <br></br>
-              <div style={{ float: 'left', paddingLeft: '30px' }}>
+              <br></br>
+              <div style={{ float: 'left' }}>
                 {heart ? (
                   <FavoriteIcon
                     style={{
@@ -417,11 +427,10 @@ const Review = () => {
               </div>
             </Grid>
             <Grid item xs={6} sm={6}>
-              <br></br>
               <div>
                 <span>
                   {reviewDetail.userSeq == myuser.userSeq ? (
-                    <span class="button-top">
+                    <div class="button-top">
                       <button
                         variant="contained"
                         id="update"
@@ -439,43 +448,31 @@ const Review = () => {
                       >
                         삭제
                       </button>
-                    </span>
-                  ) : (
-                    <div style={{ cursor: 'pointer' }}>
-                      <img
-                        className="toggle"
-                        src={otherUser.userPhoto}
-                        onClick={() => {
-                          navigate(`/user/${reviewDetail.userSeq}`);
-                        }}
-                      ></img>
-                      <span
-                        onClick={() => {
-                          navigate(`/user/${reviewDetail.userSeq}`);
-                          // console.log('선택시 seq', reviewDetail.userSeq);
-                        }}
-                      >
-                        {otherUser.userNickname}
-                      </span>
-
-                      {checkFw ? (
-                        <Button onClick={onUnfollow}>팔로잉</Button>
-                      ) : // ) : (reviewDetail.userSeq = myuser.userSeq) ? (
-                      reviewDetail.userSeq === myuser.userSeq ? (
-                        <></>
-                      ) : (
-                        <Button onClick={onFollow}>팔로우</Button>
-                      )}
                     </div>
+                  ) : (
+                    <span></span>
                   )}
                 </span>
               </div>
+
+              <br></br>
             </Grid>
           </Grid>
-          <div class="review-content">
-            <div>
+          <div>
+            <div
+              style={{
+                leftMargin: '4rem',
+              }}
+            >
               <br />
-              <span style={{ fontSize: '35px', fontWeight: 'bold' }}>
+              <span
+                style={{
+                  fontSize: '35px',
+                  fontWeight: 'bold',
+                  leftMargin: '4rem',
+                  float: 'left',
+                }}
+              >
                 {reviewDetail.postTitle}
               </span>
               <div style={{ float: 'right', verticalAlign: 'right' }}>
@@ -491,21 +488,50 @@ const Review = () => {
                 </div>
               </div>
             </div>
-            <br></br>
-            <br></br>
-            <br></br>
-            <div style={{ float: 'center' }}>
-              <Typography
-                variant="body1"
-                onClick={handleClickMapOpen}
-                style={{ fontSize: '18px' }}
-              >
-                {reviewDetail.postContent}
-              </Typography>
-            </div>
+            <br />
             <br /> <br />
+            <div>
+              <div
+                style={{
+                  cursor: 'pointer',
+                  float: 'left',
+                }}
+              >
+                <img
+                  className="toggle"
+                  src={otherUser.userPhoto}
+                  onClick={() => {
+                    navigate(`/user/${reviewDetail.userSeq}`);
+                  }}
+                ></img>
+                <span
+                  onClick={() => {
+                    navigate(`/user/${reviewDetail.userSeq}`);
+                    // console.log('선택시 seq', reviewDetail.userSeq);
+                  }}
+                >
+                  작성자 : {otherUser.userNickname}
+                </span>
+
+                {checkFw ? (
+                  <Button onClick={onUnfollow}>팔로잉</Button>
+                ) : // ) : (reviewDetail.userSeq = myuser.userSeq) ? (
+                reviewDetail.userSeq === myuser.userSeq ? (
+                  <></>
+                ) : (
+                  <Button onClick={onFollow}>팔로우</Button>
+                )}
+              </div>
+            </div>
+            <br></br>
+            <br></br> <br></br>
+            <br></br>
+            <div style={{ fontSize: '18px', textAlign: 'left' }}>
+              {reviewDetail.postContent}
+            </div>
+            <br /> <br /> <br /> <br />
             <Grid container spacing={2}>
-              <Grid item xs={6}>
+              <Grid item xs={6} sx={{ textAlign: 'left' }}>
                 <div style={{ cursor: 'pointer' }}>
                   <Typography
                     variant="body1"
@@ -526,8 +552,8 @@ const Review = () => {
               </Grid>
               <Grid item xs={6}>
                 <div style={{ float: 'right' }}>
-                  <ReviewBarrierIcon barriers={barriers}></ReviewBarrierIcon>
                   <InfoIcon></InfoIcon>
+                  <ReviewBarrierIcon barriers={barriers}></ReviewBarrierIcon>
                 </div>
               </Grid>
             </Grid>
@@ -535,7 +561,7 @@ const Review = () => {
             <div class="comment-box">
               <form onSubmit={onSubmitHandler}>
                 <input
-                  class="comment-input"
+                  class="inputCmt"
                   placeholder="댓글을 입력하세요"
                   onChange={onCommentHandler}
                   value={newComment}
