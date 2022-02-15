@@ -11,11 +11,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import Paper from '@mui/material/Paper';
 import InputBase from '@mui/material/InputBase';
-import IconButton from '@mui/material/IconButton';
-import Icon from '@mui/material/Icon';
-import SearchIcon from '@mui/icons-material/Search';
 import Divider from '@mui/material/Divider';
-import { setConstantValue } from '../../../node_modules/typescript/lib/typescript';
 
 const PlaceBoxBlock = styled.div`
   width: 100%;

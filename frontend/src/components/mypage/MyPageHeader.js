@@ -49,10 +49,7 @@ const MyPageHeader = ({ user }) => {
   const [imagePreview, setImagePreview] = useState(null);
   const [imageData, setImageData] = useState(null);
   const token = localStorage.getItem('accessToken');
-  // console.log(token);
-  // const [postPhoto, setPostPhoto] = useState('');
   const dispatch = useDispatch();
-  // const userPhoto = useSelector((state) => state.user.userData);
   const onUpload = (event) => {
     event.preventDefault();
     const file = event.target.files[0];

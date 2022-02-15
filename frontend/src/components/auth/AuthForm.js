@@ -132,7 +132,6 @@ const AuthForm = ({
     }
   };
   const onCheckNickname = async (event) => {
-    // console.log(form.userNickname.trim());
     if (form.userNickname.trim()) {
       try {
         const response = await axios({
