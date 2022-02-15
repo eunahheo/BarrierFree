@@ -106,7 +106,7 @@ const RecommendCard = ({ item }) => {
       {/* <Link to={{ pathname: '/post/detail/:reviewCard', state: { detailnum : reviewCard}}}> */}
       <Card
         infomationCard={infomationCard}
-        sx={{ maxWidth: 225 }}
+        sx={{ maxWidth: 320 }}
         style={{ cursor: 'pointer', position: 'relative' }}
       >
         {heart ? (

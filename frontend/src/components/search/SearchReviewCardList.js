@@ -1,13 +1,14 @@
 import { ImageList } from '@mui/material';
 import React from 'react';
 import SearchReviewCard from './SearchReviewCard';
+import './SearchCardList.css'
 
 const SearchReviewCardList = ({ itemList }) => {
   // console.log(itemList);
   return (
     <div className="RecommendCardList">
-      <div>
-        <ImageList cols={4}>
+      <div class="list">
+        <ImageList cols={5}>
           {itemList.map((item) => (
             <SearchReviewCard item={item} key={item.post_seq} />
           ))}
