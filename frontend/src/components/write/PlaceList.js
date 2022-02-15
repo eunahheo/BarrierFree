@@ -1,8 +1,19 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
+import palette from '../../lib/styles/palette';
 
 const PlaceListBlock = styled.div`
   height: 100px;
   position: fixed;
+
+  ${(props) =>
+    props.hov &&
+    css`
+      background: white;
+      &:hover {
+        background: ${palette.grey[0]};
+        color: ${palette.blue[0]};
+      }
+    `}
 `;
 
 export const Place = ({ postLocation, postAddress }) => {

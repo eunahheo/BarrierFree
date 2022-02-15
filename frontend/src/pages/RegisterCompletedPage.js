@@ -30,7 +30,7 @@ const RegisterPage = () => {
   useEffect(
     () =>
       axios({
-        url: 'http://i6a504.p.ssafy.io:3030/user/email/certified',
+        url: '/user/email/certified',
         method: 'post',
         params: {
           userNickname: userNickname,

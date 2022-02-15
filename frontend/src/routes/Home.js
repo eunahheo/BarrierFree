@@ -11,6 +11,7 @@ import { useNavigate } from 'react-router-dom';
 import { Navigate } from '../../node_modules/react-router/index';
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
+import "./Home.css"
 
 const CustomIcon = styled('icon')`
   cursor: pointer;
@@ -29,14 +30,12 @@ function Home() {
   };
 
   return (
-    <div className="Home">
-      {/* <h1>Home</h1> */}
-      <Container fixed>
-        <Grid container>
-          <Grid item xs={11}>
+      <div class="home-box">
+
+          <Grid item>
             <ReviewPage></ReviewPage>
           </Grid>
-          <Grid item xs={1}>
+          <Grid item>
             <CustomIcon>
               <AddCircleRoundedIcon
                 className="AddCircleRoundedIcon"
@@ -47,9 +46,8 @@ function Home() {
               />
             </CustomIcon>
           </Grid>
-        </Grid>
-      </Container>
-    </div>
+
+      </div>
   );
 }
 
