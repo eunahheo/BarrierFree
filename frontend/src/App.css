@@ -42,3 +42,12 @@
   font-family: 'KoddiUDOnGothic-Regular';
   src: url('./fonts/KoddiUDOnGothic-Regular.ttf');
 }
+
+@media screen and (max-width: 400px) {
+  #about,
+  #services,
+  #contact,
+  #footer {
+    width: 111%;
+  }
+}
