@@ -17,7 +17,7 @@ function About() {
   const [content, setContent] = useState([]);
   const [feature, setFeature] = useState([]);
   useEffect(() => {
-    setContent('우리는 위 클루시브, 우리의 프로젝트는 베리어프리');
+    setContent('우리는 위클루시브, 우리의 프로젝트는 베리어프리');
     setFeature(['한국관광 공사 데이터', '실 사용자의 후기', '편의 시설 정보']);
   }, []);
 
@@ -65,6 +65,7 @@ function About() {
         </div>
       </div>
       <div>
+        {}
         <h1>어려워요@.@</h1>
         이거 진짜 엉망진창 코드
       </div>

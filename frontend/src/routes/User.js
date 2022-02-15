@@ -39,7 +39,6 @@ function User() {
 
   return (
     <div>
-      <h1>user</h1>
       <Container fixed>
         <Grid container>
           <Grid item xs="3">
