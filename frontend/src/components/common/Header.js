@@ -158,18 +158,25 @@ const Header = ({ user, onLogout }) => {
           </div>
           {user ? (
             // 1. 로그인 되어 있을 때
+
             <div className="right">
+              <p
+                style={{
+                  color: 'black',
+                  fontfamily: 'KoddiUDOnGothic-Regular',
+                  fontWeight: 'bold',
+                  fontSize: '20px',
+                  cursor: 'pointer',
+                }}
+                onClick={() => {
+                  navigate(`/user/${user.userSeq}`);
+                }}
+              >
+                {user.userNickname}
+              </p>
               <Box sx={{ flexGrow: 0 }}>
                 <Tooltip title="Open settings">
                   <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                    <p
-                      style={{
-                        color: 'black',
-                        fontfamily: 'KoddiUDOnGothic-Regular',
-                      }}
-                    >
-                      {user.userNickname}님
-                    </p>
                     <HeaderBox>
                       <img src={user.userPhoto} className="toggle"></img>
                     </HeaderBox>
