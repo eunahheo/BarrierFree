@@ -1,47 +1,86 @@
+import React, { useState, useEffect, useCallback } from 'react';
+import { useInView } from 'react-intersection-observer';
+import axios from 'axios';
+import { useSelector } from 'react-redux';
 import { ImageList } from '@mui/material';
-import React, { useEffect } from 'react';
 import ReviewCard from './ReviewCard';
+import '../../search/SearchCardList.css';
 
-const ReviewCardList = ({ itemList }) => {
-  // const itemLis = itemList;
-  // console.log('itemList in reviewCardList', itemList);
-  // console.log(itemList.length);
-  // console.log(typeof itemList);
-  // const [items, setItems] = useState([]);
+const ReviewCardList = () => {
+  const [items, setItems] = useState([]);
+  const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(false);
+  const myuser = useSelector((state) => state.user.userData);
+  const [ref, inView] = useInView();
 
-  // useEffect(() => {
-  //   if (typeof itemList === 'string') {
-  //     setItems([]);
-  //   } else {
-  //     setItems(itemList);
-  //   }
-  //   if (items.length === 0) {
-  //     console.log('items O');
+  // 서버에서 아이템을 가지고 오는 함수
+  const getItems = useCallback(async () => {
+    setLoading(true);
+    if (myuser) {
+      await axios({
+        method: 'get',
+        url: '/main/recently',
+        params: {
+          userSeq: myuser.userSeq,
+          page: page,
+          size: 10,
+        },
+      }).then((res) => {
+        // setItems((prevState) => [...prevState, res.data]);
+        setItems((itemLists) => itemLists.concat(res.data));
+      });
+    } else {
+      await axios({
+        method: 'get',
+        url: '/main/recently',
+        params: {
+          userSeq: 0,
+          page: page,
+          size: 10,
+        },
+      }).then((res) => {
+        // setItems((prevState) => [...prevState, res.data]);
+        setItems((itemLists) => itemLists.concat(res.data));
+      });
+    }
 
-  //     console.log(items);
-  //     setItems([]);
-  //   } else {
-  //     console.log('items X');
-  //   }
-  // }, []);
+    setLoading(false);
+  }, [page]);
+
+  // `getItems` 가 바뀔 때 마다 함수 실행
+  useEffect(() => {
+    getItems();
+  }, [getItems]);
+
+  useEffect(() => {
+    // 사용자가 마지막 요소를 보고 있고, 로딩 중이 아니라면
+    if (inView && !loading) {
+      setPage((prevState) => prevState + 1);
+    }
+  }, [inView, loading]);
 
   return (
-    <div className="ReviewCardList">
-      <div >
-        <ImageList cols={5}>
-          {itemList.length === 0 ? (
-            <div>
-              <h1>로딩 중...</h1>
-            </div>
-          ) : (
-            itemList.map((item) => (
-              // 삭제된 게시글인지 확인
-              <ReviewCard item={item} key={item.postSeq} />
-            ))
-          )}
-        </ImageList>
-      </div>
+    <div class="list">
+      {items.length === 0 ? (
+        <div>
+          <h1>로딩중</h1>
+        </div>
+      ) : (
+        <div>
+          <ImageList cols={5}>
+            {items.map((item, index) => {
+              return (
+                <div ref={ref}>
+                  <ReviewCard item={item} key={index} />
+                </div>
+              );
+              // });
+            })}
+          </ImageList>
+        </div>
+      )}
     </div>
   );
 };
+
 export default ReviewCardList;
