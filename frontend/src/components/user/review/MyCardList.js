@@ -3,7 +3,7 @@ import React from 'react';
 import MyCardCopy from './MyCardCopy';
 
 const MyCardList = ({ itemList }) => {
-  console.log('여기야', itemList);
+  // console.log('여기야', itemList);
   return (
     <div className="MyCardList">
       <div>
