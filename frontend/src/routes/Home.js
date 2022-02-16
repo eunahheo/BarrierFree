@@ -1,14 +1,10 @@
 // App.js 내용 가져오면 됨
 import ReviewPage from '../components/common/review/ReviewPage';
-import Button from '../components/common/Button';
-import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import React from 'react';
-import Icons from '../components/common/Mui';
 import AddCircleRoundedIcon from '@mui/icons-material/AddCircleRounded';
 import palette from '../lib/styles/palette';
 import { useNavigate } from 'react-router-dom';
-import { Navigate } from '../../node_modules/react-router/index';
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
 import './Home.css';

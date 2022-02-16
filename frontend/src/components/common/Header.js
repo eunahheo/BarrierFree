@@ -26,6 +26,7 @@ const HeaderBox = styled.div`
   align-items: center;
   justify-content: flex-start;
 
+  font-family: 'KoddiUDOnGothic-Regular';
   .toggle {
     text-align: center;
     margin: auto;
