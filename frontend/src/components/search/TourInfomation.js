@@ -200,29 +200,31 @@ const TourInfomation = () => {
       <div class="infomation-box">
         <div>
           <div class="infomation">
-            <span class="info-title">{infomationDetail.title}</span>
-            <span class="info-scrap">
-              {heart ? (
-                <FavoriteIcon
-                  style={{
-                    color: `${palette.pink[0]}`,
-                    cursor: 'pointer',
-                    fontSize: 30,
-                  }}
-                  onClick={onRemoveHeart}
-                />
-              ) : (
-                <FavoriteBorderIcon
-                  onClick={onClickHeart}
-                  style={{
-                    color: `${palette.pink[0]}`,
-                    cursor: 'pointer',
-                    fontSize: 30,
-                  }}
-                />
-              )}
-              {scraptimes}
-            </span>
+            <div>
+              <span class="info-title">{infomationDetail.title}</span>
+              <span class="info-scrap">
+                {heart ? (
+                  <FavoriteIcon
+                    style={{
+                      color: `${palette.pink[0]}`,
+                      cursor: 'pointer',
+                      fontSize: 30,
+                    }}
+                    onClick={onRemoveHeart}
+                  />
+                ) : (
+                  <FavoriteBorderIcon
+                    onClick={onClickHeart}
+                    style={{
+                      color: `${palette.pink[0]}`,
+                      cursor: 'pointer',
+                      fontSize: 30,
+                    }}
+                  />
+                )}
+                {scraptimes}
+              </span>
+            </div>
             <div class="info-item">
               <img class="info-img" src={infomationDetail.firstimage}></img>
             </div>
