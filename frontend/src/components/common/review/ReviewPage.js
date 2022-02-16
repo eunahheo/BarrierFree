@@ -10,6 +10,7 @@ const ReviewPage = () => {
   const myuser = useSelector((state) => state.user.userData);
   const [myitemList, mysetItemList] = useState([]);
   const [myWeeklyList, setMyWeeklyList] = useState(null);
+  const [carouselList, setCarouselList] = useState(null);
   const [currentUser, setCurrentUser] = useState(0);
 
   const orderbylatest = async () => {
@@ -102,6 +103,13 @@ const ReviewPage = () => {
             params: { userSeq: currentUser, page: 1, size: 4 },
           });
           setMyWeeklyList(response2.data);
+
+          const response3 = await axios({
+            url: '/main/weekscrap',
+            method: 'get',
+            params: { userSeq: currentUser, page: 1, size: 10 },
+          });
+          setCarouselList(response3.data);
         } catch (e) {
           console.log(e);
         }
@@ -138,9 +146,15 @@ const ReviewPage = () => {
   return (
     <div class="box">
       <h1></h1>
-      {myWeeklyList ? (
-        <div>
-          <Carousel myWeeklyList={myWeeklyList}></Carousel>
+      {carouselList ? (
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <Carousel myWeeklyList={carouselList}></Carousel>
         </div>
       ) : (
         <></>
