@@ -5,6 +5,9 @@ import Button from '../common/Button';
 import styled from 'styled-components';
 import { useParams } from 'react-router';
 import { useNavigate } from 'react-router-dom';
+import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
+import palette from '../../lib/styles/palette';
 
 const UserFollowingBlock = styled.div`
   display: flex;
@@ -83,26 +86,65 @@ const UserFollowing = ({
 
   return (
     <UserFollowingBlock>
-      <div className="UserController">
-        <div>
-          <div>
+      <div className="UserController" style={{ paddingBottom: '1rem' }}>
+        <Grid
+          container
+          spacing={5}
+          columns={15}
+          display="flex"
+          justify="center"
+          width="500px"
+          height="120px"
+        >
+          <Grid item xs={5} display="flex" justify="center" width="150px">
             <img
               src={userPhoto}
               onClick={onClick}
-              style={{ cursor: 'pointer' }}
+              style={{
+                cursor: 'pointer',
+                verticalAlign: 'middle',
+              }}
             ></img>
-            <span onClick={onClick} style={{ cursor: 'pointer' }}>
+          </Grid>
+          <Grid
+            item
+            xs={5}
+            display="flex"
+            justify="middle"
+            direction="row"
+            marginTop="3rem"
+          >
+            <span
+              onClick={onClick}
+              style={{
+                cursor: 'pointer',
+                fontWeight: 'bold',
+                marginRight: '1rem',
+                verticalAlign: 'middle',
+              }}
+            >
               {userNickname}
             </span>
+          </Grid>
+          <Grid
+            item
+            xs={5}
+            display="flex"
+            justify="center"
+            direction="column"
+            marginTop="2.6rem"
+          >
             {myuser === following_userSeq ? (
               <></>
             ) : checkFw ? (
-              <Button onClick={onUnfollow}>팔로잉</Button>
+              <Button impact onClick={onUnfollow}>
+                언팔로우
+              </Button>
             ) : (
               <Button onClick={onFollow}>팔로우</Button>
             )}
-          </div>
-        </div>
+          </Grid>
+        </Grid>
       </div>
     </UserFollowingBlock>
   );
@@ -166,20 +208,33 @@ const UserFollowings = () => {
   };
 
   return (
-    <div>
-      {userfollowings &&
-        userfollowings.map((userfollowing) => (
-          <UserFollowing
-            key={userfollowing.userSeq}
-            userfollowing={userfollowing}
-            userNickname={userfollowing.userNickname}
-            userPhoto={userfollowing.userPhoto}
-            following_userSeq={userfollowing.userSeq}
-            isfollow={userfollowing.isfollow}
-            onRemove={onRemove}
-          />
-        ))}
-      {userfollowings.length === 0 && <h1>팔로잉 없음</h1>}
+    <div style={{ justifyContent: 'center', display: 'flex' }}>
+      <Box
+        sx={{
+          width: '90%',
+        }}
+      >
+        <h4>팔로잉</h4>
+        <hr></hr>
+        {userfollowings &&
+          userfollowings.map((userfollowing) => (
+            <UserFollowing
+              key={userfollowing.userSeq}
+              userfollowing={userfollowing}
+              userNickname={userfollowing.userNickname}
+              userPhoto={userfollowing.userPhoto}
+              following_userSeq={userfollowing.userSeq}
+              isfollow={userfollowing.isfollow}
+              onRemove={onRemove}
+            />
+          ))}
+        {userfollowings.length === 0 && (
+          <div>
+            <h1>팔로잉하는 사용자가 없습니다.</h1>
+            <h1>배리어프리에서 새 친구를 만날 수 있어요! 🙂</h1>
+          </div>
+        )}
+      </Box>
     </div>
   );
 };
