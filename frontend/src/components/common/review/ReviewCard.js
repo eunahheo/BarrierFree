@@ -91,7 +91,7 @@ const ReviewCard = ({ item }) => {
     <div>
       <Card
         reviewCard={reviewCard}
-        sx={{ Width: 320 }}
+        sx={{ width: 320 }}
         style={{ cursor: 'pointer', position: 'relative' }}
       >
         {/* <span style={{ position: 'absolute', top: '235', float: 'right' }} > */}

@@ -131,7 +131,7 @@ const ReviewCardList = () => {
   }, [inView, loading]);
 
   return (
-    <div>
+    <div class="list">
       {items.length === 0 ? (
         <div>
           <h1>로딩중</h1>
