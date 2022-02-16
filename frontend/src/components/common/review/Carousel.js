@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { Fragment } from 'react';
 import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import MobileStepper from '@mui/material/MobileStepper';
@@ -11,6 +11,14 @@ import SwipeableViews from 'react-swipeable-views';
 import { autoPlay } from 'react-swipeable-views-utils';
 import { useEffect } from 'react';
 import { useState } from 'react';
+import Carousel from 'react-multi-carousel';
+// import 'semantic-ui-css/semantic.min.css';
+import 'react-multi-carousel/lib/styles.css';
+import './style.css';
+// import UAParser from 'ua-parser-js';
+import Simple from './Simple.js';
+import WithScrollbar from './WithScrollbar.js';
+import Section from './Section.js';
 
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
@@ -72,12 +80,17 @@ function SwipeableTextMobileStepper({ myWeeklyList }) {
     }
   }, []);
   return (
-    <Box sx={{ maxWidth: 400, flexGrow: 1 }}>
+    <Box sx={{ maxWidth: 1000, flexGrow: 1 }}>
+      <Fragment sx={{ maxWidth: 1000, flexGrow: 1 }}>
+        <Section>
+          <WithScrollbar props={myWeeklyList} />
+        </Section>
+      </Fragment>
       {/* <h1>{myWeeklyList[0].postPhoto}</h1>
       <h1>{myWeeklyList[1].postPhoto}</h1>
       <h1>{myWeeklyList[2].postPhoto}</h1>
       <h1>{myWeeklyList[3].postPhoto}</h1> */}
-      <Paper
+      {/* <Paper
         square
         elevation={0}
         sx={{
@@ -141,7 +154,7 @@ function SwipeableTextMobileStepper({ myWeeklyList }) {
             )}
           </Button>
         }
-      />
+      /> */}
     </Box>
   );
 }

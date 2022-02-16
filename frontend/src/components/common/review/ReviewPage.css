@@ -18,7 +18,7 @@
   color: white;
 } */
 
-button {
+.mybutton {
   background: #fff;
   color: #2d4059;
   border: none;
@@ -31,14 +31,14 @@ button {
   cursor: pointer;
   transition: 800ms ease all;
   outline: none;
-  width: 25%;
+  width: 21%;
 }
-button:hover {
+.mybutton:hover {
   background: #2d4059;
   color: #fff;
 }
-button:before,
-button:after {
+.mybutton:before,
+.mybutton:after {
   content: '';
   position: absolute;
   top: 0;
@@ -48,14 +48,14 @@ button:after {
   background: #2d4059;
   transition: 400ms ease all;
 }
-button:before {
+.mybutton:before {
   right: inherit;
   top: inherit;
   left: 0;
   bottom: 0;
 }
-button:hover:before,
-button:hover:after {
+.mybutton:hover:before,
+.mybutton:hover:after {
   width: 100%;
   transition: 800ms ease all;
 }
