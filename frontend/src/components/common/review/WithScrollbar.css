@@ -16,7 +16,7 @@ input[type='range']::-webkit-slider-thumb {
   height: 5px;
   width: 15%;
   border-radius: 0%;
-  background: #000;
+  background: rgb(45, 64, 89);
   margin-top: -4px;
 }
 
@@ -25,7 +25,7 @@ input[type='range']:focus {
 }
 
 input[type='range']:focus::-webkit-slider-runnable-track {
-  background: #ccc;
+  background: '#2D4059';
 }
 .carousel-container-with-scrollbar {
   padding-left: 100px;
@@ -35,12 +35,15 @@ input[type='range']:focus::-webkit-slider-runnable-track {
 .custom-slider {
   position: absolute;
   bottom: 0;
-  width: 100%;
+  width: 90%;
   padding: 0 20px;
 }
 .custom-slider__input {
-  width: 100%;
+  background-color: rgba(255, 255, 255, 1);
+  opacity: 1;
+
+  width: 75%;
 }
 .slider-image-item {
-  padding: 20px 0 20px 20px;
+  padding: 20px 0 50px 20px;
 }
