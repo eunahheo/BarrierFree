@@ -10,6 +10,7 @@ const UserHeaderBox = styled.div`
   // flex-dirextion: row;
   align-items: center;
   justify-content: flex-start;
+  position: fixed;
   .div {
     display: table;
   }
@@ -74,7 +75,7 @@ const UserHeaderBox = styled.div`
   .feed {
     font-size: 25px;
     font-weight: bold;
-    padding: 10px;
+    padding: 50px 0 10px 0;
   }
 `;
 
@@ -143,7 +144,7 @@ const UserHeader = ({ onPost, onFollowing, onFollower, onScrap }) => {
                 color: 'black',
                 fontSize: '20px',
                 fontWeight: 'bold',
-                marginBottom: '20px',
+                margin: '15px 0 20px 0',
               }}
             >
               {userHeaderInfo.writePost}개의 게시글
