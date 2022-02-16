@@ -23,12 +23,14 @@
   color: #2d4059;
   position: relative;
   height: 40px;
+
+  margin-bottom: 30px;
   font-size: 1em;
   padding: 0 2em;
   font-family: 'KoddiUDOnGothic-Regular';
   cursor: pointer;
   transition: 800ms ease all;
-  /* outline: none; */
+  /* outline: 1px solid; */
   width: 21%;
 }
 .mybutton:hover {
