@@ -29,19 +29,21 @@ input[type='range']:focus::-webkit-slider-runnable-track {
 }
 .carousel-container-with-scrollbar {
   padding-left: 100px;
-  padding-bottom: 20px;
+  padding-bottom: 50px;
   overflow: visible !important;
 }
 .custom-slider {
   position: absolute;
   bottom: 0;
-  width: 100%;
+  width: 84%;
   padding: 0 20px;
 }
 .custom-slider__input {
-  background: rgb(255, 255, 255);
+  background-color: rgba(255, 255, 255, 0);
+  margin-top: 20px;
   width: 100%;
 }
+
 .slider-image-item {
-  padding: 20px 0 20px 20px;
+  padding: 20px 25px 20px 20px;
 }
