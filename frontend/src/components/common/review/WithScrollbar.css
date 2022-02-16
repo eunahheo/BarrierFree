@@ -35,13 +35,15 @@ input[type='range']:focus::-webkit-slider-runnable-track {
 .custom-slider {
   position: absolute;
   bottom: 0;
-  width: 100%;
+  width: 90%;
   padding: 0 20px;
 }
 .custom-slider__input {
-  background: rgb(255, 255, 255);
-  width: 100%;
+  background-color: rgba(255, 255, 255, 1);
+  opacity: 1;
+
+  width: 75%;
 }
 .slider-image-item {
-  padding: 20px 0 20px 20px;
+  padding: 20px 0 50px 20px;
 }

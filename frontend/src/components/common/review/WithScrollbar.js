@@ -3,7 +3,12 @@ import Carousel from 'react-multi-carousel';
 import './WithScrollbar.css';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import Typography from '@mui/material/Typography';
+import { CardActionArea } from '@mui/material';
+import LocationIcon from '@mui/icons-material/LocationOn';
 const responsive = {
   desktop: {
     breakpoint: { max: 3000, min: 1024 },
@@ -86,27 +91,7 @@ class WithScrollbar extends React.Component {
         </div>
       );
     };
-    // function Card({ myWeeklyList }) {
-    //   return (
-    //     <div>
-    //       {myWeeklyList &&
-    //         myWeeklyList.map((post) => {
-    //           return (
-    //             <div class="image-container increase-size">
-    //               <div class="image-container-text">
-    //                 <p>1</p>
-    //               </div>
-    //               <img
-    //                 draggable={false}
-    //                 style={{ width: '100%', cursor: 'pointer' }}
-    //                 src={post.post_photo}
-    //               />
-    //             </div>
-    //           );
-    //         })}
-    //     </div>
-    //   );
-    // }
+
     return (
       <Carousel
         ssr={false}
@@ -129,22 +114,46 @@ class WithScrollbar extends React.Component {
         {this.props.props &&
           this.props.props.map((post) => {
             return (
-              <div
-                class="image-container increase-size"
-                key={post.postSeq}
-                style={{ width: '230px', height: '230px' }}
-              >
-                {/* <div class="image-container-text">
-                  <p>{post.postSeq}</p>
-                </div> */}
-                <Link to={{ pathname: `post/detail/${post.postSeq}` }}>
-                  <img
-                    draggable={false}
-                    style={{ width: '100%', cursor: 'pointer' }}
-                    src={post.postPhoto}
-                  />
-                </Link>
-              </div>
+              <Card sx={{ maxWidth: 300 }}>
+                <CardActionArea>
+                  <Link to={{ pathname: `post/detail/${post.postSeq}` }}>
+                    <CardMedia
+                      component="img"
+                      height="250"
+                      image={post.postPhoto}
+                      alt={post.postTitle}
+                    />
+                  </Link>
+                  <CardContent align="left">
+                    <Typography variant="body2" color="text.secondary">
+                      <LocationIcon sx={{ fontSize: 15 }} /> {post.postLocation}
+                    </Typography>
+                    <Typography variant="body1">{post.postTitle}</Typography>
+                  </CardContent>
+                </CardActionArea>
+              </Card>
+
+              // <Card sx={{ maxWidth: '250px', height: '300px' }}>
+              //   <CardActionArea
+              //     class="image-container increase-size"
+              //     key={post.postSeq}
+              //     style={{ width: '250px', height: '250px' }}
+              //   >
+              //     <Link to={{ pathname: `post/detail/${post.postSeq}` }}>
+              //       <CardMedia
+              //         component="img"
+              //         height="200px"
+              //         image={post.postPhoto}
+              //         style={{ cursor: 'pointer' }}
+              //         alt={post.postTitle}
+              //         draggable={false}
+              //       />
+              //     </Link>
+              //     <CardContent>
+
+              //     </CardContent>
+              //   </CardActionArea>
+              // </Card>
             );
           })}
       </Carousel>
