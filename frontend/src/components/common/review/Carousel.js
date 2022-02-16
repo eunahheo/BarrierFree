@@ -83,7 +83,7 @@ function SwipeableTextMobileStepper({ myWeeklyList }) {
     <Box sx={{ maxWidth: 1000, flexGrow: 1 }}>
       <Fragment sx={{ maxWidth: 1000, flexGrow: 1 }}>
         <Section>
-          <WithScrollbar />
+          <WithScrollbar props={myWeeklyList} />
         </Section>
       </Fragment>
       {/* <h1>{myWeeklyList[0].postPhoto}</h1>

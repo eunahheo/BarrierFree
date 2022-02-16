@@ -1,7 +1,7 @@
 import React from 'react';
 import Carousel from 'react-multi-carousel';
 import './WithScrollbar.css';
-
+import axios from 'axios';
 const responsive = {
   desktop: {
     breakpoint: { max: 3000, min: 1024 },
@@ -20,10 +20,21 @@ const responsive = {
 class WithScrollbar extends React.Component {
   state = {
     additionalTransfrom: 0,
+    myWeeklyList: this.props.myWeeklyList,
+  };
+  loadList = async () => {
+    axios({
+      url: '/main/weekscrap',
+      method: 'get',
+      params: { userSeq: 0, page: 1, size: 20 },
+    }).then((res) => {
+      this.setState({ myWeeklyList: res.data });
+    });
   };
 
   render() {
     const CustomSlider = ({ carouselState }) => {
+      console.log(this.props.props);
       let value = 0;
       let carouselItemWidth = 0;
       if (this.Carousel) {
@@ -73,6 +84,27 @@ class WithScrollbar extends React.Component {
         </div>
       );
     };
+    // function Card({ myWeeklyList }) {
+    //   return (
+    //     <div>
+    //       {myWeeklyList &&
+    //         myWeeklyList.map((post) => {
+    //           return (
+    //             <div class="image-container increase-size">
+    //               <div class="image-container-text">
+    //                 <p>1</p>
+    //               </div>
+    //               <img
+    //                 draggable={false}
+    //                 style={{ width: '100%', cursor: 'pointer' }}
+    //                 src={post.post_photo}
+    //               />
+    //             </div>
+    //           );
+    //         })}
+    //     </div>
+    //   );
+    // }
     return (
       <Carousel
         ssr={false}
@@ -92,6 +124,22 @@ class WithScrollbar extends React.Component {
           }
         }}
       >
+        {this.props.props &&
+          this.props.props.map((post) => {
+            return (
+              <div class="image-container increase-size" key={post.postSeq}>
+                <div class="image-container-text">
+                  <p>{post.postSeq}</p>
+                </div>
+                <img
+                  draggable={false}
+                  style={{ width: '100%', cursor: 'pointer' }}
+                  src={post.postPhoto}
+                />
+              </div>
+            );
+          })}
+        {/* 
         <div class="image-container increase-size">
           <div class="image-container-text">
             <p>1</p>
@@ -101,6 +149,7 @@ class WithScrollbar extends React.Component {
             style={{ width: '100%', cursor: 'pointer' }}
             src="https://images.unsplash.com/photo-1549989476-69a92fa57c36?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60"
           />
+          {this.state.myWeeklyList}
         </div>
         <div class="increase-size">
           <div class="image-container-text">
@@ -112,7 +161,6 @@ class WithScrollbar extends React.Component {
             src="https://images.unsplash.com/photo-1549396535-c11d5c55b9df?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60"
           />
         </div>
-
         <div class="image-container increase-size">
           <div class="image-container-text">
             <p>3</p>
@@ -123,7 +171,6 @@ class WithScrollbar extends React.Component {
             src="https://images.unsplash.com/photo-1550133730-695473e544be?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60"
           />
         </div>
-
         <div class="image-container increase-size">
           <div class="image-container-text">
             <p>4</p>
@@ -134,7 +181,6 @@ class WithScrollbar extends React.Component {
             src="https://images.unsplash.com/photo-1550167164-1b67c2be3973?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60"
           />
         </div>
-
         <div class="image-container increase-size">
           <div class="image-container-text">
             <p>5</p>
@@ -154,7 +200,7 @@ class WithScrollbar extends React.Component {
             style={{ width: '100%', cursor: 'pointer' }}
             src="https://images.unsplash.com/flagged/photo-1556091766-9b818bc73fad?ixlib=rb-1.2.1&auto=format&fit=crop&w=1504&q=80"
           />
-        </div>
+        </div> */}
       </Carousel>
     );
   }
