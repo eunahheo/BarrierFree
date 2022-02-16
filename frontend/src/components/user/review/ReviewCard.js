@@ -28,7 +28,7 @@ const ReviewCard = ({ item }) => {
       <Card
         onClick={onClickCard}
         reviewCard={reviewCard}
-        sx={{ maxWidth: 320 }}
+        sx={{ Width: 320 }}
       >
         {/* <Card onClick={onClickCard} pageNum={reviewCard} sx={{ maxWidth: 250 }}> */}
         <CardMedia
