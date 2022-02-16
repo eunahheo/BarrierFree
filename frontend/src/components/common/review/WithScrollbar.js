@@ -41,7 +41,6 @@ class WithScrollbar extends React.Component {
 
   render() {
     const CustomSlider = ({ carouselState }) => {
-      console.log(this.props.props);
       let value = 0;
       let carouselItemWidth = 0;
       if (this.Carousel) {
@@ -100,6 +99,9 @@ class WithScrollbar extends React.Component {
         customButtonGroup={<CustomSlider />}
         itemClass="slider-image-item"
         responsive={responsive}
+        autoPlay={this.props.deviceType !== 'mobile' ? true : false}
+        autoPlaySpeed={2000}
+        infinite={true}
         containerClass="carousel-container-with-scrollbar"
         additionalTransfrom={-this.state.additionalTransfrom}
         beforeChange={(nextSlide) => {
@@ -114,7 +116,7 @@ class WithScrollbar extends React.Component {
         {this.props.props &&
           this.props.props.map((post) => {
             return (
-              <Card sx={{ maxWidth: 300 }}>
+              <Card sx={{ width: 320 }}>
                 <CardActionArea>
                   <Link to={{ pathname: `post/detail/${post.postSeq}` }}>
                     <CardMedia
@@ -132,28 +134,6 @@ class WithScrollbar extends React.Component {
                   </CardContent>
                 </CardActionArea>
               </Card>
-
-              // <Card sx={{ maxWidth: '250px', height: '300px' }}>
-              //   <CardActionArea
-              //     class="image-container increase-size"
-              //     key={post.postSeq}
-              //     style={{ width: '250px', height: '250px' }}
-              //   >
-              //     <Link to={{ pathname: `post/detail/${post.postSeq}` }}>
-              //       <CardMedia
-              //         component="img"
-              //         height="200px"
-              //         image={post.postPhoto}
-              //         style={{ cursor: 'pointer' }}
-              //         alt={post.postTitle}
-              //         draggable={false}
-              //       />
-              //     </Link>
-              //     <CardContent>
-
-              //     </CardContent>
-              //   </CardActionArea>
-              // </Card>
             );
           })}
       </Carousel>
