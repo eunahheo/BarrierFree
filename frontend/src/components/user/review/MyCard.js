@@ -92,10 +92,12 @@ const MyCard = ({ item, onRemove }) => {
             style={{ maxHeight: 250 }}
           />
           <CardContent align="left">
-            <Typography variant="body2" color="text.secondary">
+            <Typography variant="body2" color="text.secondary" noWrap>
               <LocationIcon sx={{ fontSize: 15 }} /> {post_location}
             </Typography>
-            {post_title}
+            <Typography noWrap variant="body1">
+              {post_title}
+            </Typography>
           </CardContent>
         </div>
       </Card>

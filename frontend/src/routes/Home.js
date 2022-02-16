@@ -11,6 +11,9 @@ import './Home.css';
 
 const CustomIcon = styled('icon')`
   cursor: pointer;
+  position: fixed;
+  bottom: 5%;
+  right: 3%;
 `;
 
 function Home() {
@@ -29,14 +32,12 @@ function Home() {
     <div class="home-box">
       <Grid item>
         <ReviewPage></ReviewPage>
-      </Grid>
-      <Grid item>
         <CustomIcon>
           <AddCircleRoundedIcon
             className="AddCircleRoundedIcon"
             position="sticky"
             fontSize="large"
-            sx={{ color: palette.pink[0] }}
+            sx={{ color: palette.pink[0], fontSize: '46px' }}
             onClick={navigate_wr}
           />
         </CustomIcon>
