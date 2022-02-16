@@ -131,13 +131,13 @@ const ReviewCardList = () => {
   }, [inView, loading]);
 
   return (
-    <div>
+    <div class="list">
       {items.length === 0 ? (
-        <div className="list">
+        <div>
           <h1>로딩중</h1>
         </div>
       ) : (
-        <div className="list">
+        <div>
           <ImageList cols={5}>
             {items.map((item, index) => {
               return (

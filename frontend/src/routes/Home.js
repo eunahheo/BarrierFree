@@ -29,7 +29,7 @@ function Home() {
   };
 
   return (
-    <div class="home-box">
+    <div>
       <Grid item>
         <ReviewPage></ReviewPage>
         <CustomIcon>
