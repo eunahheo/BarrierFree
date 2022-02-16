@@ -6,27 +6,19 @@ import { ImageList } from '@mui/material';
 import ReviewCard from './ReviewCard';
 import '../../search/SearchCardList.css';
 
-const ReviewCardList = ({ reviewtype }) => {
+const ReviewCardListBf = () => {
   const [items, setItems] = useState([]);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const myuser = useSelector((state) => state.user.userData);
   const [ref, inView] = useInView();
-  const [currentType, setCurrentType] = useState(reviewtype);
-
-  useEffect(() => {
-    setCurrentType(reviewtype);
-    setItems([]);
-    setPage(1);
-    getItems();
-  }, [reviewtype]);
 
   const getItems = useCallback(async () => {
     setLoading(true);
     if (myuser) {
       await axios({
         method: 'get',
-        url: `/main/${reviewtype}`,
+        url: `/main/follow`,
         params: {
           userSeq: myuser.userSeq,
           page: page,
@@ -38,7 +30,7 @@ const ReviewCardList = ({ reviewtype }) => {
     } else {
       await axios({
         method: 'get',
-        url: `/main/${reviewtype}`,
+        url: `/main/follow`,
         params: {
           userSeq: 0,
           page: page,
@@ -84,4 +76,4 @@ const ReviewCardList = ({ reviewtype }) => {
   );
 };
 
-export default ReviewCardList;
+export default ReviewCardListBf;

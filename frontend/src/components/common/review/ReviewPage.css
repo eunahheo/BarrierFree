@@ -21,8 +21,6 @@
 .mybutton {
   background: #fff;
   color: #2d4059;
-  border: none;
-  border-bottom: 2px solid;
   position: relative;
   height: 40px;
   font-size: 1em;
@@ -30,7 +28,7 @@
   font-family: 'KoddiUDOnGothic-Regular';
   cursor: pointer;
   transition: 800ms ease all;
-  outline: none;
+  /* outline: none; */
   width: 21%;
 }
 .mybutton:hover {
