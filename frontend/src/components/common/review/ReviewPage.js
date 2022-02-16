@@ -146,16 +146,16 @@ const ReviewPage = () => {
         <></>
       )}
 
-      <button order onClick={orderbylatest}>
+      <button className="mybutton" onClick={orderbylatest}>
         최신순
       </button>
-      <button order onClick={orderbypopular}>
+      <button className="mybutton" onClick={orderbypopular}>
         전체 인기순
       </button>
-      <button order onClick={orderbypopularweek}>
+      <button className="mybutton" onClick={orderbypopularweek}>
         이번주 인기순
       </button>
-      <button order onClick={orderbybf}>
+      <button className="mybutton" onClick={orderbybf}>
         베프만
       </button>
 
