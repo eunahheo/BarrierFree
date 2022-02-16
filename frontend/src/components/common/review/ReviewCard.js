@@ -8,36 +8,14 @@ import palette from '../../../lib/styles/palette';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import LocationIcon from '@mui/icons-material/LocationOn';
-import { memo } from 'react';
-import styled from 'styled-components';
 
 const ReviewCard = ({ item }) => {
   const myuser = useSelector((state) => state.user.userData);
   // console.log('item in reviewCard', item);
   const navigate = useNavigate();
-  // const [postPhoto, setPostPhoto] = useState('1');
-  // const [postLocation, setPostLocation] = useState('1');
-  // const [postTitle, setPostTitle] = useState('1');
-  // const [barriers, setBarriers] = useState('1');
-  // const [reviewCard, setReviewCard] = useState('1');
+  const { postPhoto, postLocation, postTitle, scrapYn } = item;
   const barriers = item.impairment;
   const reviewCard = item.postSeq;
-  const { postPhoto, postLocation, postTitle, scrapYn } = item;
-  useEffect(() => {
-    if (item) {
-      // setPostPhoto(item.postPhoto);
-      // setPostLocation(item.postLocation);
-      // setPostTitle(item.postTitle);
-      if (item.scrapYn === 'y') setHeart(true);
-      else setHeart(false);
-    }
-    console.log(item);
-  }, []);
-  // useEffect(() => {
-  //   if (item.scrapYn === 'y') setHeart(true);
-  //   else setHeart(false);
-  //   // console.log('here', item);
-  // });
   const [heart, setHeart] = useState(false);
 
   const onClickCard = () => {
@@ -86,12 +64,16 @@ const ReviewCard = ({ item }) => {
       },
     });
   };
+  useEffect(() => {
+    if (item.scrapYn === 'y') setHeart(true);
+    else setHeart(false);
+  });
 
   return (
     <div>
       <Card
         reviewCard={reviewCard}
-        sx={{ width: 320 }}
+        sx={{ maxWidth: 320 }}
         style={{ cursor: 'pointer', position: 'relative' }}
       >
         {/* <span style={{ position: 'absolute', top: '235', float: 'right' }} > */}
@@ -134,6 +116,7 @@ const ReviewCard = ({ item }) => {
           </Typography>
           {postTitle}
           <div>
+            {' '}
             <ReviewBarrierIcon barriers={barriers}></ReviewBarrierIcon>
           </div>
         </CardContent>
@@ -141,4 +124,4 @@ const ReviewCard = ({ item }) => {
     </div>
   );
 };
-export default memo(ReviewCard);
+export default ReviewCard;

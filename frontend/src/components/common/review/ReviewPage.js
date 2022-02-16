@@ -161,16 +161,15 @@ const ReviewPage = () => {
     <div class="box">
       <h1></h1>
       {myWeeklyList ? (
-        <div>
-          <h1>here</h1>
+        <div sx={{ marginRight: '20rem' }}>
+          {/* <h1>주간 인기 후기</h1> */}
           <Carousel myWeeklyList={myWeeklyList}></Carousel>
         </div>
       ) : (
         // <Carousel myWeeklyList={myWeeklyList}></Carousel>
         <></>
       )}
-      {/* <button>여기야</button> */}
-      {/* <Button order onClick={orderbylatest}>
+      <Button order onClick={orderbylatest}>
         최신순
       </Button>
       <Button order onClick={orderbypopular}>
@@ -181,19 +180,7 @@ const ReviewPage = () => {
       </Button>
       <Button order onClick={orderbybf}>
         베프만
-      </Button> */}
-      <button order onClick={orderbylatest}>
-        최신순
-      </button>
-      <button order onClick={orderbypopular}>
-        전체 인기순
-      </button>
-      <button order onClick={orderbypopularweek}>
-        이번주 인기순
-      </button>
-      <button order onClick={orderbybf}>
-        베프만
-      </button>
+      </Button>
 
       {myitemList && <ReviewCardList itemList={myitemList}></ReviewCardList>}
     </div>
