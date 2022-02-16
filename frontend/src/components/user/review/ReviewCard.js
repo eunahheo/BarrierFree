@@ -39,10 +39,12 @@ const ReviewCard = ({ item }) => {
         />
 
         <CardContent align="left">
-          <Typography variant="body2" color="text.secondary">
+          <Typography variant="body2" color="text.secondary" noWrap>
             <LocationIcon sx={{ fontSize: 15 }} /> {postLocation}
           </Typography>
-          {postTitle}
+          <Typography noWrap variant="body1">
+            {postTitle}
+          </Typography>
           <ReviewBarrierIcon barriers={barriers}></ReviewBarrierIcon>
         </CardContent>
       </Card>

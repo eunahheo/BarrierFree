@@ -90,12 +90,14 @@ const MyCardCopy = ({ item }) => {
             style={{ maxHeight: 250 }}
           />
           <CardContent align="left">
-            <Typography variant="body2" color="text.secondary">
+            <Typography variant="body2" color="text.secondary" noWrap>
               <LocationIcon sx={{ fontSize: 15 }} /> {postLocation}
             </Typography>
-            {postTitle}
-            <RecommendBarrierIcon barriers={impairment}></RecommendBarrierIcon>
+            <Typography noWrap variant="body1">
+              {postTitle}
+            </Typography>
           </CardContent>
+          <RecommendBarrierIcon barriers={impairment}></RecommendBarrierIcon>
         </div>
       </Card>
     </div>
