@@ -17,8 +17,7 @@ import palette from '../../lib/styles/palette';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { useNavigate } from 'react-router-dom';
-import { Card } from '@mui/material';
-
+import Box from '@mui/material/Box';
 const TourInfomation = () => {
   const pageNum = useParams();
   const contentid = Number(pageNum.infomationCard);
@@ -35,6 +34,7 @@ const TourInfomation = () => {
 
   // Tourinfomation 창이 뜨자 마자 불러와져야할 것들
   useEffect(() => {
+    window.scrollTo(0, 0);
     axios({
       method: 'get',
       url: '/scrap/check',
@@ -152,7 +152,7 @@ const TourInfomation = () => {
             <div>
               <p dangerouslySetInnerHTML={{ __html: data[i].tiOverview }}></p>
             </div>
-        </div>,
+          </div>,
         );
       else if (data[i].code == 'visibility')
         result.push(
@@ -161,7 +161,7 @@ const TourInfomation = () => {
             <div>
               <p dangerouslySetInnerHTML={{ __html: data[i].tiOverview }}></p>
             </div>
-        </div>,
+          </div>,
         );
       else if (data[i].code == 'deaf')
         result.push(
@@ -179,7 +179,7 @@ const TourInfomation = () => {
             <div>
               <p dangerouslySetInnerHTML={{ __html: data[i].tiOverview }}></p>
             </div>
-        </div>,
+          </div>,
         );
       else if (data[i].code == 'senior')
         result.push(
@@ -200,28 +200,29 @@ const TourInfomation = () => {
       <div class="infomation-box">
         <div>
           <div class="infomation">
-            <div class="info-scrap">
-          {heart ? (
-                  <FavoriteIcon
-                    style={{
-                      color: `${palette.pink[0]}`,
-                      cursor: 'pointer',
-                      position: 'absolute',
-                    }}
-                    onClick={onRemoveHeart}
-                  />
-                ) : (
-                  <FavoriteBorderIcon
-                    onClick={onClickHeart}
-                    style={{
-                      color: `${palette.pink[0]}`,
-                      cursor: 'pointer',
-                      position: 'absolute',
-                    }}
-                  />
-                )}
-              <span style={{ marginLeft: '2rem' }}>{scraptimes}</span></div>
-            <h1 class="info-title"><LocationOnIcon sx={{ fontSize: 35 }}></LocationOnIcon>  {infomationDetail.title}</h1>
+            <span class="info-title">{infomationDetail.title}</span>
+            <span class="info-scrap">
+              {heart ? (
+                <FavoriteIcon
+                  style={{
+                    color: `${palette.pink[0]}`,
+                    cursor: 'pointer',
+                    fontSize: 30,
+                  }}
+                  onClick={onRemoveHeart}
+                />
+              ) : (
+                <FavoriteBorderIcon
+                  onClick={onClickHeart}
+                  style={{
+                    color: `${palette.pink[0]}`,
+                    cursor: 'pointer',
+                    fontSize: 30,
+                  }}
+                />
+              )}
+              {scraptimes}
+            </span>
             <div class="info-item">
               <img class="info-img" src={infomationDetail.firstimage}></img>
             </div>
@@ -230,44 +231,47 @@ const TourInfomation = () => {
                 <div class="info-left">
                   <h2>여행지 정보</h2>
                   <div
-                    dangerouslySetInnerHTML={{ __html: infomationDetail.overview }}
+                    dangerouslySetInnerHTML={{
+                      __html: infomationDetail.overview,
+                    }}
                   ></div>
-                <div>
-                  {infomationDetail.homepage ? 
-                  <div> 
-                    <h2>홈페이지</h2>
-                    <p
-                      dangerouslySetInnerHTML={{
-                        __html: infomationDetail.homepage,
-                      }}
-                    ></p>
-                  </div> : <div></div>
-                  }
+                  <div>
+                    {infomationDetail.homepage ? (
+                      <div>
+                        <h2>홈페이지</h2>
+                        <p
+                          dangerouslySetInnerHTML={{
+                            __html: infomationDetail.homepage,
+                          }}
+                        ></p>
+                      </div>
+                    ) : (
+                      <div></div>
+                    )}
                   </div>
-                <br />
-                <div>
-                  <h2>주소</h2>
-                  <p>
-                    {infomationDetail.addr1} {infomationDetail.addr2}
-                  </p>
-                </div>
+                  <br />
+                  <div>
+                    <h2>주소</h2>
+                    <p>
+                      {infomationDetail.addr1} {infomationDetail.addr2}
+                    </p>
+                  </div>
                 </div>
                 <div class="info-right">
-                <br />
+                  <br />
                   <div>
                     {/* <h2>무장애 정보</h2> */}
                     <p>{barriers}</p>
                   </div>
                 </div>
+              </div>
 
-                </div>
-              
               <div class="info-second">
                 <h2>지도</h2>
                 <div class="map">
                   <div
                     id="myMap"
-                    style={{ width: '100%', height: '500px'}}
+                    style={{ width: '100%', height: '500px' }}
                   ></div>
                   <div
                     id="roadview"
@@ -278,16 +282,16 @@ const TourInfomation = () => {
                   ></div>
                 </div>
               </div>
-              
             </div>
-              <div>
-                <br></br>
-                <h2>{infomationDetail.title}을 다녀간 친구들의 게시글</h2>
-                {posts.length > 0 ? 
+            <div>
+              <br></br>
+              <h2>{infomationDetail.title}을 다녀간 친구들의 게시글</h2>
+              {posts.length > 0 ? (
                 <ReviewCardList itemList={posts}></ReviewCardList>
-                  : <div>아직 게시글이 없어요 😅</div>
-              }
-              </div>
+              ) : (
+                <div>아직 게시글이 없어요 😅</div>
+              )}
+            </div>
           </div>
         </div>
       </div>
