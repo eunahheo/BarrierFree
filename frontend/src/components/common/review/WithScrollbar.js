@@ -120,7 +120,7 @@ class WithScrollbar extends React.Component {
             return (
               <Card sx={{ width: 320 }}>
                 <CardActionArea>
-                  {this.props.myuser.myuse !== null ? (
+                  {this.props.myuser.myuser !== null ? (
                     <Link to={{ pathname: `post/detail/${post.postSeq}` }}>
                       <CardMedia
                         component="img"
