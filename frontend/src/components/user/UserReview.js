@@ -42,7 +42,7 @@ const UserReview = () => {
   };
 
   return (
-    <div>
+    <div style={{ width: '120%' }}>
       {itemList.length > 0 && <MyCardList itemList={itemList}></MyCardList>}
       {itemList.length === 0 && <h1>게시물 없음</h1>}
     </div>

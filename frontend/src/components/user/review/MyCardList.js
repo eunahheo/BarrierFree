@@ -7,7 +7,7 @@ const MyCardList = ({ itemList }) => {
   return (
     <div className="MyCardList">
       <div>
-        <ImageList cols={4} style={{ whiteSpace: 'nowrap' }}>
+        <ImageList cols={4}>
           {itemList.map((item) => (
             <MyCardCopy key={item.post.postSeq} item={item} />
           ))}
