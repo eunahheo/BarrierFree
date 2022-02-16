@@ -31,7 +31,7 @@
   cursor: pointer;
   transition: 800ms ease all;
   outline: none;
-  width: 25%;
+  width: 21%;
 }
 .mybutton:hover {
   background: #2d4059;
