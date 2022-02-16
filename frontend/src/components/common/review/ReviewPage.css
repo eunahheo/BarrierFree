@@ -57,3 +57,11 @@
   width: 100%;
   transition: 800ms ease all;
 }
+
+.content {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+.content::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera*/
+}
