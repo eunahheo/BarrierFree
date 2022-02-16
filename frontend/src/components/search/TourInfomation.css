@@ -20,9 +20,10 @@
 }
 
 .info-scrap {
-  font-size: calc(8px + 1vmin);
-  text-align: left;
-  margin-left: 2rem;
+  font-size: calc(20px + 1vmin);
+  font-weight: bold;
+  float: initial;
+  margin-left: 1rem;
 }
 
 .info-item {
@@ -36,8 +37,8 @@
   margin-top: 10px;
   box-sizing: border-box;
   width: 100%;
-  height:100%;
-  object-fit:cover;
+  height: 100%;
+  object-fit: cover;
 }
 
 .info-content {
@@ -97,12 +98,10 @@
 }
 
 .info-second {
-  
   padding-left: 10px;
   padding-right: 10px;
 }
 
 .map {
   display: flex;
-  
 }
