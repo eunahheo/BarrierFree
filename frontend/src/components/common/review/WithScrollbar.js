@@ -28,6 +28,7 @@ class WithScrollbar extends React.Component {
   state = {
     additionalTransfrom: 0,
     myWeeklyList: this.props.myWeeklyList,
+    link: null,
   };
   loadList = async () => {
     axios({
@@ -40,6 +41,7 @@ class WithScrollbar extends React.Component {
   };
 
   render() {
+    console.log(this.props);
     const CustomSlider = ({ carouselState }) => {
       let value = 0;
       let carouselItemWidth = 0;
@@ -113,19 +115,31 @@ class WithScrollbar extends React.Component {
           }
         }}
       >
-        {this.props.props &&
-          this.props.props.map((post) => {
+        {this.props.myWeeklyList &&
+          this.props.myWeeklyList.map((post) => {
             return (
               <Card sx={{ width: 320 }}>
                 <CardActionArea>
-                  <Link to={{ pathname: `post/detail/${post.postSeq}` }}>
-                    <CardMedia
-                      component="img"
-                      height="250"
-                      image={post.postPhoto}
-                      alt={post.postTitle}
-                    />
-                  </Link>
+                  {this.props.myuser.myuse !== null ? (
+                    <Link to={{ pathname: `post/detail/${post.postSeq}` }}>
+                      <CardMedia
+                        component="img"
+                        height="250"
+                        image={post.postPhoto}
+                        alt={post.postTitle}
+                      />
+                    </Link>
+                  ) : (
+                    <Link to={{ pathname: `/loginpage` }}>
+                      <CardMedia
+                        component="img"
+                        height="250"
+                        image={post.postPhoto}
+                        alt={post.postTitle}
+                      />
+                    </Link>
+                  )}
+
                   <CardContent align="left">
                     <Typography variant="body2" color="text.secondary">
                       <LocationIcon sx={{ fontSize: 15 }} /> {post.postLocation}

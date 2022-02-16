@@ -5,12 +5,12 @@ import './style.css';
 import WithScrollbar from './WithScrollbar.js';
 import Section from './Section.js';
 
-function SwipeableTextMobileStepper({ myWeeklyList }) {
+function SwipeableTextMobileStepper({ myWeeklyList, myuser }) {
   return (
     <Box sx={{ maxWidth: 1300, flexGrow: 1, overflow: 'hidden' }}>
       <Fragment sx={{ maxWidth: 1300, flexGrow: 1 }}>
         <Section>
-          <WithScrollbar props={myWeeklyList} />
+          <WithScrollbar myWeeklyList={myWeeklyList} myuser={{ myuser }} />
         </Section>
       </Fragment>
     </Box>
