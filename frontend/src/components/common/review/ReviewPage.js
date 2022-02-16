@@ -19,7 +19,7 @@ const ReviewPage = () => {
       params: {
         userSeq: currentUser,
         page: 1,
-        size: 200,
+        size: 20,
       },
     })
       .then(function (res) {
@@ -32,7 +32,7 @@ const ReviewPage = () => {
   const orderbypopular = () => {
     axios({
       url: '/main/scrap',
-      params: { userSeq: currentUser, page: 1, size: 200 },
+      params: { userSeq: currentUser, page: 1, size: 20 },
     })
       .then(function (res) {
         mysetItemList(res.data);
@@ -46,7 +46,7 @@ const ReviewPage = () => {
     axios({
       url: '/main/weekscrap',
       method: 'get',
-      params: { userSeq: currentUser, page: 1, size: 200 },
+      params: { userSeq: currentUser, page: 1, size: 20 },
     })
       .then(function (res) {
         mysetItemList(res.data);
@@ -64,7 +64,7 @@ const ReviewPage = () => {
         params: {
           userSeq: myuser.userSeq,
           page: 1,
-          size: 200,
+          size: 20,
         },
       }).then(function (res) {
         mysetItemList(res.data);
@@ -91,29 +91,17 @@ const ReviewPage = () => {
             params: {
               userSeq: myuser.userSeq,
               page: 1,
-              size: 200,
+              size: 20,
             },
           });
-          // .then(function (res) {
           mysetItemList(response.data);
-          // })
-          // .catch((error) => console.log(error));
 
-          // console.log('here', response);
-
-          // if (response) {
-          // }
           const response2 = await axios({
             url: '/main/weekscrap',
             method: 'get',
             params: { userSeq: currentUser, page: 1, size: 4 },
           });
           setMyWeeklyList(response2.data);
-          // .then(function (res) {
-          // })
-          // .catch(function (error) {
-          // console.log(error);
-          // });
         } catch (e) {
           console.log(e);
         }
@@ -125,29 +113,20 @@ const ReviewPage = () => {
             params: {
               userSeq: 0,
               page: 1,
-              size: 200,
+              size: 20,
             },
           });
-          // .then(function (res) {
           mysetItemList(response.data);
-          // })
-          // .catch((error) => console.log(error));
 
           console.log('here', response);
 
-          // if (response) {
-          // }
           const response2 = await axios({
             url: '/main/weekscrap',
             method: 'get',
             params: { userSeq: 0, page: 1, size: 4 },
           });
           setMyWeeklyList(response2.data);
-          // .then(function (res) {
-          // })
-          // .catch(function (error) {
-          // console.log(error);
-          // });
+
           console.log('here', myWeeklyList);
         } catch (e) {
           console.log(e);
@@ -156,32 +135,17 @@ const ReviewPage = () => {
     };
     tmp();
   }, [myuser]);
-  // console.log('here', myWeeklyList);
   return (
     <div class="box">
       <h1></h1>
       {myWeeklyList ? (
         <div>
-          <h1>here</h1>
           <Carousel myWeeklyList={myWeeklyList}></Carousel>
         </div>
       ) : (
-        // <Carousel myWeeklyList={myWeeklyList}></Carousel>
         <></>
       )}
-      {/* <button>여기야</button> */}
-      {/* <Button order onClick={orderbylatest}>
-        최신순
-      </Button>
-      <Button order onClick={orderbypopular}>
-        전체 인기순
-      </Button>
-      <Button order onClick={orderbypopularweek}>
-        이번주 인기순
-      </Button>
-      <Button order onClick={orderbybf}>
-        베프만
-      </Button> */}
+
       <button order onClick={orderbylatest}>
         최신순
       </button>

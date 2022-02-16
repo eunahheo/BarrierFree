@@ -1,90 +1,3 @@
-// import { ImageList } from '@mui/material';
-// import ReviewCard from './ReviewCard';
-// import React, { memo, useCallback, useEffect, useState } from 'react';
-// import styled, { createGlobalStyle } from 'styled-components';
-// import Loader from '../Loader';
-// import axios from 'axios';
-// import { useSelector } from 'react-redux';
-
-// const ReviewCardList = ({ itemList }) => {
-//   const myuser = useSelector((state) => state.user.userData);
-//   const [target, setTarget] = useState(null);
-//   const [isLoaded, setIsLoaded] = useState(false);
-//   const [itemLists, setItemLists] = useState([]);
-//   const [temp, setTemp] = useState(null);
-//   const [numb, setNumb] = useState(1);
-
-//   const [page, setPage] = useState(1);
-//   useEffect(() => {
-//     setPage((prevState) => prevState + 1);
-//     console.log(itemLists);
-//   }, [itemLists]);
-
-//   const getMoreItem = async () => {
-//     setPage((prevState) => prevState + 1);
-//     setIsLoaded(true);
-//     await axios({
-//       method: 'get',
-//       url: '/main/recently',
-//       params: {
-//         userSeq: myuser.userSeq,
-//         page: page,
-//         size: 10,
-//       },
-//     }).then((res) => {
-//       setItemLists((itemLists) => itemLists.concat(res.data));
-//       setPage((prevState) => prevState + 1);
-//     });
-//     await new Promise((resolve) => setTimeout(resolve, 1500));
-//     setIsLoaded(false);
-//   };
-
-//   const onIntersect = async ([entry], observer) => {
-//     if (entry.isIntersecting && !isLoaded) {
-//       observer.unobserve(entry.target);
-//       setNumb(numb + 1);
-//       console.log(numb);
-//       await getMoreItem();
-//       observer.observe(entry.target);
-//       setPage((prevState) => prevState + 1);
-//     }
-//   };
-
-//   useEffect(() => {
-//     let observer;
-//     setPage((prevState) => prevState + 1);
-//     if (target) {
-//       observer = new IntersectionObserver(onIntersect, {
-//         threshold: 1,
-//       });
-//       observer.observe(target);
-//     }
-//     return () => observer && observer.disconnect();
-//   }, [target]);
-
-//   return (
-//     <div className="ReviewCardList">
-//       <div>
-//         {itemList.length === 0 ? (
-//           <div>
-//             <h1>로딩 중...</h1>
-//           </div>
-//         ) : (
-//           <div>
-//             <ImageList cols={5}>
-//               {itemLists.map((item, index) => {
-//                 return <ReviewCard item={item} key={index} />;
-//               })}
-//             </ImageList>
-//           </div>
-//         )}
-//       </div>
-//       <div ref={setTarget}>{isLoaded && <Loader />}</div>
-//     </div>
-//   );
-// };
-// export default memo(ReviewCardList);
-
 import React, { useState, useEffect, useCallback } from 'react';
 import { useInView } from 'react-intersection-observer';
 import axios from 'axios';
@@ -103,18 +16,34 @@ const ReviewCardList = () => {
   // 서버에서 아이템을 가지고 오는 함수
   const getItems = useCallback(async () => {
     setLoading(true);
-    await axios({
-      method: 'get',
-      url: '/main/recently',
-      params: {
-        userSeq: myuser.userSeq,
-        page: page,
-        size: 10,
-      },
-    }).then((res) => {
-      // setItems((prevState) => [...prevState, res.data]);
-      setItems((itemLists) => itemLists.concat(res.data));
-    });
+    if (myuser) {
+      await axios({
+        method: 'get',
+        url: '/main/recently',
+        params: {
+          userSeq: myuser.userSeq,
+          page: page,
+          size: 10,
+        },
+      }).then((res) => {
+        // setItems((prevState) => [...prevState, res.data]);
+        setItems((itemLists) => itemLists.concat(res.data));
+      });
+    } else {
+      await axios({
+        method: 'get',
+        url: '/main/recently',
+        params: {
+          userSeq: 0,
+          page: page,
+          size: 10,
+        },
+      }).then((res) => {
+        // setItems((prevState) => [...prevState, res.data]);
+        setItems((itemLists) => itemLists.concat(res.data));
+      });
+    }
+
     setLoading(false);
   }, [page]);
 
