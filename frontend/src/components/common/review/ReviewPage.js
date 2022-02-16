@@ -206,7 +206,9 @@ const ReviewPage = () => {
         베프만
       </button>
 
-      {recently && <ReviewCardListRecently></ReviewCardListRecently>}
+      {recently && (
+        <ReviewCardListRecently className="content"></ReviewCardListRecently>
+      )}
       {scrap && <ReviewCardListScrap></ReviewCardListScrap>}
       {weekScrap && <ReviewCardListWeekScrap></ReviewCardListWeekScrap>}
       {bf && <ReviewCardListBf></ReviewCardListBf>}
