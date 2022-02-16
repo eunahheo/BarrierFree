@@ -17,3 +17,45 @@
   background-color: rgb(234, 84, 85);
   color: white;
 } */
+
+button {
+  background: #fff;
+  color: #2d4059;
+  border: none;
+  border-bottom: 2px solid;
+  position: relative;
+  height: 40px;
+  font-size: 1em;
+  padding: 0 2em;
+  font-family: 'KoddiUDOnGothic-Regular';
+  cursor: pointer;
+  transition: 800ms ease all;
+  outline: none;
+  width: 25%;
+}
+button:hover {
+  background: #2d4059;
+  color: #fff;
+}
+button:before,
+button:after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 2px;
+  width: 0;
+  background: #2d4059;
+  transition: 400ms ease all;
+}
+button:before {
+  right: inherit;
+  top: inherit;
+  left: 0;
+  bottom: 0;
+}
+button:hover:before,
+button:hover:after {
+  width: 100%;
+  transition: 800ms ease all;
+}

@@ -169,7 +169,8 @@ const ReviewPage = () => {
         // <Carousel myWeeklyList={myWeeklyList}></Carousel>
         <></>
       )}
-      <Button order onClick={orderbylatest}>
+      {/* <button>여기야</button> */}
+      {/* <Button order onClick={orderbylatest}>
         최신순
       </Button>
       <Button order onClick={orderbypopular}>
@@ -180,7 +181,19 @@ const ReviewPage = () => {
       </Button>
       <Button order onClick={orderbybf}>
         베프만
-      </Button>
+      </Button> */}
+      <button order onClick={orderbylatest}>
+        최신순
+      </button>
+      <button order onClick={orderbypopular}>
+        전체 인기순
+      </button>
+      <button order onClick={orderbypopularweek}>
+        이번주 인기순
+      </button>
+      <button order onClick={orderbybf}>
+        베프만
+      </button>
 
       {myitemList && <ReviewCardList itemList={myitemList}></ReviewCardList>}
     </div>

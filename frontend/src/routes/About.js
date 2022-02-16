@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import PlaceDialog from '../components/write/PlaceDialog';
+import Loader from '../components/common/Loader';
 // import { Image } from './image';
 
 const AboutBox = styled.div`
@@ -33,6 +34,7 @@ function About() {
   ];
   return (
     <div>
+      <Loader></Loader>
       <div id="about">
         <div className="container">
           <div className="row">
