@@ -16,6 +16,15 @@ import { PersistGate } from 'redux-persist/integration/react';
 import { createLogger } from 'redux-logger';
 import createSagaMiddleware from 'redux-saga';
 import axios from 'axios';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+
+const theme = createMuiTheme({
+  typography: {
+    fontFamily: 'KoddiUDOnGothic-Regular',
+  },
+  fontFamily: 'KoddiUDOnGothic-Regular',
+});
+
 axios.defaults.baseURL =
   process.env.NODE_ENV === 'development'
     ? 'https://i6a504.p.ssafy.io/api'
@@ -46,13 +55,15 @@ const store = createStoreWithMiddleware(
 const persistor = persistStore(store);
 
 ReactDOM.render(
-  <Provider store={store}>
-    <PersistGate loading={null} persistor={persistor}>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </PersistGate>
-  </Provider>,
+  <MuiThemeProvider theme={theme}>
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </PersistGate>
+    </Provider>
+  </MuiThemeProvider>,
   document.getElementById('root'),
 );
 
