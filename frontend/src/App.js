@@ -17,7 +17,6 @@ import RegisterEmailCheckPage from './pages/RegisterEmailCheckPage';
 import LoginPage from './pages/LoginPage';
 import TourInfomation from './components/search/TourInfomation';
 import HeaderContainer from './containers/base/HeaderContainer';
-import FooterContainer from './containers/base/FooterContainer';
 import WritePage from './pages/WritePage';
 import MyPage from './pages/MyPage';
 import KakaoLoginPage from './pages/KakaoLoginPage';
@@ -26,9 +25,7 @@ import { useDispatch } from 'react-redux';
 
 function App() {
   return (
-    <div
-      className="App" /*style={{ position: 'relative', minHeight: '100%' }}*/
-    >
+    <div className="App">
       <HeaderContainer></HeaderContainer>
       <Routes>
         <Route path="/" exact={true} element={<Home />}></Route>
@@ -67,7 +64,6 @@ function App() {
         ></Route>
         <Route path="*" element={<NotFound />}></Route>
       </Routes>
-      <FooterContainer></FooterContainer>
     </div>
   );
 }

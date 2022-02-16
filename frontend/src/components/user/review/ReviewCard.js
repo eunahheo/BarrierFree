@@ -25,11 +25,7 @@ const ReviewCard = ({ item }) => {
   return (
     <div>
       {/* <Link to={{ pathname: '/post/detail/:reviewCard', state: { detailnum : reviewCard}}}> */}
-      <Card
-        onClick={onClickCard}
-        reviewCard={reviewCard}
-        sx={{ Width: 320 }}
-      >
+      <Card onClick={onClickCard} reviewCard={reviewCard} sx={{ Width: 320 }}>
         {/* <Card onClick={onClickCard} pageNum={reviewCard} sx={{ maxWidth: 250 }}> */}
         <CardMedia
           component="img"
