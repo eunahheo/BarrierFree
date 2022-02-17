@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import palette from '../../lib/styles/palette';
 import { useParams } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
@@ -29,7 +29,6 @@ const UserHeaderBox = styled.div`
       color: white;
       cursor: pointer;
     }
-    border: 0.3px solid ${palette.gray[0]} 0.8;
   }
   .toggle:focus {
     background: ${palette.pink[0]};
@@ -113,7 +112,7 @@ const UserHeader = ({
             userSeq: currentUser,
           },
         });
-        // setUserHeaderInfo(response.data[0]);
+        setUserHeaderInfo(response.data[0]);
         // console.log('here', response.data[0]);
         dispatch(
           getCurrentUserInfo({
@@ -163,14 +162,14 @@ const UserHeader = ({
         setUserHeaderInfo(response.data);
       }
     } catch (error) {
-      // console.log(error);
+      console.log(error);
     }
   };
-  // console.log(userHeaderInfo);
+  console.log('userHeaderInfo', userHeaderInfo.userPhoto);
+
   useEffect(() => {
     getTempUserHeader();
   }, [currentUser, checkrelation]);
-  // console.log(userHeaderInfo);
   return (
     <UserHeaderBox>
       <div>
@@ -184,22 +183,11 @@ const UserHeader = ({
 
         <div>
           <div>
-            {myuser === currentUser ? (
-              <img
-                className="toggle"
-                src={userHeaderInfo.userPhoto}
-                onClick={onPost}
-                alt={currentUserFeedInfo.userNickname}
-              />
-            ) : (
-              <img
-                className="toggle"
-                src={userHeaderInfo.userPhoto}
-                onClick={onPost}
-                alt={userHeaderInfo.userNickname}
-              />
-            )}
-
+            <img
+              className="toggle"
+              src={userHeaderInfo.userPhoto}
+              onClick={onPost}
+            />
             <span
               style={{
                 display: 'flex',
