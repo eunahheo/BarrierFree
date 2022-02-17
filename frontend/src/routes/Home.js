@@ -55,9 +55,11 @@ function Home() {
   };
 
   return (
-    <div data-aos="fade-up">
+    <div>
       <Grid item>
-        <ReviewPage></ReviewPage>
+        <div data-aos="fade-up">
+          <ReviewPage></ReviewPage>
+        </div>
         <CustomIcon>
           <AddCircleRoundedIcon
             className="AddCircleRoundedIcon"
