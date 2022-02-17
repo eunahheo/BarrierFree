@@ -1,17 +1,18 @@
+
 # BarrierFree
 
 여행에 편의를 더하다, `BarrierFree`
 <br/>
-<img src="/uploads/a07572cd139ead8fafab828f460844f8/bf.png" alt="logo" width="50%"><br>
+<div align="center"><img src="/uploads/a07572cd139ead8fafab828f460844f8/bf.png" alt="logo" width="30%"/></div><br>
 <br/>
 
 ## **팀 소개**
 
-### 팀 이름
+### - 팀 이름
 
-<img src ="/uploads/1468a6ca30b6257b202cc9c76eea502c/team_logo.png" alt="팀 이름" width="80%">
+<div align="center"><img src ="/uploads/1468a6ca30b6257b202cc9c76eea502c/team_logo.png" alt="팀 이름" width="30%"></div>
 
-### 팀원 소개
+### - 팀원 소개
 
 | 이름   | 직책 | 역할                |
 | ------ | ---- | ------------------- |
@@ -47,14 +48,15 @@
 
 ### 2. 프로젝트
 
-<img src ="/uploads/b67b5961feb6f03a0373f05ecc156bd2/about_project.jpg" alt="팀 소개" width="100%"/>
+<img src ="/uploads/b67b5961feb6f03a0373f05ecc156bd2/about_project.jpg" alt="팀 소개" width="30%"/>
 <br>
 
 - [프로젝트 고려 사항](./docs/about_project.md)
 
 ### 3. 사용언어, 기술 스택
 
-<img src ="/uploads/f56da985a2f8c65cf1293b79a41f337a/아키텍쳐.png" alt="ERD" width="50%"/>
+<img src ="/uploads/f56da985a2f8c65cf1293b79a41f337a/아키텍쳐.png" alt="ERD" width="500px"/>
+
 <br>
 - `FrontEnd` : React, Node.js, Context api, Material-UI
 - `BackEnd` : SpringBoot, JPA, MySQL
@@ -62,7 +64,7 @@
 
 ### 4. 프로젝트 산출물
 
-  <img src ="/uploads/a439ba0b5a4618c607aef48c1ff53a4d/notion.png" alt="ERD" width="50%"/>
+  <img src ="/uploads/a439ba0b5a4618c607aef48c1ff53a4d/notion.png" alt="ERD" width="30%"/>
 
 - [Notion](https://www.notion.so/SSAFY-2-PJT-93e0d2e267574a59af816a3b83e71f45)
   <br>
