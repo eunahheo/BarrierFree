@@ -184,12 +184,22 @@ const UserHeader = ({
 
         <div>
           <div>
-            <img
-              className="toggle"
-              src={userHeaderInfo.userPhoto}
-              onClick={onPost}
-              alt={currentUserFeedInfo.userNickname}
-            />
+            {myuser === currentUser ? (
+              <img
+                className="toggle"
+                src={userHeaderInfo.userPhoto}
+                onClick={onPost}
+                alt={currentUserFeedInfo.userNickname}
+              />
+            ) : (
+              <img
+                className="toggle"
+                src={userHeaderInfo.userPhoto}
+                onClick={onPost}
+                alt={userHeaderInfo.userNickname}
+              />
+            )}
+
             <span
               style={{
                 display: 'flex',
