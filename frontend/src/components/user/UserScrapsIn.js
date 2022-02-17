@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import { setLoading } from '../../_actions/loading_actions';
 import { useParams } from 'react-router';
 
-const UserScrapsIn = () => {
+const UserScrapsIn = ({ getUserHeader }) => {
   const myuser = useSelector((state) => state.user.userData);
   const [itemList, setItemList] = useState([]);
   const params = useParams();
@@ -14,6 +14,7 @@ const UserScrapsIn = () => {
   const [newItemList, setNewItemList] = useState([]);
   const onRemove = (id) => {
     const newItemList = itemList.filter((item) => item.post_seq != id);
+    getUserHeader();
     setItemList(newItemList);
   };
   useEffect(() => {

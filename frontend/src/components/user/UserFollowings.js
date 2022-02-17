@@ -150,7 +150,7 @@ const UserFollowing = ({
   );
 };
 
-const UserFollowings = () => {
+const UserFollowings = ({ getUserHeader }) => {
   const [userfollowings, setUserfollowings] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -204,6 +204,7 @@ const UserFollowings = () => {
   const onRemove = (id) => {
     setUserfollowings(
       userfollowings.filter((userfollowing) => userfollowing.userSeq !== id),
+      getUserHeader(),
     );
   };
 

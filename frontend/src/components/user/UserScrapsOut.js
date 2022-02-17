@@ -4,7 +4,7 @@ import ScrapCardList from './review/ScrapCardList';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 
-const UserScrapsOut = () => {
+const UserScrapsOut = ({ getUserHeader }) => {
   const myuserData = useSelector((state) => state.user.userData);
   const myuser = myuserData.userSeq;
   const params = useParams();
@@ -16,6 +16,7 @@ const UserScrapsOut = () => {
   const onRemove = (id) => {
     const newItemList = itemList.filter((item) => item.contentId != id);
     setItemList(newItemList);
+    getUserHeader();
   };
 
   useEffect(() => {

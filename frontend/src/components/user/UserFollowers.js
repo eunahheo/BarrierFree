@@ -28,6 +28,7 @@ const UserFollower = ({
   userPhoto,
   follower_userSeq,
   isfollow,
+  getUserHeader,
 }) => {
   const myuserData = useSelector((state) => state.user.userData);
   const myuser = myuserData.userSeq;
@@ -43,6 +44,7 @@ const UserFollower = ({
   }, []);
 
   const onUnfollow = async () => {
+    getUserHeader();
     try {
       const res = await axios({
         method: 'post',
@@ -59,6 +61,7 @@ const UserFollower = ({
   };
 
   const onFollow = async () => {
+    getUserHeader();
     try {
       const res = await axios({
         method: 'post',
