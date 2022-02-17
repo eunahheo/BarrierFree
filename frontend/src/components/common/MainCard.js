@@ -11,7 +11,7 @@ function MainCard(post_photo, post_location, post_title, impairment) {
           component="img"
           height="300"
           image={post_photo}
-          alt="Dog Picture"
+          alt="post_title"
         />
 
         <CardContent align="left">

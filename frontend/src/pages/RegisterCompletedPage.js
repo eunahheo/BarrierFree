@@ -20,12 +20,15 @@ const RegisterCompletedPageBlock = styled.div`
   }
 `;
 
+const ButtonWith = styled(Button)`
+  margin-top: 0.5rem;
+  width: 90%;
+  padding-right: 10px;
+`;
 const RegisterPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const userNickname = searchParams.get('userNickname');
   const certified = searchParams.get('certified');
-
-  const location = useLocation();
 
   useEffect(
     () =>
@@ -43,24 +46,25 @@ const RegisterPage = () => {
   return (
     <AuthTemplate>
       <RegisterCompletedPageBlock>
-        <h2>
+        <h1>
           <span style={{ color: '#EA5455' }}>베</span>리어{' '}
-          <span style={{ color: '#EA5455' }}>프</span>리에 오신 것을 환영합니다!
-        </h2>
+          <span style={{ color: '#EA5455' }}>프</span>리에 <br />
+          오신 것을 환영합니다!
+        </h1>
         <h4>
           안녕하세요 <span style={{ color: '#EA5455' }}>{userNickname}</span>님!
         </h4>
         <p>이메일 인증이 완료되었습니다.</p>
         <p>베리어 프리에서 여러분의 신나는 여행을 공유해보세요!</p>
         <Link to="/loginpage">
-          <Button fullWidth cyan>
+          <ButtonWith fullWidth cyan>
             로그인하기
-          </Button>
+          </ButtonWith>
         </Link>
         <Link to="/">
-          <Button fullWidth cyan style={{ marginTop: '0.5rem' }}>
+          <ButtonWith fullWidth cyan style={{ marginTop: '0.5rem' }}>
             메인페이지로 이동
-          </Button>
+          </ButtonWith>
         </Link>
       </RegisterCompletedPageBlock>
     </AuthTemplate>
