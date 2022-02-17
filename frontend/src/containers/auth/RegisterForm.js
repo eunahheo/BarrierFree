@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import AuthForm from '../../components/auth/AuthForm';
 
 const RegisterForm = () => {
@@ -20,23 +20,11 @@ const RegisterForm = () => {
     EnableuserId: false,
     EnableuserNickname: false,
   });
-  // const [userId, setUserId] = useState("");
-  // const [userEmail, setUserEmail] = useState("");
-  // const [userPwd, setUserPwd] = useState("");
-  // const [userPwdCfm, setUserPwdCfm] = useState("");
-  // const [userNickname, setUserNickname] = useState("");
 
   const onChange = (event) => {
-    // console.log(event.target.value);
-    // const { name, value } = event.target;
     setForm({ ...regform, [event.target.name]: event.target.value });
-    // console.log(name, value);
-    // console.log(regform);
   };
 
-  // const physicalHandler = () => {
-  //   setForm({ ...regform, physical: 1 });
-  // };
   useEffect(() => setRegisterloading(false), []);
 
   const onSubmit = async (event) => {
@@ -56,9 +44,6 @@ const RegisterForm = () => {
       EnableuserNickname,
     } = regform;
 
-    console.log('닉네임 검사:', nicknameExp.test(userNickname));
-    console.log('아이디 유효성 검사::', idExp.test(userId));
-    console.log('비밀번호 유효성 검사::', regExp.test(userPwd));
     if (idExp.test(userId) === false) {
       alert('아이디는 영어, 숫자만 가능합니다');
       return;
@@ -100,10 +85,6 @@ const RegisterForm = () => {
       EnableuserId,
       EnableuserNickname)
     ) {
-      // if (userPwd !== userPwdCfm) {
-      //   alert("비밀번호를 다르게 입력했어요!😥");
-      //   return;
-      // }
       if (userPwd !== userPwdCfm) {
         setPwdCfm(false);
         return;
@@ -120,11 +101,16 @@ const RegisterForm = () => {
             'Access-Control-Allow-Credentials': true,
           },
           data: regform,
+        }).then((res) => {
+          if (res.data === 'fail') {
+            alert('이미 가입된 이메일입니다.😅');
+          } else if (res.data === 'success') {
+            alert('회원가입이 완료되었습니다!😀');
+            navigate('/registerpage/emailcheck');
+          }
         });
-        alert('회원가입이 완료되었습니다!😀');
-        navigate('/registerpage/emailcheck');
       } catch (error) {
-        console.log(error);
+        alert('오류가 발생했어요!😅');
       }
     } else {
       alert('빈 값을 채워주세요!');
