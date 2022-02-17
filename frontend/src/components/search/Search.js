@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import Footer from '../../components/common/Footer';
 import { Container } from '@material-ui/core';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
@@ -10,32 +9,8 @@ import SearchDetail from './SearchDetail';
 import SearchReviewDetail from './SearchReviewDetail';
 import SearchUserDetail from './SearchUserDetail';
 import SearchIcon from '@mui/icons-material/Search';
-// import Footer from '../components/common/Footer';
 import styled from 'styled-components';
 
-const F = styled.div`
-  #footer {
-    background: #e5e5e5;
-    padding: 10px 0 20px 0;
-    width: 100%;
-    margin-top: 19.5%;
-    position: relative;
-    // transform: translatY(-100%);
-  }
-  #footer p {
-    color: #888;
-    font-size: 14px;
-  }
-  #footer a {
-    color: #608dfd;
-  }
-  #footer a:hover {
-    border-bottom: 2px solid #608dfd;
-  }
-  #con {
-    text-align: left;
-  }
-`;
 function Search() {
   const myuser = useSelector((state) => state.user.userData);
   const [findSearch, setFindSearch] = useState(false);
@@ -331,9 +306,6 @@ function Search() {
           </div>
         </div>
       )}
-      <F>
-        <Footer></Footer>
-      </F>
     </div>
   );
 }
