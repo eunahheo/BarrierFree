@@ -145,7 +145,6 @@ const PlaceBox = ({ onChangePlace, onChangeField, postLocation }) => {
         url: '/post/searchLocation',
         params: { postLocation: postLocation },
       });
-      console.log(response.data);
       setSearchPlaces(response.data);
       setKakaoMap(false);
     } catch (e) {
@@ -352,6 +351,10 @@ const PlaceBox = ({ onChangePlace, onChangeField, postLocation }) => {
                       onChangeField({
                         key: 'postLng',
                         value: searchPlace.postLng,
+                      });
+                      onChangeField({
+                        key: 'contentId',
+                        value: searchPlace.contentId,
                       });
                       setInput(searchPlace.postLocation);
                       setOpen(false);

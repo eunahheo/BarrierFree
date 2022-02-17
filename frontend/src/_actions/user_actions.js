@@ -5,6 +5,7 @@ export const LOGIN_USER = 'user/LOGIN_USER';
 export const USER_INFO = 'user/USER_INFO';
 export const LOGOUT = 'user/LOGOUT';
 export const CHANGE_FIELD = 'user/CHANGE_FIELD';
+export const ALARM = 'user/ALARM';
 
 export const loginUser = (dataTosubmit) => {
   const request = axios({
@@ -38,5 +39,18 @@ export function userInfo() {
     payload: request,
   };
 }
+
+export const alarm = (dataTosubmit) => {
+  const request = axios({
+    method: 'GET',
+    url: '/alarm/all',
+    params: dataTosubmit,
+  }).then((res) => res.data);
+
+  return {
+    type: ALARM,
+    payload: request,
+  };
+};
 
 export const logout = createAction(LOGOUT);

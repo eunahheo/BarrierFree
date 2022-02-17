@@ -19,6 +19,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../_actions/user_actions';
 import BarrierFreeLogo from '../images/barrierfreelogo.png';
 import { initialize } from '../../_actions/write_actions';
+import Alarm from './alarm.js';
 
 const HeaderBox = styled.div`
   display: flex;
@@ -157,6 +158,8 @@ const Header = ({ user, onLogout }) => {
           >
             <h4>About</h4>
           </div>
+
+          <Alarm></Alarm>
           {user ? (
             // 1. 로그인 되어 있을 때
 
