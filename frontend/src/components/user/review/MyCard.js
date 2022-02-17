@@ -77,7 +77,6 @@ const MyCard = ({ item, onRemove }) => {
   }, []);
   return (
     <div data-aos="fade-up">
-      <span>here</span>
       <Card
         style={{ cursor: 'pointer', position: 'relative' }}
         reviewCard={reviewCard}

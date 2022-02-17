@@ -174,10 +174,6 @@ const Header = ({ user, onLogout }) => {
                   fontfamily: 'KoddiUDOnGothic-Regular',
                   fontWeight: 'bold',
                   fontSize: '20px',
-                  cursor: 'pointer',
-                }}
-                onClick={() => {
-                  navigate(`/user/${user.userSeq}`);
                 }}
               >
                 {user.userNickname}
