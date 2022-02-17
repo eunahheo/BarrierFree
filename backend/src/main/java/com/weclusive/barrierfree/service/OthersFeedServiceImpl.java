@@ -64,6 +64,7 @@ public class OthersFeedServiceImpl implements OthersFeedService {
 		Optional<User> user = userRepository.findAllByUserSeq(otherUserSeq);
 
 		if (user.isPresent()) {
+			obj.put("userSeq", user.get().getUserSeq());
 			obj.put("userNickname", user.get().getUserNickname());
 			obj.put("userPhoto", user.get().getUserPhoto());
 			obj.put("writePost", postRepository.countByUserSeq(otherUserSeq));
