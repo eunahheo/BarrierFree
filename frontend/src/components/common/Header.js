@@ -163,7 +163,7 @@ const Header = ({ user, onLogout }) => {
             <h4>About</h4>
           </div>
 
-          <Alarm></Alarm>
+          {/* <Alarm></Alarm> */}
           {user ? (
             // 1. 로그인 되어 있을 때
 
