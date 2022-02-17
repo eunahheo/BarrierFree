@@ -136,7 +136,7 @@ const AuthForm = ({
       try {
         const response = await axios({
           url: '/user/check/nickname',
-          method: 'post',
+          method: 'get',
           params: { userNickname: form.userNickname },
         });
         console.log(response);
