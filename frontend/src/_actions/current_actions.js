@@ -1,4 +1,9 @@
-import { CURRENT_PARAMS, RESET_PARAMS, CURRENT_USER_INFO } from './types';
+import {
+  CURRENT_PARAMS,
+  RESET_PARAMS,
+  CURRENT_USER_INFO,
+  INITIALIZE,
+} from './types';
 import { createAction } from 'redux-actions';
 
 export const getCurrentParams = (nowparams) => ({
@@ -17,3 +22,5 @@ export const getCurrentUserInfo = createAction(
     value,
   }),
 );
+
+export const currentinitialize = createAction(INITIALIZE);

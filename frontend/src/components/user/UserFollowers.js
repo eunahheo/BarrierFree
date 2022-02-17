@@ -145,7 +145,7 @@ const UserFollower = ({
   );
 };
 
-const UserFollowers = () => {
+const UserFollowers = ({ getUserHeader }) => {
   const [userfollowers, setUserfollowers] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -216,6 +216,7 @@ const UserFollowers = () => {
               userNickname={userfollower.userNickname}
               userPhoto={userfollower.userPhoto}
               follower_userSeq={userfollower.userSeq}
+              getUserHeader={getUserHeader}
             />
           ))}
         {myuser === currentUser && userfollowers.length === 0 && (

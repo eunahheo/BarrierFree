@@ -14,7 +14,7 @@ import com.weclusive.barrierfree.entity.Comment;
 public interface AlarmRepository extends JpaRepository<Alarm, Long> {
 
 	// 회원의 삭제 안된 알람 유형별 조회
-	@Query(value = "SELECT a FROM Alarm a WHERE a.delYn = 'n' AND a.userSeq = ?1 ORDER BY a.regDt DESC ")
+	@Query(value = "SELECT a FROM Alarm a WHERE a.delYn = 'n' AND a.checkYn = 'n' AND a.userSeq = ?1 ORDER BY a.regDt DESC ")
 	public List<Alarm> findByAlarmTypeAndUserSeq(int userSeq);
 	
 	// 회원의 삭제 안된 알림 조회

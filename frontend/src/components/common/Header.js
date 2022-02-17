@@ -19,6 +19,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../_actions/user_actions';
 import BarrierFreeLogo from '../images/barrierfreelogo.png';
 import { initialize } from '../../_actions/write_actions';
+import { currentinitialize } from '../../_actions/current_actions';
 
 const HeaderBox = styled.div`
   display: flex;
@@ -100,6 +101,7 @@ const Header = ({ user, onLogout }) => {
   };
   React.useEffect(() => {
     dispatch(initialize());
+    dispatch(currentinitialize());
   });
   const navigate = useNavigate();
   return (

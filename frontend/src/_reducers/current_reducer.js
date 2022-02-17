@@ -2,6 +2,7 @@ import {
   CURRENT_PARAMS,
   CURRENT_USER_INFO,
   RESET_PARAMS,
+  INITIALIZE,
 } from '../_actions/types';
 
 const initialState = {
@@ -31,6 +32,8 @@ const current = (state = initialState, action) => {
           [action.payload.key]: action.payload.value,
         },
       };
+    case INITIALIZE:
+      return initialState;
     default:
       return state;
   }
