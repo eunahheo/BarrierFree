@@ -29,6 +29,7 @@ const UserHeaderBox = styled.div`
       color: white;
       cursor: pointer;
     }
+    border: 0.3px solid ${palette.gray[0]} 0.8;
   }
   .toggle:focus {
     background: ${palette.pink[0]};
