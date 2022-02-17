@@ -35,14 +35,14 @@ const UserReview = () => {
         setItemList(response.data);
       }
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div>
+    <div style={{ width: '120%' }}>
       {itemList.length > 0 && <MyCardList itemList={itemList}></MyCardList>}
       {itemList.length === 0 && <h1>게시물 없음</h1>}
     </div>

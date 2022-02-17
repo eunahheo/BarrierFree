@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useState, Component } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import Button from '../common/Button';
 import Dialog from '@mui/material/Dialog';
@@ -8,28 +8,37 @@ import DialogContent from '@mui/material/DialogContent';
 import { logout } from '../../_actions/user_actions';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import TextField from '@mui/material/TextField';
 import { userInfo } from '../../_actions/user_actions';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import InputLabel from '@mui/material/InputLabel';
+import InputAdornment from '@mui/material/InputAdornment';
+import FormControl from '@mui/material/FormControl';
+import IconButton from '@mui/material/IconButton';
+import DialogContentText from '@mui/material/DialogContentText';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import MypageBarriersContainer from '../../containers/mypage/MypageBarriersContainer';
-import Input from '@mui/material/Input';
-import { changeField } from '../../_actions/user_actions';
 
 const MyPageContentBlock = styled.div``;
 
 const MyPageContent = ({ user }) => {
   const [userPwd, setUserPwd] = useState('');
+  const [userNickname, setUserNickname] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [userConfirmPwd, setUserConfirmPwd] = useState('');
   const [errorMessage, setErrorMessage] = useState({
     pwdError: '',
     confirmPwdError: '',
+    nickError: '',
   });
-  const { pwdError, confirmPwdError } = errorMessage;
+  const { pwdError, confirmPwdError, nickError } = errorMessage;
 
   const [pwdFlag, setPassFlag] = useState(false);
   const [confirmFlag, setConfirmFlag] = useState(false);
+  const [nickFlag, setNickFlag] = useState(false);
 
   const regExp = /^(?=.*[A-Za-z0-9])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d@$!%*#?&]/;
-
+  const nicknameExp = /^[A-Za-z0-9가-힣_]/;
   const onChange = (event) => {
     if (event.target.name == 'userPwd') {
       const pwd = event.target.value;
@@ -68,16 +77,46 @@ const MyPageContent = ({ user }) => {
         });
       }
     }
+    if (event.target.name == 'userNickname') {
+      const userNickname = event.target.value;
+      setUserNickname(userNickname);
 
-    // if (event.target.name == 'userNickname') {
-    //   if (event.target.value.length < 2) {
-    //     console.log('닉네임은 2자 이상 입력해주세요.');
-    //   } else {
-    //     console.log('2자 이상입니다.');
-    //   }
-    // }
-
-    // setForm({ ...regform, [event.target.name]: event.target.value });
+      if (userNickname.length < 2 || userNickname.length > 8) {
+        setNickFlag(false);
+        setErrorMessage({
+          ...errorMessage,
+          nickError: '닉네임은 2~8자 까지만 가능합니다.',
+        });
+      } else if (nicknameExp.test(userNickname) === false) {
+        setErrorMessage({
+          ...errorMessage,
+          nickError: '닉네임은 한글,영어,숫자만 가능합니다.',
+        });
+      } else {
+        axios({
+          method: 'GET',
+          url: '/user/check/nickname',
+          params: {
+            userNickname: userNickname,
+          },
+        }).then(function (res) {
+          // console.log(res);
+          if (res.data == 'success') {
+            setNickFlag(true);
+            setErrorMessage({
+              ...errorMessage,
+              nickError: '',
+            });
+          } else if (res.data == 'fail') {
+            setNickFlag(false);
+            setErrorMessage({
+              ...errorMessage,
+              nickError: '다른 사용자가 사용중인 닉네임입니다.',
+            });
+          }
+        });
+      }
+    }
   };
 
   const dispatch = useDispatch();
@@ -85,6 +124,7 @@ const MyPageContent = ({ user }) => {
 
   const [open, setOpen] = React.useState(false);
   const [passOpen, setPassOpen] = React.useState(false);
+  const [nickOpen, setNickOpen] = React.useState(false);
   const token = localStorage.getItem('accessToken');
   const handleClickOpen = () => {
     setOpen(true);
@@ -97,7 +137,24 @@ const MyPageContent = ({ user }) => {
   const handlePassOpen = () => {
     setPassOpen(true);
   };
-
+  const handlePassClose = () => {
+    setUserPwd('');
+    setUserConfirmPwd('');
+    setErrorMessage({
+      ...errorMessage,
+      confirmPwdError: '',
+      pwdError: '',
+      nickError: '',
+    });
+    setPassOpen(false);
+  };
+  const handleNickOpen = () => {
+    setNickOpen(true);
+  };
+  const handleNickClose = () => {
+    setUserNickname('');
+    setNickOpen(false);
+  };
   const updatePass = () => {
     const token = localStorage.getItem('accessToken');
     setPassOpen(true);
@@ -107,16 +164,17 @@ const MyPageContent = ({ user }) => {
       data: {
         userSeq: user.userSeq,
         userPwd: userPwd,
-        userNickname: user.userNickname,
-        userPhoto: user.userPhoto,
+        // userNickname: user.userNickname,
+        // userPhoto: user.userPhoto,
       },
       headers: {
         Authorization: `Bearer ${token}`,
       },
     }).then(function (res) {
-      console.log(res);
+      // console.log(res);
       if (res.status == 200) {
         // console.log(res.data.accessToken);
+        alert('비밀번호가 변경되었습니다. ');
         dispatch(userInfo(res.data.accessToken));
         navigate('/');
       } else if (res.status == 400) {
@@ -125,18 +183,32 @@ const MyPageContent = ({ user }) => {
     });
     handlePassClose();
   };
-
-  const handlePassClose = () => {
-    setUserPwd('');
-    setUserConfirmPwd('');
-    setErrorMessage({
-      ...errorMessage,
-      confirmPwdError: '',
-      pwdError: '',
+  const updateNick = () => {
+    const token = localStorage.getItem('accessToken');
+    setNickOpen(true);
+    axios({
+      method: 'PUT',
+      url: '/user/modify',
+      data: {
+        userSeq: user.userSeq,
+        userNickname: userNickname,
+      },
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }).then(function (res) {
+      // console.log(res);
+      if (res.status == 200) {
+        // console.log(res.data.accessToken);
+        alert('닉네임이 변경되었습니다. ');
+        dispatch(userInfo(res.data.accessToken));
+        navigate('/');
+      } else if (res.status == 400) {
+        alert('오류가 발생했어요');
+      }
     });
-    setPassOpen(false);
+    handleNickClose();
   };
-
   const withdrawUser = () => {
     // 회원 탈퇴하기
 
@@ -159,46 +231,14 @@ const MyPageContent = ({ user }) => {
       }
     });
   };
-  const nicknameExp = /^[A-Za-z0-9가-힣_]/;
-  const [nickError, setNickError] = useState(null);
-  const changeNickname = async () => {
-    if (nicknameExp.test(myNickname) === false) {
-      setNickError('닉네임은 한글,영어,숫자만 가능합니다');
-    } else if (myNickname.length < 2 || myNickname.length > 8) {
-      setNickError('닉네임은 2~8자 까지만 가능합니다');
-    } else {
-      try {
-        setNickError(null);
-        const response = await axios({
-          method: 'put',
-          url: '/user/modify',
-          data: {
-            userSeq: user.userSeq,
-            userNickname: myNickname,
-          },
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        console.log(response);
-        await dispatch(changeField({ key: 'userNickname', value: myNickname }));
-        alert('닉네임 변경이 완료되었습니다!');
-      } catch (e) {
-        console.log(e);
-      }
-    }
-  };
-  const [myNickname, setMyNickname] = useState(user.userNickname);
-  const [nickCheck, setNickCheck] = useState(false);
-  const onNickChange = (event) => {
-    setMyNickname(event.target.value);
-  };
-  const onClickCancel = () => {
-    setNickCheck(false);
-    setMyNickname(user.userNickname);
-    setNickError('     ');
+
+  const handleClickShowPassword = () => {
+    setShowPassword(!showPassword);
   };
 
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
   // Barrier 변경
   const { deaf, infant, physical, senior, visibility } = useSelector(
     ({ write }) => ({
@@ -232,24 +272,7 @@ const MyPageContent = ({ user }) => {
         <h3>
           닉네임:
           <span>
-            {nickCheck ? (
-              <span>
-                <Input
-                  value={myNickname}
-                  sx={{ width: '50%' }}
-                  onChange={onNickChange}
-                />
-                <Button onClick={changeNickname}>저장</Button>
-                <Button onClick={onClickCancel}>취소</Button>
-                <br></br>
-                <h4 style={{ fontSize: '15px', color: 'red' }}>{nickError}</h4>
-              </span>
-            ) : (
-              <span>
-                {user.userNickname}
-                <Button onClick={() => setNickCheck(true)}>닉네임 변경</Button>
-              </span>
-            )}
+            <Button onClick={handleNickOpen}>닉네임 변경</Button>
           </span>
         </h3>
         <h3>이메일: {user.userEmail}</h3>
@@ -287,37 +310,268 @@ const MyPageContent = ({ user }) => {
 
       <Dialog open={passOpen} onClose={handlePassClose}>
         <DialogContent>
-          {/* <DialogContentText>비밀번호 변경</DialogContentText> */}
-          <TextField
-            autoFocus
-            margin="dense"
-            name="userPwd"
-            label="비밀번호"
-            type="password"
-            fullWidth
-            value={userPwd}
-            variant="standard"
-            onChange={onChange}
-          />
-          {pwdError ? <p>{pwdError}</p> : ''}
-          <TextField
-            id="passConfirm"
-            name="passConfirm"
-            label="비밀번호 확인"
-            value={userConfirmPwd}
-            type="password"
-            fullWidth
-            variant="standard"
-            onChange={onChange}
-          />
-          {confirmPwdError ? <p>{confirmPwdError}</p> : ''}
+          <DialogContentText>
+            <img
+              src="/static/media/barrierfreelogo.32148029a2f50fe67a4a.png"
+              width="120"
+            ></img>
+            <p
+              style={{
+                marginTop: '0.5rem',
+                marginLeft: '0.5rem',
+                fontSize: '0.9rem',
+                color: 'black',
+                fontWeight: 'bold',
+              }}
+            >
+              비밀번호를 변경할 수 있습니다.
+            </p>
+          </DialogContentText>
+          {pwdError ? (
+            <FormControl sx={{ m: 1, width: '90%' }} variant="outlined">
+              <InputLabel htmlFor="outlined-adornment-password">
+                새 비밀번호
+              </InputLabel>
+              <OutlinedInput
+                id="outlined-adornment-password"
+                color="error"
+                margin="dense"
+                name="userPwd"
+                label="비밀번호"
+                fullWidth
+                variant="standard"
+                onChange={onChange}
+                type={showPassword ? 'text' : 'password'}
+                value={userPwd}
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={handleClickShowPassword}
+                      onMouseDown={handleMouseDownPassword}
+                      edge="end"
+                    >
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                }
+                label="Password"
+              />
+              <span
+                style={{
+                  marginTop: '0.5rem',
+                  fontSize: '0.7rem',
+                  color: 'red',
+                }}
+              >
+                {pwdError}
+              </span>
+            </FormControl>
+          ) : (
+            <FormControl sx={{ m: 1, width: '90%' }} variant="outlined">
+              <InputLabel htmlFor="outlined-adornment-password">
+                새 비밀번호
+              </InputLabel>
+              <OutlinedInput
+                id="outlined-adornment-password"
+                margin="dense"
+                name="userPwd"
+                label="비밀번호"
+                fullWidth
+                variant="standard"
+                onChange={onChange}
+                type={showPassword ? 'text' : 'password'}
+                value={userPwd}
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={handleClickShowPassword}
+                      onMouseDown={handleMouseDownPassword}
+                      edge="end"
+                    >
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                }
+                label="Password"
+              />
+              <span
+                style={{
+                  marginTop: '0.5rem',
+                  fontSize: '0.7rem',
+                  color: 'red',
+                }}
+              ></span>
+            </FormControl>
+          )}
+          {confirmPwdError ? (
+            <FormControl sx={{ m: 1, width: '90%' }} variant="outlined">
+              <InputLabel htmlFor="outlined-adornment-password">
+                비밀번호 확인
+              </InputLabel>
+              <OutlinedInput
+                id="outlined-adornment-password"
+                color="error"
+                margin="dense"
+                name="passConfirm"
+                label="비밀번호 확인"
+                fullWidth
+                variant="standard"
+                onChange={onChange}
+                type={showPassword ? 'text' : 'password'}
+                value={userConfirmPwd}
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={handleClickShowPassword}
+                      onMouseDown={handleMouseDownPassword}
+                      edge="end"
+                    >
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                }
+                label="Password"
+              />
+              <span
+                style={{
+                  marginTop: '0.5rem',
+                  fontSize: '0.7rem',
+                  color: 'red',
+                }}
+              >
+                {confirmPwdError}
+              </span>
+            </FormControl>
+          ) : (
+            <FormControl sx={{ m: 1, width: '90%' }} variant="outlined">
+              <InputLabel htmlFor="outlined-adornment-password">
+                비밀번호 확인
+              </InputLabel>
+              <OutlinedInput
+                id="outlined-adornment-password"
+                margin="dense"
+                name="passConfirm"
+                label="비밀번호 확인"
+                fullWidth
+                variant="standard"
+                onChange={onChange}
+                type={showPassword ? 'text' : 'password'}
+                value={userConfirmPwd}
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={handleClickShowPassword}
+                      onMouseDown={handleMouseDownPassword}
+                      edge="end"
+                    >
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                }
+                label="Password"
+              />
+              <span
+                style={{
+                  marginTop: '0.5rem',
+                  fontSize: '0.7rem',
+                  color: 'red',
+                }}
+              ></span>
+            </FormControl>
+          )}
         </DialogContent>
         <DialogActions>
+          <Button onClick={updatePass} disabled={!(confirmFlag && pwdFlag)}>
+            비밀번호 변경
+          </Button>
           <Button impact onClick={handlePassClose}>
             취소
           </Button>
-          <Button onClick={updatePass} disabled={!(confirmFlag && pwdFlag)}>
-            비밀번호 변경
+        </DialogActions>
+      </Dialog>
+      <Dialog open={nickOpen} onClose={handleNickClose}>
+        <DialogContent>
+          <DialogContentText>
+            <img
+              src="/static/media/barrierfreelogo.32148029a2f50fe67a4a.png"
+              width="120"
+            ></img>
+            <p
+              style={{
+                marginTop: '0.5rem',
+                marginLeft: '0.5rem',
+                fontSize: '0.9rem',
+                color: 'black',
+                fontWeight: 'bold',
+              }}
+            >
+              닉네임을 변경할 수 있습니다.
+            </p>
+          </DialogContentText>
+          {nickError ? (
+            <FormControl sx={{ m: 1, width: '90%' }} variant="outlined">
+              <InputLabel htmlFor="outlined-adornment-password">
+                닉네임
+              </InputLabel>
+              <OutlinedInput
+                id="outlined-adornment-password"
+                color="error"
+                margin="dense"
+                name="userNickname"
+                label="닉네임"
+                fullWidth
+                variant="standard"
+                onChange={onChange}
+                type="text"
+                value={userNickname}
+                label="Password"
+              />
+              <span
+                style={{
+                  marginTop: '0.5rem',
+                  fontSize: '0.7rem',
+                  color: 'red',
+                }}
+              >
+                {nickError}
+              </span>
+            </FormControl>
+          ) : (
+            <FormControl sx={{ m: 1, width: '90%' }} variant="outlined">
+              <InputLabel htmlFor="outlined-adornment-password">
+                닉네임
+              </InputLabel>
+              <OutlinedInput
+                id="outlined-adornment-password"
+                margin="dense"
+                name="userNickname"
+                label="닉네임"
+                fullWidth
+                variant="standard"
+                onChange={onChange}
+                type="text"
+                value={userNickname}
+              ></OutlinedInput>
+              <span
+                style={{
+                  marginTop: '0.5rem',
+                  fontSize: '0.7rem',
+                  color: 'red',
+                }}
+              ></span>
+            </FormControl>
+          )}
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={updateNick} disabled={!nickFlag}>
+            닉네임 변경
+          </Button>
+          <Button impact onClick={handleNickClose}>
+            취소
           </Button>
         </DialogActions>
       </Dialog>

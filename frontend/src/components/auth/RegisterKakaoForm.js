@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AuthForm from '../../components/auth/AuthForm';
 
@@ -26,11 +26,11 @@ const RegisterForm = () => {
     event.preventDefault();
     const idExp = /^[a-zA-Z0-9]/;
     const nicknameExp = /^[A-Za-z0-9가-힣_]/;
-    console.log(regform);
+    // console.log(regform);
     const { userId, userNickname, EnableuserId, EnableuserNickname } = regform;
 
-    console.log('닉네임 검사:', nicknameExp.test(userNickname));
-    console.log('아이디 유효성 검사::', idExp.test(userId));
+    // console.log('닉네임 검사:', nicknameExp.test(userNickname));
+    // console.log('아이디 유효성 검사::', idExp.test(userId));
     if (idExp.test(userId) === false) {
       alert('아이디는 영어, 숫자만 가능합니다');
       return;
@@ -67,11 +67,11 @@ const RegisterForm = () => {
             kakaoToken: `${token}`,
           },
         });
-        console.log('completed');
+        // console.log('completed');
         alert('카카오 회원가입이 완료되었습니다!😀');
         navigate('/loginpage');
       } catch (error) {
-        console.log(error);
+        // console.log(error);
       }
     } else {
       alert('빈 값을 채워주세요!');

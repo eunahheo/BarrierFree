@@ -111,22 +111,26 @@ const AuthForm = ({
           method: 'post',
           params: { userId: form.userId },
         });
-        console.log(response);
+        // console.log(response);
         if (response.data == 'success') {
           alert('사용 가능한 아이디입니다!😀');
           setForm({ ...form, EnableuserId: true });
           // console.log("성공!");
           // console.log(form);
+        } else if (response.data == 'fail') {
+          alert('누군가가 사용중인 아이디입니다!😅');
+          setForm({ ...form, EnableuserId: false });
         }
       } catch (e) {
-        alert('누군가가 사용중인 아이디입니다!😅');
-        setForm({ ...form, EnableuserId: false });
+        alert('오류가 발생했어요!😅');
+        // alert('누군가가 사용중인 아이디입니다!😅');
+        // setForm({ ...form, EnableuserId: false });
         // console.log(e);
         // console.log(form);
       }
     } else if (idlength === 0) {
       alert('빈 값을 입력하셨습니다😅');
-      console.log('blank');
+      // console.log('blank');
     } else {
       alert('5~20자로 입력해주세요!');
     }
@@ -136,23 +140,24 @@ const AuthForm = ({
       try {
         const response = await axios({
           url: '/user/check/nickname',
-          method: 'post',
+          method: 'get',
           params: { userNickname: form.userNickname },
         });
-        console.log(response);
+        // console.log(response);
         if (response.data == 'success') {
           setForm({ ...form, EnableuserNickname: true });
           alert('사용 가능한 닉네임입니다!😀');
-          console.log('성공!');
+          // console.log('성공!');
+        } else if (response.data == 'fail') {
+          setForm({ ...form, EnableuserNickname: false });
+          alert('누군가가 사용중인 닉네임입니다!😅');
         }
       } catch (e) {
-        setForm({ ...form, EnableuserNickname: false });
-        alert('누군가가 사용중인 닉네임입니다!😅');
-        console.log(e);
+        alert('오류가 발생했어요!😅');
       }
     } else {
       alert('빈 값을 입력하셨습니다😅');
-      console.log('blank');
+      // console.log('blank');
     }
   };
   const text = textMap[type];

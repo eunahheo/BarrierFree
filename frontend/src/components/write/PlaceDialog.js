@@ -1,4 +1,3 @@
-import styled from 'styled-components';
 import PlaceList from './PlaceList';
 import * as React from 'react';
 import Button from '@mui/material/Button';

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState } from 'react';
 import Rating from '@mui/material/Rating';
 import InfoIcon from '@mui/icons-material/Info';
 import axios from 'axios';
@@ -30,9 +30,8 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import Grid from '@mui/material/Grid';
 import { Typography } from '@mui/material';
-import ImageList from '@mui/material/ImageList';
-import ImageListItem from '@mui/material/ImageListItem';
-import Box from '@mui/material/Box';
+import BarrierFreeLogoBig from '../images/BarrierFreeLogoBig.png';
+
 const ReviewBox = styled.div`
   display: flex;
   flex-dirextion: row;
@@ -371,33 +370,36 @@ const Review = () => {
       roadview.setPanoId(panoId, position);
     });
   };
-
+  const handleImgError = (e) => {
+    e.target.src = BarrierFreeLogoBig;
+  };
   return (
     <ReviewBox>
       <Grid
         container
-        spacing={2}
-        sx={{ marginLeft: '8rem', marginRight: '15rem' }}
+        spacing={3}
+        sx={{ marginLeft: '8rem', marginRight: '14rem' }}
       >
-        <Grid item xs={6} md={6} sm={12}>
-          <div style={{}}>
+        <Grid item xs={12} md={6} sm={12}>
+          <div sx={{ width: '720px' }}>
             <img
-              style={{ maxWidth: '100%', height: '750px' }}
-              // srcSet={`${item.img}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
+              style={{ width: '100%', height: '720px', objectFit: 'cover' }}
+              onError={handleImgError}
               alt="no image"
-              src={reviewImage}
+              src={reviewDetail.postPhoto}
               onClick={TTS}
               loading="베리어 프리에 오신 것을 환영합니다."
             />
             <div>사진을 누르시면 사진 설명을 들으실 수 있어요 🎧</div>
           </div>
         </Grid>
+
         <Grid
           item
           xs={12}
           md={6}
           sm={12}
-          sx={{ height: '750px', overflow: 'auto' }}
+          sx={{ height: '720px', overflow: 'auto', float: 'right' }}
           className="content"
         >
           <Grid container spacing={2}>
@@ -529,7 +531,7 @@ const Review = () => {
             <div style={{ fontSize: '18px', textAlign: 'left' }}>
               {reviewDetail.postContent}
             </div>
-            <br /> <br /> <br /> <br />
+            <br /> <br />
             <Grid container spacing={2}>
               <Grid item xs={6} sx={{ textAlign: 'left' }}>
                 <div style={{ cursor: 'pointer' }}>
@@ -557,7 +559,6 @@ const Review = () => {
                 </div>
               </Grid>
             </Grid>
-            {/* <span class="location-name">{reviewDetail.postLocation}</span> */}
             <div class="comment-box">
               <form onSubmit={onSubmitHandler}>
                 <input
@@ -575,6 +576,7 @@ const Review = () => {
                   작성
                 </button>
               </form>
+              <br></br>
               <Typography
                 variant="body2"
                 color="text.secondary"
@@ -621,7 +623,6 @@ const Review = () => {
             </Button>
           </DialogActions>
         </Dialog>
-
         <Dialog
           fullScreen={fullScreen}
           open={mapOpen}

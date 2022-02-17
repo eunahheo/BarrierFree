@@ -1,13 +1,13 @@
 import UserScrapsIn from './UserScrapsIn';
 import UserScrapsOut from './UserScrapsOut';
 
-const UserScraps = () => {
+const UserScraps = ({ getUserHeader }) => {
   return (
     <div>
-      <UserScrapsIn></UserScrapsIn>
+      <UserScrapsIn getUserHeader={getUserHeader}></UserScrapsIn>
       <br></br>
       <br></br>
-      <UserScrapsOut></UserScrapsOut>
+      <UserScrapsOut getUserHeader={getUserHeader}></UserScrapsOut>
     </div>
   );
 };

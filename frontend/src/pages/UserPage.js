@@ -5,7 +5,7 @@ import UserFollowers from '../components/user/UserFollowers';
 import UserScraps from '../components/user/UserScraps';
 import { useEffect } from 'react';
 import { useParams } from 'react-router';
-function UserPage({ type }) {
+function UserPage({ type, getUserHeader }) {
   return (
     <div>
       <br></br>
@@ -19,19 +19,19 @@ function UserPage({ type }) {
       )}
 
       {type === 'following' && (
-        <UserFollowings>
+        <UserFollowings getUserHeader={getUserHeader}>
           <h2>userpage-followings</h2>
         </UserFollowings>
       )}
 
       {type === 'follower' && (
-        <UserFollowers>
+        <UserFollowers getUserHeader={getUserHeader}>
           <h2>userpage-followers</h2>
         </UserFollowers>
       )}
 
       {type === 'scrap' && (
-        <UserScraps>
+        <UserScraps getUserHeader={getUserHeader}>
           <h2>userpage-scrap</h2>
         </UserScraps>
       )}

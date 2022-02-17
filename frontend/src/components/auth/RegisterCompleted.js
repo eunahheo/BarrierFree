@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import AuthForm from '../../components/auth/AuthForm';
 
 const RegisterForm = () => {
@@ -22,7 +22,7 @@ const RegisterForm = () => {
 
   const onSubmit = async (event) => {
     event.preventDefault();
-    console.log(regform);
+    // console.log(regform);
     const { userId, userEmail, userPwd, userPwdCfm, userNickname } = regform;
     if (userPwd != userPwdCfm) {
       alert('비밀번호를 다르게 입력했어요!😥');
@@ -34,7 +34,9 @@ const RegisterForm = () => {
       data: regform,
     })
       .try(alert('회원가입이 완료되었습니다!😀'))
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        // console.log(error)
+      });
   };
 
   return (

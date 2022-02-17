@@ -19,6 +19,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../_actions/user_actions';
 import BarrierFreeLogo from '../images/barrierfreelogo.png';
 import { initialize } from '../../_actions/write_actions';
+import { currentinitialize } from '../../_actions/current_actions';
 
 const HeaderBox = styled.div`
   display: flex;
@@ -26,6 +27,7 @@ const HeaderBox = styled.div`
   align-items: center;
   justify-content: flex-start;
 
+  font-family: 'KoddiUDOnGothic-Regular';
   .toggle {
     text-align: center;
     margin: auto;
@@ -99,6 +101,7 @@ const Header = ({ user, onLogout }) => {
   };
   React.useEffect(() => {
     dispatch(initialize());
+    dispatch(currentinitialize());
   });
   const navigate = useNavigate();
   return (
@@ -158,18 +161,25 @@ const Header = ({ user, onLogout }) => {
           </div>
           {user ? (
             // 1. 로그인 되어 있을 때
+
             <div className="right">
+              <p
+                style={{
+                  color: 'black',
+                  fontfamily: 'KoddiUDOnGothic-Regular',
+                  fontWeight: 'bold',
+                  fontSize: '20px',
+                  cursor: 'pointer',
+                }}
+                onClick={() => {
+                  navigate(`/user/${user.userSeq}`);
+                }}
+              >
+                {user.userNickname}
+              </p>
               <Box sx={{ flexGrow: 0 }}>
                 <Tooltip title="Open settings">
                   <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                    <p
-                      style={{
-                        color: 'black',
-                        fontfamily: 'KoddiUDOnGothic-Regular',
-                      }}
-                    >
-                      {user.userNickname}님
-                    </p>
                     <HeaderBox>
                       <img src={user.userPhoto} className="toggle"></img>
                     </HeaderBox>

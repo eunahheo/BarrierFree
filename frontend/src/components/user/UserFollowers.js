@@ -5,6 +5,8 @@ import Button from '../common/Button';
 import styled from 'styled-components';
 import { useParams } from 'react-router';
 import { useNavigate } from 'react-router-dom';
+import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
 
 const UserFollowerBlock = styled.div`
   display: flex;
@@ -25,6 +27,7 @@ const UserFollower = ({
   userPhoto,
   follower_userSeq,
   isfollow,
+  getUserHeader,
 }) => {
   const myuserData = useSelector((state) => state.user.userData);
   const myuser = myuserData.userSeq;
@@ -40,6 +43,7 @@ const UserFollower = ({
   }, []);
 
   const onUnfollow = async () => {
+    getUserHeader();
     try {
       const res = await axios({
         method: 'post',
@@ -50,12 +54,11 @@ const UserFollower = ({
         },
       });
       setCheckFw(false);
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   };
 
   const onFollow = async () => {
+    getUserHeader();
     try {
       const res = await axios({
         method: 'post',
@@ -66,9 +69,7 @@ const UserFollower = ({
         },
       });
       setCheckFw(true);
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   };
   const onClick = () => {
     navigate(`/user/${follower_userSeq}`);
@@ -76,31 +77,70 @@ const UserFollower = ({
 
   return (
     <UserFollowerBlock>
-      <div className="UserController">
-        <div>
-          {}
-          <div>
-            <img src={userPhoto} onClick={onClick}></img>
-            <span onClick={onClick}>{userNickname}</span>
+      <div className="UserController" style={{ paddingBottom: '1rem' }}>
+        <Grid
+          container
+          spacing={5}
+          columns={15}
+          display="flex"
+          justify="center"
+          width="500px"
+        >
+          <Grid item xs={5} display="flex" justify="center" width="150px">
+            <img
+              src={userPhoto}
+              onClick={onClick}
+              style={{
+                cursor: 'pointer',
+                verticalAlign: 'middle',
+              }}
+            ></img>
+          </Grid>
+          <Grid
+            item
+            xs={5}
+            display="flex"
+            justify="middle"
+            direction="row"
+            marginTop="3rem"
+          >
+            <span
+              onClick={onClick}
+              style={{
+                cursor: 'pointer',
+                fontWeight: 'bold',
+                marginRight: '1rem',
+                verticalAlign: 'middle',
+              }}
+            >
+              {userNickname}
+            </span>
+          </Grid>
+          <Grid
+            item
+            xs={5}
+            display="flex"
+            justify="center"
+            direction="column"
+            marginTop="2.6rem"
+          >
             {myuser === follower_userSeq ? (
               <></>
             ) : checkFw ? (
-              <Button onClick={onUnfollow} style={{ cursor: 'pointer' }}>
-                팔로잉
+              <Button impact onClick={onUnfollow}>
+                언팔로우
               </Button>
             ) : (
-              <Button onClick={onFollow} style={{ cursor: 'pointer' }}>
-                팔로우
-              </Button>
+              <Button onClick={onFollow}>팔로우</Button>
             )}
-          </div>
-        </div>
+          </Grid>
+        </Grid>
       </div>
     </UserFollowerBlock>
   );
 };
 
-const UserFollowers = () => {
+const UserFollowers = ({ getUserHeader }) => {
   const [userfollowers, setUserfollowers] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -124,7 +164,6 @@ const UserFollowers = () => {
             },
           });
           setUserfollowers(response.data);
-          console.log(response.data);
         } else {
           const response = await axios({
             url: '/othersFeed/follower',
@@ -137,7 +176,6 @@ const UserFollowers = () => {
           setUserfollowers(response.data);
         }
       } catch (error) {
-        console.log(error.response.data);
         if (error.response.data === 'fail') {
           setError('팔로워가 없습니다.');
         } else {
@@ -155,21 +193,32 @@ const UserFollowers = () => {
   if (!userfollowers) return null;
 
   return (
-    <div>
-      <h3>UserFOLLOWERS</h3>
-      {userfollowers &&
-        userfollowers.map((userfollower) => (
-          <UserFollower
-            key={userfollower.userSeq}
-            isfollow={userfollower.isfollow}
-            userNickname={userfollower.userNickname}
-            userPhoto={userfollower.userPhoto}
-            follower_userSeq={userfollower.userSeq}
-          />
-        ))}
-      {myuser === currentUser && userfollowers.length === 0 && (
-        <h1>팔로워 없음</h1>
-      )}
+    <div style={{ justifyContent: 'center', display: 'flex' }}>
+      <Box
+        sx={{
+          width: '90%',
+        }}
+      >
+        <h4>팔로워</h4>
+        <hr></hr>
+        {userfollowers &&
+          userfollowers.map((userfollower) => (
+            <UserFollower
+              key={userfollower.userSeq}
+              isfollow={userfollower.isfollow}
+              userNickname={userfollower.userNickname}
+              userPhoto={userfollower.userPhoto}
+              follower_userSeq={userfollower.userSeq}
+              getUserHeader={getUserHeader}
+            />
+          ))}
+        {myuser === currentUser && userfollowers.length === 0 && (
+          <div>
+            <h1>팔로워가 없습니다.</h1>
+            <h1>배리어프리에서 새 친구를 만날 수 있어요! 🙂</h1>
+          </div>
+        )}
+      </Box>
     </div>
   );
 };

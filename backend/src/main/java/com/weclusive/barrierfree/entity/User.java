@@ -41,7 +41,7 @@ public class User {
 	private String userEmail;
 
 	@Column(name = "user_photo")
-	private String userPhoto;
+	private String userPhoto = "/images/20220217_1c47e3d9-0ac1-4e0d-acea-e0d134bce994_basic_profile.jpg";
 
 	@Column(name = "user_role")
 	private char userRole = '0';
