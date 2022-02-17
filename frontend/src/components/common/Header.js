@@ -103,7 +103,7 @@ const Header = ({ user, onLogout }) => {
     setAnchorElUser(null);
   };
   React.useEffect(() => {
-    dispatch(initialize());
+    // dispatch(initialize());
     dispatch(currentinitialize());
   });
   const navigate = useNavigate();

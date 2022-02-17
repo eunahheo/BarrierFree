@@ -22,6 +22,7 @@ const WriteButtonsContainer = ({ uploadImageWithAdtData }) => {
     physical,
     visibility,
     senior,
+    contentId,
     postPhoto,
   } = useSelector(({ write }) => ({
     postTitle: write.postTitle,
@@ -38,6 +39,7 @@ const WriteButtonsContainer = ({ uploadImageWithAdtData }) => {
     postLng: write.postLng,
     postPhoto: write.postPhoto,
     postSeq: write.postSeq,
+    contentId: write.contentId,
   }));
 
   const onPublish = async () => {
@@ -47,7 +49,7 @@ const WriteButtonsContainer = ({ uploadImageWithAdtData }) => {
           method: 'put',
           url: '/post/update',
           data: {
-            contentId: 0,
+            contentId,
             postAddress,
             postContent,
             postLat,
@@ -93,26 +95,6 @@ const WriteButtonsContainer = ({ uploadImageWithAdtData }) => {
       return;
     }
     uploadImageWithAdtData();
-    // dispatch(
-    //   writePost({
-    //     postTitle,
-    //     postContent,
-    //     postLocation,
-    //     postPoint,
-    //     writeUserSeq,
-    //     deaf,
-    //     infant,
-    //     physical,
-    //     visibility,
-    //     senior,
-    //     postAddress,
-    //     postLat,
-    //     postLng,
-    //     postPhoto,
-    //   }),
-    // );
-    // alert('글이 등록되었습니다! 인클루시브에 한발짝 다가가셨습니다 😊');
-    // dispatch(initialize());
   };
   return <WriteButtons onPublish={onPublish}></WriteButtons>;
 };
