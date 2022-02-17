@@ -19,6 +19,7 @@ const EditorContainer = () => {
     postContent,
     postLocation,
     postPoint,
+    contentId,
     deaf,
     infant,
     physical,
@@ -34,6 +35,7 @@ const EditorContainer = () => {
     postContent: write.postContent,
     postLocation: write.postLocation,
     postPoint: write.postPoint,
+    contentId: write.contentId,
     deaf: write.deaf,
     infant: write.infant,
     physical: write.physical,
@@ -70,6 +72,7 @@ const EditorContainer = () => {
       postPoint={postPoint}
       postLocation={postLocation}
       userSeq={userSeq}
+      contentId={contentId}
       deaf={deaf}
       infant={infant}
       physical={physical}

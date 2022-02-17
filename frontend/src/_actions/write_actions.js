@@ -26,6 +26,7 @@ export const writePostAPI = ({
   postLocation,
   postPoint,
   userSeq,
+  contentId,
   deaf,
   infant,
   physical,
@@ -38,6 +39,7 @@ export const writePostAPI = ({
   postAlt,
 }) => {
   axios.post('/post/savePost', {
+    contentId,
     deaf,
     infant,
     physical,
@@ -53,7 +55,6 @@ export const writePostAPI = ({
     postTitle: postTitle,
     postContent: postContent,
     postPhoto,
-    contentId: 0,
   });
 };
 
@@ -62,6 +63,7 @@ export const writePost = ({
   postContent,
   postLocation,
   userSeq,
+  contentId,
   postPoint,
   deaf,
   infant,
@@ -80,6 +82,7 @@ export const writePost = ({
     postLocation,
     postPoint,
     userSeq,
+    contentId,
     deaf,
     infant,
     physical,
@@ -99,6 +102,7 @@ export const writePost = ({
       postLocation,
       postPoint,
       userSeq,
+      contentId,
       deaf,
       infant,
       physical,

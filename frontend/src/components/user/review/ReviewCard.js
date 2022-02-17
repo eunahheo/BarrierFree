@@ -11,7 +11,7 @@ const ReviewCard = ({ item }) => {
   const { postPhoto, postLocation, postTitle, postAlt } = item;
   const barriers = item.impairment;
   const reviewCard = item.postSeq;
-  console.log(item);
+  // console.log(item);
   // const state = { 'detailnum': reviewCard}
   const onClickCard = () => {
     navigate(`/post/detail/${reviewCard}`);

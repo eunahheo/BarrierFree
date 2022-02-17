@@ -5,11 +5,13 @@ import {
   USER_INFO,
   LOGOUT,
   CHANGE_FIELD,
+  ALARM,
 } from '../_actions/user_actions';
 
 const initialState = {
   loginSuccess: null,
   userData: null,
+  alarm: null,
 };
 
 export default function reducer(state = initialState, action) {
@@ -35,6 +37,11 @@ export default function reducer(state = initialState, action) {
       window.location.replace('/');
       return { ...state, userData: null, loginSuccess: null };
 
+    case ALARM:
+      return {
+        ...state,
+        alarm: payload,
+      };
     default:
       return state;
   }
