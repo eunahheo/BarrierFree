@@ -518,7 +518,7 @@ const Review = () => {
                     // console.log('선택시 seq', reviewDetail.userSeq);
                   }}
                 >
-                  작성자 : {otherUser.userNickname}
+                  {otherUser.userNickname}
                 </span>
 
                 {checkFw ? (
