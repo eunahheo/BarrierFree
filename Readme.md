@@ -3,14 +3,16 @@
 
 여행에 편의를 더하다, `BarrierFree`
 <br/>
-<div align="center"><img src="/uploads/a07572cd139ead8fafab828f460844f8/bf.png" alt="logo" width="30%"/></div><br>
+<div align="center"><img src="/uploads/5d78c41c5827f7b98e47740485ba95a9/logo.png" alt="logo" width="40%"/></div><br>
 <br/>
+
+---
 
 ## **팀 소개**
 
 ### - 팀 이름
 
-<div align="center"><img src ="/uploads/1468a6ca30b6257b202cc9c76eea502c/team_logo.png" alt="팀 이름" width="30%"></div>
+<img src ="/uploads/74b03848861f31c07eb417ce0f52ce6a/그림3.png" alt="팀 이름" width="60%">
 
 ### - 팀원 소개
 
@@ -48,37 +50,36 @@
 
 ### 2. 프로젝트
 
-<img src ="/uploads/b67b5961feb6f03a0373f05ecc156bd2/about_project.jpg" alt="팀 소개" width="30%"/>
+<img src ="/uploads/57c37cdfa20ff0ee9f7d209e07eafd13/about_project.jpg" alt="팀 소개" width="80%"/>
 <br>
 
-- [프로젝트 고려 사항](./docs/about_project.md)
+  - [프로젝트 고려 사항](./docs/about_project.md)
 
 ### 3. 사용언어, 기술 스택
 
-<img src ="/uploads/f56da985a2f8c65cf1293b79a41f337a/아키텍쳐.png" alt="ERD" width="500px"/>
+<img src ="/uploads/74f72a87c073c739b49279937acf312d/아키텍쳐.png" alt="아키텍쳐" width="80%"/>
 
 <br>
+
 - `FrontEnd` : React, Node.js, Context api, Material-UI
 - `BackEnd` : SpringBoot, JPA, MySQL
 - `DevOps` : GitLab, Jenkins, Docker, JIRA, AWS EC2
 
 ### 4. 프로젝트 산출물
 
-  <img src ="/uploads/a439ba0b5a4618c607aef48c1ff53a4d/notion.png" alt="ERD" width="30%"/>
+  <img src ="/uploads/cd9a142dad02a88ac1ec7ce115a0430f/notion.png" alt="notion" width="60%"/>
 
-- [Notion](https://www.notion.so/SSAFY-2-PJT-93e0d2e267574a59af816a3b83e71f45)
-  <br>
+  <!-- <br> -->
+  - [Notion](https://www.notion.so/SSAFY-2-PJT-93e0d2e267574a59af816a3b83e71f45)
+    - [데일리 스크럼](https://www.notion.so/72a5d378cc1d495884e765202d35fa2c)
+    - [요구사항 정의서](https://docs.google.com/spreadsheets/d/13XwaL0gwV3tMDqk-z3DK0b0z17yS_cYHmEfgT1YeYno/edit#gid=1507160105)
+    - [와이어프레임](https://www.figma.com/file/bYt0iOMGFyigIpNPLbejn6/Weclusive?node-id=0%3A1)
+    - [Convention](https://www.notion.so/d3e580f0be82416fb69d5d50dbb7f385)
+    - [API Docs](https://www.notion.so/API-DOCS-d4ddf72884844dc6ab39da5a3eba8c52)
 
-  - [데일리 스크럼](https://www.notion.so/72a5d378cc1d495884e765202d35fa2c)
-  - [요구사항 정의서](https://docs.google.com/spreadsheets/d/13XwaL0gwV3tMDqk-z3DK0b0z17yS_cYHmEfgT1YeYno/edit#gid=1507160105)
-  - [와이어프레임](https://www.figma.com/file/bYt0iOMGFyigIpNPLbejn6/Weclusive?node-id=0%3A1)
-  - [convention](https://www.notion.so/d3e580f0be82416fb69d5d50dbb7f385)
-  - [API Docs](https://www.notion.so/API-DOCS-d4ddf72884844dc6ab39da5a3eba8c52)
 
 - [Jira](./docs/jira.md)
-
 - [ERD](./docs/erd.md)
 
 ## **프로젝트 영상**
 
-## **주요 기능**
