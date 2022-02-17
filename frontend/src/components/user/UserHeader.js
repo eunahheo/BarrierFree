@@ -186,8 +186,9 @@ const UserHeader = ({
           <div>
             <img
               className="toggle"
-              src={currentUserFeedInfo.userPhoto}
+              src={userHeaderInfo.userPhoto}
               onClick={onPost}
+              alt={currentUserFeedInfo.userNickname}
             />
             <span
               style={{
