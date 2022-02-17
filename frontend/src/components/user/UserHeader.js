@@ -19,8 +19,8 @@ const UserHeaderBox = styled.div`
     color: ${palette.blue[0]};
     text-align: center;
     margin: auto;
-    width: 150px;
-    height: 150px;
+    width: 130px;
+    height: 130px;
     border-radius: 100px;
     box-sizing: border-box;
     &:hover {
@@ -34,8 +34,8 @@ const UserHeaderBox = styled.div`
     border: 1px solie ${palette.pink[0]};
   }
   .smc {
-    width: 100px;
-    height: 100px;
+    width: 95px;
+    height: 95px;
   }
   .span {
     display: flex;
@@ -75,7 +75,7 @@ const UserHeaderBox = styled.div`
   .feed {
     font-size: 25px;
     font-weight: bold;
-    padding: 50px 0 10px 0;
+    padding: 30px 0 10px 0;
   }
 `;
 
@@ -144,7 +144,7 @@ const UserHeader = ({ onPost, onFollowing, onFollower, onScrap }) => {
                 color: 'black',
                 fontSize: '20px',
                 fontWeight: 'bold',
-                margin: '15px 0 20px 0',
+                margin: '10px 0 15px 0',
               }}
             >
               {userHeaderInfo.writePost}개의 게시글

@@ -33,30 +33,7 @@ import { Typography } from '@mui/material';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import Box from '@mui/material/Box';
-import Footer from '../../components/common/Footer';
-const F = styled.div`
-  #footer {
-    background: #e5e5e5;
-    padding: 10px 0 20px 0;
-    width: 100%;
-    margin-top: 19.5%;
-    position: relative;
-    // transform: translatY(-100%);
-  }
-  #footer p {
-    color: #888;
-    font-size: 14px;
-  }
-  #footer a {
-    color: #608dfd;
-  }
-  #footer a:hover {
-    border-bottom: 2px solid #608dfd;
-  }
-  #con {
-    text-align: left;
-  }
-`;
+
 const ReviewBox = styled.div`
   display: flex;
   flex-dirextion: row;

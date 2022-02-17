@@ -21,30 +21,7 @@ import RecommendDetail from './RecommendDetail';
 import MyLocationIcon from '@mui/icons-material/MyLocation';
 import styled from 'styled-components';
 import { Card } from '@mui/material';
-import Footer from '../../components/common/Footer';
-const F = styled.div`
-  #footer {
-    background: #e5e5e5;
-    padding: 10px 0 20px 0;
-    width: 100%;
-    margin-top: 5%;
-    position: relative;
-    // transform: translatY(-100%);
-  }
-  #footer p {
-    color: #888;
-    font-size: 14px;
-  }
-  #footer a {
-    color: #608dfd;
-  }
-  #footer a:hover {
-    border-bottom: 2px solid #608dfd;
-  }
-  #con {
-    text-align: left;
-  }
-`;
+
 const AuthBarrierIconBlock = styled.div`
   img {
     margin: 1rem 0.5rem 0;
@@ -667,10 +644,6 @@ const Recommend = () => {
           </div>
         )}
       </div>
-      {/* </Container> */}
-      <F>
-        <Footer></Footer>
-      </F>
     </div>
   );
 };

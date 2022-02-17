@@ -153,7 +153,8 @@ export const Team = () => {
               <div className="p">
                 <h2 style={{ textAlign: 'left' }}>기능</h2>
                 <div className="content" style={{ textAlign: 'left' }}>
-                  사진을 클릭하면 사진에 대한 정보를 읽어줍니다.
+                  사진을 클릭하면 사진에 대한 정보를 읽어줍니다. <br></br>내
+                  위치 주변 여행지를 추천해줍니다.
                 </div>
               </div>
             </div>
