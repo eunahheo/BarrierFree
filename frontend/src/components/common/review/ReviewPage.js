@@ -169,6 +169,13 @@ const ReviewPage = () => {
           });
           setMyWeeklyList(response2.data);
 
+          const response3 = await axios({
+            url: '/main/weekscrap',
+            method: 'get',
+            params: { userSeq: 0, page: 1, size: 10 },
+          });
+          setCarouselList(response3.data);
+
           console.log('here', myWeeklyList);
         } catch (e) {
           console.log(e);
@@ -188,7 +195,7 @@ const ReviewPage = () => {
             justifyContent: 'center',
           }}
         >
-          <Carousel myWeeklyList={carouselList}></Carousel>
+          <Carousel myWeeklyList={carouselList} myuser={myuser}></Carousel>
         </div>
       ) : (
         <></>

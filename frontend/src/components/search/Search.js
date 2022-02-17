@@ -9,6 +9,7 @@ import SearchDetail from './SearchDetail';
 import SearchReviewDetail from './SearchReviewDetail';
 import SearchUserDetail from './SearchUserDetail';
 import SearchIcon from '@mui/icons-material/Search';
+import styled from 'styled-components';
 
 function Search() {
   const myuser = useSelector((state) => state.user.userData);
@@ -174,23 +175,26 @@ function Search() {
   };
 
   return (
-    <div>  
+    <div>
       <div>
         <div>
-        <div class="search-box">
-        {/* <h2 class="search-title">여행지 검색하기</h2> */}
-          <form>
-            <input
-              class="input-search"
-              onChange={onSearchHandler}
-              placeholder="검색어를 입력해주세요."
-            ></input>
-            <SearchIcon style={{ color: 'white' }} onClick={onSubmitHandler}></SearchIcon>
-            <button class="mybutton" onClick={onSubmitHandler}>
-              {/* 검색 */}
-            </button>
-          </form>
-        </div>
+          <div class="search-box">
+            {/* <h2 class="search-title">여행지 검색하기</h2> */}
+            <form>
+              <input
+                class="input-search"
+                onChange={onSearchHandler}
+                placeholder="검색어를 입력해주세요."
+              ></input>
+              <SearchIcon
+                style={{ color: 'white' }}
+                onClick={onSubmitHandler}
+              ></SearchIcon>
+              <button class="mybutton" onClick={onSubmitHandler}>
+                {/* 검색 */}
+              </button>
+            </form>
+          </div>
         </div>
       </div>
       {handsearch === false ? (
@@ -207,14 +211,30 @@ function Search() {
             <Button onClick={onClickReview}>여행 후기</Button>
             <Button onClick={onClickUser}>사용자</Button> */}
             <table class="table-row">
-            <th class="table-col-1" onClick={onClickTotal}>전체</th>
-              <th class="table-col-1" onClick={onClickLocation}>명소</th>
-              <th class="table-col-1" onClick={onClickFood}>음식점</th>
-              <th class="table-col-1" onClick={onClickHome}>숙박시설</th>
-              <th class="table-col-1" onClick={onClickCulture}>문화</th>
-              <th class="table-col-1" onClick={onClickParty}>행사</th>
-              <th class="table-col-1" onClick={onClickReview}>여행 후기</th>
-              <th class="table-col-1" onClick={onClickUser}>사용자</th>
+              <th class="table-col-1" onClick={onClickTotal}>
+                전체
+              </th>
+              <th class="table-col-1" onClick={onClickLocation}>
+                명소
+              </th>
+              <th class="table-col-1" onClick={onClickFood}>
+                음식점
+              </th>
+              <th class="table-col-1" onClick={onClickHome}>
+                숙박시설
+              </th>
+              <th class="table-col-1" onClick={onClickCulture}>
+                문화
+              </th>
+              <th class="table-col-1" onClick={onClickParty}>
+                행사
+              </th>
+              <th class="table-col-1" onClick={onClickReview}>
+                여행 후기
+              </th>
+              <th class="table-col-1" onClick={onClickUser}>
+                사용자
+              </th>
             </table>
           </div>
           <h2 class="title">{title}</h2>
@@ -242,14 +262,30 @@ function Search() {
               <Button onClick={onClickReview}>여행 후기</Button>
               <Button onClick={onClickUser}>사용자</Button> */}
               <table class="table-row">
-                <th class="table-col-1" onClick={onClickTotal}>전체</th>
-                <th class="table-col-1" onClick={onClickLocation}>명소</th>
-                <th class="table-col-1" onClick={onClickFood}>음식점</th>
-                <th class="table-col-1" onClick={onClickHome}>숙박시설</th>
-                <th class="table-col-1" onClick={onClickCulture}>문화</th>
-                <th class="table-col-1" onClick={onClickParty}>행사</th>
-                <th class="table-col-1" onClick={onClickReview}>여행 후기</th>
-                <th class="table-col-1" onClick={onClickUser}>사용자</th>
+                <th class="table-col-1" onClick={onClickTotal}>
+                  전체
+                </th>
+                <th class="table-col-1" onClick={onClickLocation}>
+                  명소
+                </th>
+                <th class="table-col-1" onClick={onClickFood}>
+                  음식점
+                </th>
+                <th class="table-col-1" onClick={onClickHome}>
+                  숙박시설
+                </th>
+                <th class="table-col-1" onClick={onClickCulture}>
+                  문화
+                </th>
+                <th class="table-col-1" onClick={onClickParty}>
+                  행사
+                </th>
+                <th class="table-col-1" onClick={onClickReview}>
+                  여행 후기
+                </th>
+                <th class="table-col-1" onClick={onClickUser}>
+                  사용자
+                </th>
               </table>
             </div>
             <SearchList
@@ -270,7 +306,7 @@ function Search() {
           </div>
         </div>
       )}
-      </div>
+    </div>
   );
 }
 

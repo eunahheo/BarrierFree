@@ -33,6 +33,7 @@ import { Typography } from '@mui/material';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import Box from '@mui/material/Box';
+
 const ReviewBox = styled.div`
   display: flex;
   flex-dirextion: row;
@@ -622,7 +623,6 @@ const Review = () => {
             </Button>
           </DialogActions>
         </Dialog>
-
         <Dialog
           fullScreen={fullScreen}
           open={mapOpen}
