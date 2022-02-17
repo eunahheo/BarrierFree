@@ -36,7 +36,6 @@ const SearchDetail = ({ number, searchItem, noresult }) => {
 
   const handlePageChange = (page) => {
     setPage(page);
-    console.log(page);
   };
 
   return (

@@ -6,7 +6,6 @@ import styled from 'styled-components';
 import { useParams } from 'react-router';
 import { useNavigate } from 'react-router-dom';
 import Box from '@mui/material/Box';
-import palette from '../../lib/styles/palette';
 import Grid from '@mui/material/Grid';
 
 const UserFollowerBlock = styled.div`
@@ -55,9 +54,7 @@ const UserFollower = ({
         },
       });
       setCheckFw(false);
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   };
 
   const onFollow = async () => {
@@ -72,9 +69,7 @@ const UserFollower = ({
         },
       });
       setCheckFw(true);
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   };
   const onClick = () => {
     navigate(`/user/${follower_userSeq}`);
@@ -169,7 +164,6 @@ const UserFollowers = ({ getUserHeader }) => {
             },
           });
           setUserfollowers(response.data);
-          console.log(response.data);
         } else {
           const response = await axios({
             url: '/othersFeed/follower',
@@ -182,7 +176,6 @@ const UserFollowers = ({ getUserHeader }) => {
           setUserfollowers(response.data);
         }
       } catch (error) {
-        console.log(error.response.data);
         if (error.response.data === 'fail') {
           setError('팔로워가 없습니다.');
         } else {

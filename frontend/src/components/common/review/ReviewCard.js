@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { Card, CardMedia, CardContent, Typography } from '@mui/material';
 import ReviewBarrierIcon from './ReviewBarrierIcon';
 import axios from 'axios';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import palette from '../../../lib/styles/palette';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';

@@ -1,10 +1,8 @@
-import React, { useCallback } from 'react';
-import { useDropzone } from 'react-dropzone';
-import { useDispatch, useSelector } from 'react-redux';
+import React from 'react';
+import { useDispatch } from 'react-redux';
 import { useState } from 'react';
-import { Card, Container, CardActionArea, CardMedia } from '@mui/material';
+import { Card, CardActionArea, CardMedia } from '@mui/material';
 import Button from '../common/Button';
-import { uploadImage } from '../../_actions/upload_actions';
 import axios from '../../../node_modules/axios/index';
 import { changeField } from '../../_actions/write_actions';
 
@@ -26,12 +24,12 @@ function ImageUploader() {
     }
 
     const file = event.target.files[0];
-    console.log(file);
+    // console.log(file);
     // const imageData = new FormData();
     // imageData.append('photo', file);
     setImageData(file);
     setLoading(true);
-    console.log(imageData);
+    // console.log(imageData);
     // setImageData(imageData);
     // setImageFile(file);
     setImagePreview(URL.createObjectURL(file));
@@ -57,7 +55,7 @@ function ImageUploader() {
         setImageData(null);
         dispatch(changeField({ key: 'postPhoto', value: response.data }));
       } catch (error) {
-        console.log(error);
+        // console.log(error);
       } finally {
         setLoading(false);
       }

@@ -56,14 +56,6 @@ const Recommend = () => {
   useEffect(() => {
     findMyLocation();
     setCityDropdown();
-    // if (barrier.length > 0) {
-    //   for (let i = 0; barrier.length > i; i++) {
-    //     let current = document.getElementById(barrier[i]);
-    //     current.style.border = '3px solid';
-    //     current.style.borderColor = 'rgb(234, 84, 85)';
-    //     current.style.borderRadius = '100%';
-    //   }
-    // }
   }, [barrier]);
 
   // 내 위치 받아오기
@@ -72,7 +64,6 @@ const Recommend = () => {
     if (navigator.geolocation) {
       //위치 정보를 얻기
       navigator.geolocation.getCurrentPosition(function (res) {
-        console.log(res);
         axios({
           method: 'GET',
           url: '/recommend/myloc',
@@ -86,12 +77,9 @@ const Recommend = () => {
             size: 20,
           },
         }).then(function (res) {
-          console.log(res);
           if (res.data === '검색결과가 없습니다.') {
-            // console.log('hey');
             setItemList([]);
           } else {
-            // console.log(res.data);
             setItemList(res.data);
           }
         });
@@ -107,7 +95,6 @@ const Recommend = () => {
       method: 'GET',
       url: 'recommend/sido',
     }).then(function (res) {
-      // console.log(res);
       setCityList(res.data);
     });
   };
@@ -133,34 +120,8 @@ const Recommend = () => {
   };
 
   const handleChangeTown = (event) => {
-    // console.log(event);
     setTown(event.target.value);
   };
-
-  // 장애 정보 선택하기
-  // const onClickBarrier = (res) => {
-  //   // if (search === true) {
-  //   //   if (barrier.length > 0) {
-  //   //     for (let i = 0; barrier.length > i; i++) {
-  //   //       if (barrier[i] === 'physical')
-  //   //         setBarrierIcon({ ...barrierIcon, deafFlag: true });
-  //   //     }
-  //   //   }
-  //   // }
-  //   // if (barrier.includes(res.target.id)) {
-  //   //   let current = document.getElementById(res.target.id);
-  //   //   console.log('current2', current);
-  //   //   current.style.border = null;
-  //   //   setBarrier(barrier.filter((info) => info !== res.target.id));
-  //   // } else {
-  //   //   setBarrier(barrier.concat(res.target.id));
-  //   // }
-  //   if (barrier.includes(res.target.id)) {
-
-  //   }
-
-  //   // console.log(barrier);
-  // };
 
   // 검색
   const onClickSearch = () => {
@@ -248,7 +209,6 @@ const Recommend = () => {
             return qs.stringify(params, { arrayFormat: 'repeat' });
           },
         }).then((res) => {
-          // console.log(res);
           if (res.config.params.contentTypeId == 0) {
             if (res.data.length > 0) {
               setItemList(res.data);
@@ -390,12 +350,6 @@ const Recommend = () => {
   };
 
   const onClickReset = () => {
-    // if (barrier.length > 0) {
-    //   for (let i = 0; barrier.length > i; i++) {
-    //     let current = document.getElementById(barrier[i]);
-    //     current.style.border = null;
-    //   }
-    // }
     setBarrierIcon({
       ...barrierIcon,
       physicalFlag: false,
@@ -421,12 +375,10 @@ const Recommend = () => {
 
   return (
     <div>
-      {/* <Header /> */}
-      {/* <Container maxWidth="lg"> */}
       <div class="selete-box">
         <Card sx={{ width: 550 }}>
           <h2 class="recommend-title-first">무장애 선택하기</h2>
-          {/* <br></br> */}
+
           <AuthBarrierIconBlock>
             <img
               class="barrier-icon"
@@ -583,12 +535,6 @@ const Recommend = () => {
                   행사
                 </th>
               </table>
-              {/* <Button onClick={onClickTotal}>전체</Button>
-                <Button onClick={onClickLocation}>명소</Button>
-                <Button onClick={onClickFood}>음식점</Button>
-                <Button onClick={onClickHome}>숙박시설</Button>
-                <Button onClick={onClickCulture}>문화</Button>
-                <Button onClick={onClickParty}>행사</Button> */}
             </div>
             <RecommendList
               class="card-list"
@@ -605,14 +551,6 @@ const Recommend = () => {
           </div>
         ) : (
           <div>
-            {/* <div>
-                <Button onClick={onClickTotal}>전체</Button>
-                <Button onClick={onClickLocation}>명소</Button>
-                <Button onClick={onClickFood}>음식점</Button>
-                <Button onClick={onClickHome}>숙박시설</Button>
-                <Button onClick={onClickCulture}>문화</Button>
-                <Button onClick={onClickParty}>행사</Button>
-              </div> */}
             <table class="table-row">
               <th class="table-col" onClick={onClickTotal}>
                 전체
@@ -648,7 +586,4 @@ const Recommend = () => {
   );
 };
 
-// changeFindSearch={changeFindSearch}
-//               setNumber={setNumber}
-//               setTitle={setTitle}
 export default Recommend;

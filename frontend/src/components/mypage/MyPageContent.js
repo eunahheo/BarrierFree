@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useState, Component } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import Button from '../common/Button';
 import Dialog from '@mui/material/Dialog';
@@ -8,9 +8,7 @@ import DialogContent from '@mui/material/DialogContent';
 import { logout } from '../../_actions/user_actions';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import TextField from '@mui/material/TextField';
 import { userInfo } from '../../_actions/user_actions';
-import MypageBarriers from './MypageBarriers';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import InputLabel from '@mui/material/InputLabel';
 import InputAdornment from '@mui/material/InputAdornment';
@@ -20,8 +18,6 @@ import DialogContentText from '@mui/material/DialogContentText';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import MypageBarriersContainer from '../../containers/mypage/MypageBarriersContainer';
-import Input from '@mui/material/Input';
-import { changeField } from '../../_actions/user_actions';
 
 const MyPageContentBlock = styled.div``;
 
@@ -104,7 +100,7 @@ const MyPageContent = ({ user }) => {
             userNickname: userNickname,
           },
         }).then(function (res) {
-          console.log(res);
+          // console.log(res);
           if (res.data == 'success') {
             setNickFlag(true);
             setErrorMessage({
@@ -175,7 +171,7 @@ const MyPageContent = ({ user }) => {
         Authorization: `Bearer ${token}`,
       },
     }).then(function (res) {
-      console.log(res);
+      // console.log(res);
       if (res.status == 200) {
         // console.log(res.data.accessToken);
         alert('비밀번호가 변경되었습니다. ');
@@ -201,7 +197,7 @@ const MyPageContent = ({ user }) => {
         Authorization: `Bearer ${token}`,
       },
     }).then(function (res) {
-      console.log(res);
+      // console.log(res);
       if (res.status == 200) {
         // console.log(res.data.accessToken);
         alert('닉네임이 변경되었습니다. ');

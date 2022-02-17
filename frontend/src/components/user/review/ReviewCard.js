@@ -1,13 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Card, CardMedia, CardContent, Typography } from '@mui/material';
 import ReviewBarrierIcon from './ReviewBarrierIcon';
-import axios from 'axios';
-import Review from '../../review/Review';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import LocationIcon from '@mui/icons-material/LocationOn';
 
 const ReviewCard = ({ item }) => {
-  // console.log(item)
   // const pageNum = useState([]);
   const navigate = useNavigate();
 

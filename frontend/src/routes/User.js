@@ -8,7 +8,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 import axios from 'axios';
 import { getCurrentUserInfo } from '../_actions/current_actions';
-import { get } from 'react-scroll/modules/mixins/scroller';
 
 function User() {
   const myuserData = useSelector((state) => state.user.userData);

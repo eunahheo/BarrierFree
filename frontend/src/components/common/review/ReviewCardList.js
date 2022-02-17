@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import { ImageList } from '@mui/material';
 import ReviewCard from './ReviewCard';
 import '../../search/SearchCardList.css';
+import './ReviewListScroll.css';
 
 const ReviewCardList = ({ reviewtype }) => {
   const [items, setItems] = useState([]);
@@ -62,7 +63,7 @@ const ReviewCardList = ({ reviewtype }) => {
   }, [inView, loading]);
 
   return (
-    <div class="list">
+    <div>
       {items.length === 0 ? (
         <div>
           <h1>로딩중</h1>

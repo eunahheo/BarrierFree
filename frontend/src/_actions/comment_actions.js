@@ -2,7 +2,7 @@ import axios from 'axios';
 import { COMMENT_SAVE, COMMENT_DELETE, COMMENT_UPDATE } from './types';
 
 export function commentSave(dataTosubmit) {
-  console.log(dataTosubmit);
+  // console.log(dataTosubmit);
   const request = axios({
     method: 'POST',
     url: '/post/comment/saveComment',
@@ -16,7 +16,7 @@ export function commentSave(dataTosubmit) {
 }
 
 export function commentDelete(dataTosubmit) {
-  console.log(dataTosubmit);
+  // console.log(dataTosubmit);
   const request = axios({
     method: 'PUT',
     url: '/post/comment/delete',

@@ -73,9 +73,7 @@ const WriteButtonsContainer = ({ uploadImageWithAdtData }) => {
             },
           }).then(alert('수정이 완료되었습니다!'), navigate('/'));
         }
-      } catch (e) {
-        console.log(e);
-      }
+      } catch (e) {}
       return;
     }
     if (!postTitle) {

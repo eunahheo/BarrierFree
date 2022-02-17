@@ -88,7 +88,6 @@ const RecommendDetail = ({ number, city, town, barrier, noresult }) => {
 
   const handlePageChange = (page) => {
     setPage(page);
-    console.log(page);
   };
   // const onClickToSearch = () => {
   //   navigate('/search');

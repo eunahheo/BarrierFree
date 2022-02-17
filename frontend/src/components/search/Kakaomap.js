@@ -1,10 +1,7 @@
-import { useEffect, useState } from 'react';
-
 const Kakaomap = (data) => {
   const { kakao } = window;
 
   const kakaomap_rendering = (data) => {
-    console.log(info);
     const container = document.getElementById('myMap');
     const options = {
       center: new kakao.maps.LatLng(info.lat, info.lng),
@@ -48,7 +45,7 @@ const Kakaomap = (data) => {
           marginTop: '2rem',
         }}
       ></div>
-      gd
+
       <div
         id="roadview"
         style={{

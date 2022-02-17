@@ -7,7 +7,6 @@ import { useParams } from 'react-router';
 import { useNavigate } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
-import palette from '../../lib/styles/palette';
 
 const UserFollowingBlock = styled.div`
   display: flex;
@@ -43,7 +42,7 @@ const UserFollowing = ({
       setCheckFw(true);
     } else if (myuser === currentUser) {
       setCheckFw(true);
-      console.log('check', currentUser, myuser, checkFw);
+      // console.log('check', currentUser, myuser, checkFw);
     }
   }, []);
 
@@ -63,7 +62,7 @@ const UserFollowing = ({
         onRemove(following_userSeq);
       }
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
 
@@ -80,7 +79,7 @@ const UserFollowing = ({
       });
       setCheckFw(true);
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
   const onClick = () => {
@@ -168,7 +167,7 @@ const UserFollowings = ({ getUserHeader }) => {
         setLoading(true);
         setError(null);
         setUserfollowings([]);
-        console.log(typeof currentUser, typeof myuser);
+        // console.log(typeof currentUser, typeof myuser);
         if (currentUser === myuser) {
           const response = await axios({
             url: '/myFeed/following',
@@ -178,7 +177,7 @@ const UserFollowings = ({ getUserHeader }) => {
             },
           });
           setUserfollowings(response.data);
-          console.log('myfeed', userfollowings);
+          // console.log('myfeed', userfollowings);
         } else {
           const response = await axios({
             url: '/othersFeed/following',
@@ -189,7 +188,7 @@ const UserFollowings = ({ getUserHeader }) => {
             },
           });
           setUserfollowings(response.data);
-          console.log('fowllowing', response.data);
+          // console.log('fowllowing', response.data);
         }
       } catch (error) {
         setError(error);

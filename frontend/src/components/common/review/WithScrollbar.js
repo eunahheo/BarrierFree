@@ -41,7 +41,7 @@ class WithScrollbar extends React.Component {
   };
 
   render() {
-    console.log(this.props);
+    // console.log(this.props);
     const CustomSlider = ({ carouselState }) => {
       let value = 0;
       let carouselItemWidth = 0;
