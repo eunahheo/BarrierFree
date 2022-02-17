@@ -32,8 +32,8 @@ public class SwaggerConfig {
 
 	private ApiInfo apiInfo() {
 		return new ApiInfoBuilder()
-				.title("제목")
-				.description("설명")
+				.title("BarrierFree API")
+				.description("BarrierFree API 명세서")
 				.version("1.0")
 				.contact(new Contact("[Weclusive Swagger]", "https://lab.ssafy.com/s06-webmobile2-sub2/S06P12A504", null))
 				.build();
