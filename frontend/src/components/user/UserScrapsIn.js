@@ -31,10 +31,10 @@ const UserScrapsIn = ({ getUserHeader }) => {
         })
           .then(function (res) {
             setItemList(res.data);
-            console.log('here', typeof itemList[0].post_seq);
+            // console.log('here', typeof itemList[0].post_seq);
           })
           .catch(function (error) {
-            console.log(error);
+            // console.log(error);
           });
       } else {
         axios({
@@ -44,14 +44,14 @@ const UserScrapsIn = ({ getUserHeader }) => {
         })
           .then(function (res) {
             setItemList(res.data);
-            console.log('here', typeof itemList[0].post_seq);
+            // console.log('here', typeof itemList[0].post_seq);
           })
           .catch(function (error) {
-            console.log(error);
+            // console.log(error);
           });
       }
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
   return (

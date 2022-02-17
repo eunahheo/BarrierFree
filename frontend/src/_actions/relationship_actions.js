@@ -20,7 +20,7 @@ export const follow = (mySeq, otherSeq) => {
       });
       return res.data;
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       return 'error';
     }
   }
@@ -41,7 +41,7 @@ export const unfollow = (mySeq, otherSeq) => {
       });
       return res.data;
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       return 'error';
     }
   }
@@ -66,8 +66,8 @@ export const checkfw = (userSeq, otherUserSeq) => {
         return 'false';
       }
     } catch (e) {
-      console.log(e);
-      console.log('ERROR');
+      // console.log(e);
+      // console.log('ERROR');
     }
   }
   const response = onCheckFw_actions();

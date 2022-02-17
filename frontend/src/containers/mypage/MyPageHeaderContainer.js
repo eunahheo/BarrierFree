@@ -6,7 +6,6 @@ const MyPageHeaderContainerBlock = styled.div``;
 
 const MyPageHeaderContainer = () => {
   const user = useSelector((state) => state.user.userData);
-  // console.log(user);
   return <MyPageHeader user={user}></MyPageHeader>;
 };
 

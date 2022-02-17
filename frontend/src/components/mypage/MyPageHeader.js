@@ -3,7 +3,7 @@ import palette from '../../lib/styles/palette';
 import Button from '../common/Button';
 import MyPageContent from '../../components/mypage/MyPageContent';
 import Grid from '@material-ui/core/Grid';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
@@ -68,7 +68,7 @@ const MyPageHeader = ({ user }) => {
           data: imageFile,
           headers: { 'Content-Type': 'multipart/form-data' },
         });
-        console.log(response.data);
+        // console.log(response.data);
         const response2 = await axios({
           method: 'put',
           url: '/user/modify',
@@ -84,7 +84,7 @@ const MyPageHeader = ({ user }) => {
         await dispatch(changeField({ key: 'userPhoto', value: response.data }));
         alert('프로필 사진 변경 완료!😉');
       } catch (error) {
-        console.log(error);
+        // console.log(error);
         alert('에러 발생');
       }
     } else {

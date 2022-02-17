@@ -111,7 +111,7 @@ const AuthForm = ({
           method: 'post',
           params: { userId: form.userId },
         });
-        console.log(response);
+        // console.log(response);
         if (response.data == 'success') {
           alert('사용 가능한 아이디입니다!😀');
           setForm({ ...form, EnableuserId: true });

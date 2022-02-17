@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import palette from '../../lib/styles/palette';
 import { useParams } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
@@ -113,7 +113,7 @@ const UserHeader = ({
           },
         });
         // setUserHeaderInfo(response.data[0]);
-        console.log('here', response.data[0]);
+        // console.log('here', response.data[0]);
         dispatch(
           getCurrentUserInfo({
             key: 'follower',
@@ -162,7 +162,7 @@ const UserHeader = ({
         setUserHeaderInfo(response.data);
       }
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
   // console.log(userHeaderInfo);

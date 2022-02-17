@@ -33,7 +33,6 @@ const RegisterForm = () => {
     const regExp =
       /^(?=.*[A-Za-z0-9])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d@$!%*#?&]/;
     const nicknameExp = /^[A-Za-z0-9가-힣_]/;
-    console.log(regform);
     const {
       userId,
       userEmail,

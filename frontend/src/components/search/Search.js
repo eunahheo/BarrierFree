@@ -1,15 +1,12 @@
 import React, { useState } from 'react';
-import { Container } from '@material-ui/core';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import './Search.css';
-import Button from '../common/Button';
 import SearchList from './SearchList';
 import SearchDetail from './SearchDetail';
 import SearchReviewDetail from './SearchReviewDetail';
 import SearchUserDetail from './SearchUserDetail';
 import SearchIcon from '@mui/icons-material/Search';
-import styled from 'styled-components';
 
 function Search() {
   const myuser = useSelector((state) => state.user.userData);
@@ -67,7 +64,6 @@ function Search() {
           userSeq: myuser.userSeq,
         },
       }).then((res) => {
-        // console.log(res.data);
         if (res.data.length > 0) {
           setSearchUserList(res.data);
         } else {
@@ -89,7 +85,6 @@ function Search() {
             userSeq: myuser.userSeq,
           },
         }).then((res) => {
-          console.log(res);
           if (res.config.params.contentTypeId === 12) {
             if (res.data.length > 0) {
               setSearchLocationList(res.data);
