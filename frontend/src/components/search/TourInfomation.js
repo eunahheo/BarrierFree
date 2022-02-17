@@ -18,6 +18,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { useNavigate } from 'react-router-dom';
 import Box from '@mui/material/Box';
+
 const TourInfomation = () => {
   const pageNum = useParams();
   const contentid = Number(pageNum.infomationCard);
@@ -88,7 +89,7 @@ const TourInfomation = () => {
   };
 
   const getPostDetail = () => {
-    console.log(contentid);
+    // console.log(contentid);
     axios({
       method: 'GET',
       url: '/recommend/detail',
@@ -98,6 +99,7 @@ const TourInfomation = () => {
       },
     })
       .then((res) => {
+        // console.log(res);
         setInfomationDetail(res.data);
         imp_rendering(res.data.impairments);
         setPosts(res.data.posts);

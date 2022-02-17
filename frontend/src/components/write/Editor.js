@@ -36,6 +36,7 @@ const Editor = ({
   postLocation,
   postPoint,
   userSeq,
+  contentId,
   deaf,
   infant,
   physical,
@@ -112,6 +113,7 @@ const Editor = ({
             postLocation,
             postPoint,
             userSeq,
+            contentId,
             deaf,
             infant,
             physical,
@@ -124,7 +126,7 @@ const Editor = ({
             postAlt: imageName,
           }),
         );
-        alert('글이 등록되었습니다! 인클루시브에 한발짝 다가가셨습니다 😊');
+        alert('글이 등록되었습니다! 베리어프리에 한발짝 다가가셨습니다 😊');
         dispatch(initialize());
         navigate('/');
       } catch (error) {

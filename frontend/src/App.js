@@ -22,8 +22,15 @@ import MyPage from './pages/MyPage';
 import KakaoLoginPage from './pages/KakaoLoginPage';
 import { resetParams } from './_actions/current_actions';
 import { useDispatch } from 'react-redux';
-
+import { useEffect } from 'react';
+import axios from 'axios';
+import { useSelector } from 'react-redux';
+import { alarm } from './_actions/user_actions';
 function App() {
+  const user = useSelector((state) => state.user.userData);
+  const alarms = useSelector((state) => state.user.alarm);
+  const dispatch = useDispatch();
+
   return (
     <div className="App">
       <HeaderContainer></HeaderContainer>

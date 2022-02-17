@@ -40,7 +40,7 @@ const MyCard = ({ item, onRemove }) => {
   const { post_photo, post_location, post_title, scrap_yn } = item;
   const reviewCard = item.post_seq;
   const [heart, setHeart] = useState(false);
-  console.log(item);
+  // console.log(item);
   const onClickCard = () => {
     navigate(`/post/detail/${reviewCard}`);
   };

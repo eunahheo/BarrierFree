@@ -19,7 +19,7 @@ function User() {
 
   useEffect(() => {
     getUserHeader();
-    console.log(currentUser);
+    // console.log(currentUser);
   }, []);
   const getUserHeader = async () => {
     try {
@@ -32,7 +32,7 @@ function User() {
           },
         });
         // setUserHeaderInfo(response.data[0]);
-        console.log('here', response.data[0]);
+        // console.log('here', response.data[0]);
         dispatch(
           getCurrentUserInfo({
             key: 'follower',
@@ -81,7 +81,7 @@ function User() {
         // setUserHeaderInfo(response.data);
       }
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
   useEffect(() => {
@@ -95,7 +95,7 @@ function User() {
   const onFollowing = () => {
     setUserControllType('following');
     getUserHeader();
-    console.log('following');
+    // console.log('following');
   };
 
   const onFollower = () => {

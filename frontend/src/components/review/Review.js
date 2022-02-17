@@ -215,6 +215,7 @@ const Review = () => {
   const onClickHeart = () => {
     setHeart(true);
     setScraptimes(scraptimes + 1);
+    // console.log(otherUser);
     axios({
       method: 'get',
       url: '/scrap/insert',
@@ -223,6 +224,11 @@ const Review = () => {
         scrap_type: 0,
         user_seq: myuser.userSeq,
       },
+    });
+    axios({
+      method: 'post',
+      url: '/alarm/saveScrap',
+      params: { userSeq: otherUser.userSeq, scrapSeq: reviewNum },
     });
     const plusPostScrap = reviewDetail.userSeq + 1;
   };
@@ -267,7 +273,7 @@ const Review = () => {
           });
         });
     } catch (e) {
-      console.error(e.message);
+      // console.error(e.message);
     }
   };
   // 게시글 수정

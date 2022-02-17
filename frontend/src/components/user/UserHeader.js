@@ -112,8 +112,8 @@ const UserHeader = ({
             userSeq: currentUser,
           },
         });
-        // setUserHeaderInfo(response.data[0]);
-        console.log('here', response.data[0]);
+        setUserHeaderInfo(response.data[0]);
+        // console.log('here', response.data[0]);
         dispatch(
           getCurrentUserInfo({
             key: 'follower',
@@ -165,7 +165,8 @@ const UserHeader = ({
       console.log(error);
     }
   };
-  // console.log(userHeaderInfo);
+  console.log('userHeaderInfo', userHeaderInfo.userPhoto);
+
   useEffect(() => {
     getTempUserHeader();
   }, [currentUser, checkrelation]);
