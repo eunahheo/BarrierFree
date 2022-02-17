@@ -12,7 +12,6 @@ const UserScrapsOut = ({ getUserHeader }) => {
 
   const [loading, setLoading] = useState(false);
   const [itemList, setItemList] = useState([]);
-  const [newItemList, setNewItemList] = useState([]);
   const onRemove = (id) => {
     const newItemList = itemList.filter((item) => item.contentId != id);
     setItemList(newItemList);
@@ -35,7 +34,7 @@ const UserScrapsOut = ({ getUserHeader }) => {
           },
         });
         setItemList(response.data);
-        console.log('testing', response.data);
+        // console.log('testing', response.data);
       } else {
         // othersfeed scrap 부분 api 없음
         const response = await axios({
@@ -49,7 +48,7 @@ const UserScrapsOut = ({ getUserHeader }) => {
         setItemList(response.data);
       }
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     } finally {
       setLoading(false);
     }

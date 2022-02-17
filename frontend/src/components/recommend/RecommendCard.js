@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Card, CardMedia, CardContent, Typography } from '@mui/material';
 import RecommendBarrierIcon from './RecommendBarrierIcon';
 import axios from 'axios';
-import Review from '../review/Review';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
@@ -90,7 +89,6 @@ const RecommendCard = ({ item }) => {
       params: { contentid: contentid },
     }).then(function (res) {
       var i = 0;
-      // console.log(res.data.infant);
       var array = [];
       if (res.data.physical != null) {
         array[i++] = 'physical';
@@ -107,7 +105,6 @@ const RecommendCard = ({ item }) => {
       if (res.data.senior != null) {
         array[i++] = 'senior';
       }
-      // console.log(array);
       setBarrier(array);
     });
   };
@@ -124,7 +121,6 @@ const RecommendCard = ({ item }) => {
     } else {
       alert('로그인이 필요합니다!😀');
     }
-    // document.location.href = '/detail/'+ reviewCard
   };
 
   return (

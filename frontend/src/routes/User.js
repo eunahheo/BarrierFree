@@ -17,6 +17,10 @@ function User() {
   const params = useParams();
   const currentUser = Number(params.userSeq);
 
+  useEffect(() => {
+    getUserHeader();
+    console.log(currentUser);
+  }, []);
   const getUserHeader = async () => {
     try {
       if (currentUser === myuser) {

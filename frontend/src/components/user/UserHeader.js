@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import palette from '../../lib/styles/palette';
 import { useParams } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
@@ -113,7 +113,7 @@ const UserHeader = ({
           },
         });
         // setUserHeaderInfo(response.data[0]);
-        console.log('here', response.data[0]);
+        // console.log('here', response.data[0]);
         dispatch(
           getCurrentUserInfo({
             key: 'follower',
@@ -162,7 +162,7 @@ const UserHeader = ({
         setUserHeaderInfo(response.data);
       }
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
   // console.log(userHeaderInfo);
@@ -173,7 +173,14 @@ const UserHeader = ({
   return (
     <UserHeaderBox>
       <div>
-        <div className="feed">{userHeaderInfo.userNickname}님의 피드</div>
+        <div className="feed">
+          {myuser === currentUser ? (
+            <span> {currentUserFeedInfo.userNickname} 님</span>
+          ) : (
+            <span>{userHeaderInfo.userNickname}님</span>
+          )}
+        </div>
+
         <div>
           <div>
             <img

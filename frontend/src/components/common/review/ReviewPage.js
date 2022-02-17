@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import ReviewCardList from './ReviewCardList';
 import { useSelector } from 'react-redux';
 import './ReviewPage.css';
 import Carousel from './Carousel';
@@ -39,9 +38,11 @@ const ReviewPage = () => {
     })
       .then(function (res) {
         mysetItemList(res.data);
-        console.log('latest');
+        // console.log('latest');
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        // console.log(error)
+      });
   };
 
   const orderbypopular = () => {
@@ -56,10 +57,10 @@ const ReviewPage = () => {
     })
       .then(function (res) {
         mysetItemList(res.data);
-        console.log('popular');
+        // console.log('popular');
       })
       .catch(function () {
-        console.log('popular fail');
+        // console.log('popular fail');
       });
   };
   const orderbypopularweek = () => {
@@ -78,7 +79,7 @@ const ReviewPage = () => {
         mysetItemList(res.data);
       })
       .catch(function (error) {
-        console.log(error);
+        // console.log(error);
       });
   };
 
@@ -99,7 +100,7 @@ const ReviewPage = () => {
         },
       }).then(function (res) {
         mysetItemList(res.data);
-        console.log('bf');
+        // console.log('bf');
       });
     } else {
       alert('로그인이 필요합니다!');
@@ -145,7 +146,7 @@ const ReviewPage = () => {
           });
           setCarouselList(response3.data);
         } catch (e) {
-          console.log(e);
+          // console.log(e);
         }
       } else {
         try {
@@ -160,7 +161,7 @@ const ReviewPage = () => {
           });
           mysetItemList(response.data);
 
-          console.log('here', response);
+          // console.log('here', response);
 
           const response2 = await axios({
             url: '/main/weekscrap',
@@ -176,9 +177,9 @@ const ReviewPage = () => {
           });
           setCarouselList(response3.data);
 
-          console.log('here', myWeeklyList);
+          // console.log('here', myWeeklyList);
         } catch (e) {
-          console.log(e);
+          // console.log(e);
         }
       }
     };

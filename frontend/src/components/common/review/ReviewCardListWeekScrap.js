@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import { ImageList } from '@mui/material';
 import ReviewCard from './ReviewCard';
 import '../../search/SearchCardList.css';
+import './ReviewListScroll.css';
 
 const ReviewCardListWeekScrap = () => {
   const [items, setItems] = useState([]);
