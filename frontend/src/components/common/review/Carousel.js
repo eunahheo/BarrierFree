@@ -33,23 +33,22 @@ AOS.init({
 });
 
 const B = styled.div`
-  // display: grid;
-  // gap: 1ch;
-  .textShadow {
-    text-shadow: 0.1em 0.1em 0 #e5e5e5;
-  }
-  // .center {
-  //   // position: absolute;
-  //   // left: 50%;
-  //   // margin: 0 auto;
+  // .textShadow {
+  //   text-shadow: 0.1em 0.1em 0 #e5e5e5;
   // }
   h1 {
-    font-size: 3rem;
-    font-weight: 900;
+    font-size: 2rem;
     line-height: 1.1;
     color: #2d4059;
-
-    // place-content: center;
+    // font-family: 'Jua', sans-serif;
+    font-family: 'GowunDodum-Regular';
+  }
+  @font-face {
+    font-family: 'GowunDodum-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/GowunDodum-Regular.woff')
+      format('woff');
+    font-weight: normal;
+    font-style: normal;
   }
 `;
 
@@ -59,7 +58,7 @@ function SwipeableTextMobileStepper({ myWeeklyList, myuser }) {
       <Box sx={{ maxWidth: 1300, flexGrow: 1, overflow: 'hidden' }}>
         <Fragment sx={{ maxWidth: 1300, flexGrow: 1 }}>
           <div className="center">
-            <h1 className="textShadow">이번주 인기글</h1>
+            <h1 className="textShadow">이번 주말엔 어디로?</h1>
           </div>
           {/* <div className="title">
             <div class="waviy">
