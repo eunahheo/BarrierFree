@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState } from 'react';
 import Rating from '@mui/material/Rating';
 import InfoIcon from '@mui/icons-material/Info';
 import axios from 'axios';
@@ -30,9 +30,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import Grid from '@mui/material/Grid';
 import { Typography } from '@mui/material';
-import ImageList from '@mui/material/ImageList';
-import ImageListItem from '@mui/material/ImageListItem';
-import Box from '@mui/material/Box';
+import BarrierFreeLogoBig from '../images/BarrierFreeLogoBig.png';
 
 const ReviewBox = styled.div`
   display: flex;
@@ -372,7 +370,9 @@ const Review = () => {
       roadview.setPanoId(panoId, position);
     });
   };
-
+  const handleImgError = (e) => {
+    e.target.src = BarrierFreeLogoBig;
+  };
   return (
     <ReviewBox>
       <Grid
@@ -383,10 +383,10 @@ const Review = () => {
         <Grid item xs={12} md={6} sm={12}>
           <div sx={{ width: '720px' }}>
             <img
-              style={{ width: '100%', height: '720px' }}
-              // srcSet={`${item.img}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
+              style={{ width: '100%', height: '720px', objectFit: 'cover' }}
+              onError={handleImgError}
               alt="no image"
-              src={reviewImage}
+              src={reviewDetail.postPhoto}
               onClick={TTS}
               loading="베리어 프리에 오신 것을 환영합니다."
             />
