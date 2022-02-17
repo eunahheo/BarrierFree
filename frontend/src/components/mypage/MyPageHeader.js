@@ -31,7 +31,9 @@ const MyPageHeaderBlock = styled.div`
       color: white;
       cursor: pointer;
     }
+    border: 0.3px solid ${palette.gray[0]} 0.8;
   }
+
   .smc {
     width: 150px;
     height: 150px;
@@ -112,7 +114,7 @@ const MyPageHeader = ({ user }) => {
             ref={(refParam) => (inputRef = refParam)}
             style={{ display: 'none' }}
           />
-          <div>
+          <div className="divtoggle">
             {imagePreview != null ? (
               <img className="toggle" src={imagePreview} />
             ) : (

@@ -20,6 +20,7 @@ import { logout } from '../../_actions/user_actions';
 import BarrierFreeLogo from '../images/barrierfreelogo.png';
 import { initialize } from '../../_actions/write_actions';
 import { currentinitialize } from '../../_actions/current_actions';
+import palette from '../../lib/styles/palette';
 
 const HeaderBox = styled.div`
   display: flex;
@@ -39,6 +40,7 @@ const HeaderBox = styled.div`
       color: white;
       cursor: pointer;
     }
+    border: 0.3px solid ${palette.gray[0]} 0.8;
   }
 `;
 
