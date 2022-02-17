@@ -291,26 +291,49 @@ const PlaceBox = ({ onChangePlace, onChangeField, postLocation }) => {
                   {places.map((place) => (
                     <div
                       onClick={() => {
-                        onChangeField({
-                          key: 'postLocation',
-                          value: place.place_name,
-                        });
-                        onChangeField({
-                          key: 'postAddress',
-                          value: place.road_address_name,
-                        });
-                        onChangeField({
-                          key: 'postLat',
-                          value: place.y,
-                        });
-                        onChangeField({
-                          key: 'postLng',
-                          value: place.x,
-                        });
-                        onChangeField({
-                          key: 'contentId',
-                          value: 0,
-                        });
+                        if (place.road_address_name == '') {
+                          onChangeField({
+                            key: 'postLocation',
+                            value: place.place_name,
+                          });
+                          onChangeField({
+                            key: 'postAddress',
+                            value: ' ',
+                          });
+                          onChangeField({
+                            key: 'postLat',
+                            value: place.y,
+                          });
+                          onChangeField({
+                            key: 'postLng',
+                            value: place.x,
+                          });
+                          onChangeField({
+                            key: 'contentId',
+                            value: 0,
+                          });
+                        } else {
+                          onChangeField({
+                            key: 'postLocation',
+                            value: place.place_name,
+                          });
+                          onChangeField({
+                            key: 'postAddress',
+                            value: place.road_address_name,
+                          });
+                          onChangeField({
+                            key: 'postLat',
+                            value: place.y,
+                          });
+                          onChangeField({
+                            key: 'postLng',
+                            value: place.x,
+                          });
+                          onChangeField({
+                            key: 'contentId',
+                            value: 0,
+                          });
+                        }
                         setInput(place.place_name);
                         setOpen(false);
                       }}
