@@ -234,7 +234,6 @@ const UserFollowings = ({ getUserHeader }) => {
           ))}
         {userfollowings.length === 0 && (
           <div>
-            <h1>팔로잉하는 사용자가 없습니다.</h1>
             <h1>배리어프리에서 새 친구를 만날 수 있어요! 🙂</h1>
           </div>
         )}
