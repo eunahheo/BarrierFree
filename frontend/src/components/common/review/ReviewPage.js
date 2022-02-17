@@ -186,7 +186,7 @@ const ReviewPage = () => {
     tmp();
   }, [myuser]);
   return (
-    <div class="box">
+    <div data-aos="fade-up" class="box">
       <h1></h1>
       {carouselList ? (
         <div
