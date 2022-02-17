@@ -25,21 +25,21 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 			String endTime);
 	
 	// 팔로우한 계정의 게시글을 최신순으로 정렬한 게시글 수 반환
-	@Query(value = "SELECT COUNT(p) FROM Post p WHERE p.delYn = 'n' AND p.userSeq IN (SELECT followingSeq FROM Follow WHERE userSeq = ?1) ORDER BY regDt DESC")
+	@Query(value = "SELECT COUNT(p) FROM Post p WHERE p.delYn = 'n' AND p.userSeq IN (SELECT followingSeq FROM Follow WHERE userSeq = ?1) ORDER BY regDt DESC, postSeq ASC")
 	public int countFollowPost(int userSeq);
 	
 	// 최신순으로 정렬한 게시글 반환
 	public Page<Post> findByDelYnOrderByRegDtDesc(char delYn, Pageable pageable);
 
 	// 누적 스크랩 많은 순으로 정렬한 게시글 반환
-	public Page<Post> findByDelYnOrderByPostScrapDesc(char delYn, Pageable pageable);
+	public Page<Post> findByDelYnOrderByPostScrapDescPostSeqAsc(char delYn, Pageable pageable);
 
 	// 최근 일주일 게시글 중 스크랩 많은 순으로 정렬한 게시글 반환
-	public Page<Post> findByDelYnAndRegDtBetweenOrderByPostScrapDesc(char delYn, String startTime,
+	public Page<Post> findByDelYnAndRegDtBetweenOrderByPostScrapDescPostSeqAsc(char delYn, String startTime,
 			String endTime, Pageable pageable);
 
 	// 팔로우한 계정의 게시글을 최신순으로 정렬한 게시글 반환
-	@Query(value = "SELECT p FROM Post p WHERE p.delYn = 'n' AND p.userSeq IN (SELECT followingSeq FROM Follow WHERE userSeq = ?1) ORDER BY regDt DESC")
+	@Query(value = "SELECT p FROM Post p WHERE p.delYn = 'n' AND p.userSeq IN (SELECT followingSeq FROM Follow WHERE userSeq = ?1) ORDER BY regDt DESC, postSeq ASC")
 	public Page<Post> findFollowPost(int userSeq, Pageable pageable);
 
 	// 게시물 하나 전체 내용 가져오기
