@@ -155,6 +155,8 @@ export const Team = () => {
                 <div className="content" style={{ textAlign: 'left' }}>
                   사진을 클릭하면 사진에 대한 정보를 읽어줍니다. <br></br>내
                   위치 주변 여행지를 추천해줍니다.
+                  <br></br>유니버설디자인 서체를 적용하여 고령층과 저시력인까지
+                  읽기 편안한 서비스를 제공합니다.
                 </div>
               </div>
             </div>

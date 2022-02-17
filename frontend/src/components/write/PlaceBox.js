@@ -160,7 +160,7 @@ const PlaceBox = ({ onChangePlace, onChangeField, postLocation }) => {
 
   const handleClose = () => {
     setOpen(false);
-    onChangeField({ key: 'postLocation', value: 'none' });
+    onChangeField({ key: 'postLocation', value: '' });
     onChangeField({ key: 'postAddress', value: '' });
     onChangeField({ key: 'contentId', value: 0 });
   };
