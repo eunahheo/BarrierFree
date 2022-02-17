@@ -19,3 +19,5 @@ export const CURRENT_PARAMS = 'current/CURRENT_PARAMS';
 export const RESET_PARAMS = 'current/RESET_PARAMS';
 
 export const CURRENT_USER_INFO = 'current/CURRENT_USER_INFO';
+
+export const INITIALIZE = 'current/INITIALIZE';

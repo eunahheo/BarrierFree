@@ -20,6 +20,7 @@ function User() {
 
   useEffect(() => {
     getUserHeader();
+    console.log(currentUser);
   }, []);
   const getUserHeader = async () => {
     try {
