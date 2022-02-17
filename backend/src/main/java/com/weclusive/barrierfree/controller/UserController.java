@@ -52,7 +52,7 @@ public class UserController {
 	public ResponseEntity<String> join(@RequestBody UserJoin userJoin) {
 		try {
 			// 이미 가입된 이메일이면
-			if(userService.findByUserEmail(userJoin.userEmail) != null){
+			if(userService.findByUserEmail(userJoin.getUserEmail()) != null){
 				return new ResponseEntity(FAIL, HttpStatus.OK);
 			}
 			userService.registUser(userJoin); // 회원등록 - 회원정보, 장애정보
