@@ -215,7 +215,7 @@ const Review = () => {
   const onClickHeart = () => {
     setHeart(true);
     setScraptimes(scraptimes + 1);
-    // console.log(otherUser);
+    console.log(otherUser);
     axios({
       method: 'get',
       url: '/scrap/insert',
@@ -225,11 +225,11 @@ const Review = () => {
         user_seq: myuser.userSeq,
       },
     });
-    axios({
-      method: 'post',
-      url: '/alarm/saveScrap',
-      params: { userSeq: otherUser.userSeq, scrapSeq: reviewNum },
-    });
+    // axios({
+    //   method: 'post',
+    //   url: '/alarm/saveScrap',
+    //   params: { userSeq: otherUser.userSeq, scrapSeq: reviewNum },
+    // });
     const plusPostScrap = reviewDetail.userSeq + 1;
   };
 
