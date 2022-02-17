@@ -1,0 +1,183 @@
+.button-top {
+  float: right;
+  display: flex;
+  justify-content: end;
+  /* margin-right: 15%; */
+}
+
+.button-top > #update {
+  background-color: rgb(45, 64, 89);
+}
+
+.button-top > #delete {
+  background-color: rgb(234, 84, 85);
+}
+
+.button-top > button {
+  margin-left: 0.8rem;
+  height: 30px;
+  width: 70px;
+  font-size: medium;
+  color: white;
+  border: 0;
+
+  border-radius: 5px;
+}
+
+.arrow {
+  float: left;
+  /* margin-top: 10px; */
+}
+
+/* form {
+  margin-top: 10px;
+  margin-bottom: 10px;
+} */
+
+.review-box {
+  /* border: 1px black solid; */
+  margin-top: 50px;
+  /* margin-bottom: 50px; */
+  /* margin-left: 30rem;
+  margin-right: 30rem; */
+}
+
+.arrow {
+  justify-content: start;
+  padding-left: 10px;
+}
+
+.hr-comment {
+  /* margin-left: 5%; */
+  margin-right: 10%;
+}
+
+input {
+  width: 80%;
+  font-size: 16px;
+  border: none;
+  background-color: rgba(224, 224, 224, 0.5);
+  line-height: 30px;
+  border-radius: 5px;
+  padding-left: 10px;
+  height: 40px;
+}
+.inputCmt {
+  width: 85%;
+  font-size: 16px;
+  border: none;
+  background-color: rgba(224, 224, 224, 0.5);
+  line-height: 30px;
+  border-radius: 5px;
+  /* padding-left: 10px; */
+  height: 40px;
+}
+
+input::placeholder {
+  color: black;
+}
+input:focus {
+  outline: none;
+}
+
+.button {
+  margin-left: 1rem;
+  height: 40px;
+  width: 50px;
+  font-size: medium;
+  color: white;
+  border: 0;
+  background-color: rgb(45, 64, 89);
+  border-radius: 5px;
+}
+
+.review-content {
+  position: absolute;
+  left: 50%;
+  box-sizing: border-box;
+  right: 10%;
+
+  width: 40%;
+  margin-left: 4rem;
+  text-align: left;
+}
+.content {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+.content::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera*/
+}
+
+.review-img {
+  width: 40rem;
+  height: 50rem;
+  position: fixed;
+  top: 15%;
+  left: 0%;
+  box-sizing: border-box;
+  margin-left: 1rem;
+}
+
+.review {
+  /* margin-top: 20px; */
+  /* display: flex; */
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.review-img-size {
+  /* border-radius: 30px; */
+}
+
+.comment-box {
+  margin-top: 10px;
+  /* border: 1px solid; */
+  /* margin-left: 10%; */
+  /* margin-right: 10%; */
+}
+
+.comment {
+  text-align: left;
+  /* padding-left: 5%; */
+  font-size: large;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.comment-list {
+  text-align: left;
+}
+
+.no-comment {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  /* padding-left: 5%; */
+  text-align: left;
+}
+
+.update-button {
+  margin-left: 0.2rem;
+  height: 20px;
+  width: 40px;
+  font-size: small;
+  color: white;
+  border: 0;
+  background-color: rgb(45, 64, 89);
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.delete-button {
+  margin-left: 0.1rem;
+  height: 20px;
+  width: 40px;
+  font-size: small;
+  color: white;
+  border: 0;
+  background-color: #ea5455;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/*    여기서부터는 리뷰 내용 자리    */

@@ -1,0 +1,69 @@
+/* .box {
+  margin-left: 20rem;
+  margin-right: 20rem;
+} */
+
+/* .table-row {
+  display: flex;
+  justify-content: center;
+  
+}
+
+.table-col {
+  align-items: center;
+  border: 1px solid white;
+  width: 260px;
+  height: 30px;
+  background-color: rgb(234, 84, 85);
+  color: white;
+} */
+
+.mybutton {
+  background: #fff;
+  color: #2d4059;
+  position: relative;
+  height: 40px;
+
+  margin-bottom: 30px;
+  font-size: 1.25em;
+  padding: 0 2em;
+  font-family: 'KoddiUDOnGothic-Regular';
+  cursor: pointer;
+  transition: 800ms ease all;
+  /* outline: 1px solid; */
+  width: 21%;
+}
+.mybutton:hover {
+  background: #2d4059;
+  color: #fff;
+}
+.mybutton:before,
+.mybutton:after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 2px;
+  width: 0;
+  background: #2d4059;
+  transition: 400ms ease all;
+}
+.mybutton:before {
+  right: inherit;
+  top: inherit;
+  left: 0;
+  bottom: 0;
+}
+.mybutton:hover:before,
+.mybutton:hover:after {
+  width: 100%;
+  transition: 800ms ease all;
+}
+
+.content {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+.content::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera*/
+}
