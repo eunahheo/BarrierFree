@@ -89,7 +89,7 @@ const TourInfomation = () => {
   };
 
   const getPostDetail = () => {
-    console.log(contentid);
+    // console.log(contentid);
     axios({
       method: 'GET',
       url: '/recommend/detail',
@@ -99,7 +99,7 @@ const TourInfomation = () => {
       },
     })
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         setInfomationDetail(res.data);
         imp_rendering(res.data.impairments);
         setPosts(res.data.posts);

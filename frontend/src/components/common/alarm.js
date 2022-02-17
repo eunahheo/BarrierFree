@@ -121,44 +121,42 @@ function CustomSelect({ options }) {
   });
   const navigate = useNavigate();
 
-  // React.useEffect(() => {
-  //   const updateAlarm = setInterval(() => {
-  //     axios({
-  //       method: 'get',
-  //       url: '/alarm/all',
-  //       params: { userSeq: user.userSeq },
-  //     }).then((res) => {
-  //       options.length = 0;
-  //       console.log(res);
-  //       for (var i = 0; i < res.data.length; i++) {
-  //         console.log(i + '번째 : ' + res.data[i]);
-  //         if (res.data[i].alarm.alarmType == '0') {
-  //           options.push({
-  //             label: res.data[i].userNickname + '님이 당신을 팔로우합니다!',
-  //             value: `/user/` + res.data[i].alarm.alarmData,
-  //             alarmSeq: res.data[i].alarm.alarmSeq,
-  //           });
-  //         } else if (res.data[i].alarm.alarmType == '1') {
-  //           options.push({
-  //             label:
-  //               res.data[i].userNickname +
-  //               '님이 당신의 게시글을 스크랩했습니다!',
-  //             value: `/post/detail/` + res.data[i].alarm.alarmData,
-  //             alarmSeq: res.data[i].alarm.alarmSeq,
-  //           });
-  //         } else {
-  //           options.push({
-  //             label: res.data[i].userNickname + '님이 댓글을 작성했습니다.',
-  //             value: `/post/detail/` + res.data[i].alarm.alarmData,
-  //             alarmSeq: res.data[i].alarm.alarmSeq,
-  //           });
-  //         }
-  //       }
-  //       console.log(options);
-  //       setAlarm(options);
-  //     });
-  //   }, 1000);
-  // }, []);
+  React.useEffect(() => {
+    const updateAlarm = setInterval(() => {
+      axios({
+        method: 'get',
+        url: '/alarm/all',
+        params: { userSeq: user.userSeq },
+      }).then((res) => {
+        options.length = 0;
+        for (var i = 0; i < res.data.length; i++) {
+          console.log(i + '번째 : ' + res.data[i]);
+          if (res.data[i].alarm.alarmType == '0') {
+            options.push({
+              label: res.data[i].userNickname + '님이 당신을 팔로우합니다!',
+              value: `/user/` + res.data[i].alarm.alarmData,
+              alarmSeq: res.data[i].alarm.alarmSeq,
+            });
+          } else if (res.data[i].alarm.alarmType == '1') {
+            options.push({
+              label:
+                res.data[i].userNickname +
+                '님이 당신의 게시글을 스크랩했습니다!',
+              value: `/post/detail/` + res.data[i].alarm.alarmData,
+              alarmSeq: res.data[i].alarm.alarmSeq,
+            });
+          } else {
+            options.push({
+              label: res.data[i].userNickname + '님이 댓글을 작성했습니다.',
+              value: `/post/detail/` + res.data[i].alarm.alarmData,
+              alarmSeq: res.data[i].alarm.alarmSeq,
+            });
+          }
+        }
+        setAlarm(options);
+      });
+    }, 3000);
+  }, []);
 
   const onClick = (value) => {
     navigate(value);

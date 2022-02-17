@@ -215,7 +215,7 @@ const Review = () => {
   const onClickHeart = () => {
     setHeart(true);
     setScraptimes(scraptimes + 1);
-    console.log(otherUser);
+    // console.log(otherUser);
     axios({
       method: 'get',
       url: '/scrap/insert',
@@ -273,7 +273,7 @@ const Review = () => {
           });
         });
     } catch (e) {
-      console.error(e.message);
+      // console.error(e.message);
     }
   };
   // 게시글 수정
