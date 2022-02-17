@@ -173,7 +173,14 @@ const UserHeader = ({
   return (
     <UserHeaderBox>
       <div>
-        <div className="feed">{userHeaderInfo.userNickname}님의 피드</div>
+        <div className="feed">
+          {myuser === currentUser ? (
+            <span> {currentUserFeedInfo.userNickname} 님</span>
+          ) : (
+            <span>{userHeaderInfo.userNickname}님</span>
+          )}
+        </div>
+
         <div>
           <div>
             <img
