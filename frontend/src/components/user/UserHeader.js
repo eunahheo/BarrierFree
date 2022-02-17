@@ -4,6 +4,7 @@ import styled, { css } from 'styled-components';
 import palette from '../../lib/styles/palette';
 import { useParams } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
+import { getCurrentUserInfo } from '../../_actions/current_actions';
 
 const UserHeaderBox = styled.div`
   display: flex;
@@ -79,18 +80,30 @@ const UserHeaderBox = styled.div`
   }
 `;
 
-const UserHeader = ({ onPost, onFollowing, onFollower, onScrap }) => {
+const UserHeader = ({
+  onPost,
+  onFollowing,
+  onFollower,
+  onScrap,
+  getUserHeader,
+}) => {
   const myuserData = useSelector((state) => state.user.userData);
   const myuser = myuserData.userSeq;
   const params = useParams();
   const currentUser = Number(params.userSeq);
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
   const [userHeaderInfo, setUserHeaderInfo] = useState([]);
-  const getUserHeader = async () => {
-    try {
-      // console.log('checking:', currentUser, myuser);
 
+  const currentUserFeedInfo = useSelector(
+    (state) => state.current.currentUserData,
+  );
+
+  const checkrelation = useSelector(
+    (state) => state.relationship.check_relationship,
+  );
+  const getTempUserHeader = async () => {
+    try {
       if (currentUser === myuser) {
         const response = await axios({
           method: 'get',
@@ -99,7 +112,44 @@ const UserHeader = ({ onPost, onFollowing, onFollower, onScrap }) => {
             userSeq: currentUser,
           },
         });
-        setUserHeaderInfo(response.data[0]);
+        // setUserHeaderInfo(response.data[0]);
+        console.log('here', response.data[0]);
+        dispatch(
+          getCurrentUserInfo({
+            key: 'follower',
+            value: response.data[0].follower,
+          }),
+        );
+        dispatch(
+          getCurrentUserInfo({
+            key: 'writePost',
+            value: response.data[0].writePost,
+          }),
+        );
+        dispatch(
+          getCurrentUserInfo({
+            key: 'following',
+            value: response.data[0].following,
+          }),
+        );
+        dispatch(
+          getCurrentUserInfo({
+            key: 'totalScarp',
+            value: response.data[0].totalScarp,
+          }),
+        );
+        dispatch(
+          getCurrentUserInfo({
+            key: 'userNickname',
+            value: response.data[0].userNickname,
+          }),
+        );
+        dispatch(
+          getCurrentUserInfo({
+            key: 'userPhoto',
+            value: response.data[0].userPhoto,
+          }),
+        );
       } else {
         const response = await axios({
           method: 'get',
@@ -115,13 +165,9 @@ const UserHeader = ({ onPost, onFollowing, onFollower, onScrap }) => {
       console.log(error);
     }
   };
-  const checkrelation = useSelector(
-    (state) => state.relationship.check_relationship,
-  );
-
   // console.log(userHeaderInfo);
   useEffect(() => {
-    getUserHeader();
+    getTempUserHeader();
   }, [currentUser, checkrelation]);
   // console.log(userHeaderInfo);
   return (
@@ -132,7 +178,7 @@ const UserHeader = ({ onPost, onFollowing, onFollower, onScrap }) => {
           <div>
             <img
               className="toggle"
-              src={userHeaderInfo.userPhoto}
+              src={currentUserFeedInfo.userPhoto}
               onClick={onPost}
             />
             <span
@@ -147,25 +193,47 @@ const UserHeader = ({ onPost, onFollowing, onFollower, onScrap }) => {
                 margin: '10px 0 15px 0',
               }}
             >
-              {userHeaderInfo.writePost}개의 게시글
+              {myuser === currentUser ? (
+                <span> {currentUserFeedInfo.writePost} 개의 게시글</span>
+              ) : (
+                <span>{userHeaderInfo.writePost} 개의 게시글</span>
+              )}
             </span>
           </div>
         </div>
         <div onClick={onScrap}>
           <div className="toggle smc">
-            <div className="count">{userHeaderInfo.totalScarp}</div>
+            <div className="count">
+              {myuser === currentUser ? (
+                <span> {currentUserFeedInfo.totalScarp}</span>
+              ) : (
+                <span>{userHeaderInfo.totalScarp}</span>
+              )}
+            </div>
           </div>
           <div className="text">스크랩</div>
         </div>
         <div onClick={onFollowing}>
           <div className="toggle smc">
-            <div className="count">{userHeaderInfo.following}</div>
+            <div className="count">
+              {myuser === currentUser ? (
+                <span> {currentUserFeedInfo.following}</span>
+              ) : (
+                <span>{userHeaderInfo.following}</span>
+              )}
+            </div>
           </div>
           <div className="text">팔로잉</div>
         </div>
         <div onClick={onFollower}>
           <div className="toggle smc">
-            <div className="count">{userHeaderInfo.follower}</div>
+            <div className="count">
+              {myuser === currentUser ? (
+                <span> {currentUserFeedInfo.follower}</span>
+              ) : (
+                <span>{userHeaderInfo.follower}</span>
+              )}
+            </div>
           </div>
           <div className="text">팔로워</div>
         </div>

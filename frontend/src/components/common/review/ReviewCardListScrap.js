@@ -6,7 +6,7 @@ import { ImageList } from '@mui/material';
 import ReviewCard from './ReviewCard';
 import '../../search/SearchCardList.css';
 
-const ReviewCardListScrap = ({ reviewtype }) => {
+const ReviewCardListScrap = () => {
   const [items, setItems] = useState([]);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
