@@ -1,10 +1,9 @@
 import { ImageList } from '@mui/material';
 import React from 'react';
 import SearchCard from './SearchCard';
-import './SearchCardList.css'
+import './SearchCardList.css';
 
 const SearchCardList = ({ itemList }) => {
-  console.log(itemList);
   return (
     <div className="RecommendCardList">
       <div class="list">

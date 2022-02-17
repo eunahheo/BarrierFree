@@ -52,7 +52,7 @@ function write(state = initialState, action) {
     case WRITE_POST_FAILURE:
       return { ...state, postError: action.payload.postError };
     case SET_POST_CONTENT:
-      console.log('payload', action.payload);
+      // console.log('payload', action.payload);
       return {
         ...state,
         postTitle: action.payload.post.postTitle,

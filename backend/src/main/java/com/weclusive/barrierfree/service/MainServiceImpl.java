@@ -109,7 +109,7 @@ public class MainServiceImpl implements MainService {
 		List<Map<String, Object>> result = new LinkedList<>();
 		PageRequest pageRequest = PageRequest.of(page-1, size);
 		Page<Post> pagePosts = null;
-		pagePosts = postRepository.findByDelYnOrderByPostScrapDesc('n',pageRequest);
+		pagePosts = postRepository.findByDelYnOrderByPostScrapDescPostSeqAsc('n',pageRequest);
 		pagePosts.forEach(post -> {
 			Map<String, Object> obj = new HashMap<>();
 			obj.put("postSeq", post.getPostSeq());
@@ -142,7 +142,7 @@ public class MainServiceImpl implements MainService {
 		String startTime = LocalDateTime.now().minusDays(7).toString().replace("T", " ").substring(0, 19);
 		String endTime = TimeUtils.curTime();
 		PageRequest pageRequest = PageRequest.of(page-1, size);
-		Page<Post> pagePosts = postRepository.findByDelYnAndRegDtBetweenOrderByPostScrapDesc('n', startTime, endTime, pageRequest);
+		Page<Post> pagePosts = postRepository.findByDelYnAndRegDtBetweenOrderByPostScrapDescPostSeqAsc('n', startTime, endTime, pageRequest);
 		pagePosts.forEach(post -> {
 			Map<String, Object> obj = new HashMap<>();
 			obj.put("postSeq", post.getPostSeq());

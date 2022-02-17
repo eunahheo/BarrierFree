@@ -20,10 +20,7 @@ import WriteBarrierIconContainer from '../../containers/write/WriteBarrierIconCo
 import TextField from '@mui/material/TextField';
 import RecordVoiceOverIcon from '@mui/icons-material/RecordVoiceOver';
 import UploadImage from '../images/uploadImage.png';
-// const EditorBlock = styled(Responsive)`
-//   padding-top: 5rem;
-//   padding-bottom: 5rem;
-// `;
+
 const StyledRating = styled(Rating)({
   '& .MuiRating-iconFilled': {
     color: '#ff6d75',
@@ -32,40 +29,6 @@ const StyledRating = styled(Rating)({
     color: '#EA5455',
   },
 });
-// const TitleInput = styled.input`
-//   font-size: 2.5rem;
-//   outline: none;
-//   padding-bottom: 0.5rem;
-//   border: none;
-//   border-bottom: 1px solid ${palette.gray[0]};
-//   margin-bottom: 2rem;
-//   width: 100%;
-// `;
-
-// const BodyTextarea = styled.textarea`
-//   font-size: 1.125rem;
-//   outline: none;
-//   padding-bottom: 0.5rem;
-//   border: none;
-//   border-bottom: 1px solid ${palette.gray[0]};
-//   margin-bottom: 2rem;
-//   width: 100%;
-//   min-height: 300px;
-//   line-height: 2;
-//   text-align: left;
-//   padding-top: 0px;
-//   vertical-align: top;
-//   text-align: start;
-// `;
-
-// const QuillWrapper = styled.div`
-//   .ql-editor {
-//     padding: 0;
-//     min-height: 300px;
-//     font-size: 1.125rem;
-//     line-height: 2;
-//   }
-// `;
 
 const Editor = ({
   postTitle,
@@ -86,37 +49,24 @@ const Editor = ({
   onChangeField,
   postAlt,
 }) => {
-  // const [files, setFiles] = useState('');
-  // const [point, setPoint] = useState(0);
-
-  // const onLoadFile = (event) => {
-  //   const file = event.target.files;
-  //   setFiles(file);
-  //   console.log(files);
-  // };
   const navigate = useNavigate();
   const onChangeTitle = (e) => {
     onChangeField({ key: 'postTitle', value: e.target.value });
   };
 
   const onChangeBody = (e) => {
-    // console.log('changebody', e);
     onChangeField({ key: 'postContent', value: e.target.value });
   };
 
   const onChangePostPoint = (e) => {
-    // console.log('changepostpoint', e);
     onChangeField({ key: 'postPoint', value: e.target.value });
   };
 
-  // const classes = useStyles();
   const dispatch = useDispatch();
   const [imagePreview, setImagePreview] = useState(null);
   const [imageData, setImageData] = useState(null);
   const [imageName, setImageName] = useState(postAlt);
-  // const [imageFile, setImageFile] = useState(null);
-  // const image = useSelector((state) => state.upload.image);
-  // handleuploadclick;
+
   const [loading, setLoading] = useState(false);
   const onUpload = (event) => {
     event.preventDefault();
@@ -126,20 +76,15 @@ const Editor = ({
     }
 
     const file = event.target.files[0];
-    // console.log(file);
     // const imageData = new FormData();
     // imageData.append('photo', file);
     setImageData(file);
     setLoading(true);
-    // console.log(imageData);
     // setImageData(imageData);
     // setImageFile(file);
     setImagePreview(URL.createObjectURL(file));
   };
-  // const tempClick = () => {
-  //   console.log(imageName);
-  //   console.log('didi');
-  // };
+
   const uploadImageWithAdtData = async () => {
     // 전송 보내기 전에 새로운 이름 붙이기
     // 이 부분은 imageData에 붙이지 말고 state값에 alt로 넘겨주기
@@ -155,11 +100,9 @@ const Editor = ({
           data: imageFile,
           headers: { 'Content-Type': 'multipart/form-data' },
         });
-        // console.log(response);
         // alert('사진 등록이 완료되었습니다!😋');
         await dispatch(changeField({ key: 'postPhoto', value: response.data }));
         await dispatch(changeField({ key: 'postAlt', value: imageName }));
-        // console.log(imageName);
         // await dispatch(changeField({ key: 'postAlt', value: response.data }));
         setImageData(null);
         setImagePreview(null);
@@ -206,19 +149,7 @@ const Editor = ({
   };
 
   let inputRef;
-  // useEffect(() => {
-  //   preview();
-  //   return () => preview();
-  // }, []);
-  // const preview = () => {
-  //   if (!files) return false;
-  //   const imgEl = document.querySelector('.img__box');
-  //   const reader = new FileReader();
 
-  //   reader.onLoad = () =>
-  //     (imgEl.style.backgroundImage = `url(${reader.result})`);
-  //   reader.readAsDataURL(files[0]);
-  // };
   return (
     <div>
       <Box>

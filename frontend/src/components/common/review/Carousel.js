@@ -1,148 +1,57 @@
-import * as React from 'react';
-import { useTheme } from '@mui/material/styles';
+import React, { Fragment } from 'react';
 import Box from '@mui/material/Box';
-import MobileStepper from '@mui/material/MobileStepper';
-import Paper from '@mui/material/Paper';
-import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
-import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
-import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
-import SwipeableViews from 'react-swipeable-views';
-import { autoPlay } from 'react-swipeable-views-utils';
-import { useEffect } from 'react';
-import { useState } from 'react';
+import 'react-multi-carousel/lib/styles.css';
+import './style.css';
+import WithScrollbar from './WithScrollbar.js';
+import Section from './Section.js';
+import styled from 'styled-components';
 
-const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
+const B = styled.div`
+  // display: grid;
+  // gap: 1ch;
+  .textShadow {
+    text-shadow: 0.1em 0.1em 0 #e5e5e5;
+  }
+  // .center {
+  //   // position: absolute;
+  //   // left: 50%;
+  //   // margin: 0 auto;
+  // }
+  h1 {
+    font-size: 3rem;
+    font-weight: 900;
+    line-height: 1.1;
+    color: #2d4059;
 
-function SwipeableTextMobileStepper({ myWeeklyList }) {
-  const theme = useTheme();
-  const [activeStep, setActiveStep] = React.useState(0);
-  const [images, setImages] = useState([
-    {
-      label: 'San Francisco – Oakland Bay Bridge, United States',
-      imgPath: 'https://t1.daumcdn.net/cfile/tistory/2513B53E55DB206927',
-    },
-    {
-      label: 'Bird',
-      imgPath: 'https://t1.daumcdn.net/cfile/tistory/2513B53E55DB206927',
-    },
-    {
-      label: 'Bali, Indonesia',
-      imgPath: 'https://t1.daumcdn.net/cfile/tistory/2513B53E55DB206927',
-    },
-    {
-      label: 'Goč, Serbia',
-      imgPath: 'https://t1.daumcdn.net/cfile/tistory/2513B53E55DB206927',
-    },
-  ]);
+    // place-content: center;
+  }
+`;
 
-  const maxSteps = images.length;
-  const handleNext = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-  };
-
-  const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
-  };
-
-  const handleStepChange = (step) => {
-    setActiveStep(step);
-  };
-  useEffect(() => {
-    // console.log('여기', myWeeklyList);
-    if (myWeeklyList) {
-      setImages([
-        {
-          label: 'San Francisco – Oakland Bay Bridge, United States',
-          imgPath: 'https://i6a504.p.ssafy.io/' + myWeeklyList[0].postPhoto,
-        },
-        {
-          label: 'Bird',
-          imgPath: 'https://i6a504.p.ssafy.io/' + myWeeklyList[1].postPhoto,
-        },
-        {
-          label: 'Bali, Indonesia',
-          imgPath: 'https://i6a504.p.ssafy.io/' + myWeeklyList[2].postPhoto,
-        },
-        {
-          label: 'Goč, Serbia',
-          imgPath: 'https://i6a504.p.ssafy.io/' + myWeeklyList[3].postPhoto,
-        },
-      ]);
-    }
-  }, []);
+function SwipeableTextMobileStepper({ myWeeklyList, myuser }) {
   return (
-    <Box sx={{ maxWidth: 400, flexGrow: 1 }}>
-      {/* <h1>{myWeeklyList[0].postPhoto}</h1>
-      <h1>{myWeeklyList[1].postPhoto}</h1>
-      <h1>{myWeeklyList[2].postPhoto}</h1>
-      <h1>{myWeeklyList[3].postPhoto}</h1> */}
-      <Paper
-        square
-        elevation={0}
-        sx={{
-          display: 'flex',
-          alignItems: 'center',
-          height: 50,
-          pl: 2,
-          bgcolor: 'background.default',
-        }}
-      >
-        <Typography>{images[activeStep].label}</Typography>
-      </Paper>
-      <AutoPlaySwipeableViews
-        axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
-        index={activeStep}
-        onChangeIndex={handleStepChange}
-        enableMouseEvents
-      >
-        {images.map((step, index) => (
-          <div key={step.label}>
-            {Math.abs(activeStep - index) <= 2 ? (
-              <Box
-                component="img"
-                sx={{
-                  height: 255,
-                  display: 'block',
-                  maxWidth: 400,
-                  overflow: 'hidden',
-                  width: '100%',
-                }}
-                src={step.imgPath}
-                alt={step.label}
-              />
-            ) : null}
+    <B>
+      <Box sx={{ maxWidth: 1300, flexGrow: 1, overflow: 'hidden' }}>
+        <Fragment sx={{ maxWidth: 1300, flexGrow: 1 }}>
+          <div className="center">
+            <h1 className="textShadow">이번주 인기글</h1>
           </div>
-        ))}
-      </AutoPlaySwipeableViews>
-      <MobileStepper
-        steps={maxSteps}
-        position="static"
-        activeStep={activeStep}
-        nextButton={
-          <Button
-            size="small"
-            onClick={handleNext}
-            disabled={activeStep === maxSteps - 1}
-          >
-            {theme.direction === 'rtl' ? (
-              <KeyboardArrowLeft />
-            ) : (
-              <KeyboardArrowRight />
-            )}
-          </Button>
-        }
-        backButton={
-          <Button size="small" onClick={handleBack} disabled={activeStep === 0}>
-            {theme.direction === 'rtl' ? (
-              <KeyboardArrowRight />
-            ) : (
-              <KeyboardArrowLeft />
-            )}
-          </Button>
-        }
-      />
-    </Box>
+          {/* <div className="title">
+            <div class="waviy">
+              <span style="--i:1">이</span>
+              <span style="--i:2">번</span>
+              <span style="--i:3">주</span>
+              <span style="--i:4"> </span>
+              <span style="--i:5">인</span>
+              <span style="--i:6">기</span>
+              <span style="--i:7">글</span>
+            </div>
+          </div> */}
+          <Section>
+            <WithScrollbar myWeeklyList={myWeeklyList} myuser={{ myuser }} />
+          </Section>
+        </Fragment>
+      </Box>
+    </B>
   );
 }
 

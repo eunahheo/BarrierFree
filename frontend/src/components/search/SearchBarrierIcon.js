@@ -31,7 +31,6 @@ const ReviewBarrierIcon = ({ barriers }) => {
       barrierList[4] = Senior;
     }
   }
-  // console.log(barrierList)
   const barrierIconList = barrierList.map((Icon, barrier) => (
     <img src={Icon} alt={barrier} width="30"></img>
   ));

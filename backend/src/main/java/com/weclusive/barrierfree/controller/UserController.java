@@ -51,6 +51,10 @@ public class UserController {
 	@ApiOperation(value = "회원가입", notes = "사용자가 입력한 회원정보를 등록한다.")
 	public ResponseEntity<String> join(@RequestBody UserJoin userJoin) {
 		try {
+			// 이미 가입된 이메일이면
+			if(userService.findByUserEmail(userJoin.getUserEmail()) != null){
+				return new ResponseEntity(FAIL, HttpStatus.OK);
+			}
 			userService.registUser(userJoin); // 회원등록 - 회원정보, 장애정보
 			userService.sendEmailwithUserKey(userJoin.getUserEmail(), userJoin.getUserId()); // 이메일 인증
 		} catch (Exception e) {
@@ -138,7 +142,6 @@ public class UserController {
 					resultMap.put("message", "이메일 인증이 안 된 사용자입니다.");
 					return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.FORBIDDEN);
 				}
-				
 				resultMap.put("accessToken", userService.createAccessToken(user));
 				resultMap.put("message", SUCCESS);
 				status = HttpStatus.ACCEPTED;
@@ -168,7 +171,7 @@ public class UserController {
 		if (user == null) {
 			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 		} else
-			return new ResponseEntity<String>("아이디 중복", HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<String>(FAIL, HttpStatus.OK);
 	}
 
 	// 사용자 닉네임 중복확인
@@ -189,7 +192,7 @@ public class UserController {
 		User user = userService.findByUserEmail(userEmail);
 
 		if (user == null) {
-			return new ResponseEntity<String>("이메일을 다시 확인해주세요", HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<String>(FAIL, HttpStatus.OK);
 		} else {
 
 			return new ResponseEntity<String>(StringUtils.idString(user.getUserId()), HttpStatus.OK);
@@ -206,7 +209,7 @@ public class UserController {
 			userService.sendEmailwithTemp(userFind.getUserEmail(), userFind.getUserId());
 			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 		} else {
-			return new ResponseEntity<String>("이메일 혹은 아이디를 다시 확인해주세요", HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<String>("이메일 혹은 아이디를 다시 확인해주세요", HttpStatus.OK);
 		}
 	}
 
@@ -223,7 +226,7 @@ public class UserController {
 
 			return new ResponseEntity<Map<String, Object>>(userinfo, status);
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			// System.out.println(e.getMessage());
 			status = HttpStatus.BAD_REQUEST;
 			userinfo.put("message", FAIL);
 			return new ResponseEntity<Map<String, Object>>(userinfo, status);
@@ -275,7 +278,5 @@ public class UserController {
 			e.printStackTrace();
 			return new ResponseEntity<String>(FAIL, HttpStatus.BAD_REQUEST);
 		}
-
-		
 	}
 }

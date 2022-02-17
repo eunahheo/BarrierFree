@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import { setLoading } from '../../_actions/loading_actions';
 import { useParams } from 'react-router';
 
-const UserScrapsIn = () => {
+const UserScrapsIn = ({ getUserHeader }) => {
   const myuser = useSelector((state) => state.user.userData);
   const [itemList, setItemList] = useState([]);
   const params = useParams();
@@ -14,6 +14,7 @@ const UserScrapsIn = () => {
   const [newItemList, setNewItemList] = useState([]);
   const onRemove = (id) => {
     const newItemList = itemList.filter((item) => item.post_seq != id);
+    getUserHeader();
     setItemList(newItemList);
   };
   useEffect(() => {
@@ -30,10 +31,10 @@ const UserScrapsIn = () => {
         })
           .then(function (res) {
             setItemList(res.data);
-            console.log('here', typeof itemList[0].post_seq);
+            // console.log('here', typeof itemList[0].post_seq);
           })
           .catch(function (error) {
-            console.log(error);
+            // console.log(error);
           });
       } else {
         axios({
@@ -43,14 +44,14 @@ const UserScrapsIn = () => {
         })
           .then(function (res) {
             setItemList(res.data);
-            console.log('here', typeof itemList[0].post_seq);
+            // console.log('here', typeof itemList[0].post_seq);
           })
           .catch(function (error) {
-            console.log(error);
+            // console.log(error);
           });
       }
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
   return (

@@ -103,7 +103,7 @@ const PlaceBox = ({ onChangePlace, onChangeField, postLocation }) => {
       e.preventDefault();
       insertPlace(input.trim());
       setInput('');
-      console.log('장소 등록::', input);
+      // console.log('장소 등록::', input);
     },
     [input, insertPlace],
   );
@@ -114,10 +114,10 @@ const PlaceBox = ({ onChangePlace, onChangeField, postLocation }) => {
         url: '/post/searchLocation',
         params: { postLocation: postLocation },
       });
-      console.log(response.data);
+      // console.log(response.data);
       setSearchPlaces(response.data);
     } catch (e) {
-      console.log(e.response.data);
+      // console.log(e.response.data);
     }
   };
   useEffect(() => {
@@ -126,14 +126,6 @@ const PlaceBox = ({ onChangePlace, onChangeField, postLocation }) => {
   useEffect(() => {
     setLocalPlace([]);
   }, []);
-  const [myLocation, setMyLocation] = useState('');
-
-  // const onLocationClick = (postLocation) => {
-  //   setMyLocation(postLocation);
-  // };
-  // const [mystyle, setStyle] = useState("display : 'none'");
-
-  // dialog
 
   const [open, setOpen] = React.useState(false);
   const [scroll, setScroll] = React.useState('paper');
@@ -148,7 +140,7 @@ const PlaceBox = ({ onChangePlace, onChangeField, postLocation }) => {
       setSearchPlaces(response.data);
       setKakaoMap(false);
     } catch (e) {
-      console.log(e.response.data);
+      // console.log(e.response.data);
       if (e.response.data === 'fail') {
         setKakaoMap(true);
       }
@@ -159,7 +151,7 @@ const PlaceBox = ({ onChangePlace, onChangeField, postLocation }) => {
 
   const handleClose = () => {
     setOpen(false);
-    onChangeField({ key: 'postLocation', value: 'none' });
+    onChangeField({ key: 'postLocation', value: '' });
     onChangeField({ key: 'postAddress', value: '' });
     onChangeField({ key: 'contentId', value: 0 });
   };
@@ -169,7 +161,7 @@ const PlaceBox = ({ onChangePlace, onChangeField, postLocation }) => {
   // 키워드 검색을 요청하는 함수입니다
   function searchKaKaoPlaces() {
     var keyword = document.getElementById('keyword').value;
-    console.log(keyword);
+    // console.log(keyword);
 
     if (!keyword.replace(/^\s+|\s+$/g, '')) {
       alert('키워드를 입력해주세요!');
@@ -186,7 +178,7 @@ const PlaceBox = ({ onChangePlace, onChangeField, postLocation }) => {
       // 정상적으로 검색이 완료됐으면
       // 내용 화면에 출력
       setPlaces(data);
-      console.log('places : ', places);
+      // console.log('places : ', places);
       displayPagination(pagination);
       return;
     } else if (status === kakao.maps.services.Status.ZERO_RESULT) {

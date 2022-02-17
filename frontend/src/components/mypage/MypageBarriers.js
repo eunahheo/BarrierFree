@@ -11,7 +11,6 @@ import VisualHide from '../images/Visual60.png';
 import styled from 'styled-components';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import Button from '../common/Button';
 
 const AuthBarrierIconBlock = styled.div`
   img {
@@ -95,56 +94,56 @@ const MypageBarriers = ({
     if (impairment) {
       impairment.forEach((type) => {
         if (type === 'physical') {
-          console.log(type);
+          // console.log(type);
           setBarrierIcon({ ...barrierIcon, physicalFlag: true });
           onClickField({ key: 'physical', value: 1 });
         } else if (type === 'visibility') {
-          console.log(type);
+          // console.log(type);
           setBarrierIcon({ ...barrierIcon, visibilityFlag: true });
           onClickField({ key: 'visibility', value: 1 });
         } else if (type === 'deaf') {
-          console.log(type);
+          // console.log(type);
           setBarrierIcon({ ...barrierIcon, deafFlag: true });
           onClickField({ key: 'deaf', value: 1 });
         } else if (type === 'infant') {
-          console.log(type);
+          // console.log(type);
           setBarrierIcon({ ...barrierIcon, infantFlag: true });
           onClickField({ key: 'infant', value: 1 });
         } else if (type === 'senior') {
-          console.log(type);
+          // console.log(type);
           setBarrierIcon({ ...barrierIcon, seniorFlag: true });
           onClickField({ key: 'senior', value: 1 });
         }
-        console.log('type', type);
+        // console.log('type', type);
       });
     } else if (mybarriers) {
       mybarriers.forEach((type) => {
         if (type === 'physical') {
-          console.log(type);
+          // console.log(type);
           setBarrierIcon({ ...barrierIcon, physicalFlag: true });
           onClickField({ key: 'physical', value: 1 });
         } else if (type === 'visibility') {
-          console.log(type);
+          // console.log(type);
           setBarrierIcon({ ...barrierIcon, visibilityFlag: true });
           onClickField({ key: 'visibility', value: 1 });
         } else if (type === 'deaf') {
-          console.log(type);
+          // console.log(type);
           setBarrierIcon({ ...barrierIcon, deafFlag: true });
           onClickField({ key: 'deaf', value: 1 });
         } else if (type === 'infant') {
-          console.log(type);
+          // console.log(type);
           setBarrierIcon({ ...barrierIcon, infantFlag: true });
           onClickField({ key: 'infant', value: 1 });
         } else if (type === 'senior') {
-          console.log(type);
+          // console.log(type);
           setBarrierIcon({ ...barrierIcon, seniorFlag: true });
           onClickField({ key: 'senior', value: 1 });
         }
-        console.log('type', type);
+        // console.log('type', type);
       });
     }
   }, []);
-  console.log(barrierIcon);
+  // console.log(barrierIcon);
   return (
     <AuthBarrierIconBlock>
       <div align="center" className="barriericon">

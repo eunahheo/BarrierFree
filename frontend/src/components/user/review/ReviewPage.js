@@ -11,12 +11,6 @@ const ReviewPage = () => {
   const navigate = useNavigate();
   const [myitemList, mysetItemList] = useState([]);
 
-  // const orderbylatest = async () => {
-  //   await axios.get(`/main/recently?userSeq=0`).then(function (res) {
-  //     mysetItemList(res.data);
-  //     console.log('latest');
-  //   });
-  // };
   const orderbylatest = async () => {
     axios({
       method: 'get',
@@ -24,9 +18,10 @@ const ReviewPage = () => {
     })
       .then(function (res) {
         mysetItemList(res.data);
-        console.log('latest');
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        // console.log(error)
+      });
   };
 
   const orderbypopular = () => {
@@ -35,11 +30,8 @@ const ReviewPage = () => {
     })
       .then(function (res) {
         mysetItemList(res.data);
-        console.log('popular');
       })
-      .catch(function () {
-        console.log('popular fail');
-      });
+      .catch(function () {});
   };
   const orderbypopularweek = () => {
     axios({
@@ -49,9 +41,7 @@ const ReviewPage = () => {
       .then(function (res) {
         mysetItemList(res.data);
       })
-      .catch(function (error) {
-        console.log(error);
-      });
+      .catch(function (error) {});
   };
 
   const orderbybf = () => {
@@ -64,7 +54,6 @@ const ReviewPage = () => {
         },
       }).then(function (res) {
         mysetItemList(res.data);
-        console.log('bf');
       });
     } else {
       alert('로그인이 필요합니다!');
@@ -80,7 +69,9 @@ const ReviewPage = () => {
       .then(function (res) {
         mysetItemList(res.data);
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        // console.log(error)
+      });
   }, []);
 
   return (

@@ -41,7 +41,7 @@ public class AlarmController {
 			System.out.println(result.toString());
 			return new ResponseEntity<>(result, HttpStatus.OK);
 		} else {
-			return new ResponseEntity<>(FAIL, HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(FAIL, HttpStatus.OK);
 		}
 	}
 	

@@ -51,7 +51,6 @@ const CommentItem = ({ comment, onRemove, getCommentList }) => {
 
   const onUpdateHandler = (event) => {
     event.preventDefault();
-    // console.log(newComment);
     if (newComment) {
       let params = {
         cmtSeq: commentNum,
@@ -70,7 +69,6 @@ const CommentItem = ({ comment, onRemove, getCommentList }) => {
   const checkHandler = () => {
     if (check == true) setCheck(false);
     else setCheck(true);
-    // console.log(check);
   };
 
   return (

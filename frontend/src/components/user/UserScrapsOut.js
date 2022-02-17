@@ -4,7 +4,7 @@ import ScrapCardList from './review/ScrapCardList';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 
-const UserScrapsOut = () => {
+const UserScrapsOut = ({ getUserHeader }) => {
   const myuserData = useSelector((state) => state.user.userData);
   const myuser = myuserData.userSeq;
   const params = useParams();
@@ -12,10 +12,10 @@ const UserScrapsOut = () => {
 
   const [loading, setLoading] = useState(false);
   const [itemList, setItemList] = useState([]);
-  const [newItemList, setNewItemList] = useState([]);
   const onRemove = (id) => {
     const newItemList = itemList.filter((item) => item.contentId != id);
     setItemList(newItemList);
+    getUserHeader();
   };
 
   useEffect(() => {
@@ -34,7 +34,7 @@ const UserScrapsOut = () => {
           },
         });
         setItemList(response.data);
-        console.log('testing', response.data);
+        // console.log('testing', response.data);
       } else {
         // othersfeed scrap 부분 api 없음
         const response = await axios({
@@ -48,7 +48,7 @@ const UserScrapsOut = () => {
         setItemList(response.data);
       }
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     } finally {
       setLoading(false);
     }
