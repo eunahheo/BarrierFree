@@ -102,4 +102,7 @@
 - [시연시나리오](./exec/베리어프리_시연시나리오.pdf)
 - [빌드배포](./exec/베리어프리_빌드_배포_정리.pdf)
 
+## **프로젝트 영상**
+
+[![유튜브](/uploads/8cba2c0c79b4bbb3c72061c33a0712d3/we.png)](https://youtu.be/sYk2pQ_QgOQ)
 
