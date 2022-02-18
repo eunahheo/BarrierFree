@@ -93,6 +93,7 @@
     - [API Docs](https://www.notion.so/API-DOCS-d4ddf72884844dc6ab39da5a3eba8c52)
 
 
+- [Swagger](./docs/swagger.md)
 - [Jira](./docs/jira.md)
 - [ERD](./docs/erd.md)
 
