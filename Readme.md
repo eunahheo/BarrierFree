@@ -1,9 +1,24 @@
-
 # BarrierFree
 
 여행에 편의를 더하다, `BarrierFree`
 <br/>
 <div align="center"><img src="/uploads/5d78c41c5827f7b98e47740485ba95a9/logo.png" alt="logo" width="40%"/></div><br>
+<br/>
+
+---
+## **프로젝트 목차**
+- [BarrierFree](#BarrierFree)
+    - [프로젝트 목차](#프로젝트-목차)
+    - [팀 소개](#팀-소개)
+        - [팀 이름](#팀-이름)
+        - [팀원 소개](#팀원-소개)
+    - [프로젝트 소개](#프로젝트-소개)
+        - [1️⃣ 주제](#1️⃣-주제)
+        - [2️⃣ 프로젝트](#2️⃣-프로젝트)
+        - [3️⃣ 기술 스택](#3️⃣-기술-스택)
+        - [4️⃣ 프로젝트 산출물](#4️⃣-프로젝트-산출물)
+        - [5️⃣ 프로젝트 제출물](#5️⃣-프로젝트-제출물)
+
 <br/>
 
 ---
@@ -18,17 +33,17 @@
 
 | 이름   | 직책 | 역할                |
 | ------ | ---- | ------------------- |
-| 유민상 | 팀장 | Backend, CI/CD 구축 |
-| 남정현 | 팀원 | Frontend            |
-| 정현정 | 팀원 | Frontend            |
-| 허은아 | 팀원 | Backend             |
-| 황수진 | 팀원 | Backend             |
+| 유민상 | 팀장 | Backend, CI/CD 및 인프라 구축 |
+| 남정현 | 팀원 | Frontend, React, Redux 기반 및 EC2 서버 통신            |
+| 정현정 | 팀원 | Frontend, React, Redux 기반 및 지오로케이션 활용            |
+| 허은아 | 팀원 | Backend, Open API 통신 및 Token 담당, DB 설계             |
+| 황수진 | 팀원 | Backend, DB 설계, QA             |
 
 <br/>
 
 ## **프로젝트 소개**
 
-### 1. 주제
+### 1️⃣ 주제
 
 - WHY
   ```
@@ -48,24 +63,24 @@
   - 한국관광공사 API를 활용한 여행지의 무장애 정보와 실제 방문객들의 생생한 후기까지 제공하는 무장애 여행 SNS
   ```
 
-### 2. 프로젝트
+### 2️⃣ 프로젝트
 
 <img src ="/uploads/57c37cdfa20ff0ee9f7d209e07eafd13/about_project.jpg" alt="팀 소개" width="80%"/>
 <br>
 
   - [프로젝트 고려 사항](./docs/about_project.md)
 
-### 3. 사용언어, 기술 스택
+### 3️⃣ 기술 스택
 
 <img src ="/uploads/74f72a87c073c739b49279937acf312d/아키텍쳐.png" alt="아키텍쳐" width="80%"/>
 
 <br>
 
-- `FrontEnd` : React, Node.js, Context api, Material-UI
-- `BackEnd` : SpringBoot, JPA, MySQL
+- `FrontEnd` : React, Node.js, Redux, Material-UI
+- `BackEnd` : SpringBoot, JPA, MySQL, Lombok
 - `DevOps` : GitLab, Jenkins, Docker, JIRA, AWS EC2
 
-### 4. 프로젝트 산출물
+### 4️⃣ 프로젝트 산출물
 
   <img src ="/uploads/cd9a142dad02a88ac1ec7ce115a0430f/notion.png" alt="notion" width="60%"/>
 
@@ -81,5 +96,9 @@
 - [Jira](./docs/jira.md)
 - [ERD](./docs/erd.md)
 
-## **프로젝트 영상**
+### 5️⃣ 프로젝트 제출물
+- [외부서비스](./exec/베리어프리_외부서비스.pdf)
+- [시연시나리오](./exec/베리어프리_시연시나리오.pdf)
+- [빌드배포](./exec/베리어프리_빌드_배포_정리.pdf)
+
 
