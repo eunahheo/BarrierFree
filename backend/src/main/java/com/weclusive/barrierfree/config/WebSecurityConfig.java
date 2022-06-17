@@ -74,7 +74,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
 
-        configuration.addAllowedOrigin("https://i6a504.p.ssafy.io");
+        configuration.addAllowedOrigin("https://barrierfree_url");
         configuration.addAllowedOrigin("http://localhost");
         configuration.addAllowedHeader("*");
         configuration.addAllowedMethod("*");

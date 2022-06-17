@@ -53,7 +53,7 @@
     "styled-components": "^5.3.3",
     "web-vitals": "^2.1.4"
   },
-  "proxy": "https://i6a504.p.ssafy.io/api",
+  "proxy": "https://barrierfree_url/api",
   "scripts": {
     "start": "set PORT=80 && react-scripts start",
     "build": "react-scripts build",
