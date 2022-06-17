@@ -2,10 +2,10 @@
 
 ## **1. 대표 색**
 
-<img src ="../PIC/대표색.png" alt="대표색" width="20%"/>
+<img src ="../PIC/color.png" alt="대표색" width="20%"/>
 <img src ="../PIC/colorcode.png" alt="대표색 색 코드" width="68%"/>
 <br>
-<img src ="../PIC/대표색구분.png" alt="대표색구분" width="50%"/>
+<img src ="../PIC/color_.png" alt="대표색구분" width="50%"/>
 <br>
 - 색약, 색맹이신 분들도 구분할 수 있는 색으로 조합<br><br>
 

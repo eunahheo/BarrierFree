@@ -27,7 +27,7 @@
 
 ### - 팀 이름
 
-<img src ="./PIC/그림3.png" alt="팀 이름" width="60%">
+<img src ="./PIC/3.png" alt="팀 이름" width="60%">
 
 ### - 팀원 소개
 
@@ -72,7 +72,7 @@
 
 ### 3️⃣ 기술 스택
 
-<img src ="./PIC/아키텍쳐.png" alt="아키텍쳐" width="80%"/>
+<img src ="./PIC/aa.png" alt="아키텍쳐" width="80%"/>
 
 <br>
 
