@@ -2,7 +2,7 @@
 
 ## ERD
 
-<img src ="/uploads/f0859809c8952fc3af7208f3f2dbc445/ERD.png" alt="ERD" width="80%"/>
+<img src ="../PIC/ERD.png" alt="ERD" width="80%"/>
 
 ### Tables
 

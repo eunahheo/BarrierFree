@@ -2,7 +2,7 @@
 
 여행에 편의를 더하다, `BarrierFree`
 <br/>
-<div align="center"><img src="/uploads/5d78c41c5827f7b98e47740485ba95a9/logo.png" alt="logo" width="40%"/></div><br>
+<div align="center"><img src="./PIC/logo.png" alt="logo" width="40%"/></div><br>
 <br/>
 
 ---
@@ -27,7 +27,7 @@
 
 ### - 팀 이름
 
-<img src ="/uploads/74b03848861f31c07eb417ce0f52ce6a/그림3.png" alt="팀 이름" width="60%">
+<img src ="./PIC/그림3.png" alt="팀 이름" width="60%">
 
 ### - 팀원 소개
 
@@ -37,7 +37,7 @@
 | 남정현 | 팀원 | Frontend, React, Redux 기반 및 EC2 서버 통신            |
 | 정현정 | 팀원 | Frontend, React, Redux 기반 및 지오로케이션 활용            |
 | 허은아 | 팀원 | Backend, Open API 통신 및 Token 담당, DB 설계             |
-| 황수진 | 팀원 | Backend, DB 설계, QA             |
+| 황수진 | 팀원 | Backend, DB 설계             |
 
 <br/>
 
@@ -65,14 +65,14 @@
 
 ### 2️⃣ 프로젝트
 
-<img src ="/uploads/57c37cdfa20ff0ee9f7d209e07eafd13/about_project.jpg" alt="팀 소개" width="80%"/>
+<img src ="./PIC/about_project.jpg" alt="팀 소개" width="80%"/>
 <br>
 
   - [프로젝트 고려 사항](./docs/about_project.md)
 
 ### 3️⃣ 기술 스택
 
-<img src ="/uploads/74f72a87c073c739b49279937acf312d/아키텍쳐.png" alt="아키텍쳐" width="80%"/>
+<img src ="./PIC/아키텍쳐.png" alt="아키텍쳐" width="80%"/>
 
 <br>
 
@@ -82,7 +82,7 @@
 
 ### 4️⃣ 프로젝트 산출물
 
-  <img src ="/uploads/cd9a142dad02a88ac1ec7ce115a0430f/notion.png" alt="notion" width="60%"/>
+  <img src ="./PIC/notion.png" alt="notion" width="60%"/>
 
   <!-- <br> -->
   - [Notion](https://www.notion.so/SSAFY-2-PJT-93e0d2e267574a59af816a3b83e71f45)
@@ -104,5 +104,5 @@
 
 ## **프로젝트 영상**
 
-[![유튜브](/uploads/8cba2c0c79b4bbb3c72061c33a0712d3/we.png)](https://youtu.be/sYk2pQ_QgOQ)
+[![유튜브](./PIC/we.png)](https://youtu.be/sYk2pQ_QgOQ)
 
